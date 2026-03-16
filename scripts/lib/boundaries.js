@@ -21,6 +21,9 @@ export const boundaryLayerSources = {
 };
 
 const layerCache = new Map();
+const districtNameAliases = {
+  thiruvanthapuram: "thiruvananthapuram"
+};
 const districtIdsByName = Object.fromEntries(
   districts.map((district) => [normalizeBoundaryName(district.name), district.id])
 );
@@ -32,7 +35,20 @@ export function normalizeBoundaryName(value) {
 }
 
 export function districtIdFromBoundaryName(name) {
-  return districtIdsByName[normalizeBoundaryName(name)] ?? null;
+  const normalized = normalizeBoundaryName(name);
+  return districtIdsByName[districtNameAliases[normalized] ?? normalized] ?? null;
+}
+
+export function talukIdFromBoundaryNames(districtName, talukName) {
+  const districtId = districtIdFromBoundaryName(districtName);
+  if (!districtId) {
+    return null;
+  }
+  const normalizedTaluk = normalizeBoundaryName(talukName);
+  if (!normalizedTaluk) {
+    return null;
+  }
+  return `${districtId}--${normalizedTaluk}`;
 }
 
 async function fetchGeoJson(url) {
@@ -167,6 +183,10 @@ export function pointInGeometry(point, geometry) {
 
 export async function loadDistrictBoundaries() {
   const layer = await loadBoundaryLayer("district");
+  return parseDistrictBoundaries(layer);
+}
+
+export function parseDistrictBoundaries(layer) {
   return (layer.features ?? [])
     .map((feature) => {
       const rawName =
@@ -192,6 +212,45 @@ export async function loadDistrictBoundaries() {
     .filter(Boolean);
 }
 
+export async function loadTalukBoundaries() {
+  const layer = await loadBoundaryLayer("taluk");
+  return parseTalukBoundaries(layer);
+}
+
+export function parseTalukBoundaries(layer) {
+  return (layer.features ?? [])
+    .map((feature) => {
+      const districtName =
+        feature.properties?.DISTRICT ??
+        feature.properties?.district ??
+        feature.properties?.DIST_NAME ??
+        null;
+      const talukName =
+        feature.properties?.TALUK ??
+        feature.properties?.taluk ??
+        feature.properties?.name ??
+        feature.properties?.NAME_3 ??
+        null;
+      const districtId = districtIdFromBoundaryName(districtName);
+      const talukId = talukIdFromBoundaryNames(districtName, talukName);
+
+      if (!districtId || !talukId) {
+        return null;
+      }
+
+      return {
+        taluk_id: talukId,
+        district_id: districtId,
+        name: talukName,
+        district_name: districtName,
+        geometry: feature.geometry,
+        bbox: geometryBounds(feature.geometry),
+        centroid: geometryCentroid(feature.geometry)
+      };
+    })
+    .filter(Boolean);
+}
+
 export async function buildBoundaryMetadata() {
   const [stateLayer, districtLayer, talukLayer] = await Promise.all([
     loadBoundaryLayer("state"),
@@ -199,6 +258,7 @@ export async function buildBoundaryMetadata() {
     loadBoundaryLayer("taluk")
   ]);
   const districtBoundaries = await loadDistrictBoundaries();
+  const talukBoundaries = parseTalukBoundaries(talukLayer);
 
   return {
     sources: boundaryLayerSources,
@@ -212,6 +272,13 @@ export async function buildBoundaryMetadata() {
       name: district.name,
       centroid: district.centroid,
       bbox: district.bbox
+    })),
+    taluks: talukBoundaries.map((taluk) => ({
+      taluk_id: taluk.taluk_id,
+      district_id: taluk.district_id,
+      name: taluk.name,
+      centroid: taluk.centroid,
+      bbox: taluk.bbox
     }))
   };
 }

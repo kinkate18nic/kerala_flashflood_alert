@@ -10,7 +10,11 @@ import {
   parseCwcFfs
 } from "../scripts/lib/parsers.js";
 import { parseImergTextListing, selectImergWindows } from "../scripts/lib/imerg.js";
-import { districtIdFromBoundaryName, pointInGeometry } from "../scripts/lib/boundaries.js";
+import {
+  districtIdFromBoundaryName,
+  pointInGeometry,
+  talukIdFromBoundaryNames
+} from "../scripts/lib/boundaries.js";
 import { buildHotspotFootprint } from "../src/shared/hotspot-footprints.js";
 import { buildRiskOutputs } from "../scripts/lib/risk-model.js";
 import { runPipeline } from "../scripts/lib/pipeline.js";
@@ -72,6 +76,14 @@ function testRiskModel() {
         rain_7d_mm: 460
       }
     },
+    taluks: [
+      {
+        taluk_id: "idukki--udumbanchola",
+        district_id: "idukki",
+        name: "Udumbanchola",
+        hotspot_ids: ["h-peermade", "h-munnar-devikulam"]
+      }
+    ],
     approvals: [],
     hotspotOverrides: [],
     freshnessBySource: {
@@ -88,6 +100,8 @@ function testRiskModel() {
 
   const idukki = result.districtStates.find((district) => district.area_id === "idukki");
   assert.ok(idukki.score >= thresholds.thresholds.watch);
+  assert.equal(result.talukStates.length, 1);
+  assert.equal(result.talukStates[0].area_type, "taluk");
   assert.ok(result.alerts.every((alert) => alert.source_refs.length > 0));
 }
 
@@ -103,8 +117,12 @@ async function testPipeline() {
   const dashboard = JSON.parse(dashboardRaw);
   const adminAreasRaw = await readFile(path.join(tempRoot, "docs", "data", "latest", "admin-areas.json"), "utf8");
   const adminAreas = JSON.parse(adminAreasRaw);
+  const talukRiskRaw = await readFile(path.join(tempRoot, "docs", "data", "latest", "taluk-risk.json"), "utf8");
+  const talukRisk = JSON.parse(talukRiskRaw);
   assert.equal(dashboard.mode, "decision-support");
   assert.equal(adminAreas.boundaries.counts.district, 14);
+  assert.ok(adminAreas.boundaries.counts.taluk >= 61);
+  assert.ok(talukRisk.taluks.length >= 61);
 }
 
 function testImergListingSelection() {
@@ -134,7 +152,12 @@ function testImergListingSelection() {
 
 function testBoundaryHelpers() {
   assert.equal(districtIdFromBoundaryName("Thiruvananthapuram"), "thiruvananthapuram");
+  assert.equal(districtIdFromBoundaryName("Thiruvanthapuram"), "thiruvananthapuram");
   assert.equal(districtIdFromBoundaryName("Pathanamthitta"), "pathanamthitta");
+  assert.equal(
+    talukIdFromBoundaryNames("Thiruvanthapuram", "Neyyattinkara"),
+    "thiruvananthapuram--neyyattinkara"
+  );
   assert.equal(
     pointInGeometry(
       [76.5, 9.5],

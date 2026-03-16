@@ -2,6 +2,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { copyTree, ensureDir, readJson, writeJson, writeText } from "./lib/fs.js";
 import { districts, hotspots } from "../src/shared/areas.js";
+import { parseTalukBoundaries, pointInGeometry } from "./lib/boundaries.js";
 import { buildHotspotFootprint } from "../src/shared/hotspot-footprints.js";
 import { alertLevels } from "../src/shared/risk.js";
 import { buildDistrictTerrainLookup } from "../src/shared/terrain.js";
@@ -21,7 +22,25 @@ const hotspotFootprintOverrides = await readJson(
   path.join(repoRoot, "data", "manual", "hotspot-footprints.geojson"),
   { type: "FeatureCollection", features: [] }
 );
+const talukGeoJson = await readJson(path.join(repoRoot, "src", "site", "assets", "kerala-taluks.geojson"), {
+  type: "FeatureCollection",
+  features: []
+});
 const terrainByDistrict = buildDistrictTerrainLookup(districts, terrainStats);
+const taluks = parseTalukBoundaries(talukGeoJson).map((taluk) => ({
+  id: taluk.taluk_id,
+  name: taluk.name,
+  district_id: taluk.district_id,
+  centroid: taluk.centroid,
+  bbox: taluk.bbox,
+  hotspot_ids: hotspots
+    .filter((hotspot) =>
+      hotspot.location
+        ? pointInGeometry([hotspot.location.lon, hotspot.location.lat], taluk.geometry)
+        : false
+    )
+    .map((hotspot) => hotspot.id)
+}));
 const hotspotOverrideLookup = Object.fromEntries(
   (hotspotFootprintOverrides.features ?? [])
     .map((feature) => [feature.properties?.hotspot_id ?? null, feature])
@@ -39,6 +58,7 @@ const hotspotsWithFootprints = hotspots.map((hotspot) => ({
 await writeJson(path.join(targetSiteDir, "data", "static", "areas.json"), {
   generated_at: new Date().toISOString(),
   districts,
+  taluks,
   hotspots: hotspotsWithFootprints
 });
 

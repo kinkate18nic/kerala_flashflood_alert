@@ -1,13 +1,19 @@
 import path from "node:path";
 import { readFile } from "node:fs/promises";
 import { readJson, writeJson, writeText, ensureDir, pathExists } from "./fs.js";
-import { buildBoundaryMetadata, boundaryLayerSources } from "./boundaries.js";
+import {
+  buildBoundaryMetadata,
+  boundaryLayerSources,
+  loadTalukBoundaries,
+  parseTalukBoundaries,
+  pointInGeometry
+} from "./boundaries.js";
 import { fetchText } from "./http.js";
 import { fetchNasaImergPayload } from "./imerg.js";
 import { parserRegistry } from "./parsers.js";
 import { minutesBetween, nowIso, parseDate, toArchivePathParts } from "./time.js";
 import { buildRiskOutputs } from "./risk-model.js";
-import { districts } from "../../src/shared/areas.js";
+import { districts, hotspots } from "../../src/shared/areas.js";
 
 function statusFromFreshness(freshnessMinutes, slaMinutes, fetchOk, parserOk) {
   if (!fetchOk || !parserOk) {
@@ -168,6 +174,39 @@ function collapseSignals(parsedSources) {
   };
 }
 
+async function loadTalukDefinitions(repoRoot, options) {
+  const localTalukLayer = await readJson(
+    path.join(repoRoot, "src", "site", "assets", "kerala-taluks.geojson"),
+    { type: "FeatureCollection", features: [] }
+  );
+
+  let talukBoundaries = parseTalukBoundaries(localTalukLayer);
+
+  if (!options.useFixtures) {
+    try {
+      talukBoundaries = await loadTalukBoundaries();
+    } catch {
+      talukBoundaries = parseTalukBoundaries(localTalukLayer);
+    }
+  }
+
+  return talukBoundaries.map((taluk) => ({
+    taluk_id: taluk.taluk_id,
+    district_id: taluk.district_id,
+    name: taluk.name,
+    district_name: taluk.district_name,
+    centroid: taluk.centroid,
+    bbox: taluk.bbox,
+    hotspot_ids: hotspots
+      .filter((hotspot) =>
+        hotspot.location
+          ? pointInGeometry([hotspot.location.lon, hotspot.location.lat], taluk.geometry)
+          : false
+      )
+      .map((hotspot) => hotspot.id)
+  }));
+}
+
 export async function runPipeline(repoRoot, options = {}) {
   const generatedAt = nowIso();
   const sources = await readJson(path.join(repoRoot, "config", "sources.json"));
@@ -188,6 +227,7 @@ export async function runPipeline(repoRoot, options = {}) {
     path.join(repoRoot, "data", "manual", "hotspot-overrides.json"),
     { overrides: [] }
   );
+  const taluks = await loadTalukDefinitions(repoRoot, options);
 
   const archiveParts = toArchivePathParts(new Date(generatedAt));
   let boundaryMetadata = {
@@ -195,13 +235,21 @@ export async function runPipeline(repoRoot, options = {}) {
     counts: {
       state: 0,
       district: districts.length,
-      taluk: 0
+      taluk: taluks.length
     },
     districts: districts.map((district) => ({
       district_id: district.id,
       name: district.name,
       centroid: null,
       bbox: null
+    })),
+    taluks: taluks.map((taluk) => ({
+      taluk_id: taluk.taluk_id,
+      district_id: taluk.district_id,
+      name: taluk.name,
+      centroid: taluk.centroid,
+      bbox: taluk.bbox,
+      hotspot_count: taluk.hotspot_ids.length
     }))
   };
 
@@ -292,10 +340,11 @@ export async function runPipeline(repoRoot, options = {}) {
   );
   const statusBySource = Object.fromEntries(snapshots.map((source) => [source.source_id, source.status]));
 
-  const { districtStates, hotspotStates, alerts } = buildRiskOutputs({
+  const { districtStates, talukStates, hotspotStates, alerts } = buildRiskOutputs({
     generatedAt,
     thresholds,
     sourceSnapshots: snapshots,
+    taluks,
     ...signalMaps,
     rainfallByDistrict,
     terrainStats,
@@ -331,6 +380,10 @@ export async function runPipeline(repoRoot, options = {}) {
     "hotspot-risk.json": {
       generated_at: generatedAt,
       hotspots: hotspotStates
+    },
+    "taluk-risk.json": {
+      generated_at: generatedAt,
+      taluks: talukStates
     },
     "alerts.json": {
       generated_at: generatedAt,

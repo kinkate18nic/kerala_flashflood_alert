@@ -91,6 +91,7 @@ export function buildRiskOutputs(context) {
   const {
     thresholds,
     sourceSnapshots,
+    taluks = [],
     capByDistrict,
     bulletinByDistrict,
     reservoirByDistrict,
@@ -254,6 +255,62 @@ export function buildRiskOutputs(context) {
     };
   });
 
+  const hotspotStateLookup = Object.fromEntries(
+    hotspotStates.map((hotspotState) => [hotspotState.area_id, hotspotState])
+  );
+  const hotspotDefinitionLookup = Object.fromEntries(hotspots.map((hotspot) => [hotspot.id, hotspot]));
+
+  const talukStates = taluks.map((taluk) => {
+    const districtState = districtStates.find((state) => state.area_id === taluk.district_id);
+    const talukHotspots = (taluk.hotspot_ids ?? [])
+      .map((hotspotId) => hotspotStateLookup[hotspotId])
+      .filter(Boolean);
+    const hotspotDefinitions = (taluk.hotspot_ids ?? [])
+      .map((hotspotId) => hotspotDefinitionLookup[hotspotId])
+      .filter(Boolean);
+    const hotspotScoreMax = talukHotspots.length
+      ? Math.max(...talukHotspots.map((hotspot) => hotspot.score))
+      : districtState.score;
+    const hotspotExcess = Math.max(0, hotspotScoreMax - districtState.score);
+    const hotspotSusceptibility = talukHotspots.length
+      ? talukHotspots.reduce((sum, hotspot) => sum + hotspot.susceptibility, 0) / talukHotspots.length
+      : districtState.susceptibility;
+    const rawScore =
+      districtState.score * 0.82 +
+      hotspotExcess * 0.45 +
+      hotspotSusceptibility * 14 +
+      Math.min(8, talukHotspots.length * 2.5);
+    const score = round(clamp(rawScore / 100, 0, 1) * 100);
+    const level = scoreToLevel(score);
+    const hotspotNames = hotspotDefinitions.map((hotspot) => hotspot.name);
+
+    return {
+      area_id: taluk.taluk_id,
+      area_type: "taluk",
+      district_id: taluk.district_id,
+      district_name: districtState.name,
+      name: taluk.name,
+      level,
+      score,
+      confidence: round(clamp(districtState.confidence * 0.96, 0, 1)),
+      susceptibility: round(hotspotSusceptibility),
+      hotspot_ids: taluk.hotspot_ids ?? [],
+      hotspot_count: talukHotspots.length,
+      centroid: taluk.centroid ?? null,
+      valid_from: districtState.valid_from,
+      valid_to: districtState.valid_to,
+      drivers: [
+        `Inherited rainfall and warning signal from ${districtState.name}`,
+        talukHotspots.length
+          ? `${talukHotspots.length} mapped hotspot${talukHotspots.length > 1 ? "s" : ""}: ${hotspotNames.slice(0, 3).join(", ")}${hotspotNames.length > 3 ? ", ..." : ""}`
+          : "No mapped hotspot override within taluk",
+        `Taluk susceptibility ${(hotspotSusceptibility * 100).toFixed(0)}% from district terrain and hotspot context`
+      ],
+      source_refs: districtState.source_refs,
+      review_state: level === "Severe - review required" ? "pending_review" : "auto_published"
+    };
+  });
+
   const alerts = [...districtStates, ...hotspotStates]
     .filter((state) => state.level !== "Normal")
     .map((state) => {
@@ -296,5 +353,5 @@ export function buildRiskOutputs(context) {
     })
     .sort((left, right) => right.score - left.score);
 
-  return { districtStates, hotspotStates, alerts };
+  return { districtStates, talukStates, hotspotStates, alerts };
 }

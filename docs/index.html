@@ -67,8 +67,14 @@
 
         <section class="panel map-panel">
           <div class="panel-head">
-            <h2>Kerala District Map</h2>
-            <span class="subtle-text">Boundary-based district risk with hotspot overlays</span>
+            <h2>Kerala Risk Map</h2>
+            <div class="control-stack">
+              <div class="timeframe-toggle" id="map-scope-toggle">
+                <button data-scope="district" class="active">Districts</button>
+                <button data-scope="taluk">Taluks</button>
+              </div>
+              <span class="subtle-text">Boundary-based risk with hotspot overlays</span>
+            </div>
           </div>
           <div class="map-stage">
             <svg class="district-map" viewBox="0 0 420 720" aria-hidden="true">
@@ -101,6 +107,14 @@
             <span class="subtle-text">Sorted by current composite risk score</span>
           </div>
           <div id="district-grid" class="card-grid"></div>
+        </section>
+
+        <section class="panel taluk-panel">
+          <div class="panel-head">
+            <h2>Taluk Risk</h2>
+            <span class="subtle-text">District-derived rainfall context refined by taluk hotspot membership</span>
+          </div>
+          <div id="taluk-grid" class="card-grid taluk-grid"></div>
         </section>
 
         <section class="panel hotspot-panel">

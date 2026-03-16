@@ -1,8 +1,10 @@
 const state = {
   horizon: "now",
+  mapScope: "district",
   payload: null,
   archiveIndex: null,
-  districtGeometry: null
+  districtGeometry: null,
+  talukGeometry: null
 };
 
 const levelColors = {
@@ -25,11 +27,13 @@ const references = {
   mapOverlay: document.querySelector("#map-overlay"),
   alertsList: document.querySelector("#alerts-list"),
   districtGrid: document.querySelector("#district-grid"),
+  talukGrid: document.querySelector("#taluk-grid"),
   hotspotGrid: document.querySelector("#hotspot-grid"),
   sourceGrid: document.querySelector("#source-grid"),
   dialog: document.querySelector("#evidence-dialog"),
   dialogContent: document.querySelector("#dialog-content"),
   timeframeToggle: document.querySelector("#timeframe-toggle"),
+  mapScopeToggle: document.querySelector("#map-scope-toggle"),
   dialogClose: document.querySelector("#dialog-close"),
   archiveSelect: document.querySelector("#archive-select")
 };
@@ -47,6 +51,7 @@ const districtNameLookup = {
   malappuram: "malappuram",
   palakkad: "palakkad",
   pathanamthitta: "pathanamthitta",
+  thiruvanthapuram: "thiruvananthapuram",
   thiruvananthapuram: "thiruvananthapuram",
   thrissur: "thrissur",
   wayanad: "wayanad"
@@ -54,6 +59,17 @@ const districtNameLookup = {
 
 function levelPill(level) {
   return `<span class="level-pill" style="background:${levelColors[level] ?? "var(--accent)"}">${level}</span>`;
+}
+
+async function fetchJson(url, fallback) {
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) {
+    if (fallback !== undefined) {
+      return fallback;
+    }
+    throw new Error(`${response.status} ${url}`);
+  }
+  return response.json();
 }
 
 function formatTime(value) {
@@ -210,8 +226,13 @@ function centroidFromBounds(bounds, project) {
   return project((bounds.minLon + bounds.maxLon) / 2, (bounds.minLat + bounds.maxLat) / 2);
 }
 
-function districtItemFromEvent(areaId, areaType) {
-  const collection = areaType === "district" ? state.payload.districtRisk.districts : state.payload.hotspotRisk.hotspots;
+function areaItemFromEvent(areaId, areaType) {
+  const collection =
+    areaType === "district"
+      ? state.payload.districtRisk.districts
+      : areaType === "taluk"
+        ? state.payload.talukRisk.taluks
+        : state.payload.hotspotRisk.hotspots;
   return collection.find((entry) => entry.area_id === areaId);
 }
 
@@ -234,10 +255,28 @@ function hotspotPosition(hotspot, projectedCentroids, districtAnchorsById, proje
   };
 }
 
+function getTalukIdFromFeature(feature, talukLookup) {
+  const districtName =
+    feature?.properties?.DISTRICT ??
+    feature?.properties?.district ??
+    feature?.properties?.DIST_NAME ??
+    "";
+  const talukName =
+    feature?.properties?.TALUK ??
+    feature?.properties?.taluk ??
+    feature?.properties?.name ??
+    "";
+  const districtId = districtNameLookup[normalizeBoundaryName(districtName)] ?? null;
+  if (!districtId) {
+    return null;
+  }
+  return talukLookup[`${districtId}--${normalizeBoundaryName(talukName)}`] ?? null;
+}
+
 function bindMapInteractions() {
   document.querySelectorAll("[data-area-id][data-area-type]").forEach((element) => {
     element.addEventListener("click", () => {
-      const item = districtItemFromEvent(element.dataset.areaId, element.dataset.areaType);
+      const item = areaItemFromEvent(element.dataset.areaId, element.dataset.areaType);
       if (!item) {
         return;
       }
@@ -294,9 +333,17 @@ function renderHeadline() {
 }
 
 function renderMap() {
-  const { areas, districtRisk, hotspotRisk } = state.payload;
+  const { areas, districtRisk, talukRisk, hotspotRisk } = state.payload;
   const districtById = Object.fromEntries(districtRisk.districts.map((item) => [item.area_id, item]));
+  const talukById = Object.fromEntries(talukRisk.taluks.map((item) => [item.area_id, item]));
   const hotspotById = Object.fromEntries(hotspotRisk.hotspots.map((item) => [item.area_id, item]));
+  const talukLookup = Object.fromEntries(
+    (areas.taluks ?? []).map((taluk) => [`${taluk.district_id}--${normalizeBoundaryName(taluk.name)}`, taluk.id])
+  );
+  const showTaluks =
+    state.mapScope === "taluk" &&
+    state.talukGeometry?.features?.length &&
+    talukRisk.taluks.length > 0;
 
   if (!state.districtGeometry?.features?.length) {
     references.districtLayer.innerHTML = "";
@@ -322,39 +369,45 @@ function renderMap() {
     return;
   }
 
-  const districtFeatures = state.districtGeometry.features
-    .map((feature) => ({ ...feature, district_id: getDistrictIdFromFeature(feature) }))
-    .filter((feature) => feature.district_id && districtById[feature.district_id]);
+  const visibleFeatures = showTaluks
+    ? state.talukGeometry.features
+        .map((feature) => ({ ...feature, taluk_id: getTalukIdFromFeature(feature, talukLookup) }))
+        .filter((feature) => feature.taluk_id && talukById[feature.taluk_id])
+    : state.districtGeometry.features
+        .map((feature) => ({ ...feature, district_id: getDistrictIdFromFeature(feature) }))
+        .filter((feature) => feature.district_id && districtById[feature.district_id]);
 
-  const bounds = geometryCollectionBounds(districtFeatures);
+  const bounds = geometryCollectionBounds(visibleFeatures);
   const project = buildProjector(bounds);
   const districtAnchorsById = Object.fromEntries(areas.districts.map((district) => [district.id, district.anchor]));
   const projectedCentroids = {};
 
-  references.districtLayer.innerHTML = districtFeatures
+  references.districtLayer.innerHTML = visibleFeatures
     .map((feature) => {
-      const item = districtById[feature.district_id];
+      const areaId = showTaluks ? feature.taluk_id : feature.district_id;
+      const item = showTaluks ? talukById[feature.taluk_id] : districtById[feature.district_id];
       const pathData = geometryToPath(feature.geometry, project);
       const level = item?.level ?? "Normal";
       const centroid = centroidFromBounds(geometryBounds(feature.geometry), project);
-      projectedCentroids[feature.district_id] = centroid;
+      projectedCentroids[areaId] = centroid;
       return `
         <path
           class="district-shape"
-          data-area-id="${feature.district_id}"
-          data-area-type="district"
+          data-area-id="${areaId}"
+          data-area-type="${showTaluks ? "taluk" : "district"}"
           d="${pathData}"
           fill="${levelColors[level] ?? "var(--normal)"}"
-          title="${item?.name ?? feature.district_id}"
+          title="${item?.name ?? areaId}"
         ></path>
       `;
     })
     .join("");
 
-  references.districtLabelLayer.innerHTML = districtFeatures
+  references.districtLabelLayer.innerHTML = visibleFeatures
     .map((feature) => {
-      const centroid = projectedCentroids[feature.district_id];
-      const item = districtById[feature.district_id];
+      const areaId = showTaluks ? feature.taluk_id : feature.district_id;
+      const centroid = projectedCentroids[areaId];
+      const item = showTaluks ? talukById[feature.taluk_id] : districtById[feature.district_id];
       return `
         <text class="district-label" x="${centroid.x.toFixed(1)}" y="${(centroid.y + 4).toFixed(1)}">
           ${item?.name ?? feature.district_id}
@@ -450,7 +503,7 @@ function renderRiskCards(target, items, suffix = "") {
           <p>${item.drivers[0] ?? "No active drivers beyond baseline susceptibility."}</p>
           <div class="meta">
             <span>Confidence ${(item.confidence * 100).toFixed(0)}%</span>
-            <span>${suffix ? suffix : item.region ?? item.district_id ?? ""}</span>
+            <span>${suffix ? suffix : item.region ?? item.district_name ?? item.district_id ?? ""}</span>
           </div>
         </article>
       `
@@ -482,26 +535,30 @@ function renderAll() {
   renderMap();
   renderAlerts();
   renderRiskCards(references.districtGrid, state.payload.districtRisk.districts);
+  renderRiskCards(references.talukGrid, state.payload.talukRisk.taluks);
   renderRiskCards(references.hotspotGrid, state.payload.hotspotRisk.hotspots, "Hotspot");
   renderSources();
 }
 
 async function loadPayload() {
   const fresh = `t=${Date.now()}`;
-  const [areas, dashboard, sources, districtRisk, hotspotRisk, alerts, archiveIndex, districtGeometry] = await Promise.all([
-    fetch("./data/static/areas.json").then((response) => response.json()),
-    fetch(`./data/latest/dashboard.json?${fresh}`, { cache: "no-store" }).then((response) => response.json()),
-    fetch(`./data/latest/sources.json?${fresh}`, { cache: "no-store" }).then((response) => response.json()),
-    fetch(`./data/latest/district-risk.json?${fresh}`, { cache: "no-store" }).then((response) => response.json()),
-    fetch(`./data/latest/hotspot-risk.json?${fresh}`, { cache: "no-store" }).then((response) => response.json()),
-    fetch(`./data/latest/alerts.json?${fresh}`, { cache: "no-store" }).then((response) => response.json()),
-    fetch(`./data/latest/archive-index.json?${fresh}`, { cache: "no-store" }).then((response) => response.json()),
-    fetch("./assets/kerala-districts.geojson").then((response) => response.json())
+  const [areas, dashboard, sources, districtRisk, talukRisk, hotspotRisk, alerts, archiveIndex, districtGeometry, talukGeometry] = await Promise.all([
+    fetchJson("./data/static/areas.json"),
+    fetchJson(`./data/latest/dashboard.json?${fresh}`),
+    fetchJson(`./data/latest/sources.json?${fresh}`),
+    fetchJson(`./data/latest/district-risk.json?${fresh}`),
+    fetchJson(`./data/latest/taluk-risk.json?${fresh}`, { generated_at: null, taluks: [] }),
+    fetchJson(`./data/latest/hotspot-risk.json?${fresh}`),
+    fetchJson(`./data/latest/alerts.json?${fresh}`),
+    fetchJson(`./data/latest/archive-index.json?${fresh}`),
+    fetchJson("./assets/kerala-districts.geojson"),
+    fetchJson("./assets/kerala-taluks.geojson")
   ]);
 
   state.archiveIndex = archiveIndex;
   state.districtGeometry = districtGeometry;
-  state.payload = { areas, dashboard, sources, districtRisk, hotspotRisk, alerts };
+  state.talukGeometry = talukGeometry;
+  state.payload = { areas, dashboard, sources, districtRisk, talukRisk, hotspotRisk, alerts };
   references.archiveSelect.innerHTML = [
     `<option value="latest">Latest run</option>`,
     ...(archiveIndex.runs ?? [])
@@ -523,12 +580,13 @@ async function loadArchive(pathPrefix) {
     return loadPayload();
   }
 
-  const [dashboard, sources, districtRisk, hotspotRisk, alerts] = await Promise.all([
-    fetch(`${pathPrefix}/dashboard.json`, { cache: "no-store" }).then((response) => response.json()),
-    fetch(`${pathPrefix}/sources.json`, { cache: "no-store" }).then((response) => response.json()),
-    fetch(`${pathPrefix}/district-risk.json`, { cache: "no-store" }).then((response) => response.json()),
-    fetch(`${pathPrefix}/hotspot-risk.json`, { cache: "no-store" }).then((response) => response.json()),
-    fetch(`${pathPrefix}/alerts.json`, { cache: "no-store" }).then((response) => response.json())
+  const [dashboard, sources, districtRisk, talukRisk, hotspotRisk, alerts] = await Promise.all([
+    fetchJson(`${pathPrefix}/dashboard.json`),
+    fetchJson(`${pathPrefix}/sources.json`),
+    fetchJson(`${pathPrefix}/district-risk.json`),
+    fetchJson(`${pathPrefix}/taluk-risk.json`, { generated_at: null, taluks: [] }),
+    fetchJson(`${pathPrefix}/hotspot-risk.json`),
+    fetchJson(`${pathPrefix}/alerts.json`)
   ]);
 
   state.payload = {
@@ -536,6 +594,7 @@ async function loadArchive(pathPrefix) {
     dashboard,
     sources,
     districtRisk,
+    talukRisk,
     hotspotRisk,
     alerts
   };
@@ -552,6 +611,18 @@ references.timeframeToggle.addEventListener("click", (event) => {
     candidate.classList.toggle("active", candidate === button);
   });
   renderAll();
+});
+
+references.mapScopeToggle.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-scope]");
+  if (!button) {
+    return;
+  }
+  state.mapScope = button.dataset.scope;
+  references.mapScopeToggle.querySelectorAll("button").forEach((candidate) => {
+    candidate.classList.toggle("active", candidate === button);
+  });
+  renderMap();
 });
 
 references.dialogClose.addEventListener("click", () => references.dialog.close());
