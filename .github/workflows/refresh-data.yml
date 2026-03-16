@@ -29,8 +29,8 @@ jobs:
 
       - name: Build live data
         env:
-          NASA_IMERG_DATA_URL: ${{ secrets.NASA_IMERG_DATA_URL }}
-          NASA_EARTHDATA_BEARER: ${{ secrets.NASA_EARTHDATA_BEARER }}
+          PPS_EMAIL: ${{ secrets.PPS_EMAIL }}
+          PPS_PASSWORD: ${{ secrets.PPS_PASSWORD }}
         run: node scripts/run-pipeline.js
 
       - name: Build static site

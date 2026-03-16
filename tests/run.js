@@ -9,6 +9,7 @@ import {
   parseImdFlashFloodBulletin,
   parseCwcFfs
 } from "../scripts/lib/parsers.js";
+import { parseImergTextListing, selectImergWindows } from "../scripts/lib/imerg.js";
 import { buildRiskOutputs } from "../scripts/lib/risk-model.js";
 import { runPipeline } from "../scripts/lib/pipeline.js";
 
@@ -101,8 +102,34 @@ async function testPipeline() {
   assert.equal(dashboard.mode, "decision-support");
 }
 
+function testImergListingSelection() {
+  const listing = [
+    "/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260316-S023000-E025959.0150.V07C.30min.tif",
+    "/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260316-S020000-E022959.0120.V07C.30min.tif",
+    "/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260316-S023000-E025959.0150.V07C.3hr.tif",
+    "/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260315-S233000-E025959.0150.V07C.3hr.tif",
+    "/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260316-S023000-E025959.0150.V07C.1day.tif",
+    "/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260315-S023000-E025959.0150.V07C.1day.tif",
+    "/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260314-S023000-E025959.0150.V07C.1day.tif",
+    "/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260313-S023000-E025959.0150.V07C.1day.tif",
+    "/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260312-S023000-E025959.0150.V07C.1day.tif",
+    "/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260311-S023000-E025959.0150.V07C.1day.tif",
+    "/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260310-S023000-E025959.0150.V07C.1day.tif"
+  ].join("\n");
+
+  const files = parseImergTextListing(listing);
+  const selection = selectImergWindows(files);
+
+  assert.equal(selection.halfHour.length, 2);
+  assert.equal(selection.threeHourLatest.length, 1);
+  assert.equal(selection.threeHourWindow.length, 2);
+  assert.equal(selection.dailyWindow.length, 7);
+  assert.ok(selection.dailyWindow.every((file) => file.slotCode === "0150"));
+}
+
 const tests = [
   ["parsers", testParsers],
+  ["imerg-listing", testImergListingSelection],
   ["risk-model", testRiskModel],
   ["pipeline", testPipeline]
 ];

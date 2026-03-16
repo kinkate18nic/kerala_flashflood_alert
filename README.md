@@ -37,12 +37,11 @@ npm test
 1. Set GitHub Pages to publish from the `docs/` folder on the default branch.
 2. Enable the scheduled workflow in `.github/workflows/refresh-data.yml`.
 3. Add any required secrets for optional sources:
-   - `NASA_EARTHDATA_BEARER`
+   - `PPS_EMAIL`
+   - `PPS_PASSWORD` (optional if your PPS account uses the email as both username and password)
    - `TELEGRAM_BOT_TOKEN`
    - `TELEGRAM_CHAT_ID`
 4. Replace operator templates in `data/manual/` as real source adapters are stabilized.
-
-`NASA_IMERG_DATA_URL` is optional. If omitted, the live adapter uses the PPS IMERG Early GIS directory configured in `config/sources.json`.
 
 ## Manual review flow
 
@@ -54,6 +53,8 @@ node scripts/review-alert.js --id <alert-id>
 ```
 
 - The next pipeline run promotes approved severe alerts to `Reviewed severe alert`.
+
+The NASA IMERG adapter now uses PPS near-real-time access via the documented `text/imerg/gis/early/` listing and downloads the latest 30-minute, 3-hour, and 1-day GeoTIFF products directly.
 
 ## Telegram dispatch
 

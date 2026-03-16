@@ -75,15 +75,14 @@
     "owner": "NASA GPM",
     "category": "satellite-rainfall",
     "url": "https://gpm.nasa.gov/imerg",
-    "directory_url": "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/",
-    "data_url_env": "NASA_IMERG_DATA_URL",
+    "listing_url": "https://jsimpsonhttps.pps.eosdis.nasa.gov/text/imerg/gis/early/",
     "format": "json",
     "cadence_minutes": 30,
-    "freshness_sla_minutes": 180,
+    "freshness_sla_minutes": 360,
     "parser": "nasaImergNrt",
-    "auth": "bearer",
+    "auth": "pps-basic",
     "enabled": true,
-    "legal_notes": "Reference page only. Configure a machine-readable JSON adapter or signed endpoint in NASA_IMERG_DATA_URL before enabling live use."
+    "legal_notes": "Use PPS near-real-time GIS access with PPS_EMAIL and optional PPS_PASSWORD secrets. If PPS_PASSWORD is omitted, the adapter uses PPS_EMAIL as both username and password."
   },
   {
     "id": "operator-observations",

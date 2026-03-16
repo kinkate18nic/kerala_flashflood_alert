@@ -74,16 +74,6 @@ async function loadRawContent(repoRoot, source, options) {
     };
   }
 
-  if (source.id === "nasa-imerg-nrt" && !process.env.NASA_EARTHDATA_BEARER) {
-    return {
-      ok: false,
-      status: 401,
-      text: "",
-      fetchedFrom: "remote",
-      note: "NASA_EARTHDATA_BEARER not configured."
-    };
-  }
-
   if (source.id === "nasa-imerg-nrt") {
     const response = await fetchNasaImergPayload(source);
     return {
