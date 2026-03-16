@@ -1,11 +1,12 @@
 import { unzipSync } from "fflate";
 import { fromArrayBuffer } from "geotiff";
 import { districts } from "../../src/shared/areas.js";
+import { geometryBounds, loadDistrictBoundaries, pointInGeometry } from "./boundaries.js";
 import { fetchText } from "./http.js";
 
 const PPS_ORIGIN = "https://jsimpsonhttps.pps.eosdis.nasa.gov";
 
-const districtLocations = {
+const fallbackDistrictLocations = {
   kasaragod: { lat: 12.4996, lon: 74.9869 },
   kannur: { lat: 11.8745, lon: 75.3704 },
   wayanad: { lat: 11.6854, lon: 76.132 },
@@ -191,18 +192,110 @@ function sampleRasterValue(data, image, latitude, longitude) {
   return value / 10;
 }
 
+function clampInt(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function rangeFromBounds(bounds, image) {
+  const [originX, originY] = image.getOrigin();
+  const [resolutionX, resolutionY] = image.getResolution();
+  const width = image.getWidth();
+  const height = image.getHeight();
+
+  const columnA = (bounds.minLon - originX) / resolutionX;
+  const columnB = (bounds.maxLon - originX) / resolutionX;
+  const rowA = (bounds.minLat - originY) / resolutionY;
+  const rowB = (bounds.maxLat - originY) / resolutionY;
+
+  return {
+    minColumn: clampInt(Math.floor(Math.min(columnA, columnB)), 0, width - 1),
+    maxColumn: clampInt(Math.ceil(Math.max(columnA, columnB)), 0, width - 1),
+    minRow: clampInt(Math.floor(Math.min(rowA, rowB)), 0, height - 1),
+    maxRow: clampInt(Math.ceil(Math.max(rowA, rowB)), 0, height - 1)
+  };
+}
+
+function cellCenter(image, row, column) {
+  const [originX, originY] = image.getOrigin();
+  const [resolutionX, resolutionY] = image.getResolution();
+  return {
+    lon: originX + (column + 0.5) * resolutionX,
+    lat: originY + (row + 0.5) * resolutionY
+  };
+}
+
+function aggregateGeometryRaster(data, image, geometry) {
+  const bounds = geometryBounds(geometry);
+  if (!bounds) {
+    return null;
+  }
+
+  const width = image.getWidth();
+  const window = rangeFromBounds(bounds, image);
+  let sum = 0;
+  let max = 0;
+  let count = 0;
+
+  for (let row = window.minRow; row <= window.maxRow; row += 1) {
+    for (let column = window.minColumn; column <= window.maxColumn; column += 1) {
+      const point = cellCenter(image, row, column);
+      if (!pointInGeometry([point.lon, point.lat], geometry)) {
+        continue;
+      }
+
+      const value = data[row * width + column];
+      if (!Number.isFinite(value) || value < 0) {
+        continue;
+      }
+
+      const millimeters = value / 10;
+      sum += millimeters;
+      max = Math.max(max, millimeters);
+      count += 1;
+    }
+  }
+
+  if (!count) {
+    return null;
+  }
+
+  return {
+    mean_mm: sum / count,
+    max_mm: max,
+    cell_count: count,
+    method: "district_polygon_mean"
+  };
+}
+
+function fallbackDistrictAggregation(districtId, data, image) {
+  const location = fallbackDistrictLocations[districtId];
+  const value = location ? sampleRasterValue(data, image, location.lat, location.lon) : 0;
+  return {
+    mean_mm: value,
+    max_mm: value,
+    cell_count: value > 0 ? 1 : 0,
+    method: "district_fallback_point"
+  };
+}
+
 async function sampleFileAtDistricts(file, credentials) {
   const arrayBuffer = await fetchArrayBuffer(file.url, credentials);
   const tiffBuffer = extractGeoTiffBuffer(arrayBuffer, file.extension);
   const tiff = await fromArrayBuffer(tiffBuffer);
   const image = await tiff.getImage();
   const raster = await image.readRasters({ interleave: true });
+  const districtBoundaryList = await loadDistrictBoundaries().catch(() => []);
+  const districtBoundaries = Object.fromEntries(
+    districtBoundaryList.map((districtBoundary) => [districtBoundary.district_id, districtBoundary])
+  );
 
   return Object.fromEntries(
     districts.map((district) => {
-      const location = districtLocations[district.id];
-      const value = location ? sampleRasterValue(raster, image, location.lat, location.lon) : 0;
-      return [district.id, value];
+      const boundary = districtBoundaries[district.id];
+      const aggregated = boundary?.geometry
+        ? aggregateGeometryRaster(raster, image, boundary.geometry)
+        : null;
+      return [district.id, aggregated ?? fallbackDistrictAggregation(district.id, raster, image)];
     })
   );
 }
@@ -215,11 +308,11 @@ async function sampleFilesSequentially(files, credentials) {
   return samples;
 }
 
-function sumByDistrict(valuesList) {
+function sumByDistrict(valuesList, metric = "mean_mm") {
   const totals = Object.fromEntries(districts.map((district) => [district.id, 0]));
   for (const values of valuesList) {
     for (const [districtId, value] of Object.entries(values)) {
-      totals[districtId] += value ?? 0;
+      totals[districtId] += value?.[metric] ?? 0;
     }
   }
   return totals;
@@ -289,12 +382,15 @@ export async function fetchNasaImergPayload() {
     districts: districts.map((district) => ({
       district_id: district.id,
       rain_1h_mm: Number(oneHour[district.id].toFixed(1)),
-      rain_3h_mm: Number((threeHour[district.id] ?? 0).toFixed(1)),
+      rain_3h_mm: Number(((threeHour[district.id]?.mean_mm ?? 0)).toFixed(1)),
       rain_6h_mm: Number((sixHour[district.id] ?? 0).toFixed(1)),
-      rain_24h_mm: Number((oneDay[district.id] ?? 0).toFixed(1)),
+      rain_24h_mm: Number(((oneDay[district.id]?.mean_mm ?? 0)).toFixed(1)),
       rain_3d_mm: Number((threeDay[district.id] ?? 0).toFixed(1)),
       rain_7d_mm: Number((sevenDay[district.id] ?? 0).toFixed(1)),
-      source: "nasa-imerg-pps"
+      source: "nasa-imerg-pps",
+      spatial_aggregation: halfHourSamples[0]?.[district.id]?.method ?? "district_polygon_mean",
+      cell_count: halfHourSamples[0]?.[district.id]?.cell_count ?? 0,
+      peak_30m_mm: Number(((halfHourSamples[0]?.[district.id]?.max_mm ?? 0)).toFixed(1))
     }))
   };
 

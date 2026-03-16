@@ -10,6 +10,7 @@ import {
   parseCwcFfs
 } from "../scripts/lib/parsers.js";
 import { parseImergTextListing, selectImergWindows } from "../scripts/lib/imerg.js";
+import { districtIdFromBoundaryName, pointInGeometry } from "../scripts/lib/boundaries.js";
 import { buildRiskOutputs } from "../scripts/lib/risk-model.js";
 import { runPipeline } from "../scripts/lib/pipeline.js";
 
@@ -99,7 +100,10 @@ async function testPipeline() {
   await runPipeline(tempRoot, { useFixtures: true });
   const dashboardRaw = await readFile(path.join(tempRoot, "docs", "data", "latest", "dashboard.json"), "utf8");
   const dashboard = JSON.parse(dashboardRaw);
+  const adminAreasRaw = await readFile(path.join(tempRoot, "docs", "data", "latest", "admin-areas.json"), "utf8");
+  const adminAreas = JSON.parse(adminAreasRaw);
   assert.equal(dashboard.mode, "decision-support");
+  assert.equal(adminAreas.boundaries.counts.district, 14);
 }
 
 function testImergListingSelection() {
@@ -127,9 +131,33 @@ function testImergListingSelection() {
   assert.ok(selection.dailyWindow.every((file) => file.slotCode === "0150"));
 }
 
+function testBoundaryHelpers() {
+  assert.equal(districtIdFromBoundaryName("Thiruvananthapuram"), "thiruvananthapuram");
+  assert.equal(districtIdFromBoundaryName("Pathanamthitta"), "pathanamthitta");
+  assert.equal(
+    pointInGeometry(
+      [76.5, 9.5],
+      {
+        type: "Polygon",
+        coordinates: [
+          [
+            [76.0, 9.0],
+            [77.0, 9.0],
+            [77.0, 10.0],
+            [76.0, 10.0],
+            [76.0, 9.0]
+          ]
+        ]
+      }
+    ),
+    true
+  );
+}
+
 const tests = [
   ["parsers", testParsers],
   ["imerg-listing", testImergListingSelection],
+  ["boundaries", testBoundaryHelpers],
   ["risk-model", testRiskModel],
   ["pipeline", testPipeline]
 ];

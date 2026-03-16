@@ -1,6 +1,7 @@
 import path from "node:path";
 import { readFile } from "node:fs/promises";
 import { readJson, writeJson, writeText, ensureDir, pathExists } from "./fs.js";
+import { buildBoundaryMetadata, boundaryLayerSources } from "./boundaries.js";
 import { fetchText } from "./http.js";
 import { fetchNasaImergPayload } from "./imerg.js";
 import { parserRegistry } from "./parsers.js";
@@ -180,6 +181,32 @@ export async function runPipeline(repoRoot, options = {}) {
   );
 
   const archiveParts = toArchivePathParts(new Date(generatedAt));
+  let boundaryMetadata = {
+    sources: boundaryLayerSources,
+    counts: {
+      state: 0,
+      district: districts.length,
+      taluk: 0
+    },
+    districts: districts.map((district) => ({
+      district_id: district.id,
+      name: district.name,
+      centroid: null,
+      bbox: null
+    }))
+  };
+
+  if (!options.useFixtures) {
+    try {
+      boundaryMetadata = await buildBoundaryMetadata();
+    } catch {
+      boundaryMetadata = {
+        ...boundaryMetadata,
+        note: "Boundary metadata fetch failed. Static district definitions remain available."
+      };
+    }
+  }
+
   const rawDir = path.join(
     repoRoot,
     "runtime",
@@ -301,7 +328,12 @@ export async function runPipeline(repoRoot, options = {}) {
     },
     "observation-grid.json": {
       generated_at: generatedAt,
+      spatial_aggregation: "district_polygon_mean_or_fallback_point",
       observations: rainfallByDistrict
+    },
+    "admin-areas.json": {
+      generated_at: generatedAt,
+      boundaries: boundaryMetadata
     },
     "dashboard.json": {
       generated_at: generatedAt,

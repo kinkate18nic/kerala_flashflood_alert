@@ -8,6 +8,8 @@ Kerala Flash-Flood Watch is a static-first decision-support dashboard and PWA fo
 - Scheduled ingestion pipeline with raw snapshot archiving and derived JSON publishing
 - Hybrid rules-plus-scoring risk model for Kerala districts and curated hotspots
 - Manual review flow for severe alerts
+- Kerala administrative boundary integration using `geohacker/kerala` district and taluk GeoJSON layers
+- NASA IMERG district rainfall aggregation over district polygons with fallback to representative points if boundaries fail
 - Static PWA frontend with district/hotspot map, source health, evidence drill-down, and offline shell cache
 - Fixture-based tests and sample outputs for local development
 
@@ -55,6 +57,7 @@ node scripts/review-alert.js --id <alert-id>
 - The next pipeline run promotes approved severe alerts to `Reviewed severe alert`.
 
 The NASA IMERG adapter now uses PPS near-real-time access via the documented `text/imerg/gis/early/` listing and downloads the latest 30-minute, 3-hour, and 1-day GeoTIFF products directly.
+District rainfall is now computed against Kerala district polygons from `geohacker/kerala` rather than fixed district sample points, and the pipeline publishes boundary metadata in `docs/data/latest/admin-areas.json`.
 
 ## Telegram dispatch
 
