@@ -1,0 +1,35 @@
+{
+  "weights": {
+    "cap_warning": 0.25,
+    "flash_flood_bulletin": 0.12,
+    "rainfall": 0.28,
+    "antecedent_wetness": 0.1,
+    "terrain": 0.12,
+    "hydrology": 0.08,
+    "reservoir_dam": 0.05
+  },
+  "thresholds": {
+    "watch": 35,
+    "alert": 58,
+    "severe": 78
+  },
+  "rainfall_caps_mm": {
+    "one_hour": 80,
+    "three_hour": 140,
+    "six_hour": 220,
+    "day": 320,
+    "three_day": 500,
+    "seven_day": 900
+  },
+  "freshness_penalties": {
+    "degraded": 6,
+    "stale": 14,
+    "offline": 22
+  },
+  "agreement_bonus": {
+    "one": 0,
+    "two": 4,
+    "three": 8,
+    "four_plus": 12
+  }
+}

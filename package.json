@@ -1,0 +1,23 @@
+{
+  "name": "kerala-flash-flood-watch",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Static-first Kerala flash-flood alerting and prediction dashboard.",
+  "scripts": {
+    "build:data": "node scripts/run-pipeline.js",
+    "build:data:fixtures": "node scripts/run-pipeline.js --fixtures",
+    "build:site": "node scripts/build-site.js",
+    "build": "npm run build:data:fixtures && npm run build:site",
+    "test": "node tests/run.js",
+    "review:alert": "node scripts/review-alert.js",
+    "notify:telegram": "node scripts/send-telegram.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "fflate": "^0.8.2",
+    "geotiff": "^3.0.5"
+  }
+}

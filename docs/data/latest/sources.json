@@ -1,0 +1,121 @@
+{
+  "generated_at": "2026-03-16T09:51:51.019Z",
+  "sources": [
+    {
+      "source_id": "imd-cap-rss",
+      "name": "IMD CAP RSS",
+      "owner": "India Meteorological Department",
+      "category": "official-warning",
+      "fetched_at": "2026-03-16T09:51:51.023Z",
+      "issued_at": null,
+      "raw_url": "https://cap-sources.s3.amazonaws.com/in-imd-en/rss.xml",
+      "parser_status": "ok",
+      "status": "degraded",
+      "freshness_minutes": null,
+      "notes": "",
+      "auth": "none",
+      "summary": {
+        "item_count": 0,
+        "district_count": 0
+      }
+    },
+    {
+      "source_id": "imd-flash-flood-bulletin",
+      "name": "IMD Flash Flood Bulletin",
+      "owner": "India Meteorological Department",
+      "category": "official-guidance",
+      "fetched_at": "2026-03-16T09:51:51.673Z",
+      "issued_at": null,
+      "raw_url": "https://mausamaudit.imd.gov.in/responsive/flashFloodBulletin.php",
+      "parser_status": "failed",
+      "status": "offline",
+      "freshness_minutes": null,
+      "notes": "fetch failed",
+      "auth": "none",
+      "summary": {}
+    },
+    {
+      "source_id": "ksdma-reservoirs",
+      "name": "KSDMA Reservoir Dashboard",
+      "owner": "Kerala State Disaster Management Authority",
+      "category": "reservoir-status",
+      "fetched_at": "2026-03-16T09:52:02.356Z",
+      "issued_at": null,
+      "raw_url": "https://sdma.kerala.gov.in/reservoirs/",
+      "parser_status": "ok",
+      "status": "degraded",
+      "freshness_minutes": null,
+      "notes": "",
+      "auth": "none",
+      "summary": {
+        "district_count": 1
+      }
+    },
+    {
+      "source_id": "ksdma-dam-management",
+      "name": "KSDMA Dam Management",
+      "owner": "Kerala State Disaster Management Authority",
+      "category": "dam-status",
+      "fetched_at": "2026-03-16T09:52:03.090Z",
+      "issued_at": null,
+      "raw_url": "https://sdma.kerala.gov.in/dam-management/",
+      "parser_status": "ok",
+      "status": "degraded",
+      "freshness_minutes": null,
+      "notes": "",
+      "auth": "none",
+      "summary": {
+        "district_count": 7
+      }
+    },
+    {
+      "source_id": "cwc-ffs",
+      "name": "CWC Flood Forecasting",
+      "owner": "Central Water Commission",
+      "category": "river-stage",
+      "fetched_at": "2026-03-16T09:52:03.745Z",
+      "issued_at": null,
+      "raw_url": "https://ffs.india-water.gov.in/",
+      "parser_status": "ok",
+      "status": "degraded",
+      "freshness_minutes": null,
+      "notes": "",
+      "auth": "none",
+      "summary": {
+        "district_count": 0
+      }
+    },
+    {
+      "source_id": "nasa-imerg-nrt",
+      "name": "NASA IMERG Near-Real-Time",
+      "owner": "NASA GPM",
+      "category": "satellite-rainfall",
+      "fetched_at": "2026-03-16T09:52:03.925Z",
+      "issued_at": null,
+      "raw_url": "https://gpm.nasa.gov/imerg",
+      "parser_status": "failed",
+      "status": "offline",
+      "freshness_minutes": null,
+      "notes": "No IMERG GIS files found in the configured directory.",
+      "auth": "bearer",
+      "summary": {}
+    },
+    {
+      "source_id": "operator-observations",
+      "name": "Operator Observation Override",
+      "owner": "Local operator",
+      "category": "manual-observation",
+      "fetched_at": "2026-03-16T09:52:05.678Z",
+      "issued_at": null,
+      "raw_url": "data/manual/observations.json",
+      "parser_status": "ok",
+      "status": "degraded",
+      "freshness_minutes": null,
+      "notes": "",
+      "auth": "none",
+      "summary": {
+        "district_count": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+export const districts = [
+  { id: "kasaragod", name: "Kasaragod", anchor: { x: 44, y: 10 }, susceptibility: 0.44, region: "north" },
+  { id: "kannur", name: "Kannur", anchor: { x: 47, y: 16 }, susceptibility: 0.5, region: "north" },
+  { id: "wayanad", name: "Wayanad", anchor: { x: 40, y: 21 }, susceptibility: 0.74, region: "north-hills" },
+  { id: "kozhikode", name: "Kozhikode", anchor: { x: 48, y: 24 }, susceptibility: 0.56, region: "north" },
+  { id: "malappuram", name: "Malappuram", anchor: { x: 49, y: 31 }, susceptibility: 0.58, region: "north-central" },
+  { id: "palakkad", name: "Palakkad", anchor: { x: 43, y: 37 }, susceptibility: 0.49, region: "ghat-gap" },
+  { id: "thrissur", name: "Thrissur", anchor: { x: 49, y: 41 }, susceptibility: 0.55, region: "central" },
+  { id: "ernakulam", name: "Ernakulam", anchor: { x: 51, y: 47 }, susceptibility: 0.68, region: "central-coastal" },
+  { id: "idukki", name: "Idukki", anchor: { x: 44, y: 50 }, susceptibility: 0.91, region: "high-range" },
+  { id: "kottayam", name: "Kottayam", anchor: { x: 49, y: 55 }, susceptibility: 0.71, region: "central" },
+  { id: "alappuzha", name: "Alappuzha", anchor: { x: 53, y: 59 }, susceptibility: 0.65, region: "coastal-lowland" },
+  { id: "pathanamthitta", name: "Pathanamthitta", anchor: { x: 47, y: 63 }, susceptibility: 0.83, region: "ghat-to-river" },
+  { id: "kollam", name: "Kollam", anchor: { x: 49, y: 70 }, susceptibility: 0.62, region: "south" },
+  { id: "thiruvananthapuram", name: "Thiruvananthapuram", anchor: { x: 47, y: 78 }, susceptibility: 0.57, region: "south-coastal" }
+];
+
+export const hotspots = [
+  { id: "h-anchal", district_id: "kollam", name: "Anchal uplands", anchor: { x: 45, y: 68 }, susceptibility: 0.78, tags: ["rapid-runoff"] },
+  { id: "h-aryankavu", district_id: "kollam", name: "Aryankavu pass", anchor: { x: 43, y: 71 }, susceptibility: 0.85, tags: ["ghat-gap"] },
+  { id: "h-kuttanad", district_id: "alappuzha", name: "Kuttanad lowlands", anchor: { x: 55, y: 58 }, susceptibility: 0.88, tags: ["backwater", "low-lying"] },
+  { id: "h-vagamon-edge", district_id: "idukki", name: "Vagamon escarpment", anchor: { x: 46, y: 54 }, susceptibility: 0.82, tags: ["steep-slope"] },
+  { id: "h-munnar-upper", district_id: "idukki", name: "Munnar upper catchments", anchor: { x: 41, y: 47 }, susceptibility: 0.93, tags: ["high-range", "landslide"] },
+  { id: "h-adimali", district_id: "idukki", name: "Adimali corridor", anchor: { x: 45, y: 48 }, susceptibility: 0.89, tags: ["runoff", "dam-downstream"] },
+  { id: "h-periyar-lower", district_id: "ernakulam", name: "Lower Periyar corridor", anchor: { x: 52, y: 45 }, susceptibility: 0.86, tags: ["river", "urban"] },
+  { id: "h-kochi-core", district_id: "ernakulam", name: "Kochi urban core", anchor: { x: 54, y: 49 }, susceptibility: 0.74, tags: ["urban-flooding"] },
+  { id: "h-angamaly", district_id: "ernakulam", name: "Angamaly belt", anchor: { x: 50, y: 44 }, susceptibility: 0.77, tags: ["riverine"] },
+  { id: "h-athirappilly", district_id: "thrissur", name: "Athirappilly foothills", anchor: { x: 46, y: 40 }, susceptibility: 0.83, tags: ["steep-slope"] },
+  { id: "h-chalakudy", district_id: "thrissur", name: "Chalakudy river belt", anchor: { x: 49, y: 42 }, susceptibility: 0.79, tags: ["riverine", "dam-downstream"] },
+  { id: "h-nilambur", district_id: "malappuram", name: "Nilambur hills", anchor: { x: 45, y: 30 }, susceptibility: 0.8, tags: ["ghat-foothill"] },
+  { id: "h-kondotty", district_id: "malappuram", name: "Kondotty low corridor", anchor: { x: 50, y: 29 }, susceptibility: 0.68, tags: ["urban-flooding"] },
+  { id: "h-thamarassery", district_id: "kozhikode", name: "Thamarassery ghat road", anchor: { x: 44, y: 23 }, susceptibility: 0.81, tags: ["steep-slope"] },
+  { id: "h-kozhikode-city", district_id: "kozhikode", name: "Kozhikode city basin", anchor: { x: 50, y: 25 }, susceptibility: 0.69, tags: ["urban-flooding"] },
+  { id: "h-sultan-bathery", district_id: "wayanad", name: "Sultan Bathery basin", anchor: { x: 41, y: 20 }, susceptibility: 0.84, tags: ["plateau-runoff"] },
+  { id: "h-meppadi", district_id: "wayanad", name: "Meppadi slopes", anchor: { x: 38, y: 22 }, susceptibility: 0.9, tags: ["landslide", "steep-slope"] },
+  { id: "h-mananthavady", district_id: "wayanad", name: "Mananthavady valley", anchor: { x: 41, y: 18 }, susceptibility: 0.77, tags: ["valley"] },
+  { id: "h-kannur-city", district_id: "kannur", name: "Kannur urban drains", anchor: { x: 49, y: 16 }, susceptibility: 0.64, tags: ["urban-flooding"] },
+  { id: "h-iritti", district_id: "kannur", name: "Iritty foothills", anchor: { x: 44, y: 17 }, susceptibility: 0.78, tags: ["ghat-runoff"] },
+  { id: "h-kasaragod-river", district_id: "kasaragod", name: "Kasaragod river mouths", anchor: { x: 46, y: 11 }, susceptibility: 0.62, tags: ["coastal", "riverine"] },
+  { id: "h-attappady", district_id: "palakkad", name: "Attappady slopes", anchor: { x: 39, y: 36 }, susceptibility: 0.75, tags: ["tribal-area", "steep-slope"] },
+  { id: "h-palakkad-gap", district_id: "palakkad", name: "Palakkad gap runoff plain", anchor: { x: 45, y: 38 }, susceptibility: 0.61, tags: ["runoff-plain"] },
+  { id: "h-pamba-upper", district_id: "pathanamthitta", name: "Upper Pamba catchment", anchor: { x: 45, y: 61 }, susceptibility: 0.89, tags: ["riverine", "steep-slope"] },
+  { id: "h-ranni", district_id: "pathanamthitta", name: "Ranni corridor", anchor: { x: 48, y: 62 }, susceptibility: 0.86, tags: ["riverine"] },
+  { id: "h-kumarakom", district_id: "kottayam", name: "Kumarakom backwater fringe", anchor: { x: 52, y: 56 }, susceptibility: 0.76, tags: ["backwater"] },
+  { id: "h-erattupetta", district_id: "kottayam", name: "Erattupetta foothills", anchor: { x: 47, y: 54 }, susceptibility: 0.8, tags: ["foothill-runoff"] },
+  { id: "h-ponmudi", district_id: "thiruvananthapuram", name: "Ponmudi slopes", anchor: { x: 44, y: 76 }, susceptibility: 0.82, tags: ["steep-slope"] },
+  { id: "h-nedumangad", district_id: "thiruvananthapuram", name: "Nedumangad basin", anchor: { x: 47, y: 75 }, susceptibility: 0.66, tags: ["urban-rural-transition"] }
+];
+
+export const districtLookup = Object.fromEntries(districts.map((district) => [district.id, district]));
+export const hotspotLookup = Object.fromEntries(hotspots.map((hotspot) => [hotspot.id, hotspot]));
