@@ -256,14 +256,15 @@ function renderAll() {
 }
 
 async function loadPayload() {
+  const fresh = `t=${Date.now()}`;
   const [areas, dashboard, sources, districtRisk, hotspotRisk, alerts, archiveIndex] = await Promise.all([
     fetch("./data/static/areas.json").then((response) => response.json()),
-    fetch("./data/latest/dashboard.json").then((response) => response.json()),
-    fetch("./data/latest/sources.json").then((response) => response.json()),
-    fetch("./data/latest/district-risk.json").then((response) => response.json()),
-    fetch("./data/latest/hotspot-risk.json").then((response) => response.json()),
-    fetch("./data/latest/alerts.json").then((response) => response.json()),
-    fetch("./data/latest/archive-index.json").then((response) => response.json())
+    fetch(`./data/latest/dashboard.json?${fresh}`, { cache: "no-store" }).then((response) => response.json()),
+    fetch(`./data/latest/sources.json?${fresh}`, { cache: "no-store" }).then((response) => response.json()),
+    fetch(`./data/latest/district-risk.json?${fresh}`, { cache: "no-store" }).then((response) => response.json()),
+    fetch(`./data/latest/hotspot-risk.json?${fresh}`, { cache: "no-store" }).then((response) => response.json()),
+    fetch(`./data/latest/alerts.json?${fresh}`, { cache: "no-store" }).then((response) => response.json()),
+    fetch(`./data/latest/archive-index.json?${fresh}`, { cache: "no-store" }).then((response) => response.json())
   ]);
 
   state.archiveIndex = archiveIndex;
@@ -290,11 +291,11 @@ async function loadArchive(pathPrefix) {
   }
 
   const [dashboard, sources, districtRisk, hotspotRisk, alerts] = await Promise.all([
-    fetch(`${pathPrefix}/dashboard.json`).then((response) => response.json()),
-    fetch(`${pathPrefix}/sources.json`).then((response) => response.json()),
-    fetch(`${pathPrefix}/district-risk.json`).then((response) => response.json()),
-    fetch(`${pathPrefix}/hotspot-risk.json`).then((response) => response.json()),
-    fetch(`${pathPrefix}/alerts.json`).then((response) => response.json())
+    fetch(`${pathPrefix}/dashboard.json`, { cache: "no-store" }).then((response) => response.json()),
+    fetch(`${pathPrefix}/sources.json`, { cache: "no-store" }).then((response) => response.json()),
+    fetch(`${pathPrefix}/district-risk.json`, { cache: "no-store" }).then((response) => response.json()),
+    fetch(`${pathPrefix}/hotspot-risk.json`, { cache: "no-store" }).then((response) => response.json()),
+    fetch(`${pathPrefix}/alerts.json`, { cache: "no-store" }).then((response) => response.json())
   ]);
 
   state.payload = {
@@ -335,7 +336,9 @@ references.archiveSelect.addEventListener("change", (event) => {
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(() => {});
+    navigator.serviceWorker.register("./sw.js").then((registration) => {
+      registration.update().catch(() => {});
+    }).catch(() => {});
   });
 }
 

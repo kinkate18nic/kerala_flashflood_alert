@@ -1,4 +1,4 @@
-const CACHE_NAME = "kerala-flood-watch-v1";
+const CACHE_NAME = "kerala-flood-watch-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -7,13 +7,7 @@ const APP_SHELL = [
   "./manifest.webmanifest",
   "./assets/icon.svg",
   "./data/static/areas.json",
-  "./data/static/risk-metadata.json",
-  "./data/latest/dashboard.json",
-  "./data/latest/sources.json",
-  "./data/latest/district-risk.json",
-  "./data/latest/hotspot-risk.json",
-  "./data/latest/alerts.json",
-  "./data/latest/archive-index.json"
+  "./data/static/risk-metadata.json"
 ];
 
 self.addEventListener("install", (event) => {
@@ -32,6 +26,19 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") {
     return;
   }
+
+  const requestUrl = new URL(event.request.url);
+  const isLatestData = requestUrl.pathname.includes("/data/latest/");
+
+  if (isLatestData) {
+    event.respondWith(
+      fetch(event.request, { cache: "no-store" }).catch(() =>
+        caches.match(new Request(requestUrl.pathname, { method: "GET" }))
+      )
+    );
+    return;
+  }
+
   event.respondWith(
     fetch(event.request)
       .then((response) => {
