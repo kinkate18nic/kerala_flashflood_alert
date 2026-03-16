@@ -1,9 +1,6 @@
 import { districts, hotspots } from "../../src/shared/areas.js";
 import { scoreToLevel } from "../../src/shared/risk.js";
-
-function clamp(value, min = 0, max = 1) {
-  return Math.min(max, Math.max(min, value));
-}
+import { buildDistrictTerrainLookup, clamp } from "../../src/shared/terrain.js";
 
 function round(value) {
   return Math.round(value * 10) / 10;
@@ -71,35 +68,6 @@ function sourceRef(sourceId, detail, freshnessMinutes, status) {
   };
 }
 
-function buildTerrainLookup(terrainStats) {
-  const manualWeight = terrainStats?.normalization?.manual_weight ?? 0.4;
-  const demWeight = terrainStats?.normalization?.dem_weight ?? 0.6;
-  const demReferenceMax = terrainStats?.normalization?.dem_reference_max ?? 100;
-  const demLookup = Object.fromEntries(
-    (terrainStats?.districts ?? []).map((entry) => [entry.district_id, entry])
-  );
-
-  return Object.fromEntries(
-    districts.map((district) => {
-      const dem = demLookup[district.id];
-      const demNormalized = dem ? clamp((dem.terrain_score_raw ?? 0) / demReferenceMax) : null;
-      const blended = demNormalized === null
-        ? district.susceptibility
-        : clamp(district.susceptibility * manualWeight + demNormalized * demWeight);
-
-      return [
-        district.id,
-        {
-          value: blended,
-          manual_baseline: district.susceptibility,
-          dem_normalized: demNormalized,
-          dem
-        }
-      ];
-    })
-  );
-}
-
 function hotspotCategoryBoost(category) {
   switch (category) {
     case "steep_catchment":
@@ -137,7 +105,7 @@ export function buildRiskOutputs(context) {
   const totalSources = sourceSnapshots.length;
   const onlineSources = sourceSnapshots.filter((source) => source.status === "ok").length;
   const confidenceBase = confidenceFromCoverage(onlineSources, totalSources);
-  const terrainByDistrict = buildTerrainLookup(terrainStats);
+  const terrainByDistrict = buildDistrictTerrainLookup(districts, terrainStats);
 
   const hotspotOverrideLookup = Object.fromEntries(
     hotspotOverrides.map((override) => [override.hotspot_id, override])

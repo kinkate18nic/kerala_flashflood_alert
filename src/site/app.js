@@ -20,6 +20,7 @@ const references = {
   modeChip: document.querySelector("#mode-chip"),
   reviewCount: document.querySelector("#review-count"),
   districtLayer: document.querySelector("#district-layer"),
+  hotspotFootprintLayer: document.querySelector("#hotspot-footprint-layer"),
   districtLabelLayer: document.querySelector("#district-label-layer"),
   mapOverlay: document.querySelector("#map-overlay"),
   alertsList: document.querySelector("#alerts-list"),
@@ -201,6 +202,10 @@ function geometryToPath(geometry, project) {
   return "";
 }
 
+function featureToPath(feature, project) {
+  return geometryToPath(feature.geometry, project);
+}
+
 function centroidFromBounds(bounds, project) {
   return project((bounds.minLon + bounds.maxLon) / 2, (bounds.minLat + bounds.maxLat) / 2);
 }
@@ -295,6 +300,7 @@ function renderMap() {
 
   if (!state.districtGeometry?.features?.length) {
     references.districtLayer.innerHTML = "";
+    references.hotspotFootprintLayer.innerHTML = "";
     references.districtLabelLayer.innerHTML = "";
     references.mapOverlay.innerHTML = [
       ...areas.districts.map((district) => {
@@ -353,6 +359,23 @@ function renderMap() {
         <text class="district-label" x="${centroid.x.toFixed(1)}" y="${(centroid.y + 4).toFixed(1)}">
           ${item?.name ?? feature.district_id}
         </text>
+      `;
+    })
+    .join("");
+
+  references.hotspotFootprintLayer.innerHTML = areas.hotspots
+    .filter((hotspot) => hotspot.footprint?.geometry)
+    .map((hotspot) => {
+      const item = hotspotById[hotspot.id];
+      const level = item?.level ?? "Normal";
+      return `
+        <path
+          class="hotspot-footprint"
+          data-area-id="${hotspot.id}"
+          data-area-type="hotspot"
+          d="${featureToPath(hotspot.footprint, project)}"
+          fill="${levelColors[level] ?? "var(--normal)"}"
+        ></path>
       `;
     })
     .join("");

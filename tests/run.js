@@ -11,6 +11,7 @@ import {
 } from "../scripts/lib/parsers.js";
 import { parseImergTextListing, selectImergWindows } from "../scripts/lib/imerg.js";
 import { districtIdFromBoundaryName, pointInGeometry } from "../scripts/lib/boundaries.js";
+import { buildHotspotFootprint } from "../src/shared/hotspot-footprints.js";
 import { buildRiskOutputs } from "../scripts/lib/risk-model.js";
 import { runPipeline } from "../scripts/lib/pipeline.js";
 
@@ -154,10 +155,29 @@ function testBoundaryHelpers() {
   );
 }
 
+function testHotspotFootprints() {
+  const footprint = buildHotspotFootprint(
+    {
+      id: "h-demo",
+      district_id: "idukki",
+      name: "Demo hotspot",
+      category: "steep_catchment",
+      location: { lat: 10, lon: 76.9 },
+      buffer_km: 10
+    },
+    0.9
+  );
+
+  assert.equal(footprint.geometry.type, "Polygon");
+  assert.ok(footprint.geometry.coordinates[0].length > 20);
+  assert.equal(footprint.properties.category, "steep_catchment");
+}
+
 const tests = [
   ["parsers", testParsers],
   ["imerg-listing", testImergListingSelection],
   ["boundaries", testBoundaryHelpers],
+  ["hotspot-footprints", testHotspotFootprints],
   ["risk-model", testRiskModel],
   ["pipeline", testPipeline]
 ];
