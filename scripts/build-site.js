@@ -17,14 +17,23 @@ await copyTree(sourceSiteDir, targetSiteDir);
 const terrainStats = await readJson(path.join(repoRoot, "config", "terrain-stats.json"), {
   districts: []
 });
+const hotspotFootprintOverrides = await readJson(
+  path.join(repoRoot, "data", "manual", "hotspot-footprints.geojson"),
+  { type: "FeatureCollection", features: [] }
+);
 const terrainByDistrict = buildDistrictTerrainLookup(districts, terrainStats);
+const hotspotOverrideLookup = Object.fromEntries(
+  (hotspotFootprintOverrides.features ?? [])
+    .map((feature) => [feature.properties?.hotspot_id ?? null, feature])
+    .filter(([hotspotId]) => hotspotId)
+);
 const hotspotsWithFootprints = hotspots.map((hotspot) => ({
   ...hotspot,
   terrain_value: terrainByDistrict[hotspot.district_id]?.value ?? hotspot.susceptibility,
-  footprint: buildHotspotFootprint(
-    hotspot,
-    terrainByDistrict[hotspot.district_id]?.value ?? hotspot.susceptibility
-  )
+  footprint_source: hotspotOverrideLookup[hotspot.id] ? "manual_override" : "terrain_informed_buffer_v1",
+  footprint:
+    hotspotOverrideLookup[hotspot.id] ??
+    buildHotspotFootprint(hotspot, terrainByDistrict[hotspot.district_id]?.value ?? hotspot.susceptibility)
 }));
 
 await writeJson(path.join(targetSiteDir, "data", "static", "areas.json"), {
