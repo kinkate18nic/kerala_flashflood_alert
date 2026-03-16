@@ -210,6 +210,25 @@ function districtItemFromEvent(areaId, areaType) {
   return collection.find((entry) => entry.area_id === areaId);
 }
 
+function hotspotPosition(hotspot, projectedCentroids, districtAnchorsById, project) {
+  if (hotspot.location?.lon && hotspot.location?.lat) {
+    const point = project(hotspot.location.lon, hotspot.location.lat);
+    return {
+      left: (point.x / mapViewBox.width) * 100,
+      top: (point.y / mapViewBox.height) * 100
+    };
+  }
+
+  const districtCentroid = projectedCentroids[hotspot.district_id];
+  const districtAnchor = districtAnchorsById[hotspot.district_id] ?? { x: 50, y: 50 };
+  const dx = ((hotspot.anchor.x - districtAnchor.x) / 100) * mapViewBox.width * 0.42;
+  const dy = ((hotspot.anchor.y - districtAnchor.y) / 100) * mapViewBox.height * 0.42;
+  return {
+    left: ((districtCentroid.x + dx) / mapViewBox.width) * 100,
+    top: ((districtCentroid.y + dy) / mapViewBox.height) * 100
+  };
+}
+
 function bindMapInteractions() {
   document.querySelectorAll("[data-area-id][data-area-type]").forEach((element) => {
     element.addEventListener("click", () => {
@@ -342,18 +361,13 @@ function renderMap() {
     .map((hotspot) => {
       const item = hotspotById[hotspot.id];
       const level = item?.level ?? "Normal";
-      const districtCentroid = projectedCentroids[hotspot.district_id];
-      const districtAnchor = districtAnchorsById[hotspot.district_id] ?? { x: 50, y: 50 };
-      const dx = ((hotspot.anchor.x - districtAnchor.x) / 100) * mapViewBox.width * 0.42;
-      const dy = ((hotspot.anchor.y - districtAnchor.y) / 100) * mapViewBox.height * 0.42;
-      const left = ((districtCentroid.x + dx) / mapViewBox.width) * 100;
-      const top = ((districtCentroid.y + dy) / mapViewBox.height) * 100;
+      const position = hotspotPosition(hotspot, projectedCentroids, districtAnchorsById, project);
       return `
         <button
           class="map-point hotspot"
           data-area-id="${hotspot.id}"
           data-area-type="hotspot"
-          style="left:${left}%; top:${top}%; background:${levelColors[level]}"
+          style="left:${position.left}%; top:${position.top}%; background:${levelColors[level]}"
           title="${hotspot.name}"
         ></button>
       `;

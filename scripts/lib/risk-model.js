@@ -100,6 +100,25 @@ function buildTerrainLookup(terrainStats) {
   );
 }
 
+function hotspotCategoryBoost(category) {
+  switch (category) {
+    case "steep_catchment":
+      return 8;
+    case "dam_downstream":
+      return 7;
+    case "river_floodplain":
+      return 6;
+    case "river_confluence":
+      return 5;
+    case "low_lying_basin":
+      return 7;
+    case "urban_flood_pocket":
+      return 4;
+    default:
+      return 0;
+  }
+}
+
 export function buildRiskOutputs(context) {
   const {
     thresholds,
@@ -236,8 +255,9 @@ export function buildRiskOutputs(context) {
     const manualBoost = override?.score_boost ?? 0;
     const districtTerrain = terrainByDistrict[hotspot.district_id];
     const hotspotSusceptibility = clamp(hotspot.susceptibility * 0.7 + districtTerrain.value * 0.3);
+    const categoryBoost = hotspotCategoryBoost(hotspot.category);
     const score = round(
-      clamp((districtState.score + hotspotSusceptibility * 24 + manualBoost) / 100, 0, 1) * 100
+      clamp((districtState.score + hotspotSusceptibility * 20 + categoryBoost + manualBoost) / 100, 0, 1) * 100
     );
     const level = scoreToLevel(score);
     return {
@@ -250,7 +270,15 @@ export function buildRiskOutputs(context) {
       score,
       confidence: districtState.confidence,
       susceptibility: hotspotSusceptibility,
-      drivers: [...districtState.drivers, `Hotspot susceptibility ${(hotspotSusceptibility * 100).toFixed(0)}%`],
+      category: hotspot.category,
+      location: hotspot.location ?? null,
+      buffer_km: hotspot.buffer_km ?? null,
+      drivers: [
+        ...districtState.drivers,
+        `Hotspot susceptibility ${(hotspotSusceptibility * 100).toFixed(0)}%`,
+        hotspot.category ? `Hotspot category ${hotspot.category.replaceAll("_", " ")}` : null,
+        hotspot.buffer_km ? `Hotspot analysis radius ${hotspot.buffer_km} km` : null
+      ].filter(Boolean),
       source_refs: districtState.source_refs,
       review_state: level === "Severe - review required" ? "pending_review" : "auto_published",
       valid_from: districtState.valid_from,
