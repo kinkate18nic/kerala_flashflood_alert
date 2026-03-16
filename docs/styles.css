@@ -221,15 +221,40 @@ h1 {
     linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
 }
 
-.kerala-shape {
+.district-map {
   width: 100%;
   height: 100%;
-  opacity: 0.78;
+  opacity: 0.98;
+}
+
+.district-shape {
+  stroke: rgba(255, 249, 238, 0.72);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.district-shape:hover {
+  opacity: 0.88;
+}
+
+.district-label {
+  fill: rgba(255, 255, 255, 0.88);
+  font-size: 10px;
+  font-weight: 700;
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: rgba(13, 31, 25, 0.8);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
 }
 
 .map-overlay {
   position: absolute;
   inset: 0;
+  pointer-events: none;
 }
 
 .map-point {
@@ -243,6 +268,7 @@ h1 {
   color: #fff;
   font: inherit;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  pointer-events: auto;
 }
 
 .map-point:hover,
@@ -383,7 +409,11 @@ h1 {
   }
 
   .map-stage {
-    min-height: 460px;
+    min-height: 520px;
+  }
+
+  .district-label {
+    font-size: 8px;
   }
 }
 .control-stack {

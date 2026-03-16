@@ -67,22 +67,20 @@
 
         <section class="panel map-panel">
           <div class="panel-head">
-            <h2>Schematic Kerala Map</h2>
-            <span class="subtle-text">District anchors and hotspot overlays</span>
+            <h2>Kerala District Map</h2>
+            <span class="subtle-text">Boundary-based district risk with hotspot overlays</span>
           </div>
           <div class="map-stage">
-            <svg class="kerala-shape" viewBox="0 0 100 100" aria-hidden="true">
+            <svg class="district-map" viewBox="0 0 420 720" aria-hidden="true">
               <defs>
-                <linearGradient id="monsoonGradient" x1="0" x2="1" y1="0" y2="1">
-                  <stop offset="0%" stop-color="#2d7d68" />
-                  <stop offset="100%" stop-color="#173126" />
+                <linearGradient id="districtMapGlow" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0%" stop-color="rgba(63, 143, 119, 0.58)" />
+                  <stop offset="100%" stop-color="rgba(12, 35, 28, 0.12)" />
                 </linearGradient>
               </defs>
-              <path
-                d="M40 6 C58 8 64 18 63 29 C61 37 63 42 62 51 C61 58 66 66 62 75 C58 84 46 92 44 88 C39 76 40 68 38 61 C36 55 31 49 34 39 C36 29 31 19 35 11 C36 8 38 7 40 6Z"
-                fill="url(#monsoonGradient)"
-                opacity="0.95"
-              />
+              <rect x="0" y="0" width="420" height="720" fill="url(#districtMapGlow)" opacity="0.3"></rect>
+              <g id="district-layer"></g>
+              <g id="district-label-layer"></g>
             </svg>
             <div class="map-overlay" id="map-overlay"></div>
           </div>
