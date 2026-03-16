@@ -71,6 +71,35 @@ function sourceRef(sourceId, detail, freshnessMinutes, status) {
   };
 }
 
+function buildTerrainLookup(terrainStats) {
+  const manualWeight = terrainStats?.normalization?.manual_weight ?? 0.4;
+  const demWeight = terrainStats?.normalization?.dem_weight ?? 0.6;
+  const demReferenceMax = terrainStats?.normalization?.dem_reference_max ?? 100;
+  const demLookup = Object.fromEntries(
+    (terrainStats?.districts ?? []).map((entry) => [entry.district_id, entry])
+  );
+
+  return Object.fromEntries(
+    districts.map((district) => {
+      const dem = demLookup[district.id];
+      const demNormalized = dem ? clamp((dem.terrain_score_raw ?? 0) / demReferenceMax) : null;
+      const blended = demNormalized === null
+        ? district.susceptibility
+        : clamp(district.susceptibility * manualWeight + demNormalized * demWeight);
+
+      return [
+        district.id,
+        {
+          value: blended,
+          manual_baseline: district.susceptibility,
+          dem_normalized: demNormalized,
+          dem
+        }
+      ];
+    })
+  );
+}
+
 export function buildRiskOutputs(context) {
   const {
     thresholds,
@@ -81,6 +110,7 @@ export function buildRiskOutputs(context) {
     damByDistrict,
     cwcByDistrict,
     rainfallByDistrict,
+    terrainStats,
     approvals,
     hotspotOverrides
   } = context;
@@ -88,6 +118,7 @@ export function buildRiskOutputs(context) {
   const totalSources = sourceSnapshots.length;
   const onlineSources = sourceSnapshots.filter((source) => source.status === "ok").length;
   const confidenceBase = confidenceFromCoverage(onlineSources, totalSources);
+  const terrainByDistrict = buildTerrainLookup(terrainStats);
 
   const hotspotOverrideLookup = Object.fromEntries(
     hotspotOverrides.map((override) => [override.hotspot_id, override])
@@ -100,6 +131,7 @@ export function buildRiskOutputs(context) {
     const dam = damByDistrict[district.id] ?? { active: false, severity: 0, notes: [] };
     const cwc = cwcByDistrict[district.id] ?? { active: false, severity: 0, notes: [] };
     const observation = rainfallByDistrict[district.id] ?? null;
+    const terrain = terrainByDistrict[district.id];
 
     const componentScores = {
       cap_warning: severityToPoints(cap.severity) * thresholds.weights.cap_warning,
@@ -109,7 +141,7 @@ export function buildRiskOutputs(context) {
       antecedent_wetness:
         computeAntecedentScore(observation, thresholds.rainfall_caps_mm) *
         thresholds.weights.antecedent_wetness,
-      terrain: district.susceptibility * 100 * thresholds.weights.terrain,
+      terrain: terrain.value * 100 * thresholds.weights.terrain,
       hydrology: severityToPoints(cwc.severity) * thresholds.weights.hydrology,
       reservoir_dam:
         Math.max(severityToPoints(reservoir.severity), severityToPoints(dam.severity)) *
@@ -148,6 +180,9 @@ export function buildRiskOutputs(context) {
       cap.severity > 0 ? `IMD CAP severity ${round(cap.severity * 100)}%` : null,
       bulletin.severity > 0 ? "IMD flash-flood bulletin corroborates threat" : null,
       observation ? `Observed 24h rain ${observation.rain_24h_mm ?? 0} mm` : null,
+      terrain.dem
+        ? `Terrain susceptibility ${(terrain.value * 100).toFixed(0)}% from NASADEM + local baseline`
+        : `Terrain susceptibility ${(terrain.value * 100).toFixed(0)}% from local baseline`,
       cwc.active ? "CWC river-stage warning/watch active" : null,
       reservoir.active ? "Reservoir caution active" : null,
       dam.active ? "Dam downstream caution active" : null
@@ -161,7 +196,17 @@ export function buildRiskOutputs(context) {
       score: round(score),
       confidence: round(confidenceBase),
       region: district.region,
-      susceptibility: district.susceptibility,
+      susceptibility: terrain.value,
+      terrain_model: terrain.dem ? "nasadem_blended" : "manual_baseline",
+      terrain_metrics: terrain.dem
+        ? {
+            terrain_score_raw: terrain.dem.terrain_score_raw,
+            elevation_mean_m: terrain.dem.elevation_mean_m,
+            slope_mean_deg: terrain.dem.slope_mean_deg,
+            roughness_mean: terrain.dem.roughness_mean,
+            dem_normalized: round(terrain.dem_normalized ?? 0)
+          }
+        : null,
       valid_from: context.generatedAt,
       valid_to: new Date(new Date(context.generatedAt).getTime() + 6 * 3600 * 1000).toISOString(),
       drivers,
@@ -189,8 +234,10 @@ export function buildRiskOutputs(context) {
     const districtState = districtStates.find((state) => state.area_id === hotspot.district_id);
     const override = hotspotOverrideLookup[hotspot.id];
     const manualBoost = override?.score_boost ?? 0;
+    const districtTerrain = terrainByDistrict[hotspot.district_id];
+    const hotspotSusceptibility = clamp(hotspot.susceptibility * 0.7 + districtTerrain.value * 0.3);
     const score = round(
-      clamp((districtState.score + hotspot.susceptibility * 24 + manualBoost) / 100, 0, 1) * 100
+      clamp((districtState.score + hotspotSusceptibility * 24 + manualBoost) / 100, 0, 1) * 100
     );
     const level = scoreToLevel(score);
     return {
@@ -202,8 +249,8 @@ export function buildRiskOutputs(context) {
       level,
       score,
       confidence: districtState.confidence,
-      susceptibility: hotspot.susceptibility,
-      drivers: [...districtState.drivers, `Hotspot susceptibility ${(hotspot.susceptibility * 100).toFixed(0)}%`],
+      susceptibility: hotspotSusceptibility,
+      drivers: [...districtState.drivers, `Hotspot susceptibility ${(hotspotSusceptibility * 100).toFixed(0)}%`],
       source_refs: districtState.source_refs,
       review_state: level === "Severe - review required" ? "pending_review" : "auto_published",
       valid_from: districtState.valid_from,

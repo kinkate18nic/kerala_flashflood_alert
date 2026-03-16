@@ -172,6 +172,15 @@ export async function runPipeline(repoRoot, options = {}) {
   const generatedAt = nowIso();
   const sources = await readJson(path.join(repoRoot, "config", "sources.json"));
   const thresholds = await readJson(path.join(repoRoot, "config", "risk-thresholds.json"));
+  const terrainStats = await readJson(path.join(repoRoot, "config", "terrain-stats.json"), {
+    districts: [],
+    normalization: {
+      method: "blend_manual_and_dem",
+      manual_weight: 0.4,
+      dem_weight: 0.6,
+      dem_reference_max: 100
+    }
+  });
   const approvalsDocument = await readJson(path.join(repoRoot, "data", "manual", "review-approvals.json"), {
     approvals: []
   });
@@ -289,6 +298,7 @@ export async function runPipeline(repoRoot, options = {}) {
     sourceSnapshots: snapshots,
     ...signalMaps,
     rainfallByDistrict,
+    terrainStats,
     approvals: approvalsDocument.approvals ?? [],
     hotspotOverrides: hotspotOverridesDocument.overrides ?? [],
     freshnessBySource,
@@ -341,7 +351,8 @@ export async function runPipeline(repoRoot, options = {}) {
       headline_message:
         alerts[0]?.message_en ?? "No active Watch or higher alerts. Continue routine Kerala monsoon monitoring.",
       mode: "decision-support",
-      severe_pending_count: alerts.filter((alert) => alert.review_state === "pending_review").length
+      severe_pending_count: alerts.filter((alert) => alert.review_state === "pending_review").length,
+      terrain_model: terrainStats.source ?? "manual_baseline_only"
     }
   };
 
