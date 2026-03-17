@@ -134,6 +134,13 @@ export function geometryCentroid(geometry) {
   };
 }
 
+function pointFromBounds(bounds, xFraction, yFraction) {
+  return [
+    bounds.minLon + (bounds.maxLon - bounds.minLon) * xFraction,
+    bounds.minLat + (bounds.maxLat - bounds.minLat) * yFraction
+  ];
+}
+
 function pointInRing(point, ring) {
   let inside = false;
 
@@ -181,6 +188,46 @@ export function pointInGeometry(point, geometry) {
   return false;
 }
 
+export function representativePointInGeometry(geometry) {
+  const bounds = geometryBounds(geometry);
+  if (!bounds) {
+    return null;
+  }
+
+  const candidates = [
+    pointFromBounds(bounds, 0.5, 0.5),
+    pointFromBounds(bounds, 0.25, 0.5),
+    pointFromBounds(bounds, 0.75, 0.5),
+    pointFromBounds(bounds, 0.5, 0.25),
+    pointFromBounds(bounds, 0.5, 0.75),
+    pointFromBounds(bounds, 0.25, 0.25),
+    pointFromBounds(bounds, 0.75, 0.25),
+    pointFromBounds(bounds, 0.25, 0.75),
+    pointFromBounds(bounds, 0.75, 0.75)
+  ];
+
+  for (const candidate of candidates) {
+    if (pointInGeometry(candidate, geometry)) {
+      return {
+        lon: Number(candidate[0].toFixed(5)),
+        lat: Number(candidate[1].toFixed(5))
+      };
+    }
+  }
+
+  let firstCoordinate = null;
+  walkCoordinates(geometry.coordinates, (longitude, latitude) => {
+    if (!firstCoordinate) {
+      firstCoordinate = {
+        lon: Number(longitude.toFixed(5)),
+        lat: Number(latitude.toFixed(5))
+      };
+    }
+  });
+
+  return firstCoordinate;
+}
+
 export async function loadDistrictBoundaries() {
   const layer = await loadBoundaryLayer("district");
   return parseDistrictBoundaries(layer);
@@ -206,7 +253,8 @@ export function parseDistrictBoundaries(layer) {
         name: rawName,
         geometry: feature.geometry,
         bbox: geometryBounds(feature.geometry),
-        centroid: geometryCentroid(feature.geometry)
+        centroid: geometryCentroid(feature.geometry),
+        representative_point: representativePointInGeometry(feature.geometry)
       };
     })
     .filter(Boolean);
@@ -245,7 +293,8 @@ export function parseTalukBoundaries(layer) {
         district_name: districtName,
         geometry: feature.geometry,
         bbox: geometryBounds(feature.geometry),
-        centroid: geometryCentroid(feature.geometry)
+        centroid: geometryCentroid(feature.geometry),
+        representative_point: representativePointInGeometry(feature.geometry)
       };
     })
     .filter(Boolean);

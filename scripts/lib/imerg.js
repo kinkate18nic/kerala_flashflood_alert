@@ -283,6 +283,21 @@ function fallbackDistrictAggregation(districtId, data, image) {
   };
 }
 
+function fallbackBoundaryAggregation(boundary, data, image, fallbackLabel) {
+  const location =
+    boundary?.representative_point ??
+    boundary?.centroid ??
+    fallbackDistrictLocations[boundary?.district_id] ??
+    null;
+  const value = location ? sampleRasterValue(data, image, location.lat, location.lon) : 0;
+  return {
+    mean_mm: value,
+    max_mm: value,
+    cell_count: value >= 0 ? 1 : 0,
+    method: fallbackLabel
+  };
+}
+
 async function sampleFileAtDistricts(file, credentials) {
   const arrayBuffer = await fetchArrayBuffer(file.url, credentials);
   const tiffBuffer = extractGeoTiffBuffer(arrayBuffer, file.extension);
@@ -297,7 +312,8 @@ async function sampleFileAtDistricts(file, credentials) {
   const talukSamples = Object.fromEntries(
     talukBoundaryList.map((talukBoundary) => [
       talukBoundary.taluk_id,
-      aggregateGeometryRaster(raster, image, talukBoundary.geometry)
+      aggregateGeometryRaster(raster, image, talukBoundary.geometry) ??
+        fallbackBoundaryAggregation(talukBoundary, raster, image, "taluk_representative_point")
     ])
   );
 
@@ -308,7 +324,13 @@ async function sampleFileAtDistricts(file, credentials) {
         const aggregated = boundary?.geometry
           ? aggregateGeometryRaster(raster, image, boundary.geometry)
           : null;
-        return [district.id, aggregated ?? fallbackDistrictAggregation(district.id, raster, image)];
+        return [
+          district.id,
+          aggregated ??
+            (boundary
+              ? fallbackBoundaryAggregation(boundary, raster, image, "district_representative_point")
+              : fallbackDistrictAggregation(district.id, raster, image))
+        ];
       })
     ),
     taluks: talukSamples

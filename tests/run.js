@@ -14,6 +14,7 @@ import { parseImergTextListing, selectImergWindows } from "../scripts/lib/imerg.
 import {
   districtIdFromBoundaryName,
   pointInGeometry,
+  representativePointInGeometry,
   talukIdFromBoundaryNames
 } from "../scripts/lib/boundaries.js";
 import { buildHotspotFootprint } from "../src/shared/hotspot-footprints.js";
@@ -202,6 +203,30 @@ function testBoundaryHelpers() {
     ),
     true
   );
+  const representativePoint = representativePointInGeometry({
+    type: "Polygon",
+    coordinates: [
+      [
+        [76.0, 9.0],
+        [77.0, 9.0],
+        [77.0, 10.0],
+        [76.0, 10.0],
+        [76.0, 9.0]
+      ]
+    ]
+  });
+  assert.equal(pointInGeometry([representativePoint.lon, representativePoint.lat], {
+    type: "Polygon",
+    coordinates: [
+      [
+        [76.0, 9.0],
+        [77.0, 9.0],
+        [77.0, 10.0],
+        [76.0, 10.0],
+        [76.0, 9.0]
+      ]
+    ]
+  }), true);
 }
 
 function testHotspotFootprints() {
