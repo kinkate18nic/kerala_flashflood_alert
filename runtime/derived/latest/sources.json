@@ -1,22 +1,22 @@
 {
-  "generated_at": "2026-03-17T07:11:19.342Z",
+  "generated_at": "2026-03-17T07:58:58.783Z",
   "sources": [
     {
       "source_id": "imd-cap-rss",
       "name": "IMD CAP RSS",
       "owner": "India Meteorological Department",
       "category": "official-warning",
-      "fetched_at": "2026-03-17T07:11:19.375Z",
-      "issued_at": "2026-03-17T06:56:19.342Z",
+      "fetched_at": "2026-03-17T07:58:59.442Z",
+      "issued_at": null,
       "raw_url": "https://cap-sources.s3.amazonaws.com/in-imd-en/rss.xml",
       "parser_status": "ok",
-      "status": "ok",
-      "freshness_minutes": 15,
+      "status": "degraded",
+      "freshness_minutes": null,
       "notes": "",
       "auth": "none",
       "summary": {
-        "item_count": 2,
-        "district_count": 5
+        "item_count": 0,
+        "district_count": 0
       }
     },
     {
@@ -24,29 +24,27 @@
       "name": "IMD Flash Flood Bulletin",
       "owner": "India Meteorological Department",
       "category": "official-guidance",
-      "fetched_at": "2026-03-17T07:11:19.384Z",
-      "issued_at": "2026-03-17T04:11:19.342Z",
+      "fetched_at": "2026-03-17T07:58:59.917Z",
+      "issued_at": null,
       "raw_url": "https://mausamaudit.imd.gov.in/responsive/flashFloodBulletin.php",
-      "parser_status": "ok",
-      "status": "ok",
-      "freshness_minutes": 180,
-      "notes": "",
+      "parser_status": "failed",
+      "status": "offline",
+      "freshness_minutes": null,
+      "notes": "fetch failed",
       "auth": "none",
-      "summary": {
-        "excerpt": "Flash Flood Bulletin Issued on 16 March 2026 08:45 IST Kerala: Moderate flash flood threat over Idukki, Ernakulam, Kottayam and Pathanamthitta. Rapid runoff lik"
-      }
+      "summary": {}
     },
     {
       "source_id": "ksdma-reservoirs",
       "name": "KSDMA Reservoir Dashboard",
       "owner": "Kerala State Disaster Management Authority",
       "category": "reservoir-status",
-      "fetched_at": "2026-03-17T07:11:19.387Z",
-      "issued_at": "2026-03-17T06:11:19.342Z",
+      "fetched_at": "2026-03-17T07:59:10.407Z",
+      "issued_at": null,
       "raw_url": "https://sdma.kerala.gov.in/reservoirs/",
       "parser_status": "ok",
-      "status": "ok",
-      "freshness_minutes": 60,
+      "status": "degraded",
+      "freshness_minutes": null,
       "notes": "",
       "auth": "none",
       "summary": {
@@ -59,16 +57,16 @@
       "name": "KSDMA Dam Management",
       "owner": "Kerala State Disaster Management Authority",
       "category": "dam-status",
-      "fetched_at": "2026-03-17T07:11:19.389Z",
-      "issued_at": "2026-03-17T06:11:19.342Z",
+      "fetched_at": "2026-03-17T07:59:16.377Z",
+      "issued_at": null,
       "raw_url": "https://sdma.kerala.gov.in/dam-management/",
       "parser_status": "ok",
-      "status": "ok",
-      "freshness_minutes": 60,
+      "status": "degraded",
+      "freshness_minutes": null,
       "notes": "",
       "auth": "none",
       "summary": {
-        "district_count": 2,
+        "district_count": 7,
         "taluk_count": 0
       }
     },
@@ -77,38 +75,35 @@
       "name": "CWC Flood Forecasting",
       "owner": "Central Water Commission",
       "category": "river-stage",
-      "fetched_at": "2026-03-17T07:11:19.391Z",
-      "issued_at": "2026-03-17T06:11:19.342Z",
+      "fetched_at": "2026-03-17T07:59:17.386Z",
+      "issued_at": null,
       "raw_url": "https://ffs.india-water.gov.in/",
-      "parser_status": "ok",
-      "status": "ok",
-      "freshness_minutes": 60,
-      "notes": "",
+      "parser_status": "failed",
+      "status": "offline",
+      "freshness_minutes": null,
+      "notes": "fetch failed",
       "auth": "none",
-      "summary": {
-        "district_count": 2,
-        "taluk_count": 0
-      }
+      "summary": {}
     },
     {
       "source_id": "nasa-imerg-nrt",
       "name": "NASA IMERG Near-Real-Time",
       "owner": "NASA GPM",
       "category": "satellite-rainfall",
-      "fetched_at": "2026-03-17T07:11:19.393Z",
-      "issued_at": "2026-03-17T06:41:19.342Z",
+      "fetched_at": "2026-03-17T07:59:27.876Z",
+      "issued_at": "2026-03-17T02:59:59.000Z",
       "raw_url": "https://gpm.nasa.gov/imerg",
       "parser_status": "ok",
       "status": "ok",
-      "freshness_minutes": 30,
-      "notes": "",
+      "freshness_minutes": 299,
+      "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260317-S023000-E025959.0150.V07C.30min.zip",
       "auth": "pps-basic",
       "summary": {
-        "district_count": 2,
-        "taluk_count": 2,
-        "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260316-S030000-E032959.0180.V07C.30min.zip",
-        "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260316-S000000-E025959.0180.V07C.3hr.zip",
-        "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260316-S000000-E235959.0180.V07C.1day.zip"
+        "district_count": 14,
+        "taluk_count": 61,
+        "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260317-S023000-E025959.0150.V07C.30min.zip",
+        "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260317-S023000-E025959.0150.V07C.3hr.zip",
+        "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260317-S023000-E025959.0150.V07C.1day.zip"
       }
     },
     {
@@ -116,16 +111,16 @@
       "name": "Operator Observation Override",
       "owner": "Local operator",
       "category": "manual-observation",
-      "fetched_at": "2026-03-17T07:11:19.395Z",
-      "issued_at": "2026-03-17T06:56:19.342Z",
+      "fetched_at": "2026-03-17T07:59:41.911Z",
+      "issued_at": null,
       "raw_url": "data/manual/observations.json",
       "parser_status": "ok",
-      "status": "ok",
-      "freshness_minutes": 15,
+      "status": "degraded",
+      "freshness_minutes": null,
       "notes": "",
       "auth": "none",
       "summary": {
-        "district_count": 3,
+        "district_count": 0,
         "taluk_count": 0
       }
     }
