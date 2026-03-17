@@ -119,10 +119,17 @@ async function testPipeline() {
   const adminAreas = JSON.parse(adminAreasRaw);
   const talukRiskRaw = await readFile(path.join(tempRoot, "docs", "data", "latest", "taluk-risk.json"), "utf8");
   const talukRisk = JSON.parse(talukRiskRaw);
+  const observationGridRaw = await readFile(
+    path.join(tempRoot, "docs", "data", "latest", "observation-grid.json"),
+    "utf8"
+  );
+  const observationGrid = JSON.parse(observationGridRaw);
   assert.equal(dashboard.mode, "decision-support");
   assert.equal(adminAreas.boundaries.counts.district, 14);
   assert.ok(adminAreas.boundaries.counts.taluk >= 61);
   assert.ok(talukRisk.taluks.length >= 61);
+  assert.equal(typeof observationGrid.observations.districts, "object");
+  assert.equal(typeof observationGrid.observations.taluks, "object");
 }
 
 function testImergListingSelection() {

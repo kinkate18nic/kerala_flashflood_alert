@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-17T05:46:35.111Z",
+  "generated_at": "2026-03-17T06:52:32.098Z",
   "hotspots": [
     {
       "area_id": "h-mundakkai-chooralmala",
@@ -12,8 +12,8 @@
         "orographic-rainfall"
       ],
       "level": "Normal",
-      "score": 24.6,
-      "confidence": 0.4,
+      "score": 31,
+      "confidence": 1,
       "susceptibility": 0.831893425105676,
       "category": "steep_catchment",
       "location": {
@@ -22,7 +22,6 @@
       },
       "buffer_km": 8,
       "drivers": [
-        "Observed 24h rain 0 mm",
         "Terrain susceptibility 53% from NASADEM + local baseline",
         "Hotspot susceptibility 83%",
         "Hotspot category steep catchment",
@@ -32,25 +31,25 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
           "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-meppadi-vythiri",
@@ -63,8 +62,8 @@
         "road-isolation"
       ],
       "level": "Normal",
-      "score": 23.9,
-      "confidence": 0.4,
+      "score": 30.3,
+      "confidence": 1,
       "susceptibility": 0.7968934251056761,
       "category": "steep_catchment",
       "location": {
@@ -73,7 +72,6 @@
       },
       "buffer_km": 10,
       "drivers": [
-        "Observed 24h rain 0 mm",
         "Terrain susceptibility 53% from NASADEM + local baseline",
         "Hotspot susceptibility 80%",
         "Hotspot category steep catchment",
@@ -83,25 +81,25 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
           "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-padinjarathara-banasura",
@@ -114,8 +112,8 @@
         "banasura"
       ],
       "level": "Normal",
-      "score": 22.5,
-      "confidence": 0.4,
+      "score": 28.9,
+      "confidence": 1,
       "susceptibility": 0.775893425105676,
       "category": "dam_downstream",
       "location": {
@@ -124,7 +122,6 @@
       },
       "buffer_km": 12,
       "drivers": [
-        "Observed 24h rain 0 mm",
         "Terrain susceptibility 53% from NASADEM + local baseline",
         "Hotspot susceptibility 78%",
         "Hotspot category dam downstream",
@@ -134,25 +131,25 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
           "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-peermade",
@@ -164,9 +161,9 @@
         "high-range",
         "runoff"
       ],
-      "level": "Normal",
-      "score": 32.3,
-      "confidence": 0.4,
+      "level": "Severe - review required",
+      "score": 98.2,
+      "confidence": 1,
       "susceptibility": 0.9401999999999999,
       "category": "steep_catchment",
       "location": {
@@ -175,8 +172,11 @@
       },
       "buffer_km": 10,
       "drivers": [
-        "Observed 24h rain 0 mm",
+        "IMD CAP severity 72%",
+        "IMD flash-flood bulletin corroborates threat",
+        "Observed 24h rain 210 mm",
         "Terrain susceptibility 96% from NASADEM + local baseline",
+        "Reservoir caution active",
         "Dam downstream caution active",
         "Hotspot susceptibility 94%",
         "Hotspot category steep catchment",
@@ -185,26 +185,26 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "detail": "1 CAP items",
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
-          "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Flash flood bulletin references district",
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
-      "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "review_state": "pending_review",
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-munnar-devikulam",
@@ -216,9 +216,9 @@
         "mountain-wash",
         "landslide"
       ],
-      "level": "Normal",
-      "score": 32.6,
-      "confidence": 0.4,
+      "level": "Severe - review required",
+      "score": 98.5,
+      "confidence": 1,
       "susceptibility": 0.9541999999999999,
       "category": "steep_catchment",
       "location": {
@@ -227,8 +227,11 @@
       },
       "buffer_km": 14,
       "drivers": [
-        "Observed 24h rain 0 mm",
+        "IMD CAP severity 72%",
+        "IMD flash-flood bulletin corroborates threat",
+        "Observed 24h rain 210 mm",
         "Terrain susceptibility 96% from NASADEM + local baseline",
+        "Reservoir caution active",
         "Dam downstream caution active",
         "Hotspot susceptibility 95%",
         "Hotspot category steep catchment",
@@ -237,26 +240,26 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "detail": "1 CAP items",
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
-          "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Flash flood bulletin references district",
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
-      "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "review_state": "pending_review",
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-vandiperiyar-mullaperiyar",
@@ -268,9 +271,9 @@
         "dam-release",
         "rapid-rise"
       ],
-      "level": "Normal",
-      "score": 30.9,
-      "confidence": 0.4,
+      "level": "Severe - review required",
+      "score": 96.8,
+      "confidence": 1,
       "susceptibility": 0.9192,
       "category": "dam_downstream",
       "location": {
@@ -279,8 +282,11 @@
       },
       "buffer_km": 12,
       "drivers": [
-        "Observed 24h rain 0 mm",
+        "IMD CAP severity 72%",
+        "IMD flash-flood bulletin corroborates threat",
+        "Observed 24h rain 210 mm",
         "Terrain susceptibility 96% from NASADEM + local baseline",
+        "Reservoir caution active",
         "Dam downstream caution active",
         "Hotspot susceptibility 92%",
         "Hotspot category dam downstream",
@@ -289,26 +295,26 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "detail": "1 CAP items",
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
-          "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Flash flood bulletin references district",
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
-      "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "review_state": "pending_review",
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-kumily-attapallam",
@@ -319,9 +325,9 @@
         "shutter-release",
         "downstream-inundation"
       ],
-      "level": "Normal",
-      "score": 30,
-      "confidence": 0.4,
+      "level": "Severe - review required",
+      "score": 95.9,
+      "confidence": 1,
       "susceptibility": 0.8772,
       "category": "dam_downstream",
       "location": {
@@ -330,8 +336,11 @@
       },
       "buffer_km": 8,
       "drivers": [
-        "Observed 24h rain 0 mm",
+        "IMD CAP severity 72%",
+        "IMD flash-flood bulletin corroborates threat",
+        "Observed 24h rain 210 mm",
         "Terrain susceptibility 96% from NASADEM + local baseline",
+        "Reservoir caution active",
         "Dam downstream caution active",
         "Hotspot susceptibility 88%",
         "Hotspot category dam downstream",
@@ -340,26 +349,26 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "detail": "1 CAP items",
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
-          "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Flash flood bulletin references district",
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
-      "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "review_state": "pending_review",
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-nilambur-chaliyar",
@@ -372,8 +381,8 @@
         "chaliyar"
       ],
       "level": "Normal",
-      "score": 21.5,
-      "confidence": 0.4,
+      "score": 29.6,
+      "confidence": 1,
       "susceptibility": 0.776264212557632,
       "category": "river_floodplain",
       "location": {
@@ -382,7 +391,6 @@
       },
       "buffer_km": 10,
       "drivers": [
-        "Observed 24h rain 0 mm",
         "Terrain susceptibility 67% from NASADEM + local baseline",
         "Hotspot susceptibility 78%",
         "Hotspot category river floodplain",
@@ -392,25 +400,25 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
           "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-kuttanad",
@@ -423,8 +431,8 @@
         "multi-river-drainage"
       ],
       "level": "Normal",
-      "score": 22.1,
-      "confidence": 0.4,
+      "score": 25.9,
+      "confidence": 1,
       "susceptibility": 0.7528560178618569,
       "category": "low_lying_basin",
       "location": {
@@ -433,7 +441,6 @@
       },
       "buffer_km": 18,
       "drivers": [
-        "Observed 24h rain 0 mm",
         "Terrain susceptibility 32% from NASADEM + local baseline",
         "Hotspot susceptibility 75%",
         "Hotspot category low lying basin",
@@ -443,25 +450,25 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
           "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-chengannur-pandanad",
@@ -474,8 +481,8 @@
         "prolonged-inundation"
       ],
       "level": "Normal",
-      "score": 20.4,
-      "confidence": 0.4,
+      "score": 24.2,
+      "confidence": 1,
       "susceptibility": 0.7178560178618569,
       "category": "river_floodplain",
       "location": {
@@ -484,7 +491,6 @@
       },
       "buffer_km": 12,
       "drivers": [
-        "Observed 24h rain 0 mm",
         "Terrain susceptibility 32% from NASADEM + local baseline",
         "Hotspot susceptibility 72%",
         "Hotspot category river floodplain",
@@ -494,25 +500,25 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
           "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-thottappally-thanneermukkom",
@@ -525,8 +531,8 @@
         "drainage-control"
       ],
       "level": "Normal",
-      "score": 18.9,
-      "confidence": 0.4,
+      "score": 22.7,
+      "confidence": 1,
       "susceptibility": 0.6968560178618569,
       "category": "river_confluence",
       "location": {
@@ -535,7 +541,6 @@
       },
       "buffer_km": 14,
       "drivers": [
-        "Observed 24h rain 0 mm",
         "Terrain susceptibility 32% from NASADEM + local baseline",
         "Hotspot susceptibility 70%",
         "Hotspot category river confluence",
@@ -545,25 +550,25 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
           "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-pamba-corridor",
@@ -575,9 +580,9 @@
         "rapid-rise",
         "river-corridor"
       ],
-      "level": "Normal",
-      "score": 27.4,
-      "confidence": 0.4,
+      "level": "Severe - review required",
+      "score": 90.4,
+      "confidence": 1,
       "susceptibility": 0.8777087998281825,
       "category": "river_floodplain",
       "location": {
@@ -586,9 +591,11 @@
       },
       "buffer_km": 18,
       "drivers": [
-        "Observed 24h rain 0 mm",
+        "IMD CAP severity 70%",
+        "IMD flash-flood bulletin corroborates threat",
+        "Observed 24h rain 170 mm",
         "Terrain susceptibility 83% from NASADEM + local baseline",
-        "Dam downstream caution active",
+        "CWC river-stage warning/watch active",
         "Hotspot susceptibility 88%",
         "Hotspot category river floodplain",
         "Hotspot analysis radius 18 km"
@@ -596,26 +603,26 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "detail": "1 CAP items",
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
-          "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Flash flood bulletin references district",
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting signal",
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
-      "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "review_state": "pending_review",
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-chalakudy",
@@ -627,9 +634,9 @@
         "peringalkuthu",
         "riverine"
       ],
-      "level": "Normal",
-      "score": 21.8,
-      "confidence": 0.4,
+      "level": "Watch",
+      "score": 45.9,
+      "confidence": 1,
       "susceptibility": 0.741698815750701,
       "category": "dam_downstream",
       "location": {
@@ -638,9 +645,8 @@
       },
       "buffer_km": 12,
       "drivers": [
-        "Observed 24h rain 0 mm",
+        "IMD CAP severity 72%",
         "Terrain susceptibility 51% from NASADEM + local baseline",
-        "Dam downstream caution active",
         "Hotspot susceptibility 74%",
         "Hotspot category dam downstream",
         "Hotspot analysis radius 12 km"
@@ -648,26 +654,26 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "detail": "1 CAP items",
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
           "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-aluva-periyar",
@@ -679,9 +685,9 @@
         "idukki-spill",
         "idamalayar"
       ],
-      "level": "Normal",
-      "score": 22.4,
-      "confidence": 0.4,
+      "level": "Severe - review required",
+      "score": 89,
+      "confidence": 1,
       "susceptibility": 0.7690302921599974,
       "category": "dam_downstream",
       "location": {
@@ -690,8 +696,12 @@
       },
       "buffer_km": 14,
       "drivers": [
-        "Observed 24h rain 0 mm",
+        "IMD CAP severity 72%",
+        "IMD flash-flood bulletin corroborates threat",
+        "Observed 24h rain 186 mm",
         "Terrain susceptibility 42% from NASADEM + local baseline",
+        "CWC river-stage warning/watch active",
+        "Dam downstream caution active",
         "Hotspot susceptibility 77%",
         "Hotspot category dam downstream",
         "Hotspot analysis radius 14 km"
@@ -699,26 +709,26 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "detail": "1 CAP items",
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
-          "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Flash flood bulletin references district",
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting signal",
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
-      "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "review_state": "pending_review",
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-neeleswaram-periyar",
@@ -730,9 +740,9 @@
         "built-up-growth",
         "periyar"
       ],
-      "level": "Normal",
-      "score": 18.8,
-      "confidence": 0.4,
+      "level": "Severe - review required",
+      "score": 85.4,
+      "confidence": 1,
       "susceptibility": 0.6920302921599972,
       "category": "river_confluence",
       "location": {
@@ -741,8 +751,12 @@
       },
       "buffer_km": 10,
       "drivers": [
-        "Observed 24h rain 0 mm",
+        "IMD CAP severity 72%",
+        "IMD flash-flood bulletin corroborates threat",
+        "Observed 24h rain 186 mm",
         "Terrain susceptibility 42% from NASADEM + local baseline",
+        "CWC river-stage warning/watch active",
+        "Dam downstream caution active",
         "Hotspot susceptibility 69%",
         "Hotspot category river confluence",
         "Hotspot analysis radius 10 km"
@@ -750,26 +764,26 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "detail": "1 CAP items",
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
-          "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Flash flood bulletin references district",
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting signal",
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
-      "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "review_state": "pending_review",
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-kochi-mgroad-kaloor",
@@ -781,9 +795,9 @@
         "drainage-failure",
         "urban"
       ],
-      "level": "Normal",
-      "score": 17.6,
-      "confidence": 0.4,
+      "level": "Severe - review required",
+      "score": 84.2,
+      "confidence": 1,
       "susceptibility": 0.6780302921599972,
       "category": "urban_flood_pocket",
       "location": {
@@ -792,8 +806,12 @@
       },
       "buffer_km": 5,
       "drivers": [
-        "Observed 24h rain 0 mm",
+        "IMD CAP severity 72%",
+        "IMD flash-flood bulletin corroborates threat",
+        "Observed 24h rain 186 mm",
         "Terrain susceptibility 42% from NASADEM + local baseline",
+        "CWC river-stage warning/watch active",
+        "Dam downstream caution active",
         "Hotspot susceptibility 68%",
         "Hotspot category urban flood pocket",
         "Hotspot analysis radius 5 km"
@@ -801,26 +819,26 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "detail": "1 CAP items",
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
-          "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Flash flood bulletin references district",
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting signal",
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
-      "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "review_state": "pending_review",
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-kakkanad-infopark",
@@ -832,9 +850,9 @@
         "urban-runoff",
         "tech-corridor"
       ],
-      "level": "Normal",
-      "score": 18,
-      "confidence": 0.4,
+      "level": "Severe - review required",
+      "score": 84.6,
+      "confidence": 1,
       "susceptibility": 0.6990302921599973,
       "category": "urban_flood_pocket",
       "location": {
@@ -843,8 +861,12 @@
       },
       "buffer_km": 6,
       "drivers": [
-        "Observed 24h rain 0 mm",
+        "IMD CAP severity 72%",
+        "IMD flash-flood bulletin corroborates threat",
+        "Observed 24h rain 186 mm",
         "Terrain susceptibility 42% from NASADEM + local baseline",
+        "CWC river-stage warning/watch active",
+        "Dam downstream caution active",
         "Hotspot susceptibility 70%",
         "Hotspot category urban flood pocket",
         "Hotspot analysis radius 6 km"
@@ -852,26 +874,26 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "detail": "1 CAP items",
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
-          "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Flash flood bulletin references district",
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting signal",
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
-      "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "review_state": "pending_review",
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-kalamassery",
@@ -882,9 +904,9 @@
         "short-duration-rain",
         "street-flooding"
       ],
-      "level": "Normal",
-      "score": 17.3,
-      "confidence": 0.4,
+      "level": "Severe - review required",
+      "score": 83.9,
+      "confidence": 1,
       "susceptibility": 0.6640302921599972,
       "category": "urban_flood_pocket",
       "location": {
@@ -893,8 +915,12 @@
       },
       "buffer_km": 5,
       "drivers": [
-        "Observed 24h rain 0 mm",
+        "IMD CAP severity 72%",
+        "IMD flash-flood bulletin corroborates threat",
+        "Observed 24h rain 186 mm",
         "Terrain susceptibility 42% from NASADEM + local baseline",
+        "CWC river-stage warning/watch active",
+        "Dam downstream caution active",
         "Hotspot susceptibility 66%",
         "Hotspot category urban flood pocket",
         "Hotspot analysis radius 5 km"
@@ -902,26 +928,26 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "detail": "1 CAP items",
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
-          "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Flash flood bulletin references district",
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting signal",
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
-      "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "review_state": "pending_review",
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-thampanoor-eastfort",
@@ -934,8 +960,8 @@
         "urban"
       ],
       "level": "Normal",
-      "score": 19,
-      "confidence": 0.4,
+      "score": 25.1,
+      "confidence": 1,
       "susceptibility": 0.7378677372445669,
       "category": "urban_flood_pocket",
       "location": {
@@ -944,10 +970,7 @@
       },
       "buffer_km": 4,
       "drivers": [
-        "Observed 24h rain 0 mm",
         "Terrain susceptibility 52% from NASADEM + local baseline",
-        "Reservoir caution active",
-        "Dam downstream caution active",
         "Hotspot susceptibility 74%",
         "Hotspot category urban flood pocket",
         "Hotspot analysis radius 4 km"
@@ -956,25 +979,25 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
           "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     },
     {
       "area_id": "h-kannammoola-uppidamoodu",
@@ -986,8 +1009,8 @@
         "urban-drainage"
       ],
       "level": "Normal",
-      "score": 18.5,
-      "confidence": 0.4,
+      "score": 24.6,
+      "confidence": 1,
       "susceptibility": 0.7168677372445669,
       "category": "urban_flood_pocket",
       "location": {
@@ -996,10 +1019,7 @@
       },
       "buffer_km": 4,
       "drivers": [
-        "Observed 24h rain 0 mm",
         "Terrain susceptibility 52% from NASADEM + local baseline",
-        "Reservoir caution active",
-        "Dam downstream caution active",
         "Hotspot susceptibility 72%",
         "Hotspot category urban flood pocket",
         "Hotspot analysis radius 4 km"
@@ -1008,25 +1028,25 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": null,
-          "status": "degraded"
+          "freshness_minutes": 15,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
           "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 180,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 60,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-03-17T05:46:35.111Z",
-      "valid_to": "2026-03-17T11:46:35.111Z"
+      "valid_from": "2026-03-17T06:52:32.098Z",
+      "valid_to": "2026-03-17T12:52:32.098Z"
     }
   ]
 }

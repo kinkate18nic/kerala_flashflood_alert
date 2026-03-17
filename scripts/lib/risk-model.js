@@ -98,6 +98,7 @@ export function buildRiskOutputs(context) {
     damByDistrict,
     cwcByDistrict,
     rainfallByDistrict,
+    rainfallByTaluk = {},
     terrainStats,
     approvals,
     hotspotOverrides
@@ -262,6 +263,12 @@ export function buildRiskOutputs(context) {
 
   const talukStates = taluks.map((taluk) => {
     const districtState = districtStates.find((state) => state.area_id === taluk.district_id);
+    const cap = capByDistrict[taluk.district_id] ?? { severity: 0, items: [] };
+    const bulletin = bulletinByDistrict[taluk.district_id] ?? { severity: 0, notes: [] };
+    const reservoir = reservoirByDistrict[taluk.district_id] ?? { active: false, severity: 0, notes: [] };
+    const dam = damByDistrict[taluk.district_id] ?? { active: false, severity: 0, notes: [] };
+    const cwc = cwcByDistrict[taluk.district_id] ?? { active: false, severity: 0, notes: [] };
+    const observation = rainfallByTaluk[taluk.taluk_id] ?? rainfallByDistrict[taluk.district_id] ?? null;
     const talukHotspots = (taluk.hotspot_ids ?? [])
       .map((hotspotId) => hotspotStateLookup[hotspotId])
       .filter(Boolean);
@@ -275,11 +282,44 @@ export function buildRiskOutputs(context) {
     const hotspotSusceptibility = talukHotspots.length
       ? talukHotspots.reduce((sum, hotspot) => sum + hotspot.susceptibility, 0) / talukHotspots.length
       : districtState.susceptibility;
+    const componentScores = {
+      cap_warning: severityToPoints(cap.severity) * thresholds.weights.cap_warning,
+      flash_flood_bulletin:
+        severityToPoints(bulletin.severity) * thresholds.weights.flash_flood_bulletin,
+      rainfall: computeRainfallScore(observation, thresholds.rainfall_caps_mm) * thresholds.weights.rainfall,
+      antecedent_wetness:
+        computeAntecedentScore(observation, thresholds.rainfall_caps_mm) *
+        thresholds.weights.antecedent_wetness,
+      terrain: hotspotSusceptibility * 100 * thresholds.weights.terrain,
+      hydrology: severityToPoints(cwc.severity) * thresholds.weights.hydrology,
+      reservoir_dam:
+        Math.max(severityToPoints(reservoir.severity), severityToPoints(dam.severity)) *
+        thresholds.weights.reservoir_dam
+    };
+    const activeSignals = [
+      cap.severity > 0.2,
+      bulletin.severity > 0.2,
+      computeRainfallScore(observation, thresholds.rainfall_caps_mm) > 25,
+      cwc.severity > 0.2 || reservoir.severity > 0.2 || dam.severity > 0.2
+    ].filter(Boolean).length;
+    const snapshotPenalty = sourceSnapshots.reduce((penalty, source) => {
+      if (source.status === "offline") {
+        return penalty + thresholds.freshness_penalties.offline / totalSources;
+      }
+      if (source.status === "stale") {
+        return penalty + thresholds.freshness_penalties.stale / totalSources;
+      }
+      if (source.status === "degraded") {
+        return penalty + thresholds.freshness_penalties.degraded / totalSources;
+      }
+      return penalty;
+    }, 0);
     const rawScore =
-      districtState.score * 0.82 +
-      hotspotExcess * 0.45 +
-      hotspotSusceptibility * 14 +
-      Math.min(8, talukHotspots.length * 2.5);
+      Object.values(componentScores).reduce((sum, value) => sum + value, 0) +
+      agreementBonus(activeSignals, thresholds.agreement_bonus) +
+      hotspotExcess * 0.35 +
+      Math.min(8, talukHotspots.length * 2.5) -
+      snapshotPenalty;
     const score = round(clamp(rawScore / 100, 0, 1) * 100);
     const level = scoreToLevel(score);
     const hotspotNames = hotspotDefinitions.map((hotspot) => hotspot.name);
@@ -297,15 +337,21 @@ export function buildRiskOutputs(context) {
       hotspot_ids: taluk.hotspot_ids ?? [],
       hotspot_count: talukHotspots.length,
       centroid: taluk.centroid ?? null,
+      rainfall: observation,
       valid_from: districtState.valid_from,
       valid_to: districtState.valid_to,
       drivers: [
-        `Inherited rainfall and warning signal from ${districtState.name}`,
+        observation
+          ? `Observed taluk 24h rain ${observation.rain_24h_mm ?? 0} mm`
+          : `Inherited rainfall and warning signal from ${districtState.name}`,
         talukHotspots.length
           ? `${talukHotspots.length} mapped hotspot${talukHotspots.length > 1 ? "s" : ""}: ${hotspotNames.slice(0, 3).join(", ")}${hotspotNames.length > 3 ? ", ..." : ""}`
           : "No mapped hotspot override within taluk",
-        `Taluk susceptibility ${(hotspotSusceptibility * 100).toFixed(0)}% from district terrain and hotspot context`
-      ],
+        `Taluk susceptibility ${(hotspotSusceptibility * 100).toFixed(0)}% from district terrain and hotspot context`,
+        cwc.active ? "CWC river-stage warning/watch active" : null,
+        reservoir.active ? "Reservoir caution active" : null,
+        dam.active ? "Dam downstream caution active" : null
+      ].filter(Boolean),
       source_refs: districtState.source_refs,
       review_state: level === "Severe - review required" ? "pending_review" : "auto_published"
     };

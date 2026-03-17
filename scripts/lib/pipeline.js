@@ -49,7 +49,10 @@ function summarizeSource(parsed) {
     return { item_count: parsed.item_count, district_count: parsed.kerala_district_ids?.length ?? 0 };
   }
   if ("districts" in parsed && Array.isArray(parsed.districts)) {
-    return { district_count: parsed.districts.length };
+    return {
+      district_count: parsed.districts.length,
+      taluk_count: Array.isArray(parsed.taluks) ? parsed.taluks.length : 0
+    };
   }
   if ("summary" in parsed) {
     return { excerpt: parsed.summary.slice(0, 160) };
@@ -96,13 +99,14 @@ async function loadRawContent(repoRoot, source, options) {
   };
 }
 
-function normalizeRainfall(parsedSources) {
+function normalizeRainfall(parsedSources, taluks) {
   const observationSource = parsedSources["operator-observations"] ?? { active: false, districts: [] };
-  const imergSource = parsedSources["nasa-imerg-nrt"] ?? { districts: [] };
-  const rainfallMap = {};
+  const imergSource = parsedSources["nasa-imerg-nrt"] ?? { districts: [], taluks: [] };
+  const districtRainfallMap = {};
+  const talukRainfallMap = {};
 
   for (const entry of [...(imergSource.districts ?? []), ...(observationSource.active ? observationSource.districts ?? [] : [])]) {
-    rainfallMap[entry.district_id] = {
+    districtRainfallMap[entry.district_id] = {
       rain_1h_mm: entry.rain_1h_mm ?? 0,
       rain_3h_mm: entry.rain_3h_mm ?? 0,
       rain_6h_mm: entry.rain_6h_mm ?? 0,
@@ -113,11 +117,31 @@ function normalizeRainfall(parsedSources) {
     };
   }
 
-  for (const district of districts) {
-    rainfallMap[district.id] ??= null;
+  for (const entry of imergSource.taluks ?? []) {
+    talukRainfallMap[entry.taluk_id] = {
+      rain_1h_mm: entry.rain_1h_mm ?? 0,
+      rain_3h_mm: entry.rain_3h_mm ?? 0,
+      rain_6h_mm: entry.rain_6h_mm ?? 0,
+      rain_24h_mm: entry.rain_24h_mm ?? 0,
+      rain_3d_mm: entry.rain_3d_mm ?? 0,
+      rain_7d_mm: entry.rain_7d_mm ?? 0,
+      source: entry.source ?? "nasa-imerg",
+      district_id: entry.district_id ?? null
+    };
   }
 
-  return rainfallMap;
+  for (const district of districts) {
+    districtRainfallMap[district.id] ??= null;
+  }
+
+  for (const taluk of taluks) {
+    talukRainfallMap[taluk.taluk_id] ??= null;
+  }
+
+  return {
+    districts: districtRainfallMap,
+    taluks: talukRainfallMap
+  };
 }
 
 function collapseSignals(parsedSources) {
@@ -334,7 +358,7 @@ export async function runPipeline(repoRoot, options = {}) {
   }
 
   const signalMaps = collapseSignals(parsedSources);
-  const rainfallByDistrict = normalizeRainfall(parsedSources);
+  const rainfall = normalizeRainfall(parsedSources, taluks);
   const freshnessBySource = Object.fromEntries(
     snapshots.map((source) => [source.source_id, source.freshness_minutes])
   );
@@ -346,7 +370,8 @@ export async function runPipeline(repoRoot, options = {}) {
     sourceSnapshots: snapshots,
     taluks,
     ...signalMaps,
-    rainfallByDistrict,
+    rainfallByDistrict: rainfall.districts,
+    rainfallByTaluk: rainfall.taluks,
     terrainStats,
     approvals: approvalsDocument.approvals ?? [],
     hotspotOverrides: hotspotOverridesDocument.overrides ?? [],
@@ -391,8 +416,11 @@ export async function runPipeline(repoRoot, options = {}) {
     },
     "observation-grid.json": {
       generated_at: generatedAt,
-      spatial_aggregation: "district_polygon_mean_or_fallback_point",
-      observations: rainfallByDistrict
+      spatial_aggregation: "district_and_taluk_polygon_mean_with_district_fallback_points",
+      observations: {
+        districts: rainfall.districts,
+        taluks: rainfall.taluks
+      }
     },
     "admin-areas.json": {
       generated_at: generatedAt,

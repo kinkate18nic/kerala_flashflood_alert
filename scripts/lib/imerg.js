@@ -1,7 +1,12 @@
 import { unzipSync } from "fflate";
 import { fromArrayBuffer } from "geotiff";
 import { districts } from "../../src/shared/areas.js";
-import { geometryBounds, loadDistrictBoundaries, pointInGeometry } from "./boundaries.js";
+import {
+  geometryBounds,
+  loadDistrictBoundaries,
+  loadTalukBoundaries,
+  pointInGeometry
+} from "./boundaries.js";
 import { fetchText } from "./http.js";
 
 const PPS_ORIGIN = "https://jsimpsonhttps.pps.eosdis.nasa.gov";
@@ -285,19 +290,29 @@ async function sampleFileAtDistricts(file, credentials) {
   const image = await tiff.getImage();
   const raster = await image.readRasters({ interleave: true });
   const districtBoundaryList = await loadDistrictBoundaries().catch(() => []);
+  const talukBoundaryList = await loadTalukBoundaries().catch(() => []);
   const districtBoundaries = Object.fromEntries(
     districtBoundaryList.map((districtBoundary) => [districtBoundary.district_id, districtBoundary])
   );
-
-  return Object.fromEntries(
-    districts.map((district) => {
-      const boundary = districtBoundaries[district.id];
-      const aggregated = boundary?.geometry
-        ? aggregateGeometryRaster(raster, image, boundary.geometry)
-        : null;
-      return [district.id, aggregated ?? fallbackDistrictAggregation(district.id, raster, image)];
-    })
+  const talukSamples = Object.fromEntries(
+    talukBoundaryList.map((talukBoundary) => [
+      talukBoundary.taluk_id,
+      aggregateGeometryRaster(raster, image, talukBoundary.geometry)
+    ])
   );
+
+  return {
+    districts: Object.fromEntries(
+      districts.map((district) => {
+        const boundary = districtBoundaries[district.id];
+        const aggregated = boundary?.geometry
+          ? aggregateGeometryRaster(raster, image, boundary.geometry)
+          : null;
+        return [district.id, aggregated ?? fallbackDistrictAggregation(district.id, raster, image)];
+      })
+    ),
+    taluks: talukSamples
+  };
 }
 
 async function sampleFilesSequentially(files, credentials) {
@@ -313,6 +328,19 @@ function sumByDistrict(valuesList, metric = "mean_mm") {
   for (const values of valuesList) {
     for (const [districtId, value] of Object.entries(values)) {
       totals[districtId] += value?.[metric] ?? 0;
+    }
+  }
+  return totals;
+}
+
+function sumByArea(valuesList, areaIds, metric = "mean_mm") {
+  const totals = Object.fromEntries(areaIds.map((areaId) => [areaId, 0]));
+  for (const values of valuesList) {
+    for (const [areaId, value] of Object.entries(values)) {
+      if (!(areaId in totals)) {
+        continue;
+      }
+      totals[areaId] += value?.[metric] ?? 0;
     }
   }
   return totals;
@@ -365,12 +393,21 @@ export async function fetchNasaImergPayload() {
     sampleFilesSequentially(selection.dailyWindow, credentials)
   ]);
 
-  const oneHour = sumByDistrict(halfHourSamples);
-  const threeHour = threeHourLatestSamples[0];
-  const sixHour = sumByDistrict(threeHourWindowSamples);
-  const oneDay = dailySamples[0];
-  const threeDay = sumByDistrict(dailySamples.slice(0, 3));
-  const sevenDay = sumByDistrict(dailySamples.slice(0, 7));
+  const talukBoundaryList = await loadTalukBoundaries().catch(() => []);
+  const talukIds = talukBoundaryList.map((taluk) => taluk.taluk_id);
+
+  const oneHour = sumByDistrict(halfHourSamples.map((sample) => sample.districts));
+  const threeHour = threeHourLatestSamples[0].districts;
+  const sixHour = sumByDistrict(threeHourWindowSamples.map((sample) => sample.districts));
+  const oneDay = dailySamples[0].districts;
+  const threeDay = sumByDistrict(dailySamples.slice(0, 3).map((sample) => sample.districts));
+  const sevenDay = sumByDistrict(dailySamples.slice(0, 7).map((sample) => sample.districts));
+  const talukOneHour = sumByArea(halfHourSamples.map((sample) => sample.taluks), talukIds);
+  const talukThreeHour = threeHourLatestSamples[0].taluks;
+  const talukSixHour = sumByArea(threeHourWindowSamples.map((sample) => sample.taluks), talukIds);
+  const talukOneDay = dailySamples[0].taluks;
+  const talukThreeDay = sumByArea(dailySamples.slice(0, 3).map((sample) => sample.taluks), talukIds);
+  const talukSevenDay = sumByArea(dailySamples.slice(0, 7).map((sample) => sample.taluks), talukIds);
 
   const payload = {
     issued_at: selection.halfHour[0].issuedAt,
@@ -388,9 +425,26 @@ export async function fetchNasaImergPayload() {
       rain_3d_mm: Number((threeDay[district.id] ?? 0).toFixed(1)),
       rain_7d_mm: Number((sevenDay[district.id] ?? 0).toFixed(1)),
       source: "nasa-imerg-pps",
-      spatial_aggregation: halfHourSamples[0]?.[district.id]?.method ?? "district_polygon_mean",
-      cell_count: halfHourSamples[0]?.[district.id]?.cell_count ?? 0,
-      peak_30m_mm: Number(((halfHourSamples[0]?.[district.id]?.max_mm ?? 0)).toFixed(1))
+      spatial_aggregation:
+        halfHourSamples[0]?.districts?.[district.id]?.method ?? "district_polygon_mean",
+      cell_count: halfHourSamples[0]?.districts?.[district.id]?.cell_count ?? 0,
+      peak_30m_mm: Number(((halfHourSamples[0]?.districts?.[district.id]?.max_mm ?? 0)).toFixed(1))
+    })),
+    taluks: talukBoundaryList.map((taluk) => ({
+      taluk_id: taluk.taluk_id,
+      district_id: taluk.district_id,
+      name: taluk.name,
+      rain_1h_mm: Number((talukOneHour[taluk.taluk_id] ?? 0).toFixed(1)),
+      rain_3h_mm: Number(((talukThreeHour[taluk.taluk_id]?.mean_mm ?? 0)).toFixed(1)),
+      rain_6h_mm: Number((talukSixHour[taluk.taluk_id] ?? 0).toFixed(1)),
+      rain_24h_mm: Number(((talukOneDay[taluk.taluk_id]?.mean_mm ?? 0)).toFixed(1)),
+      rain_3d_mm: Number((talukThreeDay[taluk.taluk_id] ?? 0).toFixed(1)),
+      rain_7d_mm: Number((talukSevenDay[taluk.taluk_id] ?? 0).toFixed(1)),
+      source: "nasa-imerg-pps",
+      spatial_aggregation:
+        halfHourSamples[0]?.taluks?.[taluk.taluk_id]?.method ?? "taluk_polygon_mean",
+      cell_count: talukThreeHour[taluk.taluk_id]?.cell_count ?? 0,
+      peak_30m_mm: Number(((halfHourSamples[0]?.taluks?.[taluk.taluk_id]?.max_mm ?? 0)).toFixed(1))
     }))
   };
 
