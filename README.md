@@ -64,6 +64,7 @@ Taluk rainfall is also aggregated from IMERG polygon coverage, and the latest IM
 ## NASA closeout
 
 Use `NASA_CLOSEOUT.md` as the source-of-truth checklist for deciding when the NASA rainfall backbone is operationally complete.
+Use `data/manual/nasa-taluks-review.csv` and `data/manual/NASA_TALUK_REVIEW.md` for the human review portion of the 2-week NASA observation window.
 
 ## Telegram dispatch
 
