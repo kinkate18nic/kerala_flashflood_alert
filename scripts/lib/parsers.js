@@ -108,12 +108,14 @@ export function parseNasaImergNrt(raw) {
   try {
     payload = JSON.parse(raw);
   } catch {
-    payload = { districts: [] };
+    payload = { districts: [], taluks: [] };
   }
 
   return {
     issued_at: payload.issued_at ?? null,
-    districts: Array.isArray(payload.districts) ? payload.districts : []
+    districts: Array.isArray(payload.districts) ? payload.districts : [],
+    taluks: Array.isArray(payload.taluks) ? payload.taluks : [],
+    source_files: payload.source_files ?? null
   };
 }
 

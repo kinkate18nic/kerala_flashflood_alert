@@ -7,7 +7,8 @@ import thresholds from "../config/risk-thresholds.json" with { type: "json" };
 import {
   parseImdCapRss,
   parseImdFlashFloodBulletin,
-  parseCwcFfs
+  parseCwcFfs,
+  parseNasaImergNrt
 } from "../scripts/lib/parsers.js";
 import { parseImergTextListing, selectImergWindows } from "../scripts/lib/imerg.js";
 import {
@@ -40,6 +41,12 @@ async function testParsers() {
   const cwc = parseCwcFfs(cwcRaw);
   assert.equal(cwc.warning, true);
   assert.equal(cwc.watch, true);
+
+  const imergRaw = await readFile(path.join(repoRoot, "fixtures", "nasa-imerg-nrt.json"), "utf8");
+  const imerg = parseNasaImergNrt(imergRaw);
+  assert.equal(imerg.districts.length, 2);
+  assert.equal(imerg.taluks.length, 2);
+  assert.ok(imerg.source_files.half_hour[0].includes("30min"));
 }
 
 function testRiskModel() {
@@ -124,12 +131,24 @@ async function testPipeline() {
     "utf8"
   );
   const observationGrid = JSON.parse(observationGridRaw);
+  const nasaHistoryRaw = await readFile(
+    path.join(tempRoot, "docs", "data", "latest", "nasa-imerg-history.json"),
+    "utf8"
+  );
+  const nasaHistory = JSON.parse(nasaHistoryRaw);
   assert.equal(dashboard.mode, "decision-support");
   assert.equal(adminAreas.boundaries.counts.district, 14);
   assert.ok(adminAreas.boundaries.counts.taluk >= 61);
   assert.ok(talukRisk.taluks.length >= 61);
   assert.equal(typeof observationGrid.observations.districts, "object");
   assert.equal(typeof observationGrid.observations.taluks, "object");
+  assert.equal(
+    observationGrid.source_metadata.nasa_imerg.latest_half_hour_file.includes("30min"),
+    true
+  );
+  assert.equal(observationGrid.observations.taluks["idukki--peerumade"].peak_30m_mm, 25.9);
+  assert.equal(nasaHistory.runs.length >= 1, true);
+  assert.equal(nasaHistory.runs[0].latest_three_hour_file.includes("3hr"), true);
 }
 
 function testImergListingSelection() {

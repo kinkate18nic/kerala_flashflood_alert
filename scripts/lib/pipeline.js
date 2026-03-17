@@ -49,10 +49,16 @@ function summarizeSource(parsed) {
     return { item_count: parsed.item_count, district_count: parsed.kerala_district_ids?.length ?? 0 };
   }
   if ("districts" in parsed && Array.isArray(parsed.districts)) {
-    return {
+    const summary = {
       district_count: parsed.districts.length,
       taluk_count: Array.isArray(parsed.taluks) ? parsed.taluks.length : 0
     };
+    if (parsed.source_files) {
+      summary.latest_half_hour_file = parsed.source_files.half_hour?.[0]?.split("/").pop() ?? null;
+      summary.latest_three_hour_file = parsed.source_files.three_hour?.[0]?.split("/").pop() ?? null;
+      summary.latest_daily_file = parsed.source_files.daily?.[0]?.split("/").pop() ?? null;
+    }
+    return summary;
   }
   if ("summary" in parsed) {
     return { excerpt: parsed.summary.slice(0, 160) };
@@ -113,7 +119,10 @@ function normalizeRainfall(parsedSources, taluks) {
       rain_24h_mm: entry.rain_24h_mm ?? 0,
       rain_3d_mm: entry.rain_3d_mm ?? 0,
       rain_7d_mm: entry.rain_7d_mm ?? 0,
-      source: entry.source ?? (observationSource.active ? "operator" : "nasa-imerg")
+      source: entry.source ?? (observationSource.active ? "operator" : "nasa-imerg"),
+      spatial_aggregation: entry.spatial_aggregation ?? null,
+      cell_count: entry.cell_count ?? null,
+      peak_30m_mm: entry.peak_30m_mm ?? null
     };
   }
 
@@ -126,7 +135,10 @@ function normalizeRainfall(parsedSources, taluks) {
       rain_3d_mm: entry.rain_3d_mm ?? 0,
       rain_7d_mm: entry.rain_7d_mm ?? 0,
       source: entry.source ?? "nasa-imerg",
-      district_id: entry.district_id ?? null
+      district_id: entry.district_id ?? null,
+      spatial_aggregation: entry.spatial_aggregation ?? null,
+      cell_count: entry.cell_count ?? null,
+      peak_30m_mm: entry.peak_30m_mm ?? null
     };
   }
 
@@ -195,6 +207,27 @@ function collapseSignals(parsedSources) {
     reservoirByDistrict,
     damByDistrict,
     cwcByDistrict
+  };
+}
+
+function buildNasaImergHistoryEntry(generatedAt, snapshot, parsedSource) {
+  if (!snapshot) {
+    return null;
+  }
+
+  const summary = snapshot.summary ?? {};
+  return {
+    generated_at: generatedAt,
+    issued_at: snapshot.issued_at ?? parsedSource?.issued_at ?? null,
+    status: snapshot.status,
+    parser_status: snapshot.parser_status,
+    freshness_minutes: snapshot.freshness_minutes,
+    notes: snapshot.notes ?? "",
+    district_count: summary.district_count ?? 0,
+    taluk_count: summary.taluk_count ?? 0,
+    latest_half_hour_file: summary.latest_half_hour_file ?? null,
+    latest_three_hour_file: summary.latest_three_hour_file ?? null,
+    latest_daily_file: summary.latest_daily_file ?? null
   };
 }
 
@@ -359,6 +392,17 @@ export async function runPipeline(repoRoot, options = {}) {
 
   const signalMaps = collapseSignals(parsedSources);
   const rainfall = normalizeRainfall(parsedSources, taluks);
+  const imergSummary = parsedSources["nasa-imerg-nrt"]?.source_files
+    ? {
+        issued_at: parsedSources["nasa-imerg-nrt"].issued_at ?? null,
+        latest_half_hour_file:
+          parsedSources["nasa-imerg-nrt"].source_files.half_hour?.[0]?.split("/").pop() ?? null,
+        latest_three_hour_file:
+          parsedSources["nasa-imerg-nrt"].source_files.three_hour?.[0]?.split("/").pop() ?? null,
+        latest_daily_file:
+          parsedSources["nasa-imerg-nrt"].source_files.daily?.[0]?.split("/").pop() ?? null
+      }
+    : null;
   const freshnessBySource = Object.fromEntries(
     snapshots.map((source) => [source.source_id, source.freshness_minutes])
   );
@@ -417,6 +461,9 @@ export async function runPipeline(repoRoot, options = {}) {
     "observation-grid.json": {
       generated_at: generatedAt,
       spatial_aggregation: "district_and_taluk_polygon_mean_with_district_fallback_points",
+      source_metadata: {
+        nasa_imerg: imergSummary
+      },
       observations: {
         districts: rainfall.districts,
         taluks: rainfall.taluks
@@ -436,6 +483,23 @@ export async function runPipeline(repoRoot, options = {}) {
       terrain_model: terrainStats.source ?? "manual_baseline_only"
     }
   };
+
+  const nasaSnapshot = snapshots.find((source) => source.source_id === "nasa-imerg-nrt");
+  const nasaHistoryEntry = buildNasaImergHistoryEntry(
+    generatedAt,
+    nasaSnapshot,
+    parsedSources["nasa-imerg-nrt"]
+  );
+  const nasaHistoryRuntimePath = path.join(repoRoot, "runtime", "metrics", "nasa-imerg-history.json");
+  const nasaHistory = await readJson(nasaHistoryRuntimePath, { runs: [] });
+  if (nasaHistoryEntry) {
+    nasaHistory.runs = [nasaHistoryEntry, ...(nasaHistory.runs ?? [])]
+      .filter(
+        (run, index, allRuns) =>
+          allRuns.findIndex((candidate) => candidate.generated_at === run.generated_at) === index
+      )
+      .slice(0, 2000);
+  }
 
   const archiveIndexPath = path.join(archiveRootDir, "index.json");
   const archiveIndex = await readJson(archiveIndexPath, { runs: [] });
@@ -462,7 +526,10 @@ export async function runPipeline(repoRoot, options = {}) {
 
   await writeJson(archiveIndexPath, archiveIndex);
   await writeJson(path.join(publicLatestDir, "archive-index.json"), archiveIndex);
+  await writeJson(path.join(publicLatestDir, "nasa-imerg-history.json"), nasaHistory);
   await writeJson(path.join(runtimeDerivedDir, "archive-index.json"), archiveIndex);
+  await writeJson(path.join(runtimeDerivedDir, "nasa-imerg-history.json"), nasaHistory);
+  await writeJson(nasaHistoryRuntimePath, nasaHistory);
 
   await writeJson(path.join(repoRoot, "runtime", "metrics", "latest-run.json"), {
     generated_at: generatedAt,

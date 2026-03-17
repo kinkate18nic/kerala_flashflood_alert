@@ -168,7 +168,11 @@ export function buildRiskOutputs(context) {
     const drivers = [
       cap.severity > 0 ? `IMD CAP severity ${round(cap.severity * 100)}%` : null,
       bulletin.severity > 0 ? "IMD flash-flood bulletin corroborates threat" : null,
-      observation ? `Observed 24h rain ${observation.rain_24h_mm ?? 0} mm` : null,
+      observation
+        ? `Observed 24h rain ${observation.rain_24h_mm ?? 0} mm and 1h rain ${observation.rain_1h_mm ?? 0} mm`
+        : null,
+      observation?.peak_30m_mm ? `Peak recent 30 min rain ${observation.peak_30m_mm} mm` : null,
+      observation?.spatial_aggregation ? `Rainfall aggregation ${observation.spatial_aggregation}` : null,
       terrain.dem
         ? `Terrain susceptibility ${(terrain.value * 100).toFixed(0)}% from NASADEM + local baseline`
         : `Terrain susceptibility ${(terrain.value * 100).toFixed(0)}% from local baseline`,
@@ -342,8 +346,10 @@ export function buildRiskOutputs(context) {
       valid_to: districtState.valid_to,
       drivers: [
         observation
-          ? `Observed taluk 24h rain ${observation.rain_24h_mm ?? 0} mm`
+          ? `Observed taluk 24h rain ${observation.rain_24h_mm ?? 0} mm and 1h rain ${observation.rain_1h_mm ?? 0} mm`
           : `Inherited rainfall and warning signal from ${districtState.name}`,
+        observation?.peak_30m_mm ? `Peak recent 30 min rain ${observation.peak_30m_mm} mm` : null,
+        observation?.spatial_aggregation ? `Rainfall aggregation ${observation.spatial_aggregation}` : null,
         talukHotspots.length
           ? `${talukHotspots.length} mapped hotspot${talukHotspots.length > 1 ? "s" : ""}: ${hotspotNames.slice(0, 3).join(", ")}${hotspotNames.length > 3 ? ", ..." : ""}`
           : "No mapped hotspot override within taluk",
