@@ -511,6 +511,25 @@ function renderRiskCards(target, items, suffix = "") {
     .join("");
 }
 
+function sourceStatusMessage(source) {
+  if (source.status === "offline") {
+    return "Unavailable in this run. Current scores are being generated without this source.";
+  }
+
+  if (source.status === "stale") {
+    if (source.category === "official-warning") {
+      return "Older event-driven alert data. It may describe the last valid warning, not a fresh new one.";
+    }
+    return "Older than the normal freshness window. Use with caution.";
+  }
+
+  if (source.status === "degraded") {
+    return "Partially usable. Some fields or mappings may be incomplete in this run.";
+  }
+
+  return "Current for this run.";
+}
+
 function renderSources() {
   references.sourceGrid.innerHTML = state.payload.sources.sources
     .map(
@@ -523,6 +542,7 @@ function renderSources() {
             <span>Freshness ${source.freshness_minutes ?? "n/a"} min</span>
             <span>Parser ${source.parser_status}</span>
           </div>
+          <p class="source-status-note status-${source.status}">${sourceStatusMessage(source)}</p>
           <p>${source.notes || source.summary.excerpt || "No parser notes."}</p>
         </article>
       `

@@ -347,6 +347,28 @@ h1 {
   font-size: 0.88rem;
 }
 
+.source-status-note {
+  margin: 12px 0 8px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  border: 1px solid rgba(22, 38, 31, 0.08);
+}
+
+.source-status-note.status-ok {
+  background: rgba(37, 104, 79, 0.08);
+}
+
+.source-status-note.status-degraded,
+.source-status-note.status-stale {
+  background: rgba(155, 108, 13, 0.1);
+}
+
+.source-status-note.status-offline {
+  background: rgba(157, 42, 23, 0.09);
+}
+
 .alert-row {
   display: grid;
   grid-template-columns: 1.4fr 1fr auto;
