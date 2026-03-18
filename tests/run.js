@@ -3,6 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { cp, mkdtemp, readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
+import { zipSync } from "fflate";
 import thresholds from "../config/risk-thresholds.json" with { type: "json" };
 import {
   parseImdCapRss,
@@ -10,7 +11,11 @@ import {
   parseCwcFfs,
   parseNasaImergNrt
 } from "../scripts/lib/parsers.js";
-import { parseImergTextListing, selectImergWindows } from "../scripts/lib/imerg.js";
+import {
+  extractGeoTiffBuffer,
+  parseImergTextListing,
+  selectImergWindows
+} from "../scripts/lib/imerg.js";
 import {
   districtIdFromBoundaryName,
   pointInGeometry,
@@ -177,6 +182,28 @@ function testImergListingSelection() {
   assert.ok(selection.dailyWindow.every((file) => file.slotCode === "0150"));
 }
 
+function testImergZipSelection() {
+  const expectedAccumulation = Uint8Array.from([1, 2, 3, 4]);
+  const archive = zipSync({
+    "3B-HHR-E.MS.MRG.3IMERG.20260317-S233000-E235959.1410.V07C.1day.ice.tif": Uint8Array.from([
+      8, 8, 8
+    ]),
+    "3B-HHR-E.MS.MRG.3IMERG.20260317-S233000-E235959.1410.V07C.1day.numPrecipHalfHour.tif":
+      Uint8Array.from([9, 9, 9]),
+    "3B-HHR-E.MS.MRG.3IMERG.20260317-S233000-E235959.1410.V07C.1day.tif": expectedAccumulation
+  });
+
+  const extracted = new Uint8Array(
+    extractGeoTiffBuffer(
+      archive.buffer.slice(archive.byteOffset, archive.byteOffset + archive.byteLength),
+      "zip",
+      "3B-HHR-E.MS.MRG.3IMERG.20260317-S233000-E235959.1410.V07C.1day.zip"
+    )
+  );
+
+  assert.deepEqual(Array.from(extracted), Array.from(expectedAccumulation));
+}
+
 function testBoundaryHelpers() {
   assert.equal(districtIdFromBoundaryName("Thiruvananthapuram"), "thiruvananthapuram");
   assert.equal(districtIdFromBoundaryName("Thiruvanthapuram"), "thiruvananthapuram");
@@ -250,6 +277,7 @@ function testHotspotFootprints() {
 const tests = [
   ["parsers", testParsers],
   ["imerg-listing", testImergListingSelection],
+  ["imerg-zip-selection", testImergZipSelection],
   ["boundaries", testBoundaryHelpers],
   ["hotspot-footprints", testHotspotFootprints],
   ["risk-model", testRiskModel],

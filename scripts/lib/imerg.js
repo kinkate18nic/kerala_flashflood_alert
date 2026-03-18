@@ -162,19 +162,74 @@ async function fetchArrayBuffer(url, credentials, attempts = 3) {
   }
 }
 
-function extractGeoTiffBuffer(arrayBuffer, extension) {
+function selectImergZipTifName(entryNames, fileName) {
+  const lowerEntryNames = entryNames.map((entryName) => entryName.toLowerCase());
+  const lowerFileName = fileName.toLowerCase();
+  const baseName = lowerFileName.replace(/\.zip$/i, "");
+
+  const exactAccumulationName = entryNames.find(
+    (entryName) => entryName.toLowerCase() === `${baseName}.tif`
+  );
+  if (exactAccumulationName) {
+    return exactAccumulationName;
+  }
+
+  const finalAccumulationName = entryNames.find((entryName) =>
+    entryName.toLowerCase().endsWith(".total.accum.tif")
+  );
+  if (finalAccumulationName) {
+    return finalAccumulationName;
+  }
+
+  const unsupportedSuffixes = [
+    ".ice.tif",
+    ".liquid.tif",
+    ".liquidpercent.tif",
+    ".numvalidhalfhour.tif",
+    ".numpreciphalfhour.tif",
+    ".total.rate.tif",
+    ".ice.accum.tif",
+    ".ice.rate.tif",
+    ".liquid.accum.tif",
+    ".liquid.rate.tif"
+  ];
+
+  const genericAccumulationName = entryNames.find((entryName, index) => {
+    const lowerEntryName = lowerEntryNames[index];
+    return (
+      lowerEntryName.endsWith(".tif") &&
+      !unsupportedSuffixes.some((suffix) => lowerEntryName.endsWith(suffix))
+    );
+  });
+  if (genericAccumulationName) {
+    return genericAccumulationName;
+  }
+
+  return entryNames.find((entryName) => entryName.toLowerCase().endsWith(".tif")) ?? null;
+}
+
+export function extractGeoTiffBuffer(arrayBuffer, extension, fileName = "") {
   if (extension !== "zip") {
     return arrayBuffer;
   }
 
   const entries = unzipSync(new Uint8Array(arrayBuffer));
-  const tifName = Object.keys(entries).find((entry) => entry.toLowerCase().endsWith(".tif"));
+  const entryNames = Object.keys(entries);
+  const tifName = selectImergZipTifName(entryNames, fileName);
   if (!tifName) {
     throw new Error("IMERG zip did not contain a GeoTIFF.");
   }
 
   const tif = entries[tifName];
   return tif.buffer.slice(tif.byteOffset, tif.byteOffset + tif.byteLength);
+}
+
+function toAccumulationMillimeters(value) {
+  if (!Number.isFinite(value) || value < 0 || value === 29999) {
+    return null;
+  }
+
+  return value / 10;
 }
 
 function sampleRasterValue(data, image, latitude, longitude) {
@@ -189,12 +244,12 @@ function sampleRasterValue(data, image, latitude, longitude) {
     return 0;
   }
 
-  const value = data[y * width + x];
-  if (!Number.isFinite(value) || value < 0) {
+  const value = toAccumulationMillimeters(data[y * width + x]);
+  if (value === null) {
     return 0;
   }
 
-  return value / 10;
+  return value;
 }
 
 function clampInt(value, min, max) {
@@ -248,12 +303,10 @@ function aggregateGeometryRaster(data, image, geometry) {
         continue;
       }
 
-      const value = data[row * width + column];
-      if (!Number.isFinite(value) || value < 0) {
+      const millimeters = toAccumulationMillimeters(data[row * width + column]);
+      if (millimeters === null) {
         continue;
       }
-
-      const millimeters = value / 10;
       sum += millimeters;
       max = Math.max(max, millimeters);
       count += 1;
@@ -300,7 +353,7 @@ function fallbackBoundaryAggregation(boundary, data, image, fallbackLabel) {
 
 async function sampleFileAtDistricts(file, credentials) {
   const arrayBuffer = await fetchArrayBuffer(file.url, credentials);
-  const tiffBuffer = extractGeoTiffBuffer(arrayBuffer, file.extension);
+  const tiffBuffer = extractGeoTiffBuffer(arrayBuffer, file.extension, file.fileName);
   const tiff = await fromArrayBuffer(tiffBuffer);
   const image = await tiff.getImage();
   const raster = await image.readRasters({ interleave: true });
