@@ -120,10 +120,11 @@ function nearestDbzForColor(r, g, b, a, entries) {
   return nearest;
 }
 
-function sampleTileDbz(png, colorTable, radius = 2) {
+function sampleTileDbz(png, colorTable, radius = 48) {
   const centerX = Math.floor(png.width / 2);
   const centerY = Math.floor(png.height / 2);
   let maxDbz = null;
+  let activePixels = 0;
 
   for (let y = Math.max(0, centerY - radius); y <= Math.min(png.height - 1, centerY + radius); y += 1) {
     for (let x = Math.max(0, centerX - radius); x <= Math.min(png.width - 1, centerX + radius); x += 1) {
@@ -139,11 +140,17 @@ function sampleTileDbz(png, colorTable, radius = 2) {
       if (!Number.isFinite(dbz)) {
         continue;
       }
+      if (dbz >= 5) {
+        activePixels += 1;
+      }
       maxDbz = maxDbz === null ? dbz : Math.max(maxDbz, dbz);
     }
   }
 
-  return maxDbz;
+  return {
+    maxDbz,
+    activePixels
+  };
 }
 
 function tileUrl(host, framePath, location) {
@@ -174,16 +181,21 @@ async function sampleRadarPoint(host, framePath, sample, colorTable) {
   const url = tileUrl(host, framePath, sample.location);
   const arrayBuffer = await fetchArrayBuffer(url);
   const png = PNG.sync.read(Buffer.from(arrayBuffer));
-  const maxDbz = sampleTileDbz(png, colorTable);
+  const { maxDbz, activePixels } = sampleTileDbz(
+    png,
+    colorTable,
+    sample.sample_radius_pixels ?? 48
+  );
   const intensity = dbzToIntensity(maxDbz);
 
   return {
     ...sample,
     frame_url: url,
+    active_pixels: activePixels,
     max_dbz: Number.isFinite(maxDbz) ? Math.round(maxDbz * 10) / 10 : null,
     intensity: intensity.label,
     severity: intensity.severity,
-    detected: intensity.severity > 0
+    detected: intensity.severity > 0 && activePixels > 0
   };
 }
 
@@ -192,7 +204,8 @@ function districtSamples() {
     id: district.id,
     district_id: district.id,
     name: district.name,
-    location: districtRadarLocations[district.id]
+    location: districtRadarLocations[district.id],
+    sample_radius_pixels: 56
   }));
 }
 
@@ -204,7 +217,8 @@ function hotspotSamples() {
       hotspot_id: hotspot.id,
       district_id: hotspot.district_id,
       name: hotspot.name,
-      location: hotspot.location
+      location: hotspot.location,
+      sample_radius_pixels: 40
     }));
 }
 
@@ -236,6 +250,7 @@ export function buildRainviewerPayload({ metadata, districtResults, hotspotResul
       severity: intensity.severity,
       max_dbz: Number.isFinite(maxDbz) ? Math.round(maxDbz * 10) / 10 : null,
       sample_location: direct.location ?? districtRadarLocations[district.id],
+      active_pixels: direct.active_pixels ?? 0,
       hotspot_detection_count: hotspotMatches.filter((result) => result.detected).length
     };
   });
@@ -255,6 +270,7 @@ export function buildRainviewerPayload({ metadata, districtResults, hotspotResul
       intensity: result.intensity,
       severity: result.severity,
       max_dbz: result.max_dbz,
+      active_pixels: result.active_pixels ?? 0,
       location: result.location
     }))
   };
