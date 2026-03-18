@@ -407,6 +407,36 @@ export function parseRainviewerRadar(raw) {
   };
 }
 
+export function parseIndiaWrisRainfall(raw) {
+  let payload;
+  try {
+    payload = JSON.parse(raw);
+  } catch {
+    payload = { districts: [], taluks: [] };
+  }
+
+  return {
+    issued_at: payload.issued_at ?? null,
+    districts: Array.isArray(payload.districts) ? payload.districts : [],
+    taluks: Array.isArray(payload.taluks) ? payload.taluks : [],
+    station_count: payload.station_count ?? 0
+  };
+}
+
+export function parseIndiaWrisRiverLevel(raw) {
+  let payload;
+  try {
+    payload = JSON.parse(raw);
+  } catch {
+    payload = { districts: [] };
+  }
+
+  return {
+    issued_at: payload.issued_at ?? null,
+    districts: Array.isArray(payload.districts) ? payload.districts : []
+  };
+}
+
 export async function parseOperatorObservations(repoRoot, source, raw = null) {
   if (raw) {
     try {
@@ -430,5 +460,7 @@ export const parserRegistry = {
   cwcFfs: parseCwcFfs,
   nasaImergNrt: parseNasaImergNrt,
   rainviewerRadar: parseRainviewerRadar,
+  indiaWrisRainfall: parseIndiaWrisRainfall,
+  indiaWrisRiverLevel: parseIndiaWrisRiverLevel,
   operatorObservations: parseOperatorObservations
 };

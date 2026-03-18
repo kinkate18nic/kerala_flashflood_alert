@@ -11,6 +11,7 @@ import {
 import { fetchText } from "./http.js";
 import { fetchImdCapPayload } from "./imd-cap.js";
 import { fetchNasaImergPayload } from "./imerg.js";
+import { fetchIndiaWrisRainfallPayload, fetchIndiaWrisRiverLevelPayload } from "./indiawris.js";
 import { parserRegistry } from "./parsers.js";
 import { fetchRainviewerPayload } from "./rainviewer.js";
 import { minutesBetween, nowIso, parseDate, toArchivePathParts } from "./time.js";
@@ -70,6 +71,9 @@ function summarizeSource(parsed) {
       district_count: parsed.districts.length,
       taluk_count: Array.isArray(parsed.taluks) ? parsed.taluks.length : 0
     };
+    if ("station_count" in parsed) {
+      summary.station_count = parsed.station_count;
+    }
     if (parsed.source_files) {
       summary.latest_half_hour_file = parsed.source_files.half_hour?.[0]?.split("/").pop() ?? null;
       summary.latest_three_hour_file = parsed.source_files.three_hour?.[0]?.split("/").pop() ?? null;
@@ -132,6 +136,22 @@ async function loadRawContent(repoRoot, source, options) {
     };
   }
 
+  if (source.id === "indiawris-rainfall") {
+    const response = await fetchIndiaWrisRainfallPayload(source);
+    return {
+      ...response,
+      fetchedFrom: "remote"
+    };
+  }
+
+  if (source.id === "indiawris-river-level") {
+    const response = await fetchIndiaWrisRiverLevelPayload(source);
+    return {
+      ...response,
+      fetchedFrom: "remote"
+    };
+  }
+
   const candidateUrls = [source.url, ...(source.fallback_urls ?? [])].filter(Boolean);
   let lastResponse = {
     ok: false,
@@ -163,6 +183,7 @@ async function loadRawContent(repoRoot, source, options) {
 function normalizeRainfall(parsedSources, taluks) {
   const observationSource = parsedSources["operator-observations"] ?? { active: false, districts: [] };
   const imergSource = parsedSources["nasa-imerg-nrt"] ?? { districts: [], taluks: [] };
+  const indiaWrisSource = parsedSources["indiawris-rainfall"] ?? { districts: [], taluks: [] };
   const districtRainfallMap = {};
   const talukRainfallMap = {};
 
@@ -194,6 +215,57 @@ function normalizeRainfall(parsedSources, taluks) {
       spatial_aggregation: entry.spatial_aggregation ?? null,
       cell_count: entry.cell_count ?? null,
       peak_30m_mm: entry.peak_30m_mm ?? null
+    };
+  }
+
+  for (const entry of indiaWrisSource.districts ?? []) {
+    districtRainfallMap[entry.district_id] = {
+      ...(districtRainfallMap[entry.district_id] ?? {
+        rain_1h_mm: 0,
+        rain_3h_mm: 0,
+        rain_6h_mm: 0,
+        source: "indiawris-cwc"
+      }),
+      rain_24h_mm: entry.rain_24h_mm ?? districtRainfallMap[entry.district_id]?.rain_24h_mm ?? 0,
+      rain_3d_mm: entry.rain_3d_mm ?? districtRainfallMap[entry.district_id]?.rain_3d_mm ?? 0,
+      rain_7d_mm: entry.rain_7d_mm ?? districtRainfallMap[entry.district_id]?.rain_7d_mm ?? 0,
+      source: districtRainfallMap[entry.district_id]?.source
+        ? `${districtRainfallMap[entry.district_id].source}+indiawris-cwc`
+        : "indiawris-cwc",
+      spatial_aggregation: districtRainfallMap[entry.district_id]?.spatial_aggregation
+        ? `${districtRainfallMap[entry.district_id].spatial_aggregation}+indiawris_station_mean`
+        : "indiawris_station_mean",
+      official_rain_24h_mm: entry.rain_24h_mm ?? null,
+      official_rain_3d_mm: entry.rain_3d_mm ?? null,
+      official_rain_7d_mm: entry.rain_7d_mm ?? null,
+      official_station_count: entry.station_count ?? 0,
+      official_peak_station_24h_mm: entry.max_station_24h_mm ?? null
+    };
+  }
+
+  for (const entry of indiaWrisSource.taluks ?? []) {
+    talukRainfallMap[entry.taluk_id] = {
+      ...(talukRainfallMap[entry.taluk_id] ?? {
+        rain_1h_mm: 0,
+        rain_3h_mm: 0,
+        rain_6h_mm: 0,
+        source: "indiawris-cwc",
+        district_id: entry.district_id ?? null
+      }),
+      rain_24h_mm: entry.rain_24h_mm ?? talukRainfallMap[entry.taluk_id]?.rain_24h_mm ?? 0,
+      rain_3d_mm: entry.rain_3d_mm ?? talukRainfallMap[entry.taluk_id]?.rain_3d_mm ?? 0,
+      rain_7d_mm: entry.rain_7d_mm ?? talukRainfallMap[entry.taluk_id]?.rain_7d_mm ?? 0,
+      source: talukRainfallMap[entry.taluk_id]?.source
+        ? `${talukRainfallMap[entry.taluk_id].source}+indiawris-cwc`
+        : "indiawris-cwc",
+      spatial_aggregation: talukRainfallMap[entry.taluk_id]?.spatial_aggregation
+        ? `${talukRainfallMap[entry.taluk_id].spatial_aggregation}+indiawris_station_mean`
+        : "indiawris_station_mean",
+      official_rain_24h_mm: entry.rain_24h_mm ?? null,
+      official_rain_3d_mm: entry.rain_3d_mm ?? null,
+      official_rain_7d_mm: entry.rain_7d_mm ?? null,
+      official_station_count: entry.station_count ?? 0,
+      official_peak_station_24h_mm: entry.max_station_24h_mm ?? null
     };
   }
 
@@ -253,6 +325,22 @@ function collapseSignals(parsedSources) {
       active: Boolean(parsedSources["cwc-ffs"].warning || parsedSources["cwc-ffs"].watch),
       severity: parsedSources["cwc-ffs"].warning ? 0.7 : parsedSources["cwc-ffs"].watch ? 0.4 : 0,
       notes: ["CWC flood forecasting signal"]
+    };
+  }
+
+  for (const district of parsedSources["indiawris-river-level"]?.districts ?? []) {
+    const existing = cwcByDistrict[district.district_id] ?? {
+      active: false,
+      severity: 0,
+      notes: []
+    };
+    const riseText = district.max_rise_m > 0
+      ? `India-WRIS river level rise ${district.max_rise_m} m across ${district.station_count} station${district.station_count === 1 ? "" : "s"}`
+      : `India-WRIS river level available from ${district.station_count} station${district.station_count === 1 ? "" : "s"} with no notable rise`;
+    cwcByDistrict[district.district_id] = {
+      active: existing.active || (district.severity ?? 0) > 0,
+      severity: Math.max(existing.severity, district.severity ?? 0),
+      notes: [riseText, ...existing.notes].filter(Boolean)
     };
   }
 
@@ -500,6 +588,20 @@ export async function runPipeline(repoRoot, options = {}) {
         hotspot_count: parsedSources["rainviewer-radar"].hotspots?.length ?? 0
       }
     : null;
+  const indiaWrisRainfallSummary = parsedSources["indiawris-rainfall"]
+    ? {
+        issued_at: parsedSources["indiawris-rainfall"].issued_at ?? null,
+        district_count: parsedSources["indiawris-rainfall"].districts?.length ?? 0,
+        taluk_count: parsedSources["indiawris-rainfall"].taluks?.length ?? 0,
+        station_count: parsedSources["indiawris-rainfall"].station_count ?? 0
+      }
+    : null;
+  const indiaWrisRiverLevelSummary = parsedSources["indiawris-river-level"]
+    ? {
+        issued_at: parsedSources["indiawris-river-level"].issued_at ?? null,
+        district_count: parsedSources["indiawris-river-level"].districts?.length ?? 0
+      }
+    : null;
   const freshnessBySource = Object.fromEntries(
     snapshots.map((source) => [source.source_id, source.freshness_minutes])
   );
@@ -560,7 +662,9 @@ export async function runPipeline(repoRoot, options = {}) {
       spatial_aggregation: "district_and_taluk_polygon_mean_with_district_fallback_points",
       source_metadata: {
         nasa_imerg: imergSummary,
-        rainviewer_radar: rainviewerSummary
+        rainviewer_radar: rainviewerSummary,
+        indiawris_rainfall: indiaWrisRainfallSummary,
+        indiawris_river_level: indiaWrisRiverLevelSummary
       },
       observations: {
         districts: rainfall.districts,

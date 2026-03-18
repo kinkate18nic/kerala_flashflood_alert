@@ -177,6 +177,12 @@ export function buildRiskOutputs(context) {
       observation
         ? `Observed 24h rain ${observation.rain_24h_mm ?? 0} mm and 1h rain ${observation.rain_1h_mm ?? 0} mm`
         : null,
+      observation?.official_rain_24h_mm !== undefined && observation?.official_rain_24h_mm !== null
+        ? `India-WRIS official 24h rainfall ${observation.official_rain_24h_mm} mm from ${observation.official_station_count ?? 0} station${(observation.official_station_count ?? 0) === 1 ? "" : "s"}`
+        : null,
+      observation?.official_peak_station_24h_mm
+        ? `Peak India-WRIS station 24h rainfall ${observation.official_peak_station_24h_mm} mm`
+        : null,
       observation?.peak_30m_mm ? `Peak recent 30 min rain ${observation.peak_30m_mm} mm` : null,
       observation?.spatial_aggregation ? `Rainfall aggregation ${observation.spatial_aggregation}` : null,
       radar.severity > 0
@@ -221,14 +227,28 @@ export function buildRiskOutputs(context) {
           context.statusBySource["imd-flash-flood-bulletin"]
         ),
         sourceRef(
+          "indiawris-rainfall",
+          observation?.official_rain_24h_mm !== undefined && observation?.official_rain_24h_mm !== null
+            ? `Official rainfall available from ${observation.official_station_count ?? 0} station${(observation.official_station_count ?? 0) === 1 ? "" : "s"}`
+            : "No India-WRIS rainfall signal mapped for district",
+          context.freshnessBySource["indiawris-rainfall"],
+          context.statusBySource["indiawris-rainfall"]
+        ),
+        sourceRef(
           "rainviewer-radar",
           radar.notes?.[0] ?? "No short-lead radar cell near district",
           context.freshnessBySource["rainviewer-radar"],
           context.statusBySource["rainviewer-radar"]
         ),
         sourceRef(
+          "indiawris-river-level",
+          cwc.notes?.find((note) => note.startsWith("India-WRIS river level")) ?? "No India-WRIS river-level context for district",
+          context.freshnessBySource["indiawris-river-level"],
+          context.statusBySource["indiawris-river-level"]
+        ),
+        sourceRef(
           "cwc-ffs",
-          cwc.notes?.[0] ?? "No river-stage warning for district",
+          cwc.notes?.find((note) => note.includes("CWC flood forecasting")) ?? "No river-stage warning for district",
           context.freshnessBySource["cwc-ffs"],
           context.statusBySource["cwc-ffs"]
         )

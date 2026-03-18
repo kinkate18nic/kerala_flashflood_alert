@@ -10,7 +10,9 @@ import {
   parseImdFlashFloodBulletin,
   parseCwcFfs,
   parseNasaImergNrt,
-  parseRainviewerRadar
+  parseRainviewerRadar,
+  parseIndiaWrisRainfall,
+  parseIndiaWrisRiverLevel
 } from "../scripts/lib/parsers.js";
 import {
   extractGeoTiffBuffer,
@@ -97,6 +99,23 @@ async function testParsers() {
   assert.equal(radar.districts.length, 2);
   assert.equal(radar.hotspots.length, 2);
   assert.ok(radar.frame_path.includes("/v2/radar/"));
+
+  const indiaWrisRainfallRaw = await readFile(
+    path.join(repoRoot, "fixtures", "indiawris-rainfall.json"),
+    "utf8"
+  );
+  const indiaWrisRainfall = parseIndiaWrisRainfall(indiaWrisRainfallRaw);
+  assert.equal(indiaWrisRainfall.districts.length, 2);
+  assert.equal(indiaWrisRainfall.taluks.length, 2);
+  assert.equal(indiaWrisRainfall.station_count, 5);
+
+  const indiaWrisRiverLevelRaw = await readFile(
+    path.join(repoRoot, "fixtures", "indiawris-river-level.json"),
+    "utf8"
+  );
+  const indiaWrisRiverLevel = parseIndiaWrisRiverLevel(indiaWrisRiverLevelRaw);
+  assert.equal(indiaWrisRiverLevel.districts.length, 2);
+  assert.equal(indiaWrisRiverLevel.districts[0].max_rise_m, 0.62);
 }
 
 function testRiskModel() {
@@ -206,11 +225,18 @@ async function testPipeline() {
     true
   );
   assert.equal(typeof observationGrid.source_metadata.rainviewer_radar.latest_frame_time, "string");
+  assert.equal(observationGrid.source_metadata.indiawris_rainfall.station_count, 5);
+  assert.equal(observationGrid.source_metadata.indiawris_river_level.district_count, 2);
   assert.equal(observationGrid.observations.taluks["idukki--peerumade"].peak_30m_mm, 25.9);
+  assert.equal(observationGrid.observations.districts.idukki.official_rain_24h_mm, 5.7);
   assert.equal(nasaHistory.runs.length >= 1, true);
   assert.equal(nasaHistory.runs[0].latest_three_hour_file.includes("3hr"), true);
   assert.equal(
     sources.sources.find((source) => source.source_id === "imd-cap-rss")?.status,
+    "ok"
+  );
+  assert.equal(
+    sources.sources.find((source) => source.source_id === "indiawris-rainfall")?.status,
     "ok"
   );
 }
