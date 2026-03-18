@@ -17,17 +17,20 @@ import { minutesBetween, nowIso, parseDate, toArchivePathParts } from "./time.js
 import { buildRiskOutputs } from "./risk-model.js";
 import { districts, hotspots } from "../../src/shared/areas.js";
 
-function statusFromFreshness(freshnessMinutes, slaMinutes, fetchOk, parserOk) {
+function statusFromFreshness(freshnessMinutes, source, fetchOk, parserOk) {
   if (!fetchOk || !parserOk) {
     return "offline";
   }
   if (freshnessMinutes === null) {
     return "degraded";
   }
-  if (freshnessMinutes > slaMinutes * 2) {
+  const staleThreshold = source.freshness_sla_minutes;
+  const offlineThreshold = source.offline_after_minutes ?? staleThreshold * 2;
+
+  if (freshnessMinutes > offlineThreshold) {
     return "offline";
   }
-  if (freshnessMinutes > slaMinutes) {
+  if (freshnessMinutes > staleThreshold) {
     return "stale";
   }
   return "ok";
@@ -447,7 +450,7 @@ export async function runPipeline(repoRoot, options = {}) {
 
     const issuedDate = parseDate(issuedAt);
     const freshnessMinutes = minutesBetween(issuedDate, new Date(generatedAt));
-    const status = statusFromFreshness(freshnessMinutes, source.freshness_sla_minutes, fetchOk, parserOk);
+    const status = statusFromFreshness(freshnessMinutes, source, fetchOk, parserOk);
 
     if (raw) {
       const outputName = `${source.id}.${rawExtension(source.format)}`;

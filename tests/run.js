@@ -171,6 +171,8 @@ async function testPipeline() {
     "utf8"
   );
   const nasaHistory = JSON.parse(nasaHistoryRaw);
+  const sourcesRaw = await readFile(path.join(tempRoot, "docs", "data", "latest", "sources.json"), "utf8");
+  const sources = JSON.parse(sourcesRaw);
   assert.equal(dashboard.mode, "decision-support");
   assert.equal(adminAreas.boundaries.counts.district, 14);
   assert.ok(adminAreas.boundaries.counts.taluk >= 61);
@@ -187,6 +189,10 @@ async function testPipeline() {
   assert.equal(observationGrid.observations.taluks["idukki--peerumade"].peak_30m_mm, 25.9);
   assert.equal(nasaHistory.runs.length >= 1, true);
   assert.equal(nasaHistory.runs[0].latest_three_hour_file.includes("3hr"), true);
+  assert.equal(
+    sources.sources.find((source) => source.source_id === "imd-cap-rss")?.status,
+    "ok"
+  );
 }
 
 function testImergListingSelection() {
