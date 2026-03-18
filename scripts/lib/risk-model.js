@@ -97,6 +97,8 @@ export function buildRiskOutputs(context) {
     reservoirByDistrict,
     damByDistrict,
     cwcByDistrict,
+    radarByDistrict = {},
+    radarByHotspot = {},
     rainfallByDistrict,
     rainfallByTaluk = {},
     terrainStats,
@@ -119,6 +121,7 @@ export function buildRiskOutputs(context) {
     const reservoir = reservoirByDistrict[district.id] ?? { active: false, severity: 0, notes: [] };
     const dam = damByDistrict[district.id] ?? { active: false, severity: 0, notes: [] };
     const cwc = cwcByDistrict[district.id] ?? { active: false, severity: 0, notes: [] };
+    const radar = radarByDistrict[district.id] ?? { severity: 0, intensity: "none", max_dbz: null, notes: [] };
     const observation = rainfallByDistrict[district.id] ?? null;
     const terrain = terrainByDistrict[district.id];
 
@@ -132,6 +135,8 @@ export function buildRiskOutputs(context) {
         thresholds.weights.antecedent_wetness,
       terrain: terrain.value * 100 * thresholds.weights.terrain,
       hydrology: severityToPoints(cwc.severity) * thresholds.weights.hydrology,
+      radar_nowcast:
+        severityToPoints(radar.severity) * (thresholds.weights.radar_nowcast ?? 0.08),
       reservoir_dam:
         Math.max(severityToPoints(reservoir.severity), severityToPoints(dam.severity)) *
         thresholds.weights.reservoir_dam
@@ -141,6 +146,7 @@ export function buildRiskOutputs(context) {
       cap.severity > 0.2,
       bulletin.severity > 0.2,
       computeRainfallScore(observation, thresholds.rainfall_caps_mm) > 25,
+      radar.severity > 0.2,
       cwc.severity > 0.2 || reservoir.severity > 0.2 || dam.severity > 0.2
     ].filter(Boolean).length;
 
@@ -173,6 +179,9 @@ export function buildRiskOutputs(context) {
         : null,
       observation?.peak_30m_mm ? `Peak recent 30 min rain ${observation.peak_30m_mm} mm` : null,
       observation?.spatial_aggregation ? `Rainfall aggregation ${observation.spatial_aggregation}` : null,
+      radar.severity > 0
+        ? `RainViewer nowcast ${radar.intensity.replaceAll("_", " ")} (${radar.max_dbz ?? "n/a"} dBZ)`
+        : null,
       terrain.dem
         ? `Terrain susceptibility ${(terrain.value * 100).toFixed(0)}% from NASADEM + local baseline`
         : `Terrain susceptibility ${(terrain.value * 100).toFixed(0)}% from local baseline`,
@@ -212,6 +221,12 @@ export function buildRiskOutputs(context) {
           context.statusBySource["imd-flash-flood-bulletin"]
         ),
         sourceRef(
+          "rainviewer-radar",
+          radar.notes?.[0] ?? "No short-lead radar cell near district",
+          context.freshnessBySource["rainviewer-radar"],
+          context.statusBySource["rainviewer-radar"]
+        ),
+        sourceRef(
           "cwc-ffs",
           cwc.notes?.[0] ?? "No river-stage warning for district",
           context.freshnessBySource["cwc-ffs"],
@@ -226,12 +241,27 @@ export function buildRiskOutputs(context) {
   const hotspotStates = hotspots.map((hotspot) => {
     const districtState = districtStates.find((state) => state.area_id === hotspot.district_id);
     const override = hotspotOverrideLookup[hotspot.id];
+    const radar = radarByHotspot[hotspot.id] ?? {
+      severity: radarByDistrict[hotspot.district_id]?.severity ?? 0,
+      intensity: radarByDistrict[hotspot.district_id]?.intensity ?? "none",
+      max_dbz: radarByDistrict[hotspot.district_id]?.max_dbz ?? null,
+      notes: radarByDistrict[hotspot.district_id]?.notes ?? []
+    };
     const manualBoost = override?.score_boost ?? 0;
     const districtTerrain = terrainByDistrict[hotspot.district_id];
     const hotspotSusceptibility = clamp(hotspot.susceptibility * 0.7 + districtTerrain.value * 0.3);
     const categoryBoost = hotspotCategoryBoost(hotspot.category);
     const score = round(
-      clamp((districtState.score + hotspotSusceptibility * 20 + categoryBoost + manualBoost) / 100, 0, 1) * 100
+      clamp(
+        (districtState.score +
+          hotspotSusceptibility * 20 +
+          categoryBoost +
+          manualBoost +
+          severityToPoints(radar.severity) * 0.12) /
+          100,
+        0,
+        1
+      ) * 100
     );
     const level = scoreToLevel(score);
     return {
@@ -249,11 +279,21 @@ export function buildRiskOutputs(context) {
       buffer_km: hotspot.buffer_km ?? null,
       drivers: [
         ...districtState.drivers,
+        radar.severity > 0
+          ? `Hotspot radar echo ${radar.intensity.replaceAll("_", " ")} (${radar.max_dbz ?? "n/a"} dBZ)`
+          : null,
         `Hotspot susceptibility ${(hotspotSusceptibility * 100).toFixed(0)}%`,
         hotspot.category ? `Hotspot category ${hotspot.category.replaceAll("_", " ")}` : null,
         hotspot.buffer_km ? `Hotspot analysis radius ${hotspot.buffer_km} km` : null
       ].filter(Boolean),
-      source_refs: districtState.source_refs,
+      source_refs: districtState.source_refs.map((sourceRefEntry) =>
+        sourceRefEntry.source_id === "rainviewer-radar"
+          ? {
+              ...sourceRefEntry,
+              detail: radar.notes?.[0] ?? sourceRefEntry.detail
+            }
+          : sourceRefEntry
+      ),
       review_state: level === "Severe - review required" ? "pending_review" : "auto_published",
       valid_from: districtState.valid_from,
       valid_to: districtState.valid_to
@@ -272,6 +312,14 @@ export function buildRiskOutputs(context) {
     const reservoir = reservoirByDistrict[taluk.district_id] ?? { active: false, severity: 0, notes: [] };
     const dam = damByDistrict[taluk.district_id] ?? { active: false, severity: 0, notes: [] };
     const cwc = cwcByDistrict[taluk.district_id] ?? { active: false, severity: 0, notes: [] };
+    const radarMatches = (taluk.hotspot_ids ?? [])
+      .map((hotspotId) => radarByHotspot[hotspotId])
+      .filter(Boolean);
+    const radar = radarMatches.length
+      ? radarMatches.reduce((best, current) =>
+          (current.severity ?? 0) > (best.severity ?? 0) ? current : best
+        )
+      : radarByDistrict[taluk.district_id] ?? { severity: 0, intensity: "none", max_dbz: null, notes: [] };
     const observation = rainfallByTaluk[taluk.taluk_id] ?? rainfallByDistrict[taluk.district_id] ?? null;
     const talukHotspots = (taluk.hotspot_ids ?? [])
       .map((hotspotId) => hotspotStateLookup[hotspotId])
@@ -296,6 +344,8 @@ export function buildRiskOutputs(context) {
         thresholds.weights.antecedent_wetness,
       terrain: hotspotSusceptibility * 100 * thresholds.weights.terrain,
       hydrology: severityToPoints(cwc.severity) * thresholds.weights.hydrology,
+      radar_nowcast:
+        severityToPoints(radar.severity) * (thresholds.weights.radar_nowcast ?? 0.08),
       reservoir_dam:
         Math.max(severityToPoints(reservoir.severity), severityToPoints(dam.severity)) *
         thresholds.weights.reservoir_dam
@@ -304,6 +354,7 @@ export function buildRiskOutputs(context) {
       cap.severity > 0.2,
       bulletin.severity > 0.2,
       computeRainfallScore(observation, thresholds.rainfall_caps_mm) > 25,
+      radar.severity > 0.2,
       cwc.severity > 0.2 || reservoir.severity > 0.2 || dam.severity > 0.2
     ].filter(Boolean).length;
     const snapshotPenalty = sourceSnapshots.reduce((penalty, source) => {
@@ -350,6 +401,9 @@ export function buildRiskOutputs(context) {
           : `Inherited rainfall and warning signal from ${districtState.name}`,
         observation?.peak_30m_mm ? `Peak recent 30 min rain ${observation.peak_30m_mm} mm` : null,
         observation?.spatial_aggregation ? `Rainfall aggregation ${observation.spatial_aggregation}` : null,
+        radar.severity > 0
+          ? `RainViewer nowcast ${radar.intensity.replaceAll("_", " ")} (${radar.max_dbz ?? "n/a"} dBZ)`
+          : null,
         talukHotspots.length
           ? `${talukHotspots.length} mapped hotspot${talukHotspots.length > 1 ? "s" : ""}: ${hotspotNames.slice(0, 3).join(", ")}${hotspotNames.length > 3 ? ", ..." : ""}`
           : "No mapped hotspot override within taluk",

@@ -11,6 +11,7 @@ import {
 import { fetchText } from "./http.js";
 import { fetchNasaImergPayload } from "./imerg.js";
 import { parserRegistry } from "./parsers.js";
+import { fetchRainviewerPayload } from "./rainviewer.js";
 import { minutesBetween, nowIso, parseDate, toArchivePathParts } from "./time.js";
 import { buildRiskOutputs } from "./risk-model.js";
 import { districts, hotspots } from "../../src/shared/areas.js";
@@ -49,6 +50,13 @@ function summarizeSource(parsed) {
     return { item_count: parsed.item_count, district_count: parsed.kerala_district_ids?.length ?? 0 };
   }
   if ("districts" in parsed && Array.isArray(parsed.districts)) {
+    if ("hotspots" in parsed && Array.isArray(parsed.hotspots)) {
+      return {
+        district_count: parsed.districts.length,
+        hotspot_count: parsed.hotspots.length,
+        latest_frame_time: parsed.frame_time ?? null
+      };
+    }
     const summary = {
       district_count: parsed.districts.length,
       taluk_count: Array.isArray(parsed.taluks) ? parsed.taluks.length : 0
@@ -92,6 +100,14 @@ async function loadRawContent(repoRoot, source, options) {
 
   if (source.id === "nasa-imerg-nrt") {
     const response = await fetchNasaImergPayload(source);
+    return {
+      ...response,
+      fetchedFrom: "remote"
+    };
+  }
+
+  if (source.id === "rainviewer-radar") {
+    const response = await fetchRainviewerPayload(source);
     return {
       ...response,
       fetchedFrom: "remote"
@@ -201,12 +217,38 @@ function collapseSignals(parsedSources) {
     };
   }
 
+  const radarByDistrict = {};
+  for (const district of parsedSources["rainviewer-radar"]?.districts ?? []) {
+    radarByDistrict[district.district_id] = {
+      severity: district.severity ?? 0,
+      intensity: district.intensity ?? "none",
+      max_dbz: district.max_dbz ?? null,
+      notes: district.intensity && district.intensity !== "none"
+        ? [`RainViewer ${district.intensity.replaceAll("_", " ")} cell near district`]
+        : ["No meaningful RainViewer radar echo near district"]
+    };
+  }
+
+  const radarByHotspot = {};
+  for (const hotspot of parsedSources["rainviewer-radar"]?.hotspots ?? []) {
+    radarByHotspot[hotspot.hotspot_id] = {
+      severity: hotspot.severity ?? 0,
+      intensity: hotspot.intensity ?? "none",
+      max_dbz: hotspot.max_dbz ?? null,
+      notes: hotspot.intensity && hotspot.intensity !== "none"
+        ? [`RainViewer ${hotspot.intensity.replaceAll("_", " ")} cell near hotspot`]
+        : ["No meaningful RainViewer radar echo near hotspot"]
+    };
+  }
+
   return {
     capByDistrict,
     bulletinByDistrict,
     reservoirByDistrict,
     damByDistrict,
-    cwcByDistrict
+    cwcByDistrict,
+    radarByDistrict,
+    radarByHotspot
   };
 }
 
@@ -403,6 +445,13 @@ export async function runPipeline(repoRoot, options = {}) {
           parsedSources["nasa-imerg-nrt"].source_files.daily?.[0]?.split("/").pop() ?? null
       }
     : null;
+  const rainviewerSummary = parsedSources["rainviewer-radar"]
+    ? {
+        issued_at: parsedSources["rainviewer-radar"].issued_at ?? null,
+        latest_frame_time: parsedSources["rainviewer-radar"].frame_time ?? null,
+        hotspot_count: parsedSources["rainviewer-radar"].hotspots?.length ?? 0
+      }
+    : null;
   const freshnessBySource = Object.fromEntries(
     snapshots.map((source) => [source.source_id, source.freshness_minutes])
   );
@@ -462,12 +511,22 @@ export async function runPipeline(repoRoot, options = {}) {
       generated_at: generatedAt,
       spatial_aggregation: "district_and_taluk_polygon_mean_with_district_fallback_points",
       source_metadata: {
-        nasa_imerg: imergSummary
+        nasa_imerg: imergSummary,
+        rainviewer_radar: rainviewerSummary
       },
       observations: {
         districts: rainfall.districts,
         taluks: rainfall.taluks
       }
+    },
+    "radar-nowcast.json": {
+      generated_at: generatedAt,
+      issued_at: parsedSources["rainviewer-radar"]?.issued_at ?? null,
+      frame_time: parsedSources["rainviewer-radar"]?.frame_time ?? null,
+      frame_path: parsedSources["rainviewer-radar"]?.frame_path ?? null,
+      color_scheme: parsedSources["rainviewer-radar"]?.color_scheme ?? null,
+      districts: parsedSources["rainviewer-radar"]?.districts ?? [],
+      hotspots: parsedSources["rainviewer-radar"]?.hotspots ?? []
     },
     "admin-areas.json": {
       generated_at: generatedAt,

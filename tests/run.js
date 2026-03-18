@@ -9,13 +9,15 @@ import {
   parseImdCapRss,
   parseImdFlashFloodBulletin,
   parseCwcFfs,
-  parseNasaImergNrt
+  parseNasaImergNrt,
+  parseRainviewerRadar
 } from "../scripts/lib/parsers.js";
 import {
   extractGeoTiffBuffer,
   parseImergTextListing,
   selectImergWindows
 } from "../scripts/lib/imerg.js";
+import { buildRainviewerPayload, parseRainviewerColorTable } from "../scripts/lib/rainviewer.js";
 import {
   districtIdFromBoundaryName,
   pointInGeometry,
@@ -53,6 +55,12 @@ async function testParsers() {
   assert.equal(imerg.districts.length, 2);
   assert.equal(imerg.taluks.length, 2);
   assert.ok(imerg.source_files.half_hour[0].includes("30min"));
+
+  const radarRaw = await readFile(path.join(repoRoot, "fixtures", "rainviewer-radar.json"), "utf8");
+  const radar = parseRainviewerRadar(radarRaw);
+  assert.equal(radar.districts.length, 2);
+  assert.equal(radar.hotspots.length, 2);
+  assert.ok(radar.frame_path.includes("/v2/radar/"));
 }
 
 function testRiskModel() {
@@ -132,6 +140,11 @@ async function testPipeline() {
   const adminAreas = JSON.parse(adminAreasRaw);
   const talukRiskRaw = await readFile(path.join(tempRoot, "docs", "data", "latest", "taluk-risk.json"), "utf8");
   const talukRisk = JSON.parse(talukRiskRaw);
+  const radarNowcastRaw = await readFile(
+    path.join(tempRoot, "docs", "data", "latest", "radar-nowcast.json"),
+    "utf8"
+  );
+  const radarNowcast = JSON.parse(radarNowcastRaw);
   const observationGridRaw = await readFile(
     path.join(tempRoot, "docs", "data", "latest", "observation-grid.json"),
     "utf8"
@@ -148,10 +161,13 @@ async function testPipeline() {
   assert.ok(talukRisk.taluks.length >= 61);
   assert.equal(typeof observationGrid.observations.districts, "object");
   assert.equal(typeof observationGrid.observations.taluks, "object");
+  assert.equal(Array.isArray(radarNowcast.districts), true);
+  assert.equal(Array.isArray(radarNowcast.hotspots), true);
   assert.equal(
     observationGrid.source_metadata.nasa_imerg.latest_half_hour_file.includes("30min"),
     true
   );
+  assert.equal(typeof observationGrid.source_metadata.rainviewer_radar.latest_frame_time, "string");
   assert.equal(observationGrid.observations.taluks["idukki--peerumade"].peak_30m_mm, 25.9);
   assert.equal(nasaHistory.runs.length >= 1, true);
   assert.equal(nasaHistory.runs[0].latest_three_hour_file.includes("3hr"), true);
@@ -202,6 +218,51 @@ function testImergZipSelection() {
   );
 
   assert.deepEqual(Array.from(extracted), Array.from(expectedAccumulation));
+}
+
+function testRainviewerHelpers() {
+  const colorTable = parseRainviewerColorTable([
+    "dBZ / RGBA,Black and White,Original,Universal Blue",
+    "-32,#00000000,#00000000,#00000000",
+    "10,#111111ff,#222222ff,#3366ccff",
+    "40,#aaaaaaaa,#bbbbbbbb,#ff6600ff"
+  ].join("\n"));
+
+  assert.equal(colorTable.byColor["51,102,204,255"], 10);
+
+  const payload = buildRainviewerPayload({
+    metadata: {
+      generated: 1773815132,
+      host: "https://tilecache.rainviewer.com",
+      radar: { past: [{ time: 1773814800, path: "/v2/radar/1773814800" }] }
+    },
+    districtResults: [
+      {
+        district_id: "idukki",
+        name: "Idukki",
+        location: { lat: 9.84, lon: 76.97 },
+        max_dbz: 38,
+        intensity: "heavy",
+        severity: 0.75,
+        detected: true
+      }
+    ],
+    hotspotResults: [
+      {
+        hotspot_id: "h-peermade",
+        district_id: "idukki",
+        name: "Peermade high-range catchment",
+        location: { lat: 9.574, lon: 76.967 },
+        max_dbz: 42,
+        intensity: "heavy",
+        severity: 0.75,
+        detected: true
+      }
+    ]
+  });
+
+  assert.equal(payload.districts.find((district) => district.district_id === "idukki").intensity, "heavy");
+  assert.equal(payload.hotspots[0].hotspot_id, "h-peermade");
 }
 
 function testBoundaryHelpers() {
@@ -278,6 +339,7 @@ const tests = [
   ["parsers", testParsers],
   ["imerg-listing", testImergListingSelection],
   ["imerg-zip-selection", testImergZipSelection],
+  ["rainviewer-helpers", testRainviewerHelpers],
   ["boundaries", testBoundaryHelpers],
   ["hotspot-footprints", testHotspotFootprints],
   ["risk-model", testRiskModel],

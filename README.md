@@ -5,6 +5,7 @@ Kerala Flash-Flood Watch is a static-first decision-support dashboard and PWA fo
 ## What is implemented
 
 - Source register for IMD, KSDMA, CWC, NASA IMERG, and operator inputs
+- RainViewer radar nowcast integration for short-lead Kerala district and hotspot sampling
 - Scheduled ingestion pipeline with raw snapshot archiving and derived JSON publishing
 - Hybrid rules-plus-scoring risk model for Kerala districts and curated hotspots
 - Manual review flow for severe alerts
@@ -13,6 +14,7 @@ Kerala Flash-Flood Watch is a static-first decision-support dashboard and PWA fo
 - Static PWA frontend with district/hotspot map, source health, evidence drill-down, and offline shell cache
 - Fixture-based tests and sample outputs for local development
 - NASA IMERG source metadata and run-history logging for closeout monitoring
+- Radar nowcast output publishing in `docs/data/latest/radar-nowcast.json`
 
 ## Project layout
 
@@ -60,6 +62,7 @@ node scripts/review-alert.js --id <alert-id>
 The NASA IMERG adapter now uses PPS near-real-time access via the documented `text/imerg/gis/early/` listing and downloads the latest 30-minute, 3-hour, and 1-day GeoTIFF products directly.
 District rainfall is now computed against Kerala district polygons from `geohacker/kerala` rather than fixed district sample points, and the pipeline publishes boundary metadata in `docs/data/latest/admin-areas.json`.
 Taluk rainfall is also aggregated from IMERG polygon coverage, and the latest IMERG window metadata plus operational history are published in `docs/data/latest/observation-grid.json` and `docs/data/latest/nasa-imerg-history.json`.
+RainViewer short-lead radar sampling is published in `docs/data/latest/radar-nowcast.json` and contributes a cautious nowcast boost to district, taluk, and hotspot scoring.
 
 ## NASA closeout
 

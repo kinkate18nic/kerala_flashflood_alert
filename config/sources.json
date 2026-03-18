@@ -70,6 +70,20 @@
     "legal_notes": "Use to modify major-river linked district and hotspot risk."
   },
   {
+    "id": "rainviewer-radar",
+    "name": "RainViewer Radar Nowcast",
+    "owner": "RainViewer / IMD radar aggregation",
+    "category": "radar-nowcast",
+    "url": "https://api.rainviewer.com/public/weather-maps.json",
+    "format": "json",
+    "cadence_minutes": 10,
+    "freshness_sla_minutes": 30,
+    "parser": "rainviewerRadar",
+    "auth": "none",
+    "enabled": true,
+    "legal_notes": "Use as a short-lead radar movement layer. Do not use as the sole source for high-severity public alerts."
+  },
+  {
     "id": "nasa-imerg-nrt",
     "name": "NASA IMERG Near-Real-Time",
     "owner": "NASA GPM",

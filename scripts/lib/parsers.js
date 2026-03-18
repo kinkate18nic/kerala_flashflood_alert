@@ -119,6 +119,25 @@ export function parseNasaImergNrt(raw) {
   };
 }
 
+export function parseRainviewerRadar(raw) {
+  let payload;
+  try {
+    payload = JSON.parse(raw);
+  } catch {
+    payload = { districts: [], hotspots: [] };
+  }
+
+  return {
+    issued_at: payload.issued_at ?? payload.frame_time ?? null,
+    generated_at: payload.generated_at ?? null,
+    frame_time: payload.frame_time ?? null,
+    frame_path: payload.frame_path ?? null,
+    color_scheme: payload.color_scheme ?? null,
+    districts: Array.isArray(payload.districts) ? payload.districts : [],
+    hotspots: Array.isArray(payload.hotspots) ? payload.hotspots : []
+  };
+}
+
 export async function parseOperatorObservations(repoRoot, source, raw = null) {
   if (raw) {
     try {
@@ -141,5 +160,6 @@ export const parserRegistry = {
   ksdmaDamManagement: parseKsdmaDamManagement,
   cwcFfs: parseCwcFfs,
   nasaImergNrt: parseNasaImergNrt,
+  rainviewerRadar: parseRainviewerRadar,
   operatorObservations: parseOperatorObservations
 };
