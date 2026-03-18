@@ -137,7 +137,7 @@ async function loadRawContent(repoRoot, source, options) {
   }
 
   if (source.id === "indiawris-rainfall") {
-    const response = await fetchIndiaWrisRainfallPayload(source);
+    const response = await fetchIndiaWrisRainfallPayload(repoRoot, source);
     return {
       ...response,
       fetchedFrom: "remote"
@@ -145,7 +145,7 @@ async function loadRawContent(repoRoot, source, options) {
   }
 
   if (source.id === "indiawris-river-level") {
-    const response = await fetchIndiaWrisRiverLevelPayload(source);
+    const response = await fetchIndiaWrisRiverLevelPayload(repoRoot, source);
     return {
       ...response,
       fetchedFrom: "remote"

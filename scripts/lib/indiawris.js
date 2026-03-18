@@ -1,5 +1,12 @@
-import { districts } from "../../src/shared/areas.js";
-import { talukIdFromBoundaryNames } from "./boundaries.js";
+import path from "node:path";
+import { districts, districtLookup } from "../../src/shared/areas.js";
+import {
+  parseDistrictBoundaries,
+  parseTalukBoundaries,
+  pointInGeometry,
+  talukIdFromBoundaryNames
+} from "./boundaries.js";
+import { readJson } from "./fs.js";
 
 function formatDate(date) {
   return date.toISOString().slice(0, 10);
@@ -85,6 +92,102 @@ async function mapWithConcurrency(items, worker, concurrency = 1) {
 function safeNumber(value) {
   const parsed = Number.parseFloat(value);
   return Number.isFinite(parsed) ? parsed : null;
+}
+
+function normalizeStationName(value) {
+  return String(value ?? "")
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, "");
+}
+
+const stationContextCache = new Map();
+
+async function loadStationContext(repoRoot) {
+  if (!stationContextCache.has(repoRoot)) {
+    stationContextCache.set(repoRoot, (async () => {
+      const [registryDocument, districtLayer, talukLayer] = await Promise.all([
+        readJson(path.join(repoRoot, "data", "manual", "indiawris-stations.json"), {
+          stations: []
+        }),
+        readJson(path.join(repoRoot, "src", "site", "assets", "kerala-districts.geojson"), {
+          type: "FeatureCollection",
+          features: []
+        }),
+        readJson(path.join(repoRoot, "src", "site", "assets", "kerala-taluks.geojson"), {
+          type: "FeatureCollection",
+          features: []
+        })
+      ]);
+
+      const byCode = new Map();
+      const byName = new Map();
+      for (const station of registryDocument.stations ?? []) {
+        if (station.station_code) {
+          byCode.set(normalizeStationName(station.station_code), station);
+        }
+        if (station.station_name) {
+          byName.set(normalizeStationName(station.station_name), station);
+        }
+      }
+
+      return {
+        registry: {
+          stations: registryDocument.stations ?? [],
+          byCode,
+          byName
+        },
+        districts: parseDistrictBoundaries(districtLayer),
+        taluks: parseTalukBoundaries(talukLayer)
+      };
+    })());
+  }
+
+  return stationContextCache.get(repoRoot);
+}
+
+function findStationRegistration(registry, row) {
+  const stationCode = normalizeStationName(row.stationCode);
+  const stationName = normalizeStationName(row.stationName);
+  return registry.byCode.get(stationCode) ?? registry.byName.get(stationName) ?? null;
+}
+
+function locateAdminAreaByPoint(context, lon, lat) {
+  const point = [lon, lat];
+  const district = context.districts.find((entry) => pointInGeometry(point, entry.geometry)) ?? null;
+  const taluk = context.taluks.find((entry) => pointInGeometry(point, entry.geometry)) ?? null;
+  return {
+    district_id: district?.district_id ?? null,
+    taluk_id: taluk?.taluk_id ?? null
+  };
+}
+
+function enrichStationRow(row, fallbackDistrict, context) {
+  const registration = findStationRegistration(context.registry, row);
+  const lat = safeNumber(row.latitude ?? row.lat ?? registration?.lat);
+  const lon = safeNumber(row.longitude ?? row.lon ?? registration?.lon);
+
+  let districtId = registration?.district_id ?? null;
+  let talukId = registration?.taluk_id ?? null;
+
+  if (lat !== null && lon !== null) {
+    const spatialMatch = locateAdminAreaByPoint(context, lon, lat);
+    districtId = districtId ?? spatialMatch.district_id;
+    talukId = talukId ?? spatialMatch.taluk_id;
+  }
+
+  districtId ??= fallbackDistrict.id;
+  talukId ??= talukIdFromBoundaryNames(fallbackDistrict.name, row.tehsil ?? row.block ?? "");
+
+  return {
+    ...row,
+    district_id: districtId,
+    taluk_id: talukId,
+    station_code: row.stationCode ?? registration?.station_code ?? null,
+    station_name: row.stationName ?? registration?.station_name ?? null,
+    station_lat: lat,
+    station_lon: lon,
+    station_mapping: registration ? "registry" : lat !== null && lon !== null ? "coordinates" : "tehsil_fallback"
+  };
 }
 
 function latestTimestamp(records) {
@@ -247,11 +350,19 @@ function aggregateRiverLevelSeries(records) {
   };
 }
 
-async function fetchDistrictDataset(source, queryBuilder) {
+async function fetchDistrictDataset(repoRoot, source, queryBuilder) {
+  const stationContext = await loadStationContext(repoRoot);
   const results = await mapWithConcurrency(districts, async (district) => {
     let response;
     try {
       response = await fetchDistrictPages(source, district, queryBuilder, source.fetch_options ?? {});
+      if (response.response.ok) {
+        const rows = Array.isArray(response.response.json?.data) ? response.response.json.data : [];
+        response.response.json = {
+          ...(response.response.json ?? {}),
+          data: rows.map((row) => enrichStationRow(row, district, stationContext))
+        };
+      }
     } catch (error) {
       response = {
         district,
@@ -279,11 +390,11 @@ async function fetchDistrictDataset(source, queryBuilder) {
   return results;
 }
 
-export async function fetchIndiaWrisRainfallPayload(source) {
+export async function fetchIndiaWrisRainfallPayload(repoRoot, source) {
   const endDate = new Date();
   const startDate = addDays(endDate, -6);
 
-  const districtResults = await fetchDistrictDataset(source, (district, page, size) => ({
+  const districtResults = await fetchDistrictDataset(repoRoot, source, (district, page, size) => ({
     stateName: "Kerala",
     districtName: district.name,
     agencyName: "CWC",
@@ -294,10 +405,9 @@ export async function fetchIndiaWrisRainfallPayload(source) {
     size
   }));
 
-  const districtRainfall = [];
+  const districtBuckets = new Map();
   const talukBuckets = new Map();
   let latestIssuedAt = null;
-  let totalStations = 0;
 
   for (const result of districtResults) {
     if (!result.response.ok) {
@@ -307,23 +417,13 @@ export async function fetchIndiaWrisRainfallPayload(source) {
     const rows = Array.isArray(result.response.json?.data) ? result.response.json.data : [];
     latestIssuedAt = [latestIssuedAt, latestTimestamp(rows)].filter(Boolean).sort().at(-1) ?? latestIssuedAt;
 
-    const aggregate = aggregateRainfallSeries(rows);
-    totalStations += aggregate.station_count;
-
-    districtRainfall.push({
-      district_id: result.district.id,
-      district_name: result.district.name,
-      source: "indiawris-cwc",
-      station_count: aggregate.station_count,
-      max_station_24h_mm: aggregate.max_station_24h_mm,
-      rain_24h_mm: aggregate.rain_24h_mm,
-      rain_3d_mm: aggregate.rain_3d_mm,
-      rain_7d_mm: aggregate.rain_7d_mm,
-      daily_series: aggregate.daily_series
-    });
-
     for (const row of rows) {
-      const talukId = talukIdFromBoundaryNames(result.district.name, row.tehsil ?? row.block ?? "");
+      const districtId = row.district_id ?? result.district.id;
+      const districtBucket = districtBuckets.get(districtId) ?? [];
+      districtBucket.push(row);
+      districtBuckets.set(districtId, districtBucket);
+
+      const talukId = row.taluk_id;
       if (!talukId) {
         continue;
       }
@@ -332,6 +432,21 @@ export async function fetchIndiaWrisRainfallPayload(source) {
       talukBuckets.set(talukId, bucket);
     }
   }
+
+  const districtRainfall = [...districtBuckets.entries()].map(([districtId, rows]) => {
+    const aggregate = aggregateRainfallSeries(rows);
+    return {
+      district_id: districtId,
+      district_name: districtLookup[districtId]?.name ?? districtId,
+      source: "indiawris-cwc",
+      station_count: aggregate.station_count,
+      max_station_24h_mm: aggregate.max_station_24h_mm,
+      rain_24h_mm: aggregate.rain_24h_mm,
+      rain_3d_mm: aggregate.rain_3d_mm,
+      rain_7d_mm: aggregate.rain_7d_mm,
+      daily_series: aggregate.daily_series
+    };
+  });
 
   const taluks = [...talukBuckets.entries()].map(([talukId, rows]) => {
     const aggregate = aggregateRainfallSeries(rows);
@@ -349,6 +464,8 @@ export async function fetchIndiaWrisRainfallPayload(source) {
     };
   });
 
+  const totalStations = districtRainfall.reduce((sum, entry) => sum + (entry.station_count ?? 0), 0);
+
   return {
     ok: true,
     status: 200,
@@ -363,11 +480,11 @@ export async function fetchIndiaWrisRainfallPayload(source) {
   };
 }
 
-export async function fetchIndiaWrisRiverLevelPayload(source) {
+export async function fetchIndiaWrisRiverLevelPayload(repoRoot, source) {
   const endDate = new Date();
   const startDate = addDays(endDate, -1);
 
-  const districtResults = await fetchDistrictDataset(source, (district, page, size) => ({
+  const districtResults = await fetchDistrictDataset(repoRoot, source, (district, page, size) => ({
     stateName: "Kerala",
     districtName: district.name,
     agencyName: "CWC",
@@ -378,7 +495,7 @@ export async function fetchIndiaWrisRiverLevelPayload(source) {
     size
   }));
 
-  const districtLevels = [];
+  const districtBuckets = new Map();
   let latestIssuedAt = null;
 
   for (const result of districtResults) {
@@ -388,15 +505,20 @@ export async function fetchIndiaWrisRiverLevelPayload(source) {
 
     const rows = Array.isArray(result.response.json?.data) ? result.response.json.data : [];
     latestIssuedAt = [latestIssuedAt, latestTimestamp(rows)].filter(Boolean).sort().at(-1) ?? latestIssuedAt;
-    const aggregate = aggregateRiverLevelSeries(rows);
-
-    districtLevels.push({
-      district_id: result.district.id,
-      district_name: result.district.name,
-      source: "indiawris-cwc",
-      ...aggregate
-    });
+    for (const row of rows) {
+      const districtId = row.district_id ?? result.district.id;
+      const bucket = districtBuckets.get(districtId) ?? [];
+      bucket.push(row);
+      districtBuckets.set(districtId, bucket);
+    }
   }
+
+  const districtLevels = [...districtBuckets.entries()].map(([districtId, rows]) => ({
+    district_id: districtId,
+    district_name: districtLookup[districtId]?.name ?? districtId,
+    source: "indiawris-cwc",
+    ...aggregateRiverLevelSeries(rows)
+  }));
 
   return {
     ok: true,

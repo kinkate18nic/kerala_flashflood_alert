@@ -22,6 +22,8 @@ import {
 import { buildRainviewerPayload, parseRainviewerColorTable } from "../scripts/lib/rainviewer.js";
 import {
   districtIdFromBoundaryName,
+  parseDistrictBoundaries,
+  parseTalukBoundaries,
   pointInGeometry,
   representativePointInGeometry,
   talukIdFromBoundaryNames
@@ -385,6 +387,35 @@ function testBoundaryHelpers() {
   }), true);
 }
 
+async function testIndiaWrisStationRegistry() {
+  const registryRaw = await readFile(
+    path.join(repoRoot, "data", "manual", "indiawris-stations.json"),
+    "utf8"
+  );
+  const registry = JSON.parse(registryRaw);
+  const districtLayer = JSON.parse(
+    await readFile(path.join(repoRoot, "src", "site", "assets", "kerala-districts.geojson"), "utf8")
+  );
+  const talukLayer = JSON.parse(
+    await readFile(path.join(repoRoot, "src", "site", "assets", "kerala-taluks.geojson"), "utf8")
+  );
+  const districtBoundaries = parseDistrictBoundaries(districtLayer);
+  const talukBoundaries = parseTalukBoundaries(talukLayer);
+
+  const vandiperiyar = registry.stations.find((station) => station.station_code === "016-SWRDKOCHI");
+  assert.ok(vandiperiyar);
+
+  const districtMatch = districtBoundaries.find((entry) =>
+    pointInGeometry([vandiperiyar.lon, vandiperiyar.lat], entry.geometry)
+  );
+  const talukMatch = talukBoundaries.find((entry) =>
+    pointInGeometry([vandiperiyar.lon, vandiperiyar.lat], entry.geometry)
+  );
+
+  assert.equal(districtMatch?.district_id, vandiperiyar.district_id);
+  assert.equal(talukMatch?.taluk_id, vandiperiyar.taluk_id);
+}
+
 function testHotspotFootprints() {
   const footprint = buildHotspotFootprint(
     {
@@ -409,6 +440,7 @@ const tests = [
   ["imerg-zip-selection", testImergZipSelection],
   ["rainviewer-helpers", testRainviewerHelpers],
   ["boundaries", testBoundaryHelpers],
+  ["indiawris-registry", testIndiaWrisStationRegistry],
   ["hotspot-footprints", testHotspotFootprints],
   ["risk-model", testRiskModel],
   ["pipeline", testPipeline]
