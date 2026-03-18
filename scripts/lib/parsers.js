@@ -14,8 +14,43 @@ function stripHtml(html) {
 }
 
 function readTag(fragment, tagName) {
-  const match = fragment.match(new RegExp(`<${tagName}>([\\s\\S]*?)<\\/${tagName}>`, "i"));
+  const match = fragment.match(new RegExp(`<(?:(?:\\w+):)?${tagName}[^>]*>([\\s\\S]*?)<\\/(?:(?:\\w+):)?${tagName}>`, "i"));
   return match?.[1]?.trim() ?? null;
+}
+
+function readTagAttribute(fragment, tagName, attributeName) {
+  const match = fragment.match(
+    new RegExp(`<(?:(?:\\w+):)?${tagName}[^>]*\\b${attributeName}="([^"]+)"[^>]*\\/?>`, "i")
+  );
+  return match?.[1]?.trim() ?? null;
+}
+
+function readFirstTag(fragment, tagNames) {
+  for (const tagName of tagNames) {
+    const value = readTag(fragment, tagName);
+    if (value) {
+      return value;
+    }
+  }
+  return null;
+}
+
+function readLink(fragment) {
+  return (
+    readTag(fragment, "link") ??
+    readTagAttribute(fragment, "link", "href") ??
+    readTag(fragment, "id")
+  );
+}
+
+function readCategoryValues(fragment) {
+  const directValues = [...fragment.matchAll(/<(?:(?:\w+):)?category[^>]*>([\s\S]*?)<\/(?:(?:\w+):)?category>/gi)]
+    .map((match) => match[1]?.trim())
+    .filter(Boolean);
+  const termValues = [...fragment.matchAll(/<(?:(?:\w+):)?category[^>]*\bterm="([^"]+)"/gi)]
+    .map((match) => match[1]?.trim())
+    .filter(Boolean);
+  return [...new Set([...directValues, ...termValues])];
 }
 
 function findDistrictIds(text) {
@@ -33,16 +68,22 @@ function inferSeverity(text) {
 }
 
 export function parseImdCapRss(raw) {
-  const items = [...raw.matchAll(/<item>([\s\S]*?)<\/item>/gi)].map((match) => {
-    const itemText = match[1];
-    const title = readTag(itemText, "title") ?? "";
-    const description = readTag(itemText, "description") ?? "";
-    const pubDate = readTag(itemText, "pubDate");
-    const link = readTag(itemText, "link");
-    const text = `${title} ${description}`.trim();
+  const rawItems = [...raw.matchAll(/<(item|entry)\b[^>]*>([\s\S]*?)<\/\1>/gi)];
+  const items = rawItems.map((match) => {
+    const itemText = match[2];
+    const title = readFirstTag(itemText, ["title", "headline"]) ?? "";
+    const description = readFirstTag(itemText, ["description", "summary", "content", "instruction"]) ?? "";
+    const areaDesc = readFirstTag(itemText, ["areaDesc"]) ?? "";
+    const pubDate = readFirstTag(itemText, ["pubDate", "published", "updated", "sent"]);
+    const link = readLink(itemText);
+    const categories = readCategoryValues(itemText);
+    const severityText = readFirstTag(itemText, ["severity"]) ?? "";
+    const text = `${title} ${description} ${areaDesc} ${severityText}`.trim();
     return {
       title,
       description,
+      area_desc: areaDesc || null,
+      categories,
       link,
       published_at: parseDate(pubDate)?.toISOString() ?? null,
       severity: inferSeverity(text),
@@ -50,11 +91,19 @@ export function parseImdCapRss(raw) {
     };
   });
 
+  const filteredItems = items.filter((item) => {
+    if (item.categories.length === 0) {
+      return true;
+    }
+    return item.categories.some((category) => /met/i.test(category));
+  });
+
   return {
-    item_count: items.length,
-    max_severity: items.length ? Math.max(...items.map((item) => item.severity)) : 0,
-    kerala_district_ids: [...new Set(items.flatMap((item) => item.districts))],
-    items
+    issued_at: filteredItems[0]?.published_at ?? items[0]?.published_at ?? null,
+    item_count: filteredItems.length,
+    max_severity: filteredItems.length ? Math.max(...filteredItems.map((item) => item.severity)) : 0,
+    kerala_district_ids: [...new Set(filteredItems.flatMap((item) => item.districts))],
+    items: filteredItems
   };
 }
 

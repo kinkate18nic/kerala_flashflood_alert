@@ -4,14 +4,18 @@
     "name": "IMD CAP RSS",
     "owner": "India Meteorological Department",
     "category": "official-warning",
-    "url": "https://cap-sources.s3.amazonaws.com/in-imd-en/rss.xml",
+    "url": "https://sachet.ndma.gov.in/cap_public_website/rss/rss_kerala.xml",
+    "fallback_urls": [
+      "https://sachet.ndma.gov.in/cap_public_website/rss/rss_india.xml",
+      "https://cap-sources.s3.amazonaws.com/in-imd-en/rss.xml"
+    ],
     "format": "xml",
     "cadence_minutes": 15,
     "freshness_sla_minutes": 90,
     "parser": "imdCapRss",
     "auth": "none",
     "enabled": true,
-    "legal_notes": "Use as official warning provenance. Verify redistribution policy in production."
+    "legal_notes": "Use Kerala-specific CAP RSS first, then India-wide and IMD S3 feeds as fallback. Verify redistribution policy in production."
   },
   {
     "id": "imd-flash-flood-bulletin",

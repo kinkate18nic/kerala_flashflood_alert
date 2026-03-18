@@ -110,13 +110,35 @@ async function loadRawContent(repoRoot, source, options) {
     const response = await fetchRainviewerPayload(source);
     return {
       ...response,
+      resolvedUrl: source.url,
       fetchedFrom: "remote"
     };
   }
 
-  const response = await fetchText(source.url, { timeoutMs: 20000 });
+  const candidateUrls = [source.url, ...(source.fallback_urls ?? [])].filter(Boolean);
+  let lastResponse = {
+    ok: false,
+    status: 502,
+    text: "",
+    resolvedUrl: source.url
+  };
+
+  for (const candidateUrl of candidateUrls) {
+    const response = await fetchText(candidateUrl, { timeoutMs: 20000 });
+    lastResponse = {
+      ...response,
+      resolvedUrl: candidateUrl
+    };
+    if (response.ok && response.text?.trim()) {
+      return {
+        ...lastResponse,
+        fetchedFrom: "remote"
+      };
+    }
+  }
+
   return {
-    ...response,
+    ...lastResponse,
     fetchedFrom: "remote"
   };
 }
@@ -384,12 +406,18 @@ export async function runPipeline(repoRoot, options = {}) {
     let parserOk = false;
     let issuedAt = null;
     let note = "";
+    let resolvedUrl = source.url ?? source.path;
 
     try {
       const response = await loadRawContent(repoRoot, source, options);
       fetchOk = response.ok;
       raw = response.text ?? "";
       note = response.note ?? "";
+      resolvedUrl = response.resolvedUrl ?? resolvedUrl;
+
+      if ((source.fallback_urls?.length ?? 0) > 0 && resolvedUrl && resolvedUrl !== source.url) {
+        note = note ? `${note} Using fallback feed ${resolvedUrl}` : `Using fallback feed ${resolvedUrl}`;
+      }
 
       if (raw) {
         parsed = source.path ? await parser(repoRoot, source, raw) : parser(raw);
@@ -422,7 +450,7 @@ export async function runPipeline(repoRoot, options = {}) {
       category: source.category,
       fetched_at: fetchedAt,
       issued_at: issuedDate?.toISOString() ?? null,
-      raw_url: source.url ?? source.path,
+      raw_url: resolvedUrl ?? source.url ?? source.path,
       parser_status: parserOk ? "ok" : "failed",
       status,
       freshness_minutes: freshnessMinutes,
