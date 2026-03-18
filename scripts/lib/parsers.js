@@ -170,6 +170,42 @@ function inferSeverity(text) {
   return matches.length ? Math.max(...matches) : 0;
 }
 
+function latestPublishedAt(items) {
+  const timestamps = items
+    .map((item) => parseDate(item.published_at))
+    .filter(Boolean)
+    .map((date) => date.getTime());
+
+  if (!timestamps.length) {
+    return null;
+  }
+
+  return new Date(Math.max(...timestamps));
+}
+
+function filterRecentCapItems(items, activeWindowHours = 48) {
+  const latest = latestPublishedAt(items);
+  if (!latest) {
+    return {
+      activeItems: items,
+      filteredCount: 0,
+      latestPublishedAt: null
+    };
+  }
+
+  const threshold = new Date(latest.getTime() - activeWindowHours * 60 * 60 * 1000);
+  const activeItems = items.filter((item) => {
+    const publishedAt = parseDate(item.published_at);
+    return publishedAt ? publishedAt.getTime() >= threshold.getTime() : false;
+  });
+
+  return {
+    activeItems,
+    filteredCount: items.length - activeItems.length,
+    latestPublishedAt: latest.toISOString()
+  };
+}
+
 async function parseImdCapItems(raw) {
   const rawItems = [...raw.matchAll(/<(item|entry)\b[^>]*>([\s\S]*?)<\/\1>/gi)];
   const items = rawItems.map((match) => {
@@ -220,14 +256,18 @@ export async function parseImdCapRss(repoRootOrRaw, source = null, rawInput = nu
 
   const rssRaw = payload?.rss ?? raw;
   const base = await parseImdCapItems(rssRaw);
+  const activeWindowHours = Number(source?.active_window_hours ?? 48);
 
   if (!payload?.details?.length || !repoRoot) {
+    const filtered = filterRecentCapItems(base.items, activeWindowHours);
     return {
-      issued_at: base.issued_at,
-      item_count: base.items.length,
-      max_severity: base.items.length ? Math.max(...base.items.map((item) => item.severity)) : 0,
-      kerala_district_ids: [...new Set(base.items.flatMap((item) => item.districts))],
-      items: base.items
+      issued_at: filtered.latestPublishedAt ?? base.issued_at,
+      item_count: filtered.activeItems.length,
+      raw_item_count: base.items.length,
+      filtered_item_count: filtered.filteredCount,
+      max_severity: filtered.activeItems.length ? Math.max(...filtered.activeItems.map((item) => item.severity)) : 0,
+      kerala_district_ids: [...new Set(filtered.activeItems.flatMap((item) => item.districts))],
+      items: filtered.activeItems
     };
   }
 
@@ -274,12 +314,16 @@ export async function parseImdCapRss(repoRootOrRaw, source = null, rawInput = nu
     };
   });
 
+  const filtered = filterRecentCapItems(mergedItems, activeWindowHours);
+
   return {
-    issued_at: mergedItems[0]?.published_at ?? base.issued_at ?? null,
-    item_count: mergedItems.length,
-    max_severity: mergedItems.length ? Math.max(...mergedItems.map((item) => item.severity)) : 0,
-    kerala_district_ids: [...new Set(mergedItems.flatMap((item) => item.districts))],
-    items: mergedItems
+    issued_at: filtered.latestPublishedAt ?? base.issued_at ?? null,
+    item_count: filtered.activeItems.length,
+    raw_item_count: mergedItems.length,
+    filtered_item_count: filtered.filteredCount,
+    max_severity: filtered.activeItems.length ? Math.max(...filtered.activeItems.map((item) => item.severity)) : 0,
+    kerala_district_ids: [...new Set(filtered.activeItems.flatMap((item) => item.districts))],
+    items: filtered.activeItems
   };
 }
 

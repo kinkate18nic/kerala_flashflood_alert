@@ -51,7 +51,12 @@ function summarizeSource(parsed) {
     return {};
   }
   if ("item_count" in parsed) {
-    return { item_count: parsed.item_count, district_count: parsed.kerala_district_ids?.length ?? 0 };
+    return {
+      item_count: parsed.item_count,
+      raw_item_count: parsed.raw_item_count ?? parsed.item_count,
+      filtered_item_count: parsed.filtered_item_count ?? 0,
+      district_count: parsed.kerala_district_ids?.length ?? 0
+    };
   }
   if ("districts" in parsed && Array.isArray(parsed.districts)) {
     if ("hotspots" in parsed && Array.isArray(parsed.hotspots)) {

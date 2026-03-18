@@ -41,7 +41,7 @@ async function testParsers() {
   const capDetailRaw = await readFile(path.join(repoRoot, "fixtures", "imd-cap-detail.xml"), "utf8");
   const capWithDetails = await parseImdCapRss(
     repoRoot,
-    null,
+    { active_window_hours: 48 },
     JSON.stringify({
       rss: `<?xml version="1.0" encoding="UTF-8"?><rss><channel><item><title>Localized alert</title><description>Regional alert</description><link>https://example.org/cap/imd-test-ernakulam</link></item></channel></rss>`,
       details: [
@@ -53,6 +53,26 @@ async function testParsers() {
     })
   );
   assert.ok(capWithDetails.kerala_district_ids.includes("ernakulam"));
+
+  const filteredCap = await parseImdCapRss(
+    `<?xml version="1.0" encoding="UTF-8"?><rss><channel>
+      <item>
+        <title>Fresh alert for Ernakulam</title>
+        <description>Heavy rain expected</description>
+        <pubDate>Tue, 18 Mar 2026 09:00:00 +0530</pubDate>
+      </item>
+      <item>
+        <title>Old alert for Idukki</title>
+        <description>Heavy rain expected</description>
+        <pubDate>Fri, 21 Feb 2026 09:00:00 +0530</pubDate>
+      </item>
+    </channel></rss>`,
+    { active_window_hours: 48 }
+  );
+  assert.equal(filteredCap.item_count, 1);
+  assert.equal(filteredCap.filtered_item_count, 1);
+  assert.ok(filteredCap.kerala_district_ids.includes("ernakulam"));
+  assert.equal(filteredCap.kerala_district_ids.includes("idukki"), false);
 
   const bulletinRaw = await readFile(
     path.join(repoRoot, "fixtures", "imd-flash-flood-bulletin.html"),
