@@ -1,5 +1,5 @@
 import { districts } from "../../src/shared/areas.js";
-import { normalizeBoundaryName, talukIdFromBoundaryNames } from "./boundaries.js";
+import { talukIdFromBoundaryNames } from "./boundaries.js";
 
 function formatDate(date) {
   return date.toISOString().slice(0, 10);
@@ -19,31 +19,54 @@ function buildQueryUrl(baseUrl, parameters) {
   return url.toString();
 }
 
-async function fetchJson(url, timeoutMs = 45000) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "user-agent": "KeralaFlashFloodWatch/0.1 (+https://github.com/)"
-      },
-      signal: controller.signal
-    });
-
-    const text = await response.text();
-    return {
-      ok: response.ok,
-      status: response.status,
-      text,
-      json: text ? JSON.parse(text) : null
-    };
-  } finally {
-    clearTimeout(timeout);
-  }
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function mapWithConcurrency(items, worker, concurrency = 3) {
+async function fetchJson(url, { timeoutMs = 60000, retries = 3 } = {}) {
+  let attempt = 0;
+  let lastFailure = null;
+
+  while (attempt < retries) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          accept: "application/json, text/plain, */*",
+          origin: "https://indiawris.gov.in",
+          referer: "https://indiawris.gov.in/swagger-ui/index.html",
+          "user-agent": "KeralaFlashFloodWatch/0.1 (+https://github.com/kinkate18nic/kerala_flashflood_alert)"
+        },
+        signal: controller.signal
+      });
+
+      const text = await response.text();
+      const payload = text ? JSON.parse(text) : null;
+      return {
+        ok: response.ok,
+        status: response.status,
+        text,
+        json: payload
+      };
+    } catch (error) {
+      lastFailure = error;
+      attempt += 1;
+      if (attempt >= retries) {
+        break;
+      }
+      await sleep(600 * attempt);
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  throw lastFailure ?? new Error("India-WRIS request failed");
+}
+
+async function mapWithConcurrency(items, worker, concurrency = 1) {
   const results = new Array(items.length);
   let index = 0;
 
@@ -72,6 +95,54 @@ function latestTimestamp(records) {
     return null;
   }
   return new Date(Math.max(...timestamps)).toISOString();
+}
+
+async function fetchDistrictPages(source, district, queryBuilder, options = {}) {
+  const {
+    pageSize = 100,
+    maxPages = 10
+  } = options;
+
+  const collectedRows = [];
+  let page = 0;
+  let latestResponse = null;
+  let latestUrl = null;
+
+  while (page < maxPages) {
+    const parameters = queryBuilder(district, page, pageSize);
+    latestUrl = buildQueryUrl(source.url, parameters);
+    latestResponse = await fetchJson(latestUrl);
+
+    if (!latestResponse.ok) {
+      return {
+        district,
+        url: latestUrl,
+        response: latestResponse
+      };
+    }
+
+    const rows = Array.isArray(latestResponse.json?.data) ? latestResponse.json.data : [];
+    collectedRows.push(...rows);
+
+    if (rows.length < pageSize) {
+      break;
+    }
+
+    page += 1;
+    await sleep(250);
+  }
+
+  return {
+    district,
+    url: latestUrl,
+    response: {
+      ok: true,
+      status: latestResponse?.status ?? 200,
+      json: {
+        data: collectedRows
+      }
+    }
+  };
 }
 
 function aggregateRainfallSeries(records) {
@@ -178,24 +249,25 @@ function aggregateRiverLevelSeries(records) {
 
 async function fetchDistrictDataset(source, queryBuilder) {
   const results = await mapWithConcurrency(districts, async (district) => {
-    const url = buildQueryUrl(source.url, queryBuilder(district));
     let response;
     try {
-      response = await fetchJson(url);
+      response = await fetchDistrictPages(source, district, queryBuilder, source.fetch_options ?? {});
     } catch (error) {
       response = {
-        ok: false,
-        status: 599,
-        text: "",
-        json: null,
-        error: error instanceof Error ? error.message : String(error)
+        district,
+        url: buildQueryUrl(source.url, queryBuilder(district, 0, source.fetch_options?.pageSize ?? 100)),
+        response: {
+          ok: false,
+          status: 599,
+          text: "",
+          json: null,
+          error: error instanceof Error
+            ? [error.message, error.cause?.message].filter(Boolean).join(" | ")
+            : String(error)
+        }
       };
     }
-    return {
-      district,
-      url,
-      response
-    };
+    return response;
   });
 
   const errors = results.filter((entry) => !entry.response.ok);
@@ -211,15 +283,15 @@ export async function fetchIndiaWrisRainfallPayload(source) {
   const endDate = new Date();
   const startDate = addDays(endDate, -6);
 
-  const districtResults = await fetchDistrictDataset(source, (district) => ({
+  const districtResults = await fetchDistrictDataset(source, (district, page, size) => ({
     stateName: "Kerala",
     districtName: district.name,
     agencyName: "CWC",
     startdate: formatDate(startDate),
     enddate: formatDate(endDate),
     download: false,
-    page: 0,
-    size: 1000
+    page,
+    size
   }));
 
   const districtRainfall = [];
@@ -295,15 +367,15 @@ export async function fetchIndiaWrisRiverLevelPayload(source) {
   const endDate = new Date();
   const startDate = addDays(endDate, -1);
 
-  const districtResults = await fetchDistrictDataset(source, (district) => ({
+  const districtResults = await fetchDistrictDataset(source, (district, page, size) => ({
     stateName: "Kerala",
     districtName: district.name,
     agencyName: "CWC",
     startdate: formatDate(startDate),
     enddate: formatDate(endDate),
     download: false,
-    page: 0,
-    size: 200
+    page,
+    size
   }));
 
   const districtLevels = [];
