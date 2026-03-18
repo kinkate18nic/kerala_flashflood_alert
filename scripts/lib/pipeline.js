@@ -9,6 +9,7 @@ import {
   pointInGeometry
 } from "./boundaries.js";
 import { fetchText } from "./http.js";
+import { fetchImdCapPayload } from "./imd-cap.js";
 import { fetchNasaImergPayload } from "./imerg.js";
 import { parserRegistry } from "./parsers.js";
 import { fetchRainviewerPayload } from "./rainviewer.js";
@@ -100,6 +101,14 @@ async function loadRawContent(repoRoot, source, options) {
 
   if (source.id === "nasa-imerg-nrt") {
     const response = await fetchNasaImergPayload(source);
+    return {
+      ...response,
+      fetchedFrom: "remote"
+    };
+  }
+
+  if (source.id === "imd-cap-rss") {
+    const response = await fetchImdCapPayload(source);
     return {
       ...response,
       fetchedFrom: "remote"
@@ -420,7 +429,10 @@ export async function runPipeline(repoRoot, options = {}) {
       }
 
       if (raw) {
-        parsed = source.path ? await parser(repoRoot, source, raw) : parser(raw);
+        parsed =
+          source.path || source.id === "imd-cap-rss"
+            ? await parser(repoRoot, source, raw)
+            : await parser(raw);
         parserOk = true;
         issuedAt = parsed?.issued_at ?? parsed?.published_at ?? parsed?.items?.[0]?.published_at ?? null;
         if (options.useFixtures) {

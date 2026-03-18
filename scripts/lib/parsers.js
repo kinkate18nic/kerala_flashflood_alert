@@ -3,6 +3,7 @@ import { readJson } from "./fs.js";
 import { districts } from "../../src/shared/areas.js";
 import { parseDate } from "./time.js";
 import { severityKeywords } from "../../src/shared/risk.js";
+import { parseDistrictBoundaries, pointInGeometry } from "./boundaries.js";
 
 function stripHtml(html) {
   return html
@@ -53,6 +54,108 @@ function readCategoryValues(fragment) {
   return [...new Set([...directValues, ...termValues])];
 }
 
+function parseCapPolygon(value) {
+  const coordinates = String(value ?? "")
+    .trim()
+    .split(/\s+/)
+    .map((pair) => pair.split(",").map((part) => Number.parseFloat(part)))
+    .filter((pair) => pair.length === 2 && Number.isFinite(pair[0]) && Number.isFinite(pair[1]))
+    .map(([lat, lon]) => [lon, lat]);
+
+  if (coordinates.length < 4) {
+    return null;
+  }
+
+  const [firstLon, firstLat] = coordinates[0];
+  const [lastLon, lastLat] = coordinates[coordinates.length - 1];
+  if (firstLon !== lastLon || firstLat !== lastLat) {
+    coordinates.push([firstLon, firstLat]);
+  }
+
+  return {
+    type: "Polygon",
+    coordinates: [coordinates]
+  };
+}
+
+function parseCapGeocodes(fragment) {
+  return [...fragment.matchAll(/<(?:(?:\w+):)?geocode\b[^>]*>([\s\S]*?)<\/(?:(?:\w+):)?geocode>/gi)].map((match) => {
+    const geocodeText = match[1];
+    return {
+      value_name: readFirstTag(geocodeText, ["valueName"]) ?? null,
+      value: readFirstTag(geocodeText, ["value"]) ?? null
+    };
+  });
+}
+
+let districtBoundaryCache = null;
+
+async function loadLocalDistrictBoundaries(repoRoot) {
+  if (districtBoundaryCache) {
+    return districtBoundaryCache;
+  }
+
+  const layer = await readJson(
+    path.join(repoRoot, "src", "site", "assets", "kerala-districts.geojson"),
+    { type: "FeatureCollection", features: [] }
+  );
+  districtBoundaryCache = parseDistrictBoundaries(layer);
+  return districtBoundaryCache;
+}
+
+function districtIdsFromPolygons(polygons, districtBoundaries) {
+  const districtIds = new Set();
+
+  for (const polygon of polygons) {
+    for (const districtBoundary of districtBoundaries) {
+      const samplePoints = [
+        districtBoundary.representative_point,
+        districtBoundary.centroid
+      ].filter(Boolean);
+      if (samplePoints.some((point) => pointInGeometry([point.lon, point.lat], polygon))) {
+        districtIds.add(districtBoundary.district_id);
+      }
+    }
+  }
+
+  return [...districtIds];
+}
+
+function parseCapXmlDetail(detailXml, districtBoundaries) {
+  const title = readFirstTag(detailXml, ["headline", "title"]) ?? "";
+  const description = readFirstTag(detailXml, ["description"]) ?? "";
+  const instruction = readFirstTag(detailXml, ["instruction"]) ?? "";
+  const areaDesc = readFirstTag(detailXml, ["areaDesc"]) ?? "";
+  const severityText = readFirstTag(detailXml, ["severity"]) ?? "";
+  const categoryValues = readCategoryValues(detailXml);
+  const geocodes = parseCapGeocodes(detailXml);
+  const polygons = [...detailXml.matchAll(/<(?:(?:\w+):)?polygon[^>]*>([\s\S]*?)<\/(?:(?:\w+):)?polygon>/gi)]
+    .map((match) => parseCapPolygon(match[1]))
+    .filter(Boolean);
+
+  const geocodeText = geocodes
+    .map((geocode) => `${geocode.value_name ?? ""} ${geocode.value ?? ""}`.trim())
+    .join(" ");
+  const text = `${title} ${description} ${instruction} ${areaDesc} ${geocodeText} ${severityText}`.trim();
+  const polygonDistricts = districtIdsFromPolygons(polygons, districtBoundaries);
+  const textDistricts = findDistrictIds(text);
+
+  return {
+    identifier: readFirstTag(detailXml, ["identifier"]) ?? null,
+    sent: parseDate(readFirstTag(detailXml, ["sent"]))?.toISOString() ?? null,
+    title,
+    description,
+    instruction: instruction || null,
+    area_desc: areaDesc || null,
+    severity_text: severityText || null,
+    categories: categoryValues,
+    geocodes,
+    polygons,
+    severity: inferSeverity(text),
+    districts: [...new Set([...polygonDistricts, ...textDistricts])]
+  };
+}
+
 function findDistrictIds(text) {
   const lower = text.toLowerCase();
   return districts
@@ -67,7 +170,7 @@ function inferSeverity(text) {
   return matches.length ? Math.max(...matches) : 0;
 }
 
-export function parseImdCapRss(raw) {
+async function parseImdCapItems(raw) {
   const rawItems = [...raw.matchAll(/<(item|entry)\b[^>]*>([\s\S]*?)<\/\1>/gi)];
   const items = rawItems.map((match) => {
     const itemText = match[2];
@@ -99,11 +202,84 @@ export function parseImdCapRss(raw) {
   });
 
   return {
-    issued_at: filteredItems[0]?.published_at ?? items[0]?.published_at ?? null,
-    item_count: filteredItems.length,
-    max_severity: filteredItems.length ? Math.max(...filteredItems.map((item) => item.severity)) : 0,
-    kerala_district_ids: [...new Set(filteredItems.flatMap((item) => item.districts))],
-    items: filteredItems
+    items: filteredItems,
+    issued_at: filteredItems[0]?.published_at ?? items[0]?.published_at ?? null
+  };
+}
+
+export async function parseImdCapRss(repoRootOrRaw, source = null, rawInput = null) {
+  const repoRoot = rawInput ? repoRootOrRaw : null;
+  const raw = rawInput ?? repoRootOrRaw;
+
+  let payload = null;
+  try {
+    payload = JSON.parse(raw);
+  } catch {
+    payload = null;
+  }
+
+  const rssRaw = payload?.rss ?? raw;
+  const base = await parseImdCapItems(rssRaw);
+
+  if (!payload?.details?.length || !repoRoot) {
+    return {
+      issued_at: base.issued_at,
+      item_count: base.items.length,
+      max_severity: base.items.length ? Math.max(...base.items.map((item) => item.severity)) : 0,
+      kerala_district_ids: [...new Set(base.items.flatMap((item) => item.districts))],
+      items: base.items
+    };
+  }
+
+  const districtBoundaries = await loadLocalDistrictBoundaries(repoRoot);
+  const detailByLink = new Map();
+  const detailByIdentifier = new Map();
+
+  for (const detail of payload.details) {
+    const parsedDetail = parseCapXmlDetail(detail.xml, districtBoundaries);
+    if (detail.link) {
+      detailByLink.set(detail.link, parsedDetail);
+    }
+    if (detail.identifier || parsedDetail.identifier) {
+      detailByIdentifier.set(detail.identifier ?? parsedDetail.identifier, parsedDetail);
+    }
+  }
+
+  const mergedItems = base.items.map((item) => {
+    const identifier = item.link?.match(/[?&]identifier=([^&]+)/i)?.[1] ?? null;
+    const detail =
+      detailByLink.get(item.link) ??
+      (identifier ? detailByIdentifier.get(identifier) : null) ??
+      null;
+
+    if (!detail) {
+      return item;
+    }
+
+    const combinedText = `${detail.title} ${detail.description} ${detail.instruction ?? ""} ${detail.area_desc ?? ""}`.trim();
+    const severity = Math.max(item.severity, detail.severity);
+
+    return {
+      ...item,
+      title: detail.title || item.title,
+      description: detail.description || item.description,
+      instruction: detail.instruction,
+      area_desc: detail.area_desc,
+      categories: detail.categories.length ? detail.categories : item.categories,
+      published_at: detail.sent ?? item.published_at,
+      severity,
+      districts: detail.districts.length ? detail.districts : [...new Set([...item.districts, ...findDistrictIds(combinedText)])],
+      geocodes: detail.geocodes,
+      polygons: detail.polygons
+    };
+  });
+
+  return {
+    issued_at: mergedItems[0]?.published_at ?? base.issued_at ?? null,
+    item_count: mergedItems.length,
+    max_severity: mergedItems.length ? Math.max(...mergedItems.map((item) => item.severity)) : 0,
+    kerala_district_ids: [...new Set(mergedItems.flatMap((item) => item.districts))],
+    items: mergedItems
   };
 }
 

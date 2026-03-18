@@ -34,9 +34,25 @@ const repoRoot = path.resolve(__dirname, "..");
 
 async function testParsers() {
   const capRaw = await readFile(path.join(repoRoot, "fixtures", "imd-cap-rss.xml"), "utf8");
-  const cap = parseImdCapRss(capRaw);
+  const cap = await parseImdCapRss(capRaw);
   assert.equal(cap.item_count, 2);
   assert.ok(cap.kerala_district_ids.includes("idukki"));
+
+  const capDetailRaw = await readFile(path.join(repoRoot, "fixtures", "imd-cap-detail.xml"), "utf8");
+  const capWithDetails = await parseImdCapRss(
+    repoRoot,
+    null,
+    JSON.stringify({
+      rss: `<?xml version="1.0" encoding="UTF-8"?><rss><channel><item><title>Localized alert</title><description>Regional alert</description><link>https://example.org/cap/imd-test-ernakulam</link></item></channel></rss>`,
+      details: [
+        {
+          link: "https://example.org/cap/imd-test-ernakulam",
+          xml: capDetailRaw
+        }
+      ]
+    })
+  );
+  assert.ok(capWithDetails.kerala_district_ids.includes("ernakulam"));
 
   const bulletinRaw = await readFile(
     path.join(repoRoot, "fixtures", "imd-flash-flood-bulletin.html"),
