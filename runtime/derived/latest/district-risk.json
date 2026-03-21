@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-21T14:58:52.044Z",
+  "generated_at": "2026-03-21T15:32:35.101Z",
   "districts": [
     {
       "area_id": "kasaragod",
@@ -18,18 +18,19 @@
         "roughness_mean": 7.092902,
         "dem_normalized": 0.3
       },
-      "valid_from": "2026-03-21T14:58:52.044Z",
-      "valid_to": "2026-03-21T20:58:52.044Z",
+      "valid_from": "2026-03-21T15:32:35.101Z",
+      "valid_to": "2026-03-21T21:32:35.101Z",
       "drivers": [
         "Observed 24h rain 0 mm and 1h rain 0 mm",
-        "Rainfall aggregation district_polygon_mean",
+        "India-WRIS official 24h rainfall 0 mm from 2 stations",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "Terrain susceptibility 35% from NASADEM + local baseline"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5772,
+          "freshness_minutes": 5805,
           "status": "offline"
         },
         {
@@ -40,20 +41,20 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 1559,
+          "detail": "Official rainfall available from 2 stations",
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 0,
+          "freshness_minutes": 3,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
@@ -68,12 +69,17 @@
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0,
-        "rain_3d_mm": 0.6,
-        "rain_7d_mm": 2.7,
-        "source": "nasa-imerg-pps",
-        "spatial_aggregation": "district_polygon_mean",
+        "rain_3d_mm": 6.6,
+        "rain_7d_mm": 6.6,
+        "source": "nasa-imerg-pps+indiawris-cwc",
+        "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 17,
-        "peak_30m_mm": 0
+        "peak_30m_mm": 0,
+        "official_rain_24h_mm": 0,
+        "official_rain_3d_mm": 6.6,
+        "official_rain_7d_mm": 6.6,
+        "official_station_count": 2,
+        "official_peak_station_24h_mm": 0
       },
       "review_state": "auto_published"
     },
@@ -94,8 +100,8 @@
         "roughness_mean": 7.417914,
         "dem_normalized": 0.4
       },
-      "valid_from": "2026-03-21T14:58:52.044Z",
-      "valid_to": "2026-03-21T20:58:52.044Z",
+      "valid_from": "2026-03-21T15:32:35.101Z",
+      "valid_to": "2026-03-21T21:32:35.101Z",
       "drivers": [
         "Observed 24h rain 16.6 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 16.6 mm from 1 station",
@@ -107,7 +113,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5772,
+          "freshness_minutes": 5805,
           "status": "offline"
         },
         {
@@ -119,19 +125,19 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 0,
+          "freshness_minutes": 3,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
@@ -177,10 +183,11 @@
         "roughness_mean": 8.218636,
         "dem_normalized": 0.4
       },
-      "valid_from": "2026-03-21T14:58:52.044Z",
-      "valid_to": "2026-03-21T20:58:52.044Z",
+      "valid_from": "2026-03-21T15:32:35.101Z",
+      "valid_to": "2026-03-21T21:32:35.101Z",
       "drivers": [
         "Observed 24h rain 0 mm and 1h rain 0 mm",
+        "Peak recent 30 min rain 0.1 mm",
         "Rainfall aggregation district_polygon_mean",
         "Terrain susceptibility 53% from NASADEM + local baseline"
       ],
@@ -188,7 +195,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 5772,
+          "freshness_minutes": 5805,
           "status": "offline"
         },
         {
@@ -200,19 +207,19 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 0,
+          "freshness_minutes": 3,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
@@ -232,7 +239,7 @@
         "source": "nasa-imerg-pps",
         "spatial_aggregation": "district_polygon_mean",
         "cell_count": 15,
-        "peak_30m_mm": 0
+        "peak_30m_mm": 0.1
       },
       "review_state": "auto_published"
     },
@@ -253,8 +260,8 @@
         "roughness_mean": 8.165773,
         "dem_normalized": 0.6
       },
-      "valid_from": "2026-03-21T14:58:52.044Z",
-      "valid_to": "2026-03-21T20:58:52.044Z",
+      "valid_from": "2026-03-21T15:32:35.101Z",
+      "valid_to": "2026-03-21T21:32:35.101Z",
       "drivers": [
         "Observed 24h rain 0 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 0 mm from 1 station",
@@ -266,7 +273,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5772,
+          "freshness_minutes": 5805,
           "status": "offline"
         },
         {
@@ -278,19 +285,19 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 0,
+          "freshness_minutes": 3,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
@@ -336,12 +343,13 @@
         "roughness_mean": 8.008132,
         "dem_normalized": 0.7
       },
-      "valid_from": "2026-03-21T14:58:52.044Z",
-      "valid_to": "2026-03-21T20:58:52.044Z",
+      "valid_from": "2026-03-21T15:32:35.101Z",
+      "valid_to": "2026-03-21T21:32:35.101Z",
       "drivers": [
-        "Observed 24h rain 0.7 mm and 1h rain 0 mm",
+        "Observed 24h rain 0.7 mm and 1h rain 0.1 mm",
         "India-WRIS official 24h rainfall 0.7 mm from 6 stations",
         "Peak India-WRIS station 24h rainfall 4 mm",
+        "Peak recent 30 min rain 0.4 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "Terrain susceptibility 67% from NASADEM + local baseline"
       ],
@@ -349,7 +357,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5772,
+          "freshness_minutes": 5805,
           "status": "offline"
         },
         {
@@ -361,19 +369,19 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 6 stations",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 0,
+          "freshness_minutes": 3,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
@@ -384,7 +392,7 @@
         }
       ],
       "rainfall": {
-        "rain_1h_mm": 0,
+        "rain_1h_mm": 0.1,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0.7,
@@ -393,7 +401,7 @@
         "source": "nasa-imerg-pps+indiawris-cwc",
         "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 28,
-        "peak_30m_mm": 0,
+        "peak_30m_mm": 0.4,
         "official_rain_24h_mm": 0.7,
         "official_rain_3d_mm": 2.3,
         "official_rain_7d_mm": 2.3,
@@ -419,12 +427,13 @@
         "roughness_mean": 8.603137,
         "dem_normalized": 0.8
       },
-      "valid_from": "2026-03-21T14:58:52.044Z",
-      "valid_to": "2026-03-21T20:58:52.044Z",
+      "valid_from": "2026-03-21T15:32:35.101Z",
+      "valid_to": "2026-03-21T21:32:35.101Z",
       "drivers": [
         "Observed 24h rain 2.4 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 2.4 mm from 1 station",
         "Peak India-WRIS station 24h rainfall 2.4 mm",
+        "Peak recent 30 min rain 0.2 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "Terrain susceptibility 69% from NASADEM + local baseline",
         "Dam downstream caution active"
@@ -433,7 +442,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 5772,
+          "freshness_minutes": 5805,
           "status": "offline"
         },
         {
@@ -445,19 +454,19 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 0,
+          "freshness_minutes": 3,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
@@ -477,7 +486,7 @@
         "source": "nasa-imerg-pps+indiawris-cwc",
         "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 40,
-        "peak_30m_mm": 0,
+        "peak_30m_mm": 0.2,
         "official_rain_24h_mm": 2.4,
         "official_rain_3d_mm": 2.4,
         "official_rain_7d_mm": 2.4,
@@ -491,7 +500,7 @@
       "area_type": "district",
       "name": "Thrissur",
       "level": "Normal",
-      "score": 0,
+      "score": 4.6,
       "confidence": 0.4,
       "region": "central",
       "susceptibility": 0.5123293858356701,
@@ -503,13 +512,15 @@
         "roughness_mean": 6.105978,
         "dem_normalized": 0.5
       },
-      "valid_from": "2026-03-21T14:58:52.044Z",
-      "valid_to": "2026-03-21T20:58:52.044Z",
+      "valid_from": "2026-03-21T15:32:35.101Z",
+      "valid_to": "2026-03-21T21:32:35.101Z",
       "drivers": [
         "Observed 24h rain 0.3 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 0.3 mm from 2 stations",
         "Peak India-WRIS station 24h rainfall 0.6 mm",
+        "Peak recent 30 min rain 0.1 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "RainViewer nowcast light (18 dBZ)",
         "Terrain susceptibility 51% from NASADEM + local baseline",
         "Dam downstream caution active"
       ],
@@ -517,7 +528,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5772,
+          "freshness_minutes": 5805,
           "status": "offline"
         },
         {
@@ -529,19 +540,19 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 0,
+          "detail": "RainViewer light cell near district",
+          "freshness_minutes": 3,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
@@ -561,7 +572,7 @@
         "source": "nasa-imerg-pps+indiawris-cwc",
         "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 22,
-        "peak_30m_mm": 0,
+        "peak_30m_mm": 0.1,
         "official_rain_24h_mm": 0.3,
         "official_rain_3d_mm": 0.9,
         "official_rain_7d_mm": 0.9,
@@ -587,11 +598,12 @@
         "roughness_mean": 4.42897,
         "dem_normalized": 0.2
       },
-      "valid_from": "2026-03-21T14:58:52.044Z",
-      "valid_to": "2026-03-21T20:58:52.044Z",
+      "valid_from": "2026-03-21T15:32:35.101Z",
+      "valid_to": "2026-03-21T21:32:35.101Z",
       "drivers": [
-        "Observed 24h rain 0 mm and 1h rain 0 mm",
+        "Observed 24h rain 0 mm and 1h rain 0.2 mm",
         "India-WRIS official 24h rainfall 0 mm from 1 station",
+        "Peak recent 30 min rain 1.4 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "RainViewer nowcast moderate (32 dBZ)",
         "Terrain susceptibility 42% from NASADEM + local baseline"
@@ -600,7 +612,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5772,
+          "freshness_minutes": 5805,
           "status": "offline"
         },
         {
@@ -612,19 +624,19 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near district",
-          "freshness_minutes": 0,
+          "freshness_minutes": 3,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "India-WRIS river level available from 1 station with no notable rise",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
@@ -635,7 +647,7 @@
         }
       ],
       "rainfall": {
-        "rain_1h_mm": 0,
+        "rain_1h_mm": 0.2,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0,
@@ -644,7 +656,7 @@
         "source": "nasa-imerg-pps+indiawris-cwc",
         "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 21,
-        "peak_30m_mm": 0,
+        "peak_30m_mm": 1.4,
         "official_rain_24h_mm": 0,
         "official_rain_3d_mm": 1.7,
         "official_rain_7d_mm": 2.5,
@@ -658,7 +670,7 @@
       "area_type": "district",
       "name": "Idukki",
       "level": "Normal",
-      "score": 12.1,
+      "score": 12.2,
       "confidence": 0.4,
       "region": "high-range",
       "susceptibility": 0.964,
@@ -670,13 +682,13 @@
         "roughness_mean": 13.95467,
         "dem_normalized": 1
       },
-      "valid_from": "2026-03-21T14:58:52.044Z",
-      "valid_to": "2026-03-21T20:58:52.044Z",
+      "valid_from": "2026-03-21T15:32:35.101Z",
+      "valid_to": "2026-03-21T21:32:35.101Z",
       "drivers": [
-        "Observed 24h rain 1.5 mm and 1h rain 0.1 mm",
+        "Observed 24h rain 1.5 mm and 1h rain 0.4 mm",
         "India-WRIS official 24h rainfall 1.5 mm from 3 stations",
         "Peak India-WRIS station 24h rainfall 3.4 mm",
-        "Peak recent 30 min rain 0.2 mm",
+        "Peak recent 30 min rain 1.4 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "RainViewer nowcast moderate (27 dBZ)",
         "Terrain susceptibility 96% from NASADEM + local baseline",
@@ -686,7 +698,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 5772,
+          "freshness_minutes": 5805,
           "status": "offline"
         },
         {
@@ -698,19 +710,19 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near district",
-          "freshness_minutes": 0,
+          "freshness_minutes": 3,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
@@ -721,7 +733,7 @@
         }
       ],
       "rainfall": {
-        "rain_1h_mm": 0.1,
+        "rain_1h_mm": 0.4,
         "rain_3h_mm": 0.1,
         "rain_6h_mm": 0.1,
         "rain_24h_mm": 1.5,
@@ -730,7 +742,7 @@
         "source": "nasa-imerg-pps+indiawris-cwc",
         "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 41,
-        "peak_30m_mm": 0.2,
+        "peak_30m_mm": 1.4,
         "official_rain_24h_mm": 1.5,
         "official_rain_3d_mm": 8.5,
         "official_rain_7d_mm": 8.5,
@@ -756,20 +768,21 @@
         "roughness_mean": 6.439277,
         "dem_normalized": 0.4
       },
-      "valid_from": "2026-03-21T14:58:52.044Z",
-      "valid_to": "2026-03-21T20:58:52.044Z",
+      "valid_from": "2026-03-21T15:32:35.101Z",
+      "valid_to": "2026-03-21T21:32:35.101Z",
       "drivers": [
-        "Observed 24h rain 0 mm and 1h rain 0 mm",
+        "Observed 24h rain 0 mm and 1h rain 0.1 mm",
         "India-WRIS official 24h rainfall 0 mm from 2 stations",
-        "Peak recent 30 min rain 0.1 mm",
+        "Peak recent 30 min rain 0.2 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "RainViewer nowcast moderate (27 dBZ)",
         "Terrain susceptibility 50% from NASADEM + local baseline"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5772,
+          "freshness_minutes": 5805,
           "status": "offline"
         },
         {
@@ -781,19 +794,19 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 0,
+          "detail": "RainViewer moderate cell near district",
+          "freshness_minutes": 3,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
@@ -804,7 +817,7 @@
         }
       ],
       "rainfall": {
-        "rain_1h_mm": 0,
+        "rain_1h_mm": 0.1,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0,
@@ -813,7 +826,7 @@
         "source": "nasa-imerg-pps+indiawris-cwc",
         "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 16,
-        "peak_30m_mm": 0.1,
+        "peak_30m_mm": 0.2,
         "official_rain_24h_mm": 0,
         "official_rain_3d_mm": 3.5,
         "official_rain_7d_mm": 3.5,
@@ -839,10 +852,11 @@
         "roughness_mean": 1.791728,
         "dem_normalized": 0.1
       },
-      "valid_from": "2026-03-21T14:58:52.044Z",
-      "valid_to": "2026-03-21T20:58:52.044Z",
+      "valid_from": "2026-03-21T15:32:35.101Z",
+      "valid_to": "2026-03-21T21:32:35.101Z",
       "drivers": [
         "Observed 24h rain 0 mm and 1h rain 0 mm",
+        "Peak recent 30 min rain 0.1 mm",
         "Rainfall aggregation district_polygon_mean",
         "RainViewer nowcast moderate (32 dBZ)",
         "Terrain susceptibility 32% from NASADEM + local baseline"
@@ -851,7 +865,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5772,
+          "freshness_minutes": 5805,
           "status": "offline"
         },
         {
@@ -863,19 +877,19 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near district",
-          "freshness_minutes": 0,
+          "freshness_minutes": 3,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
@@ -895,7 +909,7 @@
         "source": "nasa-imerg-pps",
         "spatial_aggregation": "district_polygon_mean",
         "cell_count": 13,
-        "peak_30m_mm": 0
+        "peak_30m_mm": 0.1
       },
       "review_state": "auto_published"
     },
@@ -916,12 +930,12 @@
         "roughness_mean": 11.31176,
         "dem_normalized": 0.8
       },
-      "valid_from": "2026-03-21T14:58:52.044Z",
-      "valid_to": "2026-03-21T20:58:52.044Z",
+      "valid_from": "2026-03-21T15:32:35.101Z",
+      "valid_to": "2026-03-21T21:32:35.101Z",
       "drivers": [
-        "Observed 24h rain 0 mm and 1h rain 0 mm",
+        "Observed 24h rain 0 mm and 1h rain 0.1 mm",
         "India-WRIS official 24h rainfall 0 mm from 1 station",
-        "Peak recent 30 min rain 0.1 mm",
+        "Peak recent 30 min rain 0.2 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "RainViewer nowcast moderate (32 dBZ)",
         "Terrain susceptibility 83% from NASADEM + local baseline",
@@ -932,7 +946,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 5772,
+          "freshness_minutes": 5805,
           "status": "offline"
         },
         {
@@ -944,19 +958,19 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near district",
-          "freshness_minutes": 0,
+          "freshness_minutes": 3,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "India-WRIS river level rise 10.97 m across 1 station",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
@@ -967,7 +981,7 @@
         }
       ],
       "rainfall": {
-        "rain_1h_mm": 0,
+        "rain_1h_mm": 0.1,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0,
@@ -976,7 +990,7 @@
         "source": "nasa-imerg-pps+indiawris-cwc",
         "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 22,
-        "peak_30m_mm": 0.1,
+        "peak_30m_mm": 0.2,
         "official_rain_24h_mm": 0,
         "official_rain_3d_mm": 0.3,
         "official_rain_7d_mm": 0.5,
@@ -1002,12 +1016,13 @@
         "roughness_mean": 7.522414,
         "dem_normalized": 0.5
       },
-      "valid_from": "2026-03-21T14:58:52.044Z",
-      "valid_to": "2026-03-21T20:58:52.044Z",
+      "valid_from": "2026-03-21T15:32:35.101Z",
+      "valid_to": "2026-03-21T21:32:35.101Z",
       "drivers": [
         "Observed 24h rain 2.3 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 2.3 mm from 2 stations",
         "Peak India-WRIS station 24h rainfall 4.6 mm",
+        "Peak recent 30 min rain 0.1 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "RainViewer nowcast moderate (27 dBZ)",
         "Terrain susceptibility 55% from NASADEM + local baseline",
@@ -1017,7 +1032,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5772,
+          "freshness_minutes": 5805,
           "status": "offline"
         },
         {
@@ -1029,19 +1044,19 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near district",
-          "freshness_minutes": 0,
+          "freshness_minutes": 3,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
@@ -1061,7 +1076,7 @@
         "source": "nasa-imerg-pps+indiawris-cwc",
         "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 22,
-        "peak_30m_mm": 0,
+        "peak_30m_mm": 0.1,
         "official_rain_24h_mm": 2.3,
         "official_rain_3d_mm": 2.3,
         "official_rain_7d_mm": 2.3,
@@ -1087,12 +1102,12 @@
         "roughness_mean": 6.988385,
         "dem_normalized": 0.5
       },
-      "valid_from": "2026-03-21T14:58:52.044Z",
-      "valid_to": "2026-03-21T20:58:52.044Z",
+      "valid_from": "2026-03-21T15:32:35.101Z",
+      "valid_to": "2026-03-21T21:32:35.101Z",
       "drivers": [
-        "Observed 24h rain 0 mm and 1h rain 0.1 mm",
+        "Observed 24h rain 0 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 0 mm from 1 station",
-        "Peak recent 30 min rain 0.2 mm",
+        "Peak recent 30 min rain 0.1 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "Terrain susceptibility 52% from NASADEM + local baseline",
         "Reservoir caution active",
@@ -1102,7 +1117,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5772,
+          "freshness_minutes": 5805,
           "status": "offline"
         },
         {
@@ -1114,19 +1129,19 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 0,
+          "freshness_minutes": 3,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1559,
+          "freshness_minutes": 1593,
           "status": "stale"
         },
         {
@@ -1137,7 +1152,7 @@
         }
       ],
       "rainfall": {
-        "rain_1h_mm": 0.1,
+        "rain_1h_mm": 0,
         "rain_3h_mm": 0.1,
         "rain_6h_mm": 0.1,
         "rain_24h_mm": 0,
@@ -1146,7 +1161,7 @@
         "source": "nasa-imerg-pps+indiawris-cwc",
         "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 18,
-        "peak_30m_mm": 0.2,
+        "peak_30m_mm": 0.1,
         "official_rain_24h_mm": 0,
         "official_rain_3d_mm": 0,
         "official_rain_7d_mm": 0,
