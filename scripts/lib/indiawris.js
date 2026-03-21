@@ -34,11 +34,31 @@ async function fetchJson(url, { timeoutMs = 60000, retries = 3 } = {}) {
   let attempt = 0;
   let lastFailure = null;
 
+  const { execSync } = await import("node:child_process");
+
   while (attempt < retries) {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
+      if (url.includes("workers.dev")) {
+        const cmd = `curl -s -k -X POST "${url}" -H "Accept: application/json, text/plain, */*" -H "Origin: https://indiawris.gov.in" -H "Referer: https://indiawris.gov.in/swagger-ui/index.html" -H "User-Agent: curl/8.4.0" --max-time ${Math.floor(timeoutMs / 1000)}`;
+        const stdout = execSync(cmd, { timeout: timeoutMs }).toString();
+        
+        if (stdout.includes("<html") && stdout.includes("Cloudflare")) {
+          throw new Error("Cloudflare Bot Fight Mode intercepted request");
+        }
+        
+        const payload = stdout ? JSON.parse(stdout) : null;
+        return {
+          ok: true,
+          status: 200,
+          text: stdout,
+          json: payload
+        };
+      }
+
+      // Fallback for native fetch
       const response = await fetch(url, {
         method: "POST",
         headers: {
