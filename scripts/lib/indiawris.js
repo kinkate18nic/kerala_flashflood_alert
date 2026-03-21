@@ -384,7 +384,9 @@ async function fetchDistrictDataset(repoRoot, source, queryBuilder) {
   const errors = results.filter((entry) => !entry.response.ok);
   if (errors.length === results.length) {
     const sample = errors[0];
-    throw new Error(`India-WRIS fetch failed: ${sample.response.status} ${sample.url}${sample.response.error ? ` (${sample.response.error})` : ""}`);
+    const endpointPath = new URL(sample.url).pathname;
+    const cleanError = sample.response.error ? sample.response.error.split("|")[0].trim() : "Timeout or Network Issue";
+    throw new Error(`India-WRIS fetch failed (${sample.response.status}): ${endpointPath} - ${cleanError}`);
   }
 
   return results;
