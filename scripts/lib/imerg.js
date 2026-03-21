@@ -138,7 +138,7 @@ async function fetchListing(url, credentials) {
 async function fetchArrayBuffer(url, credentials, attempts = 3) {
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 60000);
+    const timeout = setTimeout(() => controller.abort(), 120000);
     try {
       const response = await fetch(url, {
         headers: {
