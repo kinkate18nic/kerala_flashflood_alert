@@ -1,15 +1,85 @@
 {
-  "generated_at": "2026-03-21T11:48:29.228Z",
+  "generated_at": "2026-03-21T12:40:12.621Z",
   "alerts": [
     {
-      "alert_id": "h-pamba-corridor:2026-03-21T11:48:29.228Z",
+      "alert_id": "h-munnar-devikulam:2026-03-21T12:40:12.621Z",
+      "area_id": "h-munnar-devikulam",
+      "area_type": "hotspot",
+      "district_id": "idukki",
+      "name": "Munnar - Devikulam upper catchments",
+      "score": 58,
+      "valid_from": "2026-03-21T12:40:12.621Z",
+      "valid_to": "2026-03-21T18:40:12.621Z",
+      "level": "Alert",
+      "confidence": 0.6,
+      "review_state": "auto_published",
+      "drivers": [
+        "Observed 24h rain 1.5 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 1.5 mm from 3 stations",
+        "Peak India-WRIS station 24h rainfall 3.4 mm",
+        "Peak recent 30 min rain 0.2 mm",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "RainViewer nowcast very heavy (50 dBZ)",
+        "Terrain susceptibility 96% from NASADEM + local baseline",
+        "Dam downstream caution active",
+        "Hotspot radar echo very heavy (50 dBZ)",
+        "Hotspot susceptibility 95%",
+        "Hotspot category steep catchment",
+        "Hotspot analysis radius 14 km"
+      ],
+      "source_refs": [
+        {
+          "source_id": "imd-cap-rss",
+          "detail": "1 CAP items",
+          "freshness_minutes": 5633,
+          "status": "offline"
+        },
+        {
+          "source_id": "imd-flash-flood-bulletin",
+          "detail": "No Kerala bulletin trigger",
+          "freshness_minutes": null,
+          "status": "offline"
+        },
+        {
+          "source_id": "indiawris-rainfall",
+          "detail": "Official rainfall available from 3 stations",
+          "freshness_minutes": 1420,
+          "status": "ok"
+        },
+        {
+          "source_id": "rainviewer-radar",
+          "detail": "RainViewer very heavy cell near hotspot",
+          "freshness_minutes": 0,
+          "status": "ok"
+        },
+        {
+          "source_id": "indiawris-river-level",
+          "detail": "No India-WRIS river-level context for district",
+          "freshness_minutes": 1420,
+          "status": "ok"
+        },
+        {
+          "source_id": "cwc-ffs",
+          "detail": "No river-stage warning for district",
+          "freshness_minutes": null,
+          "status": "offline"
+        }
+      ],
+      "message_en": "Munnar - Devikulam upper catchments: Alert. Observed 24h rain 1.5 mm and 1h rain 0 mm",
+      "recommended_actions": [
+        "Continue district monitoring.",
+        "Watch official IMD and district warnings for changes."
+      ]
+    },
+    {
+      "alert_id": "h-pamba-corridor:2026-03-21T12:40:12.621Z",
       "area_id": "h-pamba-corridor",
       "area_type": "hotspot",
       "district_id": "pathanamthitta",
       "name": "Aranmula - Kozhencherry - Ranni",
-      "score": 48.3,
-      "valid_from": "2026-03-21T11:48:29.228Z",
-      "valid_to": "2026-03-21T17:48:29.228Z",
+      "score": 53.3,
+      "valid_from": "2026-03-21T12:40:12.621Z",
+      "valid_to": "2026-03-21T18:40:12.621Z",
       "level": "Watch",
       "confidence": 0.6,
       "review_state": "auto_published",
@@ -17,11 +87,11 @@
         "Observed 24h rain 0 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 0 mm from 1 station",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast moderate (32 dBZ)",
+        "RainViewer nowcast heavy (41 dBZ)",
         "Terrain susceptibility 83% from NASADEM + local baseline",
         "CWC river-stage warning/watch active",
         "Dam downstream caution active",
-        "Hotspot radar echo moderate (27 dBZ)",
+        "Hotspot radar echo heavy (41 dBZ)",
         "Hotspot susceptibility 88%",
         "Hotspot category river floodplain",
         "Hotspot analysis radius 18 km"
@@ -30,7 +100,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 5581,
+          "freshness_minutes": 5633,
           "status": "offline"
         },
         {
@@ -42,19 +112,19 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 1368,
+          "freshness_minutes": 1420,
           "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer moderate cell near hotspot",
+          "detail": "RainViewer heavy cell near hotspot",
           "freshness_minutes": 0,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "India-WRIS river level rise 10.97 m across 1 station",
-          "freshness_minutes": 1368,
+          "freshness_minutes": 1420,
           "status": "ok"
         },
         {
@@ -71,83 +141,14 @@
       ]
     },
     {
-      "alert_id": "h-munnar-devikulam:2026-03-21T11:48:29.228Z",
-      "area_id": "h-munnar-devikulam",
-      "area_type": "hotspot",
-      "district_id": "idukki",
-      "name": "Munnar - Devikulam upper catchments",
-      "score": 48,
-      "valid_from": "2026-03-21T11:48:29.228Z",
-      "valid_to": "2026-03-21T17:48:29.228Z",
-      "level": "Watch",
-      "confidence": 0.6,
-      "review_state": "auto_published",
-      "drivers": [
-        "Observed 24h rain 1.5 mm and 1h rain 0 mm",
-        "India-WRIS official 24h rainfall 1.5 mm from 3 stations",
-        "Peak India-WRIS station 24h rainfall 3.4 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast moderate (32 dBZ)",
-        "Terrain susceptibility 96% from NASADEM + local baseline",
-        "Dam downstream caution active",
-        "Hotspot radar echo moderate (32 dBZ)",
-        "Hotspot susceptibility 95%",
-        "Hotspot category steep catchment",
-        "Hotspot analysis radius 14 km"
-      ],
-      "source_refs": [
-        {
-          "source_id": "imd-cap-rss",
-          "detail": "1 CAP items",
-          "freshness_minutes": 5581,
-          "status": "offline"
-        },
-        {
-          "source_id": "imd-flash-flood-bulletin",
-          "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "offline"
-        },
-        {
-          "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 1368,
-          "status": "ok"
-        },
-        {
-          "source_id": "rainviewer-radar",
-          "detail": "RainViewer moderate cell near hotspot",
-          "freshness_minutes": 0,
-          "status": "ok"
-        },
-        {
-          "source_id": "indiawris-river-level",
-          "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1368,
-          "status": "ok"
-        },
-        {
-          "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
-        }
-      ],
-      "message_en": "Munnar - Devikulam upper catchments: Watch. Observed 24h rain 1.5 mm and 1h rain 0 mm",
-      "recommended_actions": [
-        "Continue district monitoring.",
-        "Watch official IMD and district warnings for changes."
-      ]
-    },
-    {
-      "alert_id": "h-peermade:2026-03-21T11:48:29.228Z",
+      "alert_id": "h-peermade:2026-03-21T12:40:12.621Z",
       "area_id": "h-peermade",
       "area_type": "hotspot",
       "district_id": "idukki",
       "name": "Peermade high-range catchment",
-      "score": 47.7,
-      "valid_from": "2026-03-21T11:48:29.228Z",
-      "valid_to": "2026-03-21T17:48:29.228Z",
+      "score": 51.7,
+      "valid_from": "2026-03-21T12:40:12.621Z",
+      "valid_to": "2026-03-21T18:40:12.621Z",
       "level": "Watch",
       "confidence": 0.6,
       "review_state": "auto_published",
@@ -155,11 +156,12 @@
         "Observed 24h rain 1.5 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 1.5 mm from 3 stations",
         "Peak India-WRIS station 24h rainfall 3.4 mm",
+        "Peak recent 30 min rain 0.2 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast moderate (32 dBZ)",
+        "RainViewer nowcast very heavy (50 dBZ)",
         "Terrain susceptibility 96% from NASADEM + local baseline",
         "Dam downstream caution active",
-        "Hotspot radar echo moderate (32 dBZ)",
+        "Hotspot radar echo moderate (27 dBZ)",
         "Hotspot susceptibility 94%",
         "Hotspot category steep catchment",
         "Hotspot analysis radius 10 km"
@@ -168,7 +170,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 5581,
+          "freshness_minutes": 5633,
           "status": "offline"
         },
         {
@@ -180,7 +182,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 1368,
+          "freshness_minutes": 1420,
           "status": "ok"
         },
         {
@@ -192,7 +194,7 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1368,
+          "freshness_minutes": 1420,
           "status": "ok"
         },
         {
@@ -209,14 +211,83 @@
       ]
     },
     {
-      "alert_id": "h-vandiperiyar-mullaperiyar:2026-03-21T11:48:29.228Z",
+      "alert_id": "h-chalakudy:2026-03-21T12:40:12.621Z",
+      "area_id": "h-chalakudy",
+      "area_type": "hotspot",
+      "district_id": "thrissur",
+      "name": "Chalakudy river and dam influence belt",
+      "score": 47.2,
+      "valid_from": "2026-03-21T12:40:12.621Z",
+      "valid_to": "2026-03-21T18:40:12.621Z",
+      "level": "Watch",
+      "confidence": 0.6,
+      "review_state": "auto_published",
+      "drivers": [
+        "Observed 24h rain 0.3 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 0.3 mm from 2 stations",
+        "Peak India-WRIS station 24h rainfall 0.6 mm",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "RainViewer nowcast very heavy (50 dBZ)",
+        "Terrain susceptibility 51% from NASADEM + local baseline",
+        "Dam downstream caution active",
+        "Hotspot radar echo very heavy (50 dBZ)",
+        "Hotspot susceptibility 74%",
+        "Hotspot category dam downstream",
+        "Hotspot analysis radius 12 km"
+      ],
+      "source_refs": [
+        {
+          "source_id": "imd-cap-rss",
+          "detail": "0 CAP items",
+          "freshness_minutes": 5633,
+          "status": "offline"
+        },
+        {
+          "source_id": "imd-flash-flood-bulletin",
+          "detail": "No Kerala bulletin trigger",
+          "freshness_minutes": null,
+          "status": "offline"
+        },
+        {
+          "source_id": "indiawris-rainfall",
+          "detail": "Official rainfall available from 2 stations",
+          "freshness_minutes": 1420,
+          "status": "ok"
+        },
+        {
+          "source_id": "rainviewer-radar",
+          "detail": "RainViewer very heavy cell near hotspot",
+          "freshness_minutes": 0,
+          "status": "ok"
+        },
+        {
+          "source_id": "indiawris-river-level",
+          "detail": "No India-WRIS river-level context for district",
+          "freshness_minutes": 1420,
+          "status": "ok"
+        },
+        {
+          "source_id": "cwc-ffs",
+          "detail": "No river-stage warning for district",
+          "freshness_minutes": null,
+          "status": "offline"
+        }
+      ],
+      "message_en": "Chalakudy river and dam influence belt: Watch. Observed 24h rain 0.3 mm and 1h rain 0 mm",
+      "recommended_actions": [
+        "Continue district monitoring.",
+        "Watch official IMD and district warnings for changes."
+      ]
+    },
+    {
+      "alert_id": "h-vandiperiyar-mullaperiyar:2026-03-21T12:40:12.621Z",
       "area_id": "h-vandiperiyar-mullaperiyar",
       "area_type": "hotspot",
       "district_id": "idukki",
       "name": "Vandiperiyar - Vallakadavu - Chappathu",
-      "score": 40.3,
-      "valid_from": "2026-03-21T11:48:29.228Z",
-      "valid_to": "2026-03-21T17:48:29.228Z",
+      "score": 44.3,
+      "valid_from": "2026-03-21T12:40:12.621Z",
+      "valid_to": "2026-03-21T18:40:12.621Z",
       "level": "Watch",
       "confidence": 0.6,
       "review_state": "auto_published",
@@ -224,8 +295,9 @@
         "Observed 24h rain 1.5 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 1.5 mm from 3 stations",
         "Peak India-WRIS station 24h rainfall 3.4 mm",
+        "Peak recent 30 min rain 0.2 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast moderate (32 dBZ)",
+        "RainViewer nowcast very heavy (50 dBZ)",
         "Terrain susceptibility 96% from NASADEM + local baseline",
         "Dam downstream caution active",
         "Hotspot susceptibility 92%",
@@ -236,7 +308,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 5581,
+          "freshness_minutes": 5633,
           "status": "offline"
         },
         {
@@ -248,7 +320,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 1368,
+          "freshness_minutes": 1420,
           "status": "ok"
         },
         {
@@ -260,7 +332,7 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1368,
+          "freshness_minutes": 1420,
           "status": "ok"
         },
         {
@@ -277,14 +349,14 @@
       ]
     },
     {
-      "alert_id": "h-kumily-attapallam:2026-03-21T11:48:29.228Z",
+      "alert_id": "h-kumily-attapallam:2026-03-21T12:40:12.621Z",
       "area_id": "h-kumily-attapallam",
       "area_type": "hotspot",
       "district_id": "idukki",
       "name": "Kumily - Attapallam downstream pocket",
-      "score": 39.4,
-      "valid_from": "2026-03-21T11:48:29.228Z",
-      "valid_to": "2026-03-21T17:48:29.228Z",
+      "score": 43.4,
+      "valid_from": "2026-03-21T12:40:12.621Z",
+      "valid_to": "2026-03-21T18:40:12.621Z",
       "level": "Watch",
       "confidence": 0.6,
       "review_state": "auto_published",
@@ -292,8 +364,9 @@
         "Observed 24h rain 1.5 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 1.5 mm from 3 stations",
         "Peak India-WRIS station 24h rainfall 3.4 mm",
+        "Peak recent 30 min rain 0.2 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast moderate (32 dBZ)",
+        "RainViewer nowcast very heavy (50 dBZ)",
         "Terrain susceptibility 96% from NASADEM + local baseline",
         "Dam downstream caution active",
         "Hotspot susceptibility 88%",
@@ -304,7 +377,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 5581,
+          "freshness_minutes": 5633,
           "status": "offline"
         },
         {
@@ -316,7 +389,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 1368,
+          "freshness_minutes": 1420,
           "status": "ok"
         },
         {
@@ -328,7 +401,7 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1368,
+          "freshness_minutes": 1420,
           "status": "ok"
         },
         {
@@ -345,35 +418,33 @@
       ]
     },
     {
-      "alert_id": "h-chalakudy:2026-03-21T11:48:29.228Z",
-      "area_id": "h-chalakudy",
+      "alert_id": "h-aluva-periyar:2026-03-21T12:40:12.621Z",
+      "area_id": "h-aluva-periyar",
       "area_type": "hotspot",
-      "district_id": "thrissur",
-      "name": "Chalakudy river and dam influence belt",
-      "score": 37.2,
-      "valid_from": "2026-03-21T11:48:29.228Z",
-      "valid_to": "2026-03-21T17:48:29.228Z",
+      "district_id": "ernakulam",
+      "name": "Aluva - Periyar floodplain",
+      "score": 39,
+      "valid_from": "2026-03-21T12:40:12.621Z",
+      "valid_to": "2026-03-21T18:40:12.621Z",
       "level": "Watch",
       "confidence": 0.6,
       "review_state": "auto_published",
       "drivers": [
-        "Observed 24h rain 0.3 mm and 1h rain 0 mm",
-        "India-WRIS official 24h rainfall 0.3 mm from 2 stations",
-        "Peak India-WRIS station 24h rainfall 0.6 mm",
+        "Observed 24h rain 0 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 0 mm from 1 station",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast moderate (23 dBZ)",
-        "Terrain susceptibility 51% from NASADEM + local baseline",
-        "Dam downstream caution active",
-        "Hotspot radar echo moderate (23 dBZ)",
-        "Hotspot susceptibility 74%",
+        "RainViewer nowcast very heavy (50 dBZ)",
+        "Terrain susceptibility 42% from NASADEM + local baseline",
+        "Hotspot radar echo very heavy (50 dBZ)",
+        "Hotspot susceptibility 77%",
         "Hotspot category dam downstream",
-        "Hotspot analysis radius 12 km"
+        "Hotspot analysis radius 14 km"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5581,
+          "freshness_minutes": 5633,
           "status": "offline"
         },
         {
@@ -384,20 +455,20 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 1368,
+          "detail": "Official rainfall available from 1 station",
+          "freshness_minutes": 1420,
           "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer moderate cell near hotspot",
+          "detail": "RainViewer very heavy cell near hotspot",
           "freshness_minutes": 0,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
-          "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1368,
+          "detail": "India-WRIS river level available from 1 station with no notable rise",
+          "freshness_minutes": 1420,
           "status": "ok"
         },
         {
@@ -407,7 +478,142 @@
           "status": "offline"
         }
       ],
-      "message_en": "Chalakudy river and dam influence belt: Watch. Observed 24h rain 0.3 mm and 1h rain 0 mm",
+      "message_en": "Aluva - Periyar floodplain: Watch. Observed 24h rain 0 mm and 1h rain 0 mm",
+      "recommended_actions": [
+        "Continue district monitoring.",
+        "Watch official IMD and district warnings for changes."
+      ]
+    },
+    {
+      "alert_id": "h-nilambur-chaliyar:2026-03-21T12:40:12.621Z",
+      "area_id": "h-nilambur-chaliyar",
+      "area_type": "hotspot",
+      "district_id": "malappuram",
+      "name": "Nilambur - Chaliyar surge corridor",
+      "score": 38.2,
+      "valid_from": "2026-03-21T12:40:12.621Z",
+      "valid_to": "2026-03-21T18:40:12.621Z",
+      "level": "Watch",
+      "confidence": 0.6,
+      "review_state": "auto_published",
+      "drivers": [
+        "Observed 24h rain 0.7 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 0.7 mm from 6 stations",
+        "Peak India-WRIS station 24h rainfall 4 mm",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "RainViewer nowcast very heavy (50 dBZ)",
+        "Terrain susceptibility 67% from NASADEM + local baseline",
+        "Hotspot radar echo heavy (41 dBZ)",
+        "Hotspot susceptibility 78%",
+        "Hotspot category river floodplain",
+        "Hotspot analysis radius 10 km"
+      ],
+      "source_refs": [
+        {
+          "source_id": "imd-cap-rss",
+          "detail": "0 CAP items",
+          "freshness_minutes": 5633,
+          "status": "offline"
+        },
+        {
+          "source_id": "imd-flash-flood-bulletin",
+          "detail": "No Kerala bulletin trigger",
+          "freshness_minutes": null,
+          "status": "offline"
+        },
+        {
+          "source_id": "indiawris-rainfall",
+          "detail": "Official rainfall available from 6 stations",
+          "freshness_minutes": 1420,
+          "status": "ok"
+        },
+        {
+          "source_id": "rainviewer-radar",
+          "detail": "RainViewer heavy cell near hotspot",
+          "freshness_minutes": 0,
+          "status": "ok"
+        },
+        {
+          "source_id": "indiawris-river-level",
+          "detail": "No India-WRIS river-level context for district",
+          "freshness_minutes": 1420,
+          "status": "ok"
+        },
+        {
+          "source_id": "cwc-ffs",
+          "detail": "No river-stage warning for district",
+          "freshness_minutes": null,
+          "status": "offline"
+        }
+      ],
+      "message_en": "Nilambur - Chaliyar surge corridor: Watch. Observed 24h rain 0.7 mm and 1h rain 0 mm",
+      "recommended_actions": [
+        "Continue district monitoring.",
+        "Watch official IMD and district warnings for changes."
+      ]
+    },
+    {
+      "alert_id": "h-neeleswaram-periyar:2026-03-21T12:40:12.621Z",
+      "area_id": "h-neeleswaram-periyar",
+      "area_type": "hotspot",
+      "district_id": "ernakulam",
+      "name": "Neeleswaram gauge corridor",
+      "score": 35.4,
+      "valid_from": "2026-03-21T12:40:12.621Z",
+      "valid_to": "2026-03-21T18:40:12.621Z",
+      "level": "Watch",
+      "confidence": 0.6,
+      "review_state": "auto_published",
+      "drivers": [
+        "Observed 24h rain 0 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 0 mm from 1 station",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "RainViewer nowcast very heavy (50 dBZ)",
+        "Terrain susceptibility 42% from NASADEM + local baseline",
+        "Hotspot radar echo very heavy (50 dBZ)",
+        "Hotspot susceptibility 69%",
+        "Hotspot category river confluence",
+        "Hotspot analysis radius 10 km"
+      ],
+      "source_refs": [
+        {
+          "source_id": "imd-cap-rss",
+          "detail": "0 CAP items",
+          "freshness_minutes": 5633,
+          "status": "offline"
+        },
+        {
+          "source_id": "imd-flash-flood-bulletin",
+          "detail": "No Kerala bulletin trigger",
+          "freshness_minutes": null,
+          "status": "offline"
+        },
+        {
+          "source_id": "indiawris-rainfall",
+          "detail": "Official rainfall available from 1 station",
+          "freshness_minutes": 1420,
+          "status": "ok"
+        },
+        {
+          "source_id": "rainviewer-radar",
+          "detail": "RainViewer very heavy cell near hotspot",
+          "freshness_minutes": 0,
+          "status": "ok"
+        },
+        {
+          "source_id": "indiawris-river-level",
+          "detail": "India-WRIS river level available from 1 station with no notable rise",
+          "freshness_minutes": 1420,
+          "status": "ok"
+        },
+        {
+          "source_id": "cwc-ffs",
+          "detail": "No river-stage warning for district",
+          "freshness_minutes": null,
+          "status": "offline"
+        }
+      ],
+      "message_en": "Neeleswaram gauge corridor: Watch. Observed 24h rain 0 mm and 1h rain 0 mm",
       "recommended_actions": [
         "Continue district monitoring.",
         "Watch official IMD and district warnings for changes."
