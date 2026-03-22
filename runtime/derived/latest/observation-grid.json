@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-22T15:22:19.259Z",
+  "generated_at": "2026-03-22T15:47:54.984Z",
   "spatial_aggregation": "district_and_taluk_polygon_mean_with_district_fallback_points",
   "source_metadata": {
     "nasa_imerg": {
@@ -9,15 +9,15 @@
       "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260322-S083000-E085959.0510.V07C.1day.zip"
     },
     "rainviewer_radar": {
-      "issued_at": "2026-03-22T15:30:00.000Z",
-      "latest_frame_time": "2026-03-22T15:30:00.000Z",
+      "issued_at": "2026-03-22T15:50:00.000Z",
+      "latest_frame_time": "2026-03-22T15:50:00.000Z",
       "hotspot_count": 20
     },
     "indiawris_rainfall": {
       "issued_at": "2026-03-20T13:00:00.000Z",
-      "district_count": 11,
-      "taluk_count": 22,
-      "station_count": 21
+      "district_count": 12,
+      "taluk_count": 24,
+      "station_count": 23
     },
     "indiawris_river_level": {
       "issued_at": null,
@@ -31,12 +31,17 @@
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0,
-        "rain_3d_mm": 0.1,
-        "rain_7d_mm": 1,
-        "source": "nasa-imerg-pps",
-        "spatial_aggregation": "district_polygon_mean",
+        "rain_3d_mm": 6.6,
+        "rain_7d_mm": 6.6,
+        "source": "nasa-imerg-pps+indiawris-cwc",
+        "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 17,
-        "peak_30m_mm": 0
+        "peak_30m_mm": 0,
+        "official_rain_24h_mm": 0,
+        "official_rain_3d_mm": 6.6,
+        "official_rain_7d_mm": 6.6,
+        "official_station_count": 2,
+        "official_peak_station_24h_mm": 0
       },
       "kannur": {
         "rain_1h_mm": 0,
@@ -257,12 +262,17 @@
         "rain_6h_mm": 0,
         "rain_24h_mm": 0,
         "rain_3d_mm": 0,
-        "rain_7d_mm": 0.3,
-        "source": "nasa-imerg-pps",
+        "rain_7d_mm": 0,
+        "source": "nasa-imerg-pps+indiawris-cwc",
         "district_id": "kasaragod",
-        "spatial_aggregation": "taluk_representative_point",
+        "spatial_aggregation": "taluk_representative_point+indiawris_station_mean",
         "cell_count": 1,
-        "peak_30m_mm": 0
+        "peak_30m_mm": 0,
+        "official_rain_24h_mm": 0,
+        "official_rain_3d_mm": 0,
+        "official_rain_7d_mm": 0,
+        "official_station_count": 1,
+        "official_peak_station_24h_mm": 0
       },
       "kannur--taliparamba": {
         "rain_1h_mm": 0,
@@ -409,13 +419,18 @@
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0,
-        "rain_3d_mm": 0,
-        "rain_7d_mm": 0.3,
-        "source": "nasa-imerg-pps",
+        "rain_3d_mm": 13.2,
+        "rain_7d_mm": 13.2,
+        "source": "nasa-imerg-pps+indiawris-cwc",
         "district_id": "kasaragod",
-        "spatial_aggregation": "taluk_representative_point",
+        "spatial_aggregation": "taluk_representative_point+indiawris_station_mean",
         "cell_count": 1,
-        "peak_30m_mm": 0
+        "peak_30m_mm": 0,
+        "official_rain_24h_mm": 0,
+        "official_rain_3d_mm": 13.2,
+        "official_rain_7d_mm": 13.2,
+        "official_station_count": 1,
+        "official_peak_station_24h_mm": 0
       },
       "ernakulam--paravur": {
         "rain_1h_mm": 0,

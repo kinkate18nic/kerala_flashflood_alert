@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-22T15:22:19.259Z",
+  "generated_at": "2026-03-22T15:47:54.984Z",
   "districts": [
     {
       "area_id": "kasaragod",
@@ -18,18 +18,19 @@
         "roughness_mean": 7.092902,
         "dem_normalized": 0.3
       },
-      "valid_from": "2026-03-22T15:22:19.259Z",
-      "valid_to": "2026-03-22T21:22:19.259Z",
+      "valid_from": "2026-03-22T15:47:54.984Z",
+      "valid_to": "2026-03-22T21:47:54.984Z",
       "drivers": [
         "Observed 24h rain 0 mm and 1h rain 0 mm",
-        "Rainfall aggregation district_polygon_mean",
+        "India-WRIS official 24h rainfall 0 mm from 2 stations",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "Terrain susceptibility 35% from NASADEM + local baseline"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 7235,
+          "freshness_minutes": 7261,
           "status": "offline"
         },
         {
@@ -40,8 +41,8 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 3022,
+          "detail": "Official rainfall available from 2 stations",
+          "freshness_minutes": 3048,
           "status": "offline"
         },
         {
@@ -68,12 +69,17 @@
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0,
-        "rain_3d_mm": 0.1,
-        "rain_7d_mm": 1,
-        "source": "nasa-imerg-pps",
-        "spatial_aggregation": "district_polygon_mean",
+        "rain_3d_mm": 6.6,
+        "rain_7d_mm": 6.6,
+        "source": "nasa-imerg-pps+indiawris-cwc",
+        "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 17,
-        "peak_30m_mm": 0
+        "peak_30m_mm": 0,
+        "official_rain_24h_mm": 0,
+        "official_rain_3d_mm": 6.6,
+        "official_rain_7d_mm": 6.6,
+        "official_station_count": 2,
+        "official_peak_station_24h_mm": 0
       },
       "review_state": "auto_published"
     },
@@ -94,8 +100,8 @@
         "roughness_mean": 7.417914,
         "dem_normalized": 0.4
       },
-      "valid_from": "2026-03-22T15:22:19.259Z",
-      "valid_to": "2026-03-22T21:22:19.259Z",
+      "valid_from": "2026-03-22T15:47:54.984Z",
+      "valid_to": "2026-03-22T21:47:54.984Z",
       "drivers": [
         "Observed 24h rain 16.6 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 16.6 mm from 1 station",
@@ -107,7 +113,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 7235,
+          "freshness_minutes": 7261,
           "status": "offline"
         },
         {
@@ -119,7 +125,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 3022,
+          "freshness_minutes": 3048,
           "status": "offline"
         },
         {
@@ -177,8 +183,8 @@
         "roughness_mean": 8.218636,
         "dem_normalized": 0.4
       },
-      "valid_from": "2026-03-22T15:22:19.259Z",
-      "valid_to": "2026-03-22T21:22:19.259Z",
+      "valid_from": "2026-03-22T15:47:54.984Z",
+      "valid_to": "2026-03-22T21:47:54.984Z",
       "drivers": [
         "Observed 24h rain 0 mm and 1h rain 0.1 mm",
         "Peak recent 30 min rain 0.4 mm",
@@ -189,7 +195,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 7235,
+          "freshness_minutes": 7261,
           "status": "offline"
         },
         {
@@ -201,7 +207,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 3022,
+          "freshness_minutes": 3048,
           "status": "offline"
         },
         {
@@ -254,8 +260,8 @@
         "roughness_mean": 8.165773,
         "dem_normalized": 0.6
       },
-      "valid_from": "2026-03-22T15:22:19.259Z",
-      "valid_to": "2026-03-22T21:22:19.259Z",
+      "valid_from": "2026-03-22T15:47:54.984Z",
+      "valid_to": "2026-03-22T21:47:54.984Z",
       "drivers": [
         "Observed 24h rain 0 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 0 mm from 1 station",
@@ -266,7 +272,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 7235,
+          "freshness_minutes": 7261,
           "status": "offline"
         },
         {
@@ -278,7 +284,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 3022,
+          "freshness_minutes": 3048,
           "status": "offline"
         },
         {
@@ -336,8 +342,8 @@
         "roughness_mean": 8.008132,
         "dem_normalized": 0.7
       },
-      "valid_from": "2026-03-22T15:22:19.259Z",
-      "valid_to": "2026-03-22T21:22:19.259Z",
+      "valid_from": "2026-03-22T15:47:54.984Z",
+      "valid_to": "2026-03-22T21:47:54.984Z",
       "drivers": [
         "Observed 24h rain 0.7 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 0.7 mm from 6 stations",
@@ -350,7 +356,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 7235,
+          "freshness_minutes": 7261,
           "status": "offline"
         },
         {
@@ -362,7 +368,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 6 stations",
-          "freshness_minutes": 3022,
+          "freshness_minutes": 3048,
           "status": "offline"
         },
         {
@@ -420,8 +426,8 @@
         "roughness_mean": 8.603137,
         "dem_normalized": 0.8
       },
-      "valid_from": "2026-03-22T15:22:19.259Z",
-      "valid_to": "2026-03-22T21:22:19.259Z",
+      "valid_from": "2026-03-22T15:47:54.984Z",
+      "valid_to": "2026-03-22T21:47:54.984Z",
       "drivers": [
         "Observed 24h rain 2.4 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 2.4 mm from 1 station",
@@ -433,7 +439,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 7235,
+          "freshness_minutes": 7261,
           "status": "offline"
         },
         {
@@ -445,7 +451,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 3022,
+          "freshness_minutes": 3048,
           "status": "offline"
         },
         {
@@ -503,8 +509,8 @@
         "roughness_mean": 6.105978,
         "dem_normalized": 0.5
       },
-      "valid_from": "2026-03-22T15:22:19.259Z",
-      "valid_to": "2026-03-22T21:22:19.259Z",
+      "valid_from": "2026-03-22T15:47:54.984Z",
+      "valid_to": "2026-03-22T21:47:54.984Z",
       "drivers": [
         "Observed 24h rain 0.3 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 0.3 mm from 2 stations",
@@ -517,7 +523,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 7235,
+          "freshness_minutes": 7261,
           "status": "offline"
         },
         {
@@ -529,7 +535,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 3022,
+          "freshness_minutes": 3048,
           "status": "offline"
         },
         {
@@ -587,8 +593,8 @@
         "roughness_mean": 4.42897,
         "dem_normalized": 0.2
       },
-      "valid_from": "2026-03-22T15:22:19.259Z",
-      "valid_to": "2026-03-22T21:22:19.259Z",
+      "valid_from": "2026-03-22T15:47:54.984Z",
+      "valid_to": "2026-03-22T21:47:54.984Z",
       "drivers": [
         "Observed 24h rain 0 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 0 mm from 1 station",
@@ -601,7 +607,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 7235,
+          "freshness_minutes": 7261,
           "status": "offline"
         },
         {
@@ -613,7 +619,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 3022,
+          "freshness_minutes": 3048,
           "status": "offline"
         },
         {
@@ -671,8 +677,8 @@
         "roughness_mean": 13.95467,
         "dem_normalized": 1
       },
-      "valid_from": "2026-03-22T15:22:19.259Z",
-      "valid_to": "2026-03-22T21:22:19.259Z",
+      "valid_from": "2026-03-22T15:47:54.984Z",
+      "valid_to": "2026-03-22T21:47:54.984Z",
       "drivers": [
         "Observed 24h rain 1.5 mm and 1h rain 0.1 mm",
         "India-WRIS official 24h rainfall 1.5 mm from 3 stations",
@@ -686,7 +692,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 7235,
+          "freshness_minutes": 7261,
           "status": "offline"
         },
         {
@@ -698,7 +704,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 3022,
+          "freshness_minutes": 3048,
           "status": "offline"
         },
         {
@@ -756,8 +762,8 @@
         "roughness_mean": 6.439277,
         "dem_normalized": 0.4
       },
-      "valid_from": "2026-03-22T15:22:19.259Z",
-      "valid_to": "2026-03-22T21:22:19.259Z",
+      "valid_from": "2026-03-22T15:47:54.984Z",
+      "valid_to": "2026-03-22T21:47:54.984Z",
       "drivers": [
         "Observed 24h rain 0 mm and 1h rain 0.1 mm",
         "India-WRIS official 24h rainfall 0 mm from 2 stations",
@@ -770,7 +776,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 7235,
+          "freshness_minutes": 7261,
           "status": "offline"
         },
         {
@@ -782,7 +788,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 3022,
+          "freshness_minutes": 3048,
           "status": "offline"
         },
         {
@@ -840,8 +846,8 @@
         "roughness_mean": 1.791728,
         "dem_normalized": 0.1
       },
-      "valid_from": "2026-03-22T15:22:19.259Z",
-      "valid_to": "2026-03-22T21:22:19.259Z",
+      "valid_from": "2026-03-22T15:47:54.984Z",
+      "valid_to": "2026-03-22T21:47:54.984Z",
       "drivers": [
         "Observed 24h rain 0.4 mm and 1h rain 0 mm",
         "Rainfall aggregation district_polygon_mean",
@@ -852,7 +858,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 7235,
+          "freshness_minutes": 7261,
           "status": "offline"
         },
         {
@@ -864,7 +870,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 3022,
+          "freshness_minutes": 3048,
           "status": "offline"
         },
         {
@@ -917,8 +923,8 @@
         "roughness_mean": 11.31176,
         "dem_normalized": 0.8
       },
-      "valid_from": "2026-03-22T15:22:19.259Z",
-      "valid_to": "2026-03-22T21:22:19.259Z",
+      "valid_from": "2026-03-22T15:47:54.984Z",
+      "valid_to": "2026-03-22T21:47:54.984Z",
       "drivers": [
         "Observed 24h rain 0 mm and 1h rain 0.1 mm",
         "India-WRIS official 24h rainfall 0 mm from 1 station",
@@ -931,7 +937,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 7235,
+          "freshness_minutes": 7261,
           "status": "offline"
         },
         {
@@ -943,7 +949,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 3022,
+          "freshness_minutes": 3048,
           "status": "offline"
         },
         {
@@ -1001,8 +1007,8 @@
         "roughness_mean": 7.522414,
         "dem_normalized": 0.5
       },
-      "valid_from": "2026-03-22T15:22:19.259Z",
-      "valid_to": "2026-03-22T21:22:19.259Z",
+      "valid_from": "2026-03-22T15:47:54.984Z",
+      "valid_to": "2026-03-22T21:47:54.984Z",
       "drivers": [
         "Observed 24h rain 2.3 mm and 1h rain 0.1 mm",
         "India-WRIS official 24h rainfall 2.3 mm from 2 stations",
@@ -1016,7 +1022,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 7235,
+          "freshness_minutes": 7261,
           "status": "offline"
         },
         {
@@ -1028,7 +1034,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 3022,
+          "freshness_minutes": 3048,
           "status": "offline"
         },
         {
@@ -1086,8 +1092,8 @@
         "roughness_mean": 6.988385,
         "dem_normalized": 0.5
       },
-      "valid_from": "2026-03-22T15:22:19.259Z",
-      "valid_to": "2026-03-22T21:22:19.259Z",
+      "valid_from": "2026-03-22T15:47:54.984Z",
+      "valid_to": "2026-03-22T21:47:54.984Z",
       "drivers": [
         "Observed 24h rain 0 mm and 1h rain 0.3 mm",
         "India-WRIS official 24h rainfall 0 mm from 1 station",
@@ -1100,7 +1106,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 7235,
+          "freshness_minutes": 7261,
           "status": "offline"
         },
         {
@@ -1112,7 +1118,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 3022,
+          "freshness_minutes": 3048,
           "status": "offline"
         },
         {
