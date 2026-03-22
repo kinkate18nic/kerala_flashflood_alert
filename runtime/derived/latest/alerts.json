@@ -1,4 +1,73 @@
 {
-  "generated_at": "2026-03-22T09:04:10.217Z",
-  "alerts": []
+  "generated_at": "2026-03-22T09:47:32.259Z",
+  "alerts": [
+    {
+      "alert_id": "h-munnar-devikulam:2026-03-22T09:47:32.259Z",
+      "area_id": "h-munnar-devikulam",
+      "area_type": "hotspot",
+      "district_id": "idukki",
+      "name": "Munnar - Devikulam upper catchments",
+      "score": 35.2,
+      "valid_from": "2026-03-22T09:47:32.259Z",
+      "valid_to": "2026-03-22T15:47:32.259Z",
+      "level": "Watch",
+      "confidence": 0.4,
+      "review_state": "auto_published",
+      "drivers": [
+        "Observed 24h rain 1.5 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 1.5 mm from 3 stations",
+        "Peak India-WRIS station 24h rainfall 3.4 mm",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "RainViewer nowcast moderate (32 dBZ)",
+        "Terrain susceptibility 96% from NASADEM + local baseline",
+        "Hotspot radar echo moderate (32 dBZ)",
+        "Hotspot susceptibility 95%",
+        "Hotspot category steep catchment",
+        "Hotspot analysis radius 14 km"
+      ],
+      "source_refs": [
+        {
+          "source_id": "imd-cap-rss",
+          "detail": "1 CAP items",
+          "freshness_minutes": 6900,
+          "status": "offline"
+        },
+        {
+          "source_id": "imd-flash-flood-bulletin",
+          "detail": "No Kerala bulletin trigger",
+          "freshness_minutes": null,
+          "status": "offline"
+        },
+        {
+          "source_id": "indiawris-rainfall",
+          "detail": "Official rainfall available from 3 stations",
+          "freshness_minutes": 2688,
+          "status": "stale"
+        },
+        {
+          "source_id": "rainviewer-radar",
+          "detail": "RainViewer moderate cell near hotspot",
+          "freshness_minutes": 0,
+          "status": "ok"
+        },
+        {
+          "source_id": "indiawris-river-level",
+          "detail": "No India-WRIS river-level context for district",
+          "freshness_minutes": null,
+          "status": "degraded"
+        },
+        {
+          "source_id": "cwc-ffs",
+          "detail": "No river-stage warning for district",
+          "freshness_minutes": null,
+          "status": "offline"
+        }
+      ],
+      "message_en": "Munnar - Devikulam upper catchments: Watch. Observed 24h rain 1.5 mm and 1h rain 0 mm",
+      "recommended_actions": [
+        "Continue district monitoring.",
+        "Watch official IMD and district warnings for changes."
+      ]
+    }
+  ]
 }
