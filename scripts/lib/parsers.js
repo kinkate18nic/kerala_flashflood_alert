@@ -392,14 +392,33 @@ export function parseKsdmaDamManagement(raw) {
 }
 
 export function parseCwcFfs(raw) {
-  const text = stripHtml(raw);
-  return {
-    summary: text,
-    warning: keywordHit(text, [/\bwarning\b/i]),
-    watch: keywordHit(text, [/\bwatch\b/i]),
-    districts: findDistrictIds(text),
-    severity: inferSeverity(text)
-  };
+  try {
+    const payload = JSON.parse(raw);
+    return {
+      issued_at: payload.issued_at ?? null,
+      districts: Array.isArray(payload.districts) ? payload.districts : [],
+      station_count: payload.station_count ?? 0,
+      requested_station_count: payload.requested_station_count ?? 0,
+      successful_station_count: payload.successful_station_count ?? 0,
+      failed_stations: Array.isArray(payload.failed_stations) ? payload.failed_stations : [],
+      partial_failure_count:
+        payload.partial_failure_count ??
+        (Array.isArray(payload.failed_stations) ? payload.failed_stations.length : 0),
+      above_warning_station_count: payload.above_warning_station_count ?? 0,
+      above_danger_station_count: payload.above_danger_station_count ?? 0,
+      warning: Boolean(payload.warning),
+      watch: Boolean(payload.watch)
+    };
+  } catch {
+    const text = stripHtml(raw);
+    return {
+      summary: text,
+      warning: keywordHit(text, [/\bwarning\b/i]),
+      watch: keywordHit(text, [/\bwatch\b/i]),
+      districts: findDistrictIds(text),
+      severity: inferSeverity(text)
+    };
+  }
 }
 
 export function parseNasaImergNrt(raw) {

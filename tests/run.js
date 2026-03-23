@@ -122,10 +122,12 @@ async function testParsers() {
   const bulletin = parseImdFlashFloodBulletin(bulletinRaw);
   assert.ok(bulletin.kerala_district_ids.includes("ernakulam"));
 
-  const cwcRaw = await readFile(path.join(repoRoot, "fixtures", "cwc-ffs.html"), "utf8");
+  const cwcRaw = await readFile(path.join(repoRoot, "fixtures", "cwc-ffs.json"), "utf8");
   const cwc = parseCwcFfs(cwcRaw);
   assert.equal(cwc.warning, true);
-  assert.equal(cwc.watch, true);
+  assert.equal(cwc.station_count, 2);
+  assert.equal(cwc.districts.length, 2);
+  assert.equal(cwc.districts[0].above_danger_station_count, 1);
 
   const imergRaw = await readFile(path.join(repoRoot, "fixtures", "nasa-imerg-nrt.json"), "utf8");
   const imerg = parseNasaImergNrt(imergRaw);

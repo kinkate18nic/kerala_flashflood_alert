@@ -9,6 +9,7 @@ import {
   pointInGeometry
 } from "./boundaries.js";
 import { fetchText } from "./http.js";
+import { fetchCwcFfsPayload } from "./cwc-ffs.js";
 import { fetchImdCapPayload } from "./imd-cap.js";
 import { fetchNasaImergPayload } from "./imerg.js";
 import { fetchIndiaWrisRainfallPayload, fetchIndiaWrisRiverLevelPayload } from "./indiawris.js";
@@ -78,6 +79,15 @@ function summarizeSource(parsed) {
       summary.requested_district_count = parsed.requested_district_count;
       summary.successful_district_count = parsed.successful_district_count ?? parsed.requested_district_count;
       summary.failed_district_count = parsed.partial_failure_count ?? parsed.failed_districts?.length ?? 0;
+    }
+    if ("requested_station_count" in parsed) {
+      summary.requested_station_count = parsed.requested_station_count;
+      summary.successful_station_count = parsed.successful_station_count ?? parsed.requested_station_count;
+      summary.failed_station_count = parsed.partial_failure_count ?? parsed.failed_stations?.length ?? 0;
+    }
+    if ("above_warning_station_count" in parsed) {
+      summary.above_warning_station_count = parsed.above_warning_station_count;
+      summary.above_danger_station_count = parsed.above_danger_station_count ?? 0;
     }
     if (parsed.source_files) {
       summary.latest_half_hour_file = parsed.source_files.half_hour?.[0]?.split("/").pop() ?? null;
@@ -159,6 +169,14 @@ async function loadRawContent(repoRoot, source, options) {
 
   if (source.id === "indiawris-river-level") {
     const response = await fetchIndiaWrisRiverLevelPayload(repoRoot, source);
+    return {
+      ...response,
+      fetchedFrom: "remote"
+    };
+  }
+
+  if (source.id === "cwc-ffs") {
+    const response = await fetchCwcFfsPayload(repoRoot, source);
     return {
       ...response,
       fetchedFrom: "remote"
@@ -333,11 +351,19 @@ function collapseSignals(parsedSources) {
   }
 
   const cwcByDistrict = {};
-  for (const districtId of parsedSources["cwc-ffs"]?.districts ?? []) {
-    cwcByDistrict[districtId] = {
-      active: Boolean(parsedSources["cwc-ffs"].warning || parsedSources["cwc-ffs"].watch),
-      severity: parsedSources["cwc-ffs"].warning ? 0.7 : parsedSources["cwc-ffs"].watch ? 0.4 : 0,
-      notes: ["CWC flood forecasting signal"]
+  for (const district of parsedSources["cwc-ffs"]?.districts ?? []) {
+    if (typeof district === "string") {
+      cwcByDistrict[district] = {
+        active: Boolean(parsedSources["cwc-ffs"].warning || parsedSources["cwc-ffs"].watch),
+        severity: parsedSources["cwc-ffs"].warning ? 0.7 : parsedSources["cwc-ffs"].watch ? 0.4 : 0,
+        notes: ["CWC flood forecasting signal"]
+      };
+      continue;
+    }
+    cwcByDistrict[district.district_id] = {
+      active: (district.severity ?? 0) > 0,
+      severity: district.severity ?? 0,
+      notes: [district.summary_note ?? "CWC flood forecasting live river-level signal"].filter(Boolean)
     };
   }
 

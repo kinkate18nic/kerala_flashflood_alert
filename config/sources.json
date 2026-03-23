@@ -104,13 +104,18 @@
     "owner": "Central Water Commission",
     "category": "river-stage",
     "url": "https://ffs.india-water.gov.in/",
-    "format": "html",
+    "format": "json",
     "cadence_minutes": 60,
     "freshness_sla_minutes": 240,
+    "fetch_options": {
+      "pageSize": 2,
+      "concurrency": 4,
+      "timeoutMs": 25000
+    },
     "parser": "cwcFfs",
     "auth": "none",
     "enabled": true,
-    "legal_notes": "Use to modify major-river linked district and hotspot risk."
+    "legal_notes": "Use live CWC FFS API station readings and thresholds to modify major-river linked district and hotspot risk."
   },
   {
     "id": "rainviewer-radar",
