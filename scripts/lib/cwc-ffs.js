@@ -9,6 +9,10 @@ const FFS_TIMEZONE_SUFFIX = "+05:30";
 
 let contextCache = null;
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function normalizeStationName(value) {
   return String(value ?? "")
     .trim()
@@ -86,36 +90,55 @@ function buildLatestObservedUrl(stationCode, pageSize = 2) {
   return url.toString();
 }
 
-async function fetchJson(url, { timeoutMs = 25000 } = {}) {
-  const response = await fetchText(url, {
-    timeoutMs,
-    headers: {
-      accept: "application/json, text/plain, */*",
-      referer: "https://ffs.india-water.gov.in/#/main/site"
+async function fetchJson(url, { timeoutMs = 25000, retries = 2 } = {}) {
+  let lastFailure = null;
+
+  for (let attempt = 1; attempt <= retries; attempt += 1) {
+    try {
+      const response = await fetchText(url, {
+        timeoutMs,
+        headers: {
+          accept: "application/json, text/plain, */*",
+          referer: "https://ffs.india-water.gov.in/#/main/site"
+        }
+      });
+
+      if (!response.ok) {
+        return {
+          ...response,
+          json: null
+        };
+      }
+
+      try {
+        return {
+          ...response,
+          json: response.text ? JSON.parse(response.text) : null
+        };
+      } catch (error) {
+        return {
+          ok: false,
+          status: response.status,
+          text: response.text,
+          json: null,
+          error: error instanceof Error ? error.message : String(error)
+        };
+      }
+    } catch (error) {
+      lastFailure = error;
+      if (attempt < retries) {
+        await sleep(700 * attempt);
+      }
     }
-  });
-
-  if (!response.ok) {
-    return {
-      ...response,
-      json: null
-    };
   }
 
-  try {
-    return {
-      ...response,
-      json: response.text ? JSON.parse(response.text) : null
-    };
-  } catch (error) {
-    return {
-      ok: false,
-      status: response.status,
-      text: response.text,
-      json: null,
-      error: error instanceof Error ? error.message : String(error)
-    };
-  }
+  return {
+    ok: false,
+    status: 599,
+    text: "",
+    json: null,
+    error: lastFailure instanceof Error ? lastFailure.message : String(lastFailure)
+  };
 }
 
 async function loadFfsContext(repoRoot) {
@@ -219,7 +242,8 @@ export async function fetchCwcFfsPayload(repoRoot, source) {
     async (station) => {
       const url = buildLatestObservedUrl(station.station_code, pageSize);
       const response = await fetchJson(wrapTargetUrl(source.url, url), {
-        timeoutMs: source.fetch_options?.timeoutMs ?? 25000
+        timeoutMs: source.fetch_options?.timeoutMs ?? 25000,
+        retries: source.fetch_options?.retries ?? 2
       });
 
       if (!response.ok) {

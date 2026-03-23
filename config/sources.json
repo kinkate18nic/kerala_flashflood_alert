@@ -109,8 +109,9 @@
     "freshness_sla_minutes": 240,
     "fetch_options": {
       "pageSize": 2,
-      "concurrency": 4,
-      "timeoutMs": 25000
+      "concurrency": 2,
+      "timeoutMs": 40000,
+      "retries": 2
     },
     "parser": "cwcFfs",
     "auth": "none",

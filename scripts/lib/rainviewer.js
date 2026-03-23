@@ -199,6 +199,19 @@ async function sampleRadarPoint(host, framePath, sample, colorTable) {
   };
 }
 
+function emptySampleResult(host, framePath, sample, error = null) {
+  return {
+    ...sample,
+    frame_url: tileUrl(host, framePath, sample.location),
+    active_pixels: 0,
+    max_dbz: null,
+    intensity: "none",
+    severity: 0,
+    detected: false,
+    error: error ? (error instanceof Error ? error.message : String(error)) : null
+  };
+}
+
 function districtSamples() {
   return districts.map((district) => ({
     id: district.id,
@@ -278,8 +291,8 @@ export function buildRainviewerPayload({ metadata, districtResults, hotspotResul
 
 export async function fetchRainviewerPayload() {
   const [metadataResponse, colorsResponse] = await Promise.all([
-    fetchText(RAINVIEWER_MAPS_URL, { timeoutMs: 20000 }),
-    fetchText(RAINVIEWER_COLORS_URL, { timeoutMs: 20000 })
+    fetchText(RAINVIEWER_MAPS_URL, { timeoutMs: 30000 }),
+    fetchText(RAINVIEWER_COLORS_URL, { timeoutMs: 30000 })
   ]);
 
   if (!metadataResponse.ok) {
@@ -321,16 +334,55 @@ export async function fetchRainviewerPayload() {
     };
   }
 
-  const [districtResults, hotspotResults] = await Promise.all([
-    Promise.all(districtSamples().map((sample) => sampleRadarPoint(metadata.host, frame.path, sample, colorTable))),
-    Promise.all(hotspotSamples().map((sample) => sampleRadarPoint(metadata.host, frame.path, sample, colorTable)))
+  const [districtSettled, hotspotSettled] = await Promise.all([
+    Promise.allSettled(
+      districtSamples().map((sample) =>
+        sampleRadarPoint(metadata.host, frame.path, sample, colorTable)
+      )
+    ),
+    Promise.allSettled(
+      hotspotSamples().map((sample) =>
+        sampleRadarPoint(metadata.host, frame.path, sample, colorTable)
+      )
+    )
   ]);
+
+  const districtInputs = districtSamples();
+  const hotspotInputs = hotspotSamples();
+  const districtResults = districtSettled.map((result, index) =>
+    result.status === "fulfilled"
+      ? result.value
+      : emptySampleResult(metadata.host, frame.path, districtInputs[index], result.reason)
+  );
+  const hotspotResults = hotspotSettled.map((result, index) =>
+    result.status === "fulfilled"
+      ? result.value
+      : emptySampleResult(metadata.host, frame.path, hotspotInputs[index], result.reason)
+  );
+  const failedSampleCount =
+    districtSettled.filter((result) => result.status === "rejected").length +
+    hotspotSettled.filter((result) => result.status === "rejected").length;
+
+  if (failedSampleCount === districtResults.length + hotspotResults.length) {
+    return {
+      ok: false,
+      status: 599,
+      text: "",
+      note: "RainViewer tile sampling failed for all Kerala samples."
+    };
+  }
 
   const payload = buildRainviewerPayload({ metadata, districtResults, hotspotResults });
   return {
     ok: true,
     status: 200,
-    text: JSON.stringify(payload),
-    note: `RainViewer latest radar frame ${frame.path}`
+    text: JSON.stringify({
+      ...payload,
+      failed_sample_count: failedSampleCount
+    }),
+    note:
+      failedSampleCount > 0
+        ? `RainViewer latest radar frame ${frame.path} with ${failedSampleCount} tile sample failures`
+        : `RainViewer latest radar frame ${frame.path}`
   };
 }
