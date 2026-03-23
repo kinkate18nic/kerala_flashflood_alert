@@ -549,16 +549,16 @@ const SOURCE_META = {
     impact: "No India-WRIS river level context. Live CWC FFS river-stage evidence may still be available."
   },
   "ksdma-reservoirs": {
-    description: "Kerala dam reservoir storage levels",
-    method: "HTML scraper via Cloudflare Proxy → KSDMA",
+    description: "KSEB daily major dam and reservoir levels from KSDMA PDF",
+    method: "Page scraper + PDF parser via Cloudflare Proxy → KSDMA",
     cadence: "Every 1 hr",
-    impact: "No reservoir data. Dam-related risk modifiers inactive."
+    impact: "No KSEB daily dam-level context. Reservoir-related modifiers inactive."
   },
   "ksdma-dam-management": {
-    description: "Dam spillway release bulletins",
-    method: "HTML scraper via Cloudflare Proxy → KSDMA",
+    description: "Irrigation daily dam levels and outflow remarks from KSDMA PDF",
+    method: "Page scraper + PDF parser via Cloudflare Proxy → KSDMA",
     cadence: "Every 1 hr",
-    impact: "No spillway alerts. Downstream consequence modifiers inactive."
+    impact: "No irrigation daily dam context. Downstream consequence modifiers inactive."
   },
   "cwc-ffs": {
     description: "Live river levels from CWC Flood Forecasting Service stations",

@@ -8,6 +8,8 @@ import thresholds from "../config/risk-thresholds.json" with { type: "json" };
 import {
   parseImdCapRss,
   parseImdFlashFloodBulletin,
+  parseKsdmaDamManagement,
+  parseKsdmaReservoirs,
   parseCwcFfs,
   parseNasaImergNrt,
   parseRainviewerRadar,
@@ -140,6 +142,18 @@ async function testParsers() {
   assert.equal(radar.districts.length, 2);
   assert.equal(radar.hotspots.length, 2);
   assert.ok(radar.frame_path.includes("/v2/radar/"));
+
+  const ksdmaReservoirRaw = await readFile(path.join(repoRoot, "fixtures", "ksdma-reservoirs.json"), "utf8");
+  const ksdmaReservoir = parseKsdmaReservoirs(ksdmaReservoirRaw);
+  assert.equal(ksdmaReservoir.department, "kseb");
+  assert.equal(ksdmaReservoir.districts.length, 2);
+  assert.equal(ksdmaReservoir.alert_active, true);
+
+  const ksdmaDamRaw = await readFile(path.join(repoRoot, "fixtures", "ksdma-dam-management.json"), "utf8");
+  const ksdmaDam = parseKsdmaDamManagement(ksdmaDamRaw);
+  assert.equal(ksdmaDam.department, "irrigation");
+  assert.equal(ksdmaDam.districts.length, 3);
+  assert.equal(ksdmaDam.release_preparedness, true);
 
   const indiaWrisRainfallRaw = await readFile(
     path.join(repoRoot, "fixtures", "indiawris-rainfall.json"),

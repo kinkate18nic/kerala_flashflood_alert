@@ -372,23 +372,55 @@ function keywordHit(text, patterns) {
 }
 
 export function parseKsdmaReservoirs(raw) {
-  const text = stripHtml(raw);
-  return {
-    summary: text,
-    alert_active: keywordHit(text, [/\balert\b/i, /\bcaution\b/i]),
-    districts: findDistrictIds(text),
-    severity: inferSeverity(text)
-  };
+  try {
+    const payload = JSON.parse(raw);
+    return {
+      issued_at: payload.issued_at ?? null,
+      department: payload.department ?? "kseb",
+      pdf_url: payload.pdf_url ?? null,
+      pdf_label: payload.pdf_label ?? null,
+      dam_count: payload.dam_count ?? 0,
+      release_dam_count: payload.release_dam_count ?? 0,
+      alert_active: Boolean(payload.alert_active),
+      release_preparedness: Boolean(payload.release_preparedness),
+      districts: Array.isArray(payload.districts) ? payload.districts : [],
+      dams: Array.isArray(payload.dams) ? payload.dams : []
+    };
+  } catch {
+    const text = stripHtml(raw);
+    return {
+      summary: text,
+      alert_active: keywordHit(text, [/\balert\b/i, /\bcaution\b/i]),
+      districts: findDistrictIds(text),
+      severity: inferSeverity(text)
+    };
+  }
 }
 
 export function parseKsdmaDamManagement(raw) {
-  const text = stripHtml(raw);
-  return {
-    summary: text,
-    release_preparedness: keywordHit(text, [/\bspillway\b/i, /\brelease\b/i, /\bdownstream\b/i]),
-    districts: findDistrictIds(text),
-    severity: inferSeverity(text)
-  };
+  try {
+    const payload = JSON.parse(raw);
+    return {
+      issued_at: payload.issued_at ?? null,
+      department: payload.department ?? "irrigation",
+      pdf_url: payload.pdf_url ?? null,
+      pdf_label: payload.pdf_label ?? null,
+      dam_count: payload.dam_count ?? 0,
+      release_dam_count: payload.release_dam_count ?? 0,
+      alert_active: Boolean(payload.alert_active),
+      release_preparedness: Boolean(payload.release_preparedness),
+      districts: Array.isArray(payload.districts) ? payload.districts : [],
+      dams: Array.isArray(payload.dams) ? payload.dams : []
+    };
+  } catch {
+    const text = stripHtml(raw);
+    return {
+      summary: text,
+      release_preparedness: keywordHit(text, [/\bspillway\b/i, /\brelease\b/i, /\bdownstream\b/i]),
+      districts: findDistrictIds(text),
+      severity: inferSeverity(text)
+    };
+  }
 }
 
 export function parseCwcFfs(raw) {

@@ -72,31 +72,41 @@
   },
   {
     "id": "ksdma-reservoirs",
-    "name": "KSDMA Reservoir Dashboard",
+    "name": "KSDMA Daily Dam Levels (KSEB)",
     "owner": "Kerala State Disaster Management Authority",
     "category": "reservoir-status",
-    "url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sdma.kerala.gov.in/reservoirs/",
-    "format": "html",
+    "url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sdma.kerala.gov.in/dam-water-level/",
+    "format": "json",
     "cadence_minutes": 60,
     "freshness_sla_minutes": 240,
+    "fetch_options": {
+      "department": "kseb",
+      "pageTimeoutMs": 45000,
+      "pdfTimeoutMs": 60000
+    },
     "parser": "ksdmaReservoirs",
     "auth": "none",
     "enabled": true,
-    "legal_notes": "Use only as a contextual modifier, not as a sole trigger."
+    "legal_notes": "Daily KSDMA KSEB dam-level PDF parsed as contextual reservoir evidence. Use as a corroborating modifier, not as a sole trigger."
   },
   {
     "id": "ksdma-dam-management",
-    "name": "KSDMA Dam Management",
+    "name": "KSDMA Daily Dam Levels (Irrigation)",
     "owner": "Kerala State Disaster Management Authority",
     "category": "dam-status",
-    "url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sdma.kerala.gov.in/dam-management/",
-    "format": "html",
+    "url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sdma.kerala.gov.in/dam-water-level/",
+    "format": "json",
     "cadence_minutes": 60,
     "freshness_sla_minutes": 240,
+    "fetch_options": {
+      "department": "irrigation",
+      "pageTimeoutMs": 45000,
+      "pdfTimeoutMs": 60000
+    },
     "parser": "ksdmaDamManagement",
     "auth": "none",
     "enabled": true,
-    "legal_notes": "Use for downstream caution modifiers and manual verification."
+    "legal_notes": "Daily KSDMA Irrigation dam-level PDF parsed for controlled outflow and alert-stage context. Use for downstream caution modifiers and manual verification."
   },
   {
     "id": "cwc-ffs",

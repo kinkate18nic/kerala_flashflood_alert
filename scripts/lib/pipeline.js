@@ -13,6 +13,7 @@ import { fetchCwcFfsPayload } from "./cwc-ffs.js";
 import { fetchImdCapPayload } from "./imd-cap.js";
 import { fetchNasaImergPayload } from "./imerg.js";
 import { fetchIndiaWrisRainfallPayload, fetchIndiaWrisRiverLevelPayload } from "./indiawris.js";
+import { fetchKsdmaDailyDamPayload } from "./ksdma.js";
 import { parserRegistry } from "./parsers.js";
 import { fetchRainviewerPayload } from "./rainviewer.js";
 import { minutesBetween, nowIso, parseDate, toArchivePathParts } from "./time.js";
@@ -183,6 +184,15 @@ async function loadRawContent(repoRoot, source, options) {
     };
   }
 
+  if (source.id === "ksdma-reservoirs" || source.id === "ksdma-dam-management") {
+    const response = await fetchKsdmaDailyDamPayload(source);
+    return {
+      ...response,
+      resolvedUrl: source.url,
+      fetchedFrom: "remote"
+    };
+  }
+
   const candidateUrls = [source.url, ...(source.fallback_urls ?? [])].filter(Boolean);
   let lastResponse = {
     ok: false,
@@ -333,21 +343,43 @@ function collapseSignals(parsedSources) {
   }
 
   const reservoirByDistrict = {};
-  for (const districtId of parsedSources["ksdma-reservoirs"]?.districts ?? []) {
-    reservoirByDistrict[districtId] = {
-      active: parsedSources["ksdma-reservoirs"].alert_active,
-      severity: parsedSources["ksdma-reservoirs"].severity || 0.35,
-      notes: ["KSDMA reservoir caution context"]
-    };
+  const reservoirSource = parsedSources["ksdma-reservoirs"];
+  if (Array.isArray(reservoirSource?.districts) && reservoirSource.districts[0] && typeof reservoirSource.districts[0] === "object") {
+    for (const district of reservoirSource.districts) {
+      reservoirByDistrict[district.district_id] = {
+        active: district.active ?? reservoirSource.alert_active ?? false,
+        severity: district.severity ?? 0.35,
+        notes: [district.summary_note ?? "KSDMA KSEB dam level context"]
+      };
+    }
+  } else {
+    for (const districtId of reservoirSource?.districts ?? []) {
+      reservoirByDistrict[districtId] = {
+        active: reservoirSource.alert_active,
+        severity: reservoirSource.severity || 0.35,
+        notes: ["KSDMA reservoir caution context"]
+      };
+    }
   }
 
   const damByDistrict = {};
-  for (const districtId of parsedSources["ksdma-dam-management"]?.districts ?? []) {
-    damByDistrict[districtId] = {
-      active: parsedSources["ksdma-dam-management"].release_preparedness,
-      severity: parsedSources["ksdma-dam-management"].severity || 0.38,
-      notes: ["KSDMA dam downstream notice"]
-    };
+  const damSource = parsedSources["ksdma-dam-management"];
+  if (Array.isArray(damSource?.districts) && damSource.districts[0] && typeof damSource.districts[0] === "object") {
+    for (const district of damSource.districts) {
+      damByDistrict[district.district_id] = {
+        active: district.active ?? damSource.release_preparedness ?? false,
+        severity: district.severity ?? 0.38,
+        notes: [district.summary_note ?? "KSDMA irrigation dam release context"]
+      };
+    }
+  } else {
+    for (const districtId of damSource?.districts ?? []) {
+      damByDistrict[districtId] = {
+        active: damSource.release_preparedness,
+        severity: damSource.severity || 0.38,
+        notes: ["KSDMA dam downstream notice"]
+      };
+    }
   }
 
   const cwcByDistrict = {};

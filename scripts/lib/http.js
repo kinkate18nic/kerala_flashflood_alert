@@ -64,3 +64,58 @@ export async function fetchText(url, options = {}) {
     clearTimeout(timeout);
   }
 }
+
+export async function fetchBuffer(url, options = {}) {
+  const timeoutMs = options.timeoutMs ?? 60000;
+
+  if (url.includes("workers.dev")) {
+    const method = options.method || "GET";
+    const curlTimeoutSec = Math.max(30, Math.floor(timeoutMs / 1000));
+    const args = [
+      "-s", "-k", "-L", "-X", method,
+      url,
+      "-H", "Accept: application/pdf,application/octet-stream,*/*",
+      "-H", "User-Agent: curl/8.4.0",
+      "--max-time", String(curlTimeoutSec)
+    ];
+
+    if (options.headers) {
+      for (const [key, value] of Object.entries(options.headers)) {
+        if (key.toLowerCase() !== "user-agent" && key.toLowerCase() !== "accept") {
+          args.push("-H", `${key}: ${value}`);
+        }
+      }
+    }
+
+    if (method === "POST") {
+      args.push("-d", options.body ? String(options.body) : "");
+    }
+
+    try {
+      const stdout = execFileSync("curl", args, { timeout: timeoutMs + 5000 });
+      return { ok: true, status: 200, buffer: stdout, headers: new Headers() };
+    } catch (e) {
+      throw new Error(`Proxy / curl fetch failed: ${e.message}`);
+    }
+  }
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(url, {
+      method: options.method ?? "GET",
+      headers: { ...DEFAULT_HEADERS, ...(options.headers ?? {}) },
+      body: options.body,
+      signal: controller.signal
+    });
+
+    return {
+      ok: response.ok,
+      status: response.status,
+      buffer: Buffer.from(await response.arrayBuffer()),
+      headers: response.headers
+    };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
