@@ -475,3 +475,103 @@ h1 {
   font: inherit;
   color: var(--ink);
 }
+
+/* Source card redesign */
+.source-card {
+  position: relative;
+}
+
+.source-info-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--accent);
+  font-size: 1rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 180ms ease, transform 180ms ease;
+  z-index: 1;
+}
+
+.source-info-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: scale(1.12);
+}
+
+.source-desc {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  margin: 4px 0 8px;
+}
+
+/* Source detail popup */
+.source-detail-desc {
+  color: var(--muted);
+  font-size: 1rem;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+.source-detail-grid {
+  display: grid;
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.source-detail-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.92rem;
+  align-items: center;
+}
+
+.source-detail-row:last-child {
+  border-bottom: none;
+}
+
+.source-detail-label {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.84rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.source-detail-value {
+  font-weight: 500;
+}
+
+.source-detail-fetch-note {
+  padding: 10px 14px;
+  background: rgba(22, 38, 31, 0.04);
+  border-radius: 12px;
+  font-size: 0.88rem;
+  color: var(--muted);
+  font-family: "Roboto Mono", "Consolas", monospace;
+  word-break: break-all;
+  line-height: 1.5;
+}
+
+.source-detail-impact {
+  padding: 10px 14px;
+  background: rgba(157, 42, 23, 0.06);
+  border: 1px solid rgba(157, 42, 23, 0.12);
+  border-radius: 12px;
+  font-size: 0.92rem;
+  color: #6b2a1a;
+  line-height: 1.5;
+}
