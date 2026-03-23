@@ -511,56 +511,172 @@ function renderRiskCards(target, items, suffix = "") {
     .join("");
 }
 
+const SOURCE_META = {
+  "imd-cap-rss": {
+    description: "Official severe weather warnings for Kerala",
+    method: "XML RSS feed from NDMA/IMD",
+    impact: "No official warning data. Scores rely on satellite and ground observations only."
+  },
+  "imd-flash-flood-bulletin": {
+    description: "IMD meteorologist flash flood risk guidance",
+    method: "HTML scraper from mausam.imd.gov.in",
+    impact: "No expert meteorological guidance. Automated data sources still active."
+  },
+  "indiawris-rainfall": {
+    description: "Ground rain gauge readings across Kerala",
+    method: "JSON API via Cloudflare Proxy → India-WRIS",
+    impact: "No ground-truth rainfall. Satellite-only estimates (NASA IMERG) used instead."
+  },
+  "indiawris-river-level": {
+    description: "River water level from CWC gauge stations",
+    method: "JSON API via Cloudflare Proxy → India-WRIS",
+    impact: "No river level context. CWC flood forecasting used as fallback."
+  },
+  "ksdma-reservoirs": {
+    description: "Kerala dam reservoir storage levels",
+    method: "HTML scraper via Cloudflare Proxy → KSDMA",
+    impact: "No reservoir data. Dam-related risk modifiers inactive."
+  },
+  "ksdma-dam-management": {
+    description: "Dam spillway release bulletins",
+    method: "HTML scraper via Cloudflare Proxy → KSDMA",
+    impact: "No spillway alerts. Downstream consequence modifiers inactive."
+  },
+  "cwc-ffs": {
+    description: "Central Water Commission river flood status",
+    method: "HTML scraper via Cloudflare Proxy → CWC",
+    impact: "No river flood warnings. River-stage scoring relies on WRIS water level."
+  },
+  "rainviewer-radar": {
+    description: "Real-time Doppler radar rain imagery",
+    method: "JSON API from RainViewer (public)",
+    impact: "No short-range radar nowcasting. 0-2 hour storm tracking unavailable."
+  },
+  "nasa-imerg-nrt": {
+    description: "Satellite-estimated rainfall (half-hourly)",
+    method: "GeoTIFF raster download from NASA PPS",
+    impact: "Primary rainfall source offline. Scores depend entirely on ground gauges."
+  },
+  "operator-observations": {
+    description: "Manual human observation input",
+    method: "Local JSON file (data/manual/observations.json)",
+    impact: "No manual overrides active. Fully automated scoring in effect."
+  }
+};
+
 function sourceStatusMessage(source) {
   if (source.status === "offline") {
     return "Unavailable in this run. Current scores are being generated without this source.";
   }
-
   if (source.status === "stale") {
     if (source.category === "official-warning") {
       return "Older event-driven alert data. It may describe the last valid warning, not a fresh new one.";
     }
     return "Older than the normal freshness window. Use with caution.";
   }
-
   if (source.status === "degraded") {
     return "Partially usable. Some fields or mappings may be incomplete in this run.";
   }
-
   return "Current for this run.";
 }
 
 function formatFreshness(minutes) {
-  if (minutes === null || minutes === undefined || isNaN(minutes)) return "Freshness n/a";
-  if (minutes < 1) return "Updated just now";
-  if (minutes < 60) return `Updated ${minutes} min${minutes === 1 ? "" : "s"} ago`;
-  
+  if (minutes === null || minutes === undefined || isNaN(minutes)) return "n/a";
+  if (minutes < 1) return "just now";
+  if (minutes < 60) return `${minutes} min${minutes === 1 ? "" : "s"} ago`;
   const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `Updated ${hours} hr${hours === 1 ? "" : "s"} ago`;
-  
+  if (hours < 24) return `${hours} hr${hours === 1 ? "" : "s"} ago`;
   const days = (minutes / 1440).toFixed(1);
   const cleanlyFormattedDays = days.endsWith(".0") ? days.slice(0, -2) : days;
-  return `Updated ${cleanlyFormattedDays} day${cleanlyFormattedDays === "1" ? "" : "s"} ago`;
+  return `${cleanlyFormattedDays} day${cleanlyFormattedDays === "1" ? "" : "s"} ago`;
+}
+
+function formatCadence(minutes) {
+  if (!minutes) return "Unknown";
+  if (minutes < 60) return `Every ${minutes} min`;
+  const hours = Math.floor(minutes / 60);
+  return `Every ${hours} hr${hours === 1 ? "" : "s"}`;
+}
+
+function openSourceDetails(source) {
+  const meta = SOURCE_META[source.source_id] ?? {};
+  const freshLabel = formatFreshness(source.freshness_minutes);
+  const cadenceLabel = formatCadence(source.cadence_minutes);
+  const fetchNote = source.notes || source.summary?.excerpt || "None";
+  const parserFailed = source.parser_status !== "ok";
+
+  openEvidence(
+    source.name,
+    `
+      <p class="source-detail-desc">${meta.description ?? source.name}</p>
+      <div class="source-detail-grid">
+        <div class="source-detail-row">
+          <span class="source-detail-label">Status</span>
+          <span class="status-${source.status} source-detail-value">${source.status.toUpperCase()}</span>
+        </div>
+        <div class="source-detail-row">
+          <span class="source-detail-label">Last updated</span>
+          <span class="source-detail-value">${freshLabel}</span>
+        </div>
+        <div class="source-detail-row">
+          <span class="source-detail-label">Expected cadence</span>
+          <span class="source-detail-value">${cadenceLabel}</span>
+        </div>
+        <div class="source-detail-row">
+          <span class="source-detail-label">Collection method</span>
+          <span class="source-detail-value">${meta.method ?? "Unknown"}</span>
+        </div>
+        <div class="source-detail-row">
+          <span class="source-detail-label">Parser</span>
+          <span class="source-detail-value ${parserFailed ? "status-offline" : "status-ok"}">${source.parser_status}</span>
+        </div>
+      </div>
+      ${fetchNote !== "None" ? `
+        <h3>Fetch Notes</h3>
+        <p class="source-detail-fetch-note">${fetchNote}</p>
+      ` : ""}
+      ${source.status === "offline" || source.status === "degraded" ? `
+        <h3>Impact</h3>
+        <p class="source-detail-impact">${meta.impact ?? sourceStatusMessage(source)}</p>
+      ` : ""}
+    `
+  );
 }
 
 function renderSources() {
   references.sourceGrid.innerHTML = state.payload.sources.sources
     .map(
-      (source) => `
-        <article class="source-card">
-          <div class="label">${source.owner}</div>
-          <h3>${source.name}</h3>
-          <div class="score status-${source.status}">${source.status}</div>
-          <div class="meta">
-            <span>${formatFreshness(source.freshness_minutes)}</span>
-            <span>Parser ${source.parser_status}</span>
-          </div>
-          <p class="source-status-note status-${source.status}">${sourceStatusMessage(source)}</p>
-          <p>${source.notes || source.summary.excerpt || "No parser notes."}</p>
-        </article>
-      `
+      (source) => {
+        const meta = SOURCE_META[source.source_id] ?? {};
+        const freshLabel = formatFreshness(source.freshness_minutes);
+        return `
+          <article class="source-card" data-source-id="${source.source_id}">
+            <button class="source-info-btn" title="View details" type="button">ⓘ</button>
+            <div class="label">${source.owner}</div>
+            <h3>${source.name}</h3>
+            <p class="source-desc">${meta.description ?? ""}</p>
+            <div class="score status-${source.status}">${source.status}</div>
+            <div class="meta">
+              <span>Updated ${freshLabel}</span>
+              <span>Parser ${source.parser_status}</span>
+            </div>
+            <p class="source-status-note status-${source.status}">${sourceStatusMessage(source)}</p>
+          </article>
+        `;
+      }
     )
     .join("");
+
+  references.sourceGrid.querySelectorAll(".source-info-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const card = btn.closest(".source-card");
+      const source = state.payload.sources.sources.find(
+        (s) => s.source_id === card.dataset.sourceId
+      );
+      if (source) openSourceDetails(source);
+    });
+  });
 }
 
 function renderAll() {
