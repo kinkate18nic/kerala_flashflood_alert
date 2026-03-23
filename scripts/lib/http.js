@@ -25,8 +25,8 @@ export async function fetchText(url, options = {}) {
       }
     }
     
-    if (method === "POST" && options.body) {
-       args.push("-d", String(options.body));
+    if (method === "POST") {
+       args.push("-d", options.body ? String(options.body) : "");
     }
 
     try {
