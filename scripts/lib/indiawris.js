@@ -113,8 +113,11 @@ const stationContextCache = new Map();
 async function loadStationContext(repoRoot) {
   if (!stationContextCache.has(repoRoot)) {
     stationContextCache.set(repoRoot, (async () => {
-      const [registryDocument, districtLayer, talukLayer] = await Promise.all([
+      const [registryDocument, thresholdDocument, districtLayer, talukLayer] = await Promise.all([
         readJson(path.join(repoRoot, "data", "manual", "indiawris-stations.json"), {
+          stations: []
+        }),
+        readJson(path.join(repoRoot, "data", "manual", "indiawris-river-thresholds.json"), {
           stations: []
         }),
         readJson(path.join(repoRoot, "src", "site", "assets", "kerala-districts.geojson"), {
@@ -133,8 +136,21 @@ async function loadStationContext(repoRoot) {
         if (station.station_code) {
           byCode.set(normalizeStationName(station.station_code), station);
         }
-        if (station.station_name) {
-          byName.set(normalizeStationName(station.station_name), station);
+        const names = [station.station_name, ...(station.aliases ?? [])].filter(Boolean);
+        for (const name of names) {
+          byName.set(normalizeStationName(name), station);
+        }
+      }
+
+      const thresholdByCode = new Map();
+      const thresholdByName = new Map();
+      for (const station of thresholdDocument.stations ?? []) {
+        if (station.station_code) {
+          thresholdByCode.set(normalizeStationName(station.station_code), station);
+        }
+        const names = [station.station_name, ...(station.aliases ?? [])].filter(Boolean);
+        for (const name of names) {
+          thresholdByName.set(normalizeStationName(name), station);
         }
       }
 
@@ -143,6 +159,11 @@ async function loadStationContext(repoRoot) {
           stations: registryDocument.stations ?? [],
           byCode,
           byName
+        },
+        thresholds: {
+          stations: thresholdDocument.stations ?? [],
+          byCode: thresholdByCode,
+          byName: thresholdByName
         },
         districts: parseDistrictBoundaries(districtLayer),
         taluks: parseTalukBoundaries(talukLayer)
@@ -157,6 +178,12 @@ function findStationRegistration(registry, row) {
   const stationCode = normalizeStationName(row.stationCode);
   const stationName = normalizeStationName(row.stationName);
   return registry.byCode.get(stationCode) ?? registry.byName.get(stationName) ?? null;
+}
+
+function findStationThreshold(thresholds, row, registration = null) {
+  const stationCode = normalizeStationName(row.stationCode ?? registration?.station_code);
+  const stationName = normalizeStationName(row.stationName ?? registration?.station_name);
+  return thresholds.byCode.get(stationCode) ?? thresholds.byName.get(stationName) ?? null;
 }
 
 function locateAdminAreaByPoint(context, lon, lat) {
@@ -179,8 +206,8 @@ function enrichStationRow(row, fallbackDistrict, context) {
 
   if (lat !== null && lon !== null) {
     const spatialMatch = locateAdminAreaByPoint(context, lon, lat);
-    districtId = districtId ?? spatialMatch.district_id;
-    talukId = talukId ?? spatialMatch.taluk_id;
+    districtId = spatialMatch.district_id ?? districtId;
+    talukId = spatialMatch.taluk_id ?? talukId;
   }
 
   districtId ??= fallbackDistrict.id;
@@ -195,6 +222,54 @@ function enrichStationRow(row, fallbackDistrict, context) {
     station_lat: lat,
     station_lon: lon,
     station_mapping: registration ? "registry" : lat !== null && lon !== null ? "coordinates" : "tehsil_fallback"
+  };
+}
+
+function computeRiseSeverity(riseMetres) {
+  if (riseMetres >= 1) {
+    return 0.7;
+  }
+  if (riseMetres >= 0.5) {
+    return 0.45;
+  }
+  if (riseMetres >= 0.25) {
+    return 0.25;
+  }
+  return 0;
+}
+
+function classifyThresholdSeverity(latestLevel, riseMetres, threshold) {
+  const warning = safeNumber(threshold?.warning_level_m);
+  const danger = safeNumber(threshold?.danger_level_m);
+  if (warning === null || danger === null || danger <= warning) {
+    return null;
+  }
+
+  const span = Math.max(danger - warning, 0.01);
+  const ratio = (latestLevel - warning) / span;
+  const clampedRatio = Math.max(-1, Math.min(2, ratio));
+  let levelStatus = "below_warning";
+  let severity = 0;
+
+  if (latestLevel >= danger) {
+    levelStatus = "above_danger";
+    severity = 1;
+  } else if (latestLevel >= warning) {
+    levelStatus = "above_warning";
+    severity = 0.65 + Math.max(0, ratio) * 0.25;
+  } else if (latestLevel >= warning - 0.5 * span) {
+    levelStatus = "approaching_warning";
+    severity = 0.25;
+  }
+
+  if (levelStatus !== "below_warning" && riseMetres >= 0.5) {
+    severity = Math.min(1, severity + 0.08);
+  }
+
+  return {
+    severity: Number(Math.min(1, Math.max(0, severity)).toFixed(2)),
+    threshold_ratio: Number(clampedRatio.toFixed(2)),
+    level_status: levelStatus
   };
 }
 
@@ -306,7 +381,7 @@ function aggregateRainfallSeries(records) {
   };
 }
 
-function aggregateRiverLevelSeries(records) {
+export function summarizeRiverLevelSeries(records, context = null) {
   const byStation = new Map();
 
   for (const record of records) {
@@ -330,30 +405,65 @@ function aggregateRiverLevelSeries(records) {
     const sorted = [...entries].sort((left, right) => left.timestamp - right.timestamp);
     const first = sorted[0];
     const latest = sorted[sorted.length - 1];
+    const riseMetres = Number((latest.numericValue - first.numericValue).toFixed(2));
+    const registration = context ? findStationRegistration(context.registry, latest) : null;
+    const threshold = context ? findStationThreshold(context.thresholds, latest, registration) : null;
+    const thresholdState = classifyThresholdSeverity(latest.numericValue, riseMetres, threshold);
+    const fallbackSeverity = computeRiseSeverity(riseMetres);
     return {
-      station_code: latest.stationCode ?? null,
-      station_name: latest.stationName ?? null,
+      station_code: latest.stationCode ?? registration?.station_code ?? null,
+      station_name: latest.stationName ?? registration?.station_name ?? null,
       latest_level_m: latest.numericValue,
-      rise_m: Number((latest.numericValue - first.numericValue).toFixed(2)),
+      rise_m: riseMetres,
       data_time: latest.dataTime ?? null,
-      tehsil: latest.tehsil ?? null
+      tehsil: latest.tehsil ?? null,
+      station_lat: safeNumber(latest.station_lat ?? registration?.lat),
+      station_lon: safeNumber(latest.station_lon ?? registration?.lon),
+      district_id: latest.district_id ?? registration?.district_id ?? null,
+      taluk_id: latest.taluk_id ?? registration?.taluk_id ?? null,
+      warning_level_m: threshold?.warning_level_m ?? null,
+      danger_level_m: threshold?.danger_level_m ?? null,
+      highest_flood_level_m: threshold?.highest_flood_level_m ?? null,
+      threshold_confidence: threshold?.confidence ?? null,
+      threshold_ratio: thresholdState?.threshold_ratio ?? null,
+      level_status: thresholdState?.level_status ?? "unclassified",
+      severity_basis: thresholdState ? "threshold" : fallbackSeverity > 0 ? "rise_fallback" : "none",
+      severity: thresholdState?.severity ?? fallbackSeverity
     };
   });
 
   const maxRise = stationSummaries.reduce((best, station) => Math.max(best, station.rise_m), 0);
-  let severity = 0;
-  if (maxRise >= 1) {
-    severity = 0.7;
-  } else if (maxRise >= 0.5) {
-    severity = 0.45;
-  } else if (maxRise >= 0.25) {
-    severity = 0.25;
-  }
+  const severity = stationSummaries.reduce((best, station) => Math.max(best, station.severity ?? 0), 0);
+  const thresholdStations = stationSummaries.filter((station) => station.severity_basis === "threshold");
+  const aboveWarning = thresholdStations.filter((station) =>
+    station.level_status === "above_warning" || station.level_status === "above_danger"
+  );
+  const aboveDanger = thresholdStations.filter((station) => station.level_status === "above_danger");
+  const maxThresholdRatio = thresholdStations.reduce(
+    (best, station) => Math.max(best, station.threshold_ratio ?? Number.NEGATIVE_INFINITY),
+    Number.NEGATIVE_INFINITY
+  );
+  const summaryNote =
+    aboveDanger.length > 0
+      ? `India-WRIS river level above danger at ${aboveDanger[0].station_name}`
+      : aboveWarning.length > 0
+        ? `India-WRIS river level above warning at ${aboveWarning[0].station_name}`
+        : thresholdStations.length > 0
+          ? `India-WRIS threshold-tracked river level available from ${thresholdStations.length} station${thresholdStations.length === 1 ? "" : "s"}`
+          : maxRise > 0
+            ? `India-WRIS river level rise ${Number(maxRise.toFixed(2))} m across ${stationSummaries.length} station${stationSummaries.length === 1 ? "" : "s"}`
+            : `India-WRIS river level available from ${stationSummaries.length} station${stationSummaries.length === 1 ? "" : "s"} with no notable rise`;
 
   return {
-    severity,
+    severity: Number(severity.toFixed(2)),
     station_count: stationSummaries.length,
     max_rise_m: Number(maxRise.toFixed(2)),
+    threshold_station_count: thresholdStations.length,
+    above_warning_station_count: aboveWarning.length,
+    above_danger_station_count: aboveDanger.length,
+    max_threshold_ratio: Number.isFinite(maxThresholdRatio) ? Number(maxThresholdRatio.toFixed(2)) : null,
+    severity_basis: thresholdStations.length > 0 ? "threshold" : maxRise > 0 ? "rise_fallback" : "none",
+    summary_note: summaryNote,
     stations: stationSummaries
   };
 }
@@ -550,8 +660,8 @@ export async function fetchIndiaWrisRiverLevelPayload(repoRoot, source) {
     district_id: districtId,
     district_name: districtLookup[districtId]?.name ?? districtId,
     source: "indiawris-cwc",
-    ...aggregateRiverLevelSeries(rows)
-  }));
+      ...summarizeRiverLevelSeries(rows, stationContext)
+    }));
 
   return {
     ok: true,

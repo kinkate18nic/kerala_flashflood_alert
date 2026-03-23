@@ -1,58 +1,178 @@
 {
-  "schema_version": 1,
-  "notes": "Initial Kerala India-WRIS/CWC station registry. Coordinates are approximate operational references and should be refined as more station metadata is collected.",
+  "schema_version": 2,
+  "notes": "Kerala India-WRIS/CWC station registry assembled from confirmed operational stations and official threshold references. Coordinates remain approximate for manual curation and should be refined when direct station-master metadata becomes available.",
   "stations": [
-    {
-      "station_code": "016-SWRDKOCHI",
-      "station_name": "VANDIPERIYAR",
-      "agency": "CWC",
-      "source_types": ["rainfall", "river_level"],
-      "lat": 9.572,
-      "lon": 77.165,
-      "district_id": "idukki",
-      "taluk_id": "idukki--peerumade",
-      "precision": "approximate"
-    },
-    {
-      "station_name": "Idukki (Eb)/Idukki Arch Reservoir",
-      "agency": "CWC",
-      "source_types": ["rainfall"],
-      "lat": 9.845,
-      "lon": 76.98,
-      "district_id": "idukki",
-      "taluk_id": "idukki--thodupuzha",
-      "precision": "approximate"
-    },
     {
       "station_code": "013-SWRDKOCHI",
       "station_name": "KALAMPUR",
+      "aliases": ["KALAMPUR", "KALAMPUR CWC"],
       "agency": "CWC",
       "source_types": ["rainfall", "river_level"],
       "lat": 9.985,
       "lon": 76.585,
-      "district_id": "ernakulam",
-      "taluk_id": "ernakulam--muvattupuzha",
-      "precision": "approximate"
+      "precision": "approximate",
+      "confidence": "confirmed_live_response"
+    },
+    {
+      "station_code": "016-SWRDKOCHI",
+      "station_name": "VANDIPERIYAR",
+      "aliases": ["VANDIPERIYAR"],
+      "agency": "CWC",
+      "source_types": ["rainfall", "river_level", "river_discharge"],
+      "lat": 9.532,
+      "lon": 77.026,
+      "precision": "approximate",
+      "confidence": "confirmed_official"
     },
     {
       "station_name": "NEELEESWARAM",
+      "aliases": ["NEELEESWARAM", "NEELEESWARAM CWC", "NEELEESWARAM", "NEELEESWARAM", "NEELESWARAM", "NEELESHWARAM", "NEELEESWARAM"],
+      "agency": "CWC",
+      "source_types": ["rainfall", "river_level", "river_discharge"],
+      "lat": 10.155,
+      "lon": 76.414,
+      "precision": "approximate",
+      "confidence": "confirmed_official"
+    },
+    {
+      "station_name": "KUMBIDI",
+      "aliases": ["KUMBIDI"],
+      "agency": "CWC",
+      "source_types": ["rainfall", "river_level", "river_discharge"],
+      "lat": 10.826,
+      "lon": 76.441,
+      "precision": "approximate",
+      "confidence": "confirmed_official"
+    },
+    {
+      "station_name": "MALAKKARA",
+      "aliases": ["MALAKKARA"],
+      "agency": "CWC",
+      "source_types": ["rainfall", "river_level", "river_discharge"],
+      "lat": 9.316,
+      "lon": 76.607,
+      "precision": "approximate",
+      "confidence": "confirmed_official"
+    },
+    {
+      "station_name": "KALLOOPPARA",
+      "aliases": ["KALLOOPPARA", "KALLOPPARA", "KALOPPARA"],
+      "agency": "CWC",
+      "source_types": ["rainfall", "river_level", "river_discharge"],
+      "lat": 9.538,
+      "lon": 76.606,
+      "precision": "approximate",
+      "confidence": "confirmed_official"
+    },
+    {
+      "station_name": "PULLAKAYAR",
+      "aliases": ["PULLAKAYAR"],
+      "agency": "CWC",
+      "source_types": ["rainfall", "river_level"],
+      "lat": 9.449,
+      "lon": 76.567,
+      "precision": "approximate",
+      "confidence": "confirmed_official"
+    },
+    {
+      "station_name": "THUMPAMON",
+      "aliases": ["THUMPAMON", "THUMPAMON CWC"],
+      "agency": "CWC",
+      "source_types": ["rainfall", "river_level", "river_discharge"],
+      "lat": 9.165,
+      "lon": 76.738,
+      "precision": "approximate",
+      "confidence": "confirmed_official"
+    },
+    {
+      "station_name": "VELLAIKADAVU",
+      "aliases": ["VELLAIKADAVU"],
+      "agency": "CWC",
+      "source_types": ["rainfall", "river_level"],
+      "lat": 8.534,
+      "lon": 77.029,
+      "precision": "approximate",
+      "confidence": "confirmed_official"
+    },
+    {
+      "station_name": "MANAKKAD",
+      "aliases": ["MANAKKAD"],
+      "agency": "CWC",
+      "source_types": ["rainfall", "river_level"],
+      "lat": 10.0,
+      "lon": 76.72,
+      "precision": "approximate",
+      "confidence": "confirmed_official"
+    },
+    {
+      "station_name": "MUTHANKERA",
+      "aliases": ["MUTHANKERA"],
+      "agency": "CWC",
+      "source_types": ["rainfall", "river_level", "river_discharge"],
+      "lat": 11.795,
+      "lon": 76.218,
+      "precision": "approximate",
+      "confidence": "confirmed_official"
+    },
+    {
+      "station_name": "KARATHODU",
+      "aliases": ["KARATHODU", "KARATHODU CWC"],
+      "agency": "CWC",
+      "source_types": ["rainfall", "river_level", "river_discharge"],
+      "lat": 10.01,
+      "lon": 76.54,
+      "precision": "approximate",
+      "confidence": "inferred"
+    },
+    {
+      "station_name": "KIDANGOOR",
+      "aliases": ["KIDANGOOR"],
+      "agency": "CWC",
+      "source_types": ["rainfall", "river_level", "river_discharge"],
+      "lat": 9.68,
+      "lon": 76.73,
+      "precision": "approximate",
+      "confidence": "inferred"
+    },
+    {
+      "station_name": "MANKARA",
+      "aliases": ["MANKARA"],
+      "agency": "CWC",
+      "source_types": ["rainfall", "river_level", "river_discharge"],
+      "lat": 10.8,
+      "lon": 76.56,
+      "precision": "approximate",
+      "confidence": "inferred"
+    },
+    {
+      "station_name": "THENGUDI",
+      "aliases": ["THENGUDI"],
+      "agency": "CWC",
+      "source_types": ["rainfall", "river_level"],
+      "lat": 9.22,
+      "lon": 76.71,
+      "precision": "approximate",
+      "confidence": "inferred"
+    },
+    {
+      "station_name": "Idukki (Eb)/Idukki Arch Reservoir",
+      "aliases": ["IDUKKI (EB)/IDUKKI ARCH RESERVOIR", "IDUKKI ARCH RESERVOIR"],
       "agency": "CWC",
       "source_types": ["rainfall"],
-      "lat": 10.171,
-      "lon": 76.451,
-      "district_id": "ernakulam",
-      "taluk_id": "ernakulam--kothamangalam",
-      "precision": "approximate"
+      "lat": 9.845,
+      "lon": 76.98,
+      "precision": "approximate",
+      "confidence": "confirmed_live_response"
     },
     {
       "station_name": "Idamalayar Reservoir",
+      "aliases": ["IDAMALAYAR RESERVOIR"],
       "agency": "CWC",
       "source_types": ["rainfall"],
       "lat": 10.189,
       "lon": 76.705,
-      "district_id": "ernakulam",
-      "taluk_id": "ernakulam--kothamangalam",
-      "precision": "approximate"
+      "precision": "approximate",
+      "confidence": "confirmed_live_response"
     }
   ]
 }

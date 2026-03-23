@@ -347,13 +347,14 @@ function collapseSignals(parsedSources) {
       severity: 0,
       notes: []
     };
-    const riseText = district.max_rise_m > 0
-      ? `India-WRIS river level rise ${district.max_rise_m} m across ${district.station_count} station${district.station_count === 1 ? "" : "s"}`
-      : `India-WRIS river level available from ${district.station_count} station${district.station_count === 1 ? "" : "s"} with no notable rise`;
+    const riverLevelText = district.summary_note ??
+      (district.max_rise_m > 0
+        ? `India-WRIS river level rise ${district.max_rise_m} m across ${district.station_count} station${district.station_count === 1 ? "" : "s"}`
+        : `India-WRIS river level available from ${district.station_count} station${district.station_count === 1 ? "" : "s"} with no notable rise`);
     cwcByDistrict[district.district_id] = {
       active: existing.active || (district.severity ?? 0) > 0,
       severity: Math.max(existing.severity, district.severity ?? 0),
-      notes: [riseText, ...existing.notes].filter(Boolean)
+      notes: [riverLevelText, ...existing.notes].filter(Boolean)
     };
   }
 

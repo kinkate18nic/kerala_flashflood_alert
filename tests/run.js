@@ -28,6 +28,7 @@ import {
   representativePointInGeometry,
   talukIdFromBoundaryNames
 } from "../scripts/lib/boundaries.js";
+import { summarizeRiverLevelSeries } from "../scripts/lib/indiawris.js";
 import { buildHotspotFootprint } from "../src/shared/hotspot-footprints.js";
 import { buildRiskOutputs } from "../scripts/lib/risk-model.js";
 import { runPipeline } from "../scripts/lib/pipeline.js";
@@ -481,8 +482,53 @@ async function testIndiaWrisStationRegistry() {
     pointInGeometry([vandiperiyar.lon, vandiperiyar.lat], entry.geometry)
   );
 
-  assert.equal(districtMatch?.district_id, vandiperiyar.district_id);
-  assert.equal(talukMatch?.taluk_id, vandiperiyar.taluk_id);
+  assert.equal(districtMatch?.district_id, "idukki");
+  assert.equal(talukMatch?.taluk_id, "idukki--peerumade");
+}
+
+function testIndiaWrisRiverThresholdSeverity() {
+  const summary = summarizeRiverLevelSeries(
+    [
+      {
+        stationName: "NEELEESWARAM",
+        dataValue: "9.20",
+        dataTime: "2026-03-18T06:00:00",
+        district_id: "ernakulam"
+      },
+      {
+        stationName: "NEELEESWARAM",
+        dataValue: "10.10",
+        dataTime: "2026-03-18T08:00:00",
+        district_id: "ernakulam"
+      }
+    ],
+    {
+      registry: {
+        byCode: new Map(),
+        byName: new Map()
+      },
+      thresholds: {
+        byCode: new Map(),
+        byName: new Map([
+          [
+            "NEELEESWARAM",
+            {
+              station_name: "NEELEESWARAM",
+              warning_level_m: 9,
+              danger_level_m: 10,
+              highest_flood_level_m: 12.4,
+              confidence: "confirmed"
+            }
+          ]
+        ])
+      }
+    }
+  );
+
+  assert.equal(summary.above_danger_station_count, 1);
+  assert.equal(summary.severity_basis, "threshold");
+  assert.equal(summary.severity, 1);
+  assert.equal(summary.stations[0].level_status, "above_danger");
 }
 
 function testHotspotFootprints() {
@@ -510,6 +556,7 @@ const tests = [
   ["rainviewer-helpers", testRainviewerHelpers],
   ["boundaries", testBoundaryHelpers],
   ["indiawris-registry", testIndiaWrisStationRegistry],
+  ["indiawris-thresholds", testIndiaWrisRiverThresholdSeverity],
   ["hotspot-footprints", testHotspotFootprints],
   ["risk-model", testRiskModel],
   ["pipeline", testPipeline],
