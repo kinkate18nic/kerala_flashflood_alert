@@ -485,19 +485,24 @@ h1 {
   position: absolute;
   top: 14px;
   right: 14px;
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.7);
+  border: 1.5px solid var(--accent);
+  background: transparent;
   color: var(--accent);
-  font-size: 1rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-style: italic;
+  font-family: "Georgia", "Newsreader", serif;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background 180ms ease, transform 180ms ease;
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
   z-index: 1;
+  line-height: 1;
+  padding: 0;
 }
 
 .source-info-btn:hover {
