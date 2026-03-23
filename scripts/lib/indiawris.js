@@ -625,6 +625,7 @@ export async function fetchIndiaWrisRainfallPayload(repoRoot, source) {
 export async function fetchIndiaWrisRiverLevelPayload(repoRoot, source) {
   const endDate = new Date();
   const startDate = addDays(endDate, -6);
+  const stationContext = await loadStationContext(repoRoot);
 
   const districtResults = await fetchDistrictDataset(repoRoot, source, (district, page, size) => ({
     stateName: "Kerala",
@@ -660,8 +661,8 @@ export async function fetchIndiaWrisRiverLevelPayload(repoRoot, source) {
     district_id: districtId,
     district_name: districtLookup[districtId]?.name ?? districtId,
     source: "indiawris-cwc",
-      ...summarizeRiverLevelSeries(rows, stationContext)
-    }));
+    ...summarizeRiverLevelSeries(rows, stationContext)
+  }));
 
   return {
     ok: true,

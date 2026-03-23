@@ -68,7 +68,7 @@
     "parser": "indiaWrisRiverLevel",
     "auth": "none",
     "enabled": true,
-    "legal_notes": "Official India-WRIS district river water level query using Kerala+CWC stations. Use for river-rise context and consequence confirmation."
+    "legal_notes": "Official India-WRIS district river water level query using Kerala+CWC stations. Use for river-rise context and consequence confirmation; distinct from live CWC FFS flood-stage signals."
   },
   {
     "id": "ksdma-reservoirs",
@@ -100,10 +100,10 @@
   },
   {
     "id": "cwc-ffs",
-    "name": "CWC Flood Forecasting",
+    "name": "CWC FFS Live River Levels",
     "owner": "Central Water Commission",
     "category": "river-stage",
-    "url": "https://ffs.india-water.gov.in/",
+    "url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://ffs.india-water.gov.in/",
     "format": "json",
     "cadence_minutes": 60,
     "freshness_sla_minutes": 240,
@@ -115,7 +115,7 @@
     "parser": "cwcFfs",
     "auth": "none",
     "enabled": true,
-    "legal_notes": "Use live CWC FFS API station readings and thresholds to modify major-river linked district and hotspot risk."
+    "legal_notes": "Use live CWC FFS API station readings and thresholds to modify major-river linked district and hotspot risk. Prefer proxy routing when GitHub-hosted runners are rate-limited or blocked."
   },
   {
     "id": "rainviewer-radar",

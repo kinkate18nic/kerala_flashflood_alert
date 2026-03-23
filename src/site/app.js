@@ -546,7 +546,7 @@ const SOURCE_META = {
     description: "River water level from CWC gauge stations",
     method: "JSON API via Cloudflare Proxy → India-WRIS",
     cadence: "Every 3 hrs",
-    impact: "No river level context. CWC flood forecasting used as fallback."
+    impact: "No India-WRIS river level context. Live CWC FFS river-stage evidence may still be available."
   },
   "ksdma-reservoirs": {
     description: "Kerala dam reservoir storage levels",
@@ -561,10 +561,10 @@ const SOURCE_META = {
     impact: "No spillway alerts. Downstream consequence modifiers inactive."
   },
   "cwc-ffs": {
-    description: "Central Water Commission river flood status",
-    method: "HTML scraper (direct fetch)",
+    description: "Live river levels from CWC Flood Forecasting Service stations",
+    method: "JSON API via Cloudflare Proxy → CWC FFS",
     cadence: "Every 1 hr",
-    impact: "No river flood warnings. River-stage scoring relies on WRIS water level."
+    impact: "No live CWC FFS river-stage data. River flood scoring falls back to India-WRIS water level where available."
   },
   "rainviewer-radar": {
     description: "Real-time Doppler radar rain imagery",

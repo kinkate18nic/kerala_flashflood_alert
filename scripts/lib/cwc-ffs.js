@@ -27,6 +27,18 @@ function normalizeFfsTimestamp(value) {
   return `${raw}${FFS_TIMEZONE_SUFFIX}`;
 }
 
+function wrapTargetUrl(baseUrl, targetUrl) {
+  const outerUrl = new URL(baseUrl);
+  const innerRaw = outerUrl.searchParams.get("url");
+  if (!innerRaw) {
+    return targetUrl;
+  }
+
+  const innerUrl = new URL(targetUrl);
+  outerUrl.searchParams.set("url", innerUrl.toString());
+  return outerUrl.toString();
+}
+
 function buildLatestObservedUrl(stationCode, pageSize = 2) {
   const sortCriteria = {
     sortOrderDtos: [
@@ -206,7 +218,7 @@ export async function fetchCwcFfsPayload(repoRoot, source) {
     stations,
     async (station) => {
       const url = buildLatestObservedUrl(station.station_code, pageSize);
-      const response = await fetchJson(url, {
+      const response = await fetchJson(wrapTargetUrl(source.url, url), {
         timeoutMs: source.fetch_options?.timeoutMs ?? 25000
       });
 
