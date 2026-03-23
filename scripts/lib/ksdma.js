@@ -52,18 +52,51 @@ function wrapTargetUrl(baseUrl, targetUrl) {
 function extractPdfLink(pageHtml, department) {
   const matches = [...pageHtml.matchAll(/href="([^"]+\.pdf[^"]*)"[^>]*>([^<]*)<\/a>/gi)];
   const expectedToken = department === "kseb" ? "KSEB" : "IRR";
-  const hit = matches.find((match) =>
-    match[1].toUpperCase().includes(expectedToken) ||
-    match[2].toUpperCase().includes(department === "kseb" ? "KSEB" : "IRRIGATION")
-  );
+  const scoredMatches = matches
+    .map((match) => {
+      const href = match[1];
+      const label = normalizeText(match[2] || "");
+      const upperHref = href.toUpperCase();
+      const upperLabel = label.toUpperCase();
+
+      // The explanatory guidelines PDF also contains both words and must never win.
+      if (upperLabel.includes("GUIDELINES")) {
+        return null;
+      }
+
+      let score = 0;
+      if (department === "kseb") {
+        if (upperHref.includes("KSEB-SITE")) score += 10;
+        if (upperLabel.includes("WATER LEVELS OF MAJOR RESERVOIRS")) score += 4;
+        if (upperLabel.includes("KSEB")) score += 5;
+      } else {
+        if (upperHref.includes("IRR-SITE")) score += 10;
+        if (upperLabel.includes("WATER LEVELS OF MAJOR RESERVOIRS")) score += 4;
+        if (upperLabel.includes("IRRIGATION")) score += 5;
+      }
+
+      if (upperHref.includes(expectedToken)) {
+        score += 2;
+      }
+
+      return {
+        href,
+        label,
+        score
+      };
+    })
+    .filter(Boolean)
+    .sort((left, right) => right.score - left.score);
+
+  const hit = scoredMatches.find((match) => match.score > 0);
 
   if (!hit) {
     throw new Error(`KSDMA ${department.toUpperCase()} PDF link not found on dam-water-level page`);
   }
 
   return {
-    href: hit[1],
-    label: normalizeText(hit[2] || "")
+    href: hit.href,
+    label: hit.label
   };
 }
 
