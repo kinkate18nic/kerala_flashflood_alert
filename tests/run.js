@@ -58,6 +58,42 @@ async function testParsers() {
   );
   assert.ok(capWithDetails.kerala_district_ids.includes("ernakulam"));
 
+  const capWithGeocodeOnly = await parseImdCapRss(
+    repoRoot,
+    { active_window_hours: 48 },
+    JSON.stringify({
+      rss: `<?xml version="1.0" encoding="UTF-8"?><rss><channel><item><title>Localized alert</title><description></description><link>https://example.org/cap/imd-test-geocode</link><pubDate>Mon, 16 Mar 2026 09:00:00 +0530</pubDate></item></channel></rss>`,
+      details: [
+        {
+          link: "https://example.org/cap/imd-test-geocode",
+          xml: `<?xml version="1.0" encoding="UTF-8"?>
+          <cap:alert xmlns:cap="urn:oasis:names:tc:emergency:cap:1.2">
+            <cap:identifier>imd-test-geocode</cap:identifier>
+            <cap:sent>2026-03-16T09:00:00+05:30</cap:sent>
+            <cap:info>
+              <cap:category>Met</cap:category>
+              <cap:severity>Severe</cap:severity>
+              <cap:headline>മുന്നറിയിപ്പ്</cap:headline>
+              <cap:area>
+                <cap:areaDesc>4 districts of Kerala</cap:areaDesc>
+                <cap:geocode>
+                  <cap:valueName>LGD District Code</cap:valueName>
+                  <cap:value>555</cap:value>
+                </cap:geocode>
+                <cap:geocode>
+                  <cap:valueName>LGD District Code</cap:valueName>
+                  <cap:value>560</cap:value>
+                </cap:geocode>
+              </cap:area>
+            </cap:info>
+          </cap:alert>`
+        }
+      ]
+    })
+  );
+  assert.ok(capWithGeocodeOnly.kerala_district_ids.includes("ernakulam"));
+  assert.ok(capWithGeocodeOnly.kerala_district_ids.includes("kottayam"));
+
   const filteredCap = await parseImdCapRss(
     `<?xml version="1.0" encoding="UTF-8"?><rss><channel>
       <item>

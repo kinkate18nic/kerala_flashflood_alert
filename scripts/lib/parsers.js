@@ -4,6 +4,7 @@ import { districts } from "../../src/shared/areas.js";
 import { parseDate } from "./time.js";
 import { severityKeywords } from "../../src/shared/risk.js";
 import { parseDistrictBoundaries, pointInGeometry } from "./boundaries.js";
+import capGeocodeMappings from "../../config/imd-cap-geocodes.json" with { type: "json" };
 
 function stripHtml(html) {
   return html
@@ -15,13 +16,15 @@ function stripHtml(html) {
 }
 
 function readTag(fragment, tagName) {
-  const match = fragment.match(new RegExp(`<(?:(?:\\w+):)?${tagName}[^>]*>([\\s\\S]*?)<\\/(?:(?:\\w+):)?${tagName}>`, "i"));
+  const match = fragment.match(
+    new RegExp(`<(?:(?:\\w+):)?${tagName}\\b[^>]*>([\\s\\S]*?)<\\/(?:(?:\\w+):)?${tagName}>`, "i")
+  );
   return match?.[1]?.trim() ?? null;
 }
 
 function readTagAttribute(fragment, tagName, attributeName) {
   const match = fragment.match(
-    new RegExp(`<(?:(?:\\w+):)?${tagName}[^>]*\\b${attributeName}="([^"]+)"[^>]*\\/?>`, "i")
+    new RegExp(`<(?:(?:\\w+):)?${tagName}\\b[^>]*\\b${attributeName}="([^"]+)"[^>]*\\/?>`, "i")
   );
   return match?.[1]?.trim() ?? null;
 }
@@ -88,6 +91,32 @@ function parseCapGeocodes(fragment) {
   });
 }
 
+function normalizeGeocodeValueName(value) {
+  return String(value ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+}
+
+function districtIdsFromGeocodes(geocodes) {
+  const districtIds = new Set();
+
+  for (const geocode of geocodes) {
+    const valueName = normalizeGeocodeValueName(geocode.value_name);
+    const mappingTable = capGeocodeMappings.value_name_mappings?.[valueName];
+    if (!mappingTable) {
+      continue;
+    }
+
+    const districtId = mappingTable[String(geocode.value ?? "").trim()];
+    if (districtId) {
+      districtIds.add(districtId);
+    }
+  }
+
+  return [...districtIds];
+}
+
 let districtBoundaryCache = null;
 
 async function loadLocalDistrictBoundaries(repoRoot) {
@@ -138,6 +167,7 @@ function parseCapXmlDetail(detailXml, districtBoundaries) {
     .join(" ");
   const text = `${title} ${description} ${instruction} ${areaDesc} ${geocodeText} ${severityText}`.trim();
   const polygonDistricts = districtIdsFromPolygons(polygons, districtBoundaries);
+  const geocodeDistricts = districtIdsFromGeocodes(geocodes);
   const textDistricts = findDistrictIds(text);
 
   return {
@@ -152,7 +182,7 @@ function parseCapXmlDetail(detailXml, districtBoundaries) {
     geocodes,
     polygons,
     severity: inferSeverity(text),
-    districts: [...new Set([...polygonDistricts, ...textDistricts])]
+    districts: [...new Set([...polygonDistricts, ...geocodeDistricts, ...textDistricts])]
   };
 }
 
