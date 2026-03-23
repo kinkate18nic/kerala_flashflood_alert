@@ -419,7 +419,11 @@ export function parseIndiaWrisRainfall(raw) {
     issued_at: payload.issued_at ?? null,
     districts: Array.isArray(payload.districts) ? payload.districts : [],
     taluks: Array.isArray(payload.taluks) ? payload.taluks : [],
-    station_count: payload.station_count ?? 0
+    station_count: payload.station_count ?? 0,
+    requested_district_count: payload.requested_district_count ?? 0,
+    successful_district_count: payload.successful_district_count ?? 0,
+    failed_districts: Array.isArray(payload.failed_districts) ? payload.failed_districts : [],
+    partial_failure_count: Array.isArray(payload.failed_districts) ? payload.failed_districts.length : 0
   };
 }
 
@@ -433,7 +437,11 @@ export function parseIndiaWrisRiverLevel(raw) {
 
   return {
     issued_at: payload.issued_at ?? null,
-    districts: Array.isArray(payload.districts) ? payload.districts : []
+    districts: Array.isArray(payload.districts) ? payload.districts : [],
+    requested_district_count: payload.requested_district_count ?? 0,
+    successful_district_count: payload.successful_district_count ?? 0,
+    failed_districts: Array.isArray(payload.failed_districts) ? payload.failed_districts : [],
+    partial_failure_count: Array.isArray(payload.failed_districts) ? payload.failed_districts.length : 0
   };
 }
 

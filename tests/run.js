@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import os from "node:os";
 import path from "node:path";
-import { cp, mkdtemp, readFile } from "node:fs/promises";
+import { cp, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { zipSync } from "fflate";
 import thresholds from "../config/risk-thresholds.json" with { type: "json" };
@@ -110,6 +110,7 @@ async function testParsers() {
   assert.equal(indiaWrisRainfall.districts.length, 2);
   assert.equal(indiaWrisRainfall.taluks.length, 2);
   assert.equal(indiaWrisRainfall.station_count, 5);
+  assert.equal(indiaWrisRainfall.partial_failure_count, 0);
 
   const indiaWrisRiverLevelRaw = await readFile(
     path.join(repoRoot, "fixtures", "indiawris-river-level.json"),
@@ -118,6 +119,7 @@ async function testParsers() {
   const indiaWrisRiverLevel = parseIndiaWrisRiverLevel(indiaWrisRiverLevelRaw);
   assert.equal(indiaWrisRiverLevel.districts.length, 2);
   assert.equal(indiaWrisRiverLevel.districts[0].max_rise_m, 0.62);
+  assert.equal(indiaWrisRiverLevel.partial_failure_count, 0);
 }
 
 function testRiskModel() {
@@ -241,6 +243,37 @@ async function testPipeline() {
     sources.sources.find((source) => source.source_id === "indiawris-rainfall")?.status,
     "ok"
   );
+}
+
+async function testPipelineDegradesPartialIndiaWrisCoverage() {
+  const tempRoot = await mkdtemp(path.join(os.tmpdir(), "kerala-flood-watch-partial-"));
+  await cp(path.join(repoRoot, "config"), path.join(tempRoot, "config"), { recursive: true });
+  await cp(path.join(repoRoot, "data"), path.join(tempRoot, "data"), { recursive: true });
+  await cp(path.join(repoRoot, "fixtures"), path.join(tempRoot, "fixtures"), { recursive: true });
+  await cp(path.join(repoRoot, "src"), path.join(tempRoot, "src"), { recursive: true });
+
+  const rainfallFixturePath = path.join(tempRoot, "fixtures", "indiawris-rainfall.json");
+  const rainfallFixture = JSON.parse(await readFile(rainfallFixturePath, "utf8"));
+  rainfallFixture.requested_district_count = 14;
+  rainfallFixture.successful_district_count = 13;
+  rainfallFixture.failed_districts = [
+    {
+      district_id: "kasaragod",
+      district_name: "Kasaragod",
+      status: 599,
+      error: "fetch failed"
+    }
+  ];
+  await writeFile(rainfallFixturePath, JSON.stringify(rainfallFixture, null, 2));
+
+  await runPipeline(tempRoot, { useFixtures: true });
+  const sourcesRaw = await readFile(path.join(tempRoot, "docs", "data", "latest", "sources.json"), "utf8");
+  const sources = JSON.parse(sourcesRaw);
+  const indiaWrisSource = sources.sources.find((source) => source.source_id === "indiawris-rainfall");
+
+  assert.equal(indiaWrisSource?.status, "degraded");
+  assert.equal(indiaWrisSource?.summary.failed_district_count, 1);
+  assert.equal(indiaWrisSource?.summary.successful_district_count, 13);
 }
 
 function testImergListingSelection() {
@@ -443,7 +476,8 @@ const tests = [
   ["indiawris-registry", testIndiaWrisStationRegistry],
   ["hotspot-footprints", testHotspotFootprints],
   ["risk-model", testRiskModel],
-  ["pipeline", testPipeline]
+  ["pipeline", testPipeline],
+  ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage]
 ];
 
 let failures = 0;

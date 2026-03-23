@@ -74,6 +74,11 @@ function summarizeSource(parsed) {
     if ("station_count" in parsed) {
       summary.station_count = parsed.station_count;
     }
+    if ("requested_district_count" in parsed) {
+      summary.requested_district_count = parsed.requested_district_count;
+      summary.successful_district_count = parsed.successful_district_count ?? parsed.requested_district_count;
+      summary.failed_district_count = parsed.partial_failure_count ?? parsed.failed_districts?.length ?? 0;
+    }
     if (parsed.source_files) {
       summary.latest_half_hour_file = parsed.source_files.half_hour?.[0]?.split("/").pop() ?? null;
       summary.latest_three_hour_file = parsed.source_files.three_hour?.[0]?.split("/").pop() ?? null;
@@ -85,6 +90,14 @@ function summarizeSource(parsed) {
     return { excerpt: parsed.summary.slice(0, 160) };
   }
   return {};
+}
+
+function applyCoverageStatus(baseStatus, parsed) {
+  const failedCount = parsed?.partial_failure_count ?? parsed?.failed_districts?.length ?? 0;
+  if (failedCount > 0 && baseStatus === "ok") {
+    return "degraded";
+  }
+  return baseStatus;
 }
 
 async function loadRawContent(repoRoot, source, options) {
@@ -543,7 +556,8 @@ export async function runPipeline(repoRoot, options = {}) {
 
     const issuedDate = parseDate(issuedAt);
     const freshnessMinutes = minutesBetween(issuedDate, new Date(generatedAt));
-    const status = statusFromFreshness(freshnessMinutes, source, fetchOk, parserOk);
+    const baseStatus = statusFromFreshness(freshnessMinutes, source, fetchOk, parserOk);
+    const status = applyCoverageStatus(baseStatus, parsed);
 
     if (raw) {
       const outputName = `${source.id}.${rawExtension(source.format)}`;

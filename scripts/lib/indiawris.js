@@ -400,6 +400,23 @@ async function fetchDistrictDataset(repoRoot, source, queryBuilder) {
   return results;
 }
 
+function summarizeDistrictFetchCoverage(results) {
+  const failedDistricts = results
+    .filter((entry) => !entry.response.ok)
+    .map((entry) => ({
+      district_id: entry.district.id,
+      district_name: entry.district.name,
+      status: entry.response.status ?? 599,
+      error: entry.response.error ?? "Request failed"
+    }));
+
+  return {
+    requested_district_count: results.length,
+    successful_district_count: results.length - failedDistricts.length,
+    failed_districts: failedDistricts
+  };
+}
+
 export async function fetchIndiaWrisRainfallPayload(repoRoot, source) {
   const endDate = new Date();
   const startDate = addDays(endDate, -6);
@@ -414,6 +431,7 @@ export async function fetchIndiaWrisRainfallPayload(repoRoot, source) {
     page,
     size
   }));
+  const coverage = summarizeDistrictFetchCoverage(districtResults);
 
   const districtBuckets = new Map();
   const talukBuckets = new Map();
@@ -483,9 +501,13 @@ export async function fetchIndiaWrisRainfallPayload(repoRoot, source) {
       issued_at: latestIssuedAt,
       districts: districtRainfall,
       taluks,
-      station_count: totalStations
+      station_count: totalStations,
+      ...coverage
     }),
-    note: `India-WRIS rainfall queried for ${districtRainfall.length} Kerala districts`,
+    note:
+      coverage.failed_districts.length > 0
+        ? `India-WRIS rainfall queried for ${coverage.successful_district_count}/${coverage.requested_district_count} Kerala districts`
+        : `India-WRIS rainfall queried for ${districtRainfall.length} Kerala districts`,
     resolvedUrl: source.url
   };
 }
@@ -504,6 +526,7 @@ export async function fetchIndiaWrisRiverLevelPayload(repoRoot, source) {
     page,
     size
   }));
+  const coverage = summarizeDistrictFetchCoverage(districtResults);
 
   const districtBuckets = new Map();
   let latestIssuedAt = null;
@@ -535,9 +558,13 @@ export async function fetchIndiaWrisRiverLevelPayload(repoRoot, source) {
     status: 200,
     text: JSON.stringify({
       issued_at: latestIssuedAt,
-      districts: districtLevels
+      districts: districtLevels,
+      ...coverage
     }),
-    note: `India-WRIS river level queried for ${districtLevels.length} Kerala districts`,
+    note:
+      coverage.failed_districts.length > 0
+        ? `India-WRIS river level queried for ${coverage.successful_district_count}/${coverage.requested_district_count} Kerala districts`
+        : `India-WRIS river level queried for ${districtLevels.length} Kerala districts`,
     resolvedUrl: source.url
   };
 }
