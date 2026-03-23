@@ -504,7 +504,7 @@ export async function fetchIndiaWrisRainfallPayload(repoRoot, source) {
 
 export async function fetchIndiaWrisRiverLevelPayload(repoRoot, source) {
   const endDate = new Date();
-  const startDate = addDays(endDate, -1);
+  const startDate = addDays(endDate, -6);
 
   const districtResults = await fetchDistrictDataset(repoRoot, source, (district, page, size) => ({
     stateName: "Kerala",
