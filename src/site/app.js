@@ -530,6 +530,19 @@ function sourceStatusMessage(source) {
   return "Current for this run.";
 }
 
+function formatFreshness(minutes) {
+  if (minutes === null || minutes === undefined || isNaN(minutes)) return "Freshness n/a";
+  if (minutes < 1) return "Updated just now";
+  if (minutes < 60) return `Updated ${minutes} min${minutes === 1 ? "" : "s"} ago`;
+  
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `Updated ${hours} hr${hours === 1 ? "" : "s"} ago`;
+  
+  const days = (minutes / 1440).toFixed(1);
+  const cleanlyFormattedDays = days.endsWith(".0") ? days.slice(0, -2) : days;
+  return `Updated ${cleanlyFormattedDays} day${cleanlyFormattedDays === "1" ? "" : "s"} ago`;
+}
+
 function renderSources() {
   references.sourceGrid.innerHTML = state.payload.sources.sources
     .map(
@@ -539,7 +552,7 @@ function renderSources() {
           <h3>${source.name}</h3>
           <div class="score status-${source.status}">${source.status}</div>
           <div class="meta">
-            <span>Freshness ${source.freshness_minutes ?? "n/a"} min</span>
+            <span>${formatFreshness(source.freshness_minutes)}</span>
             <span>Parser ${source.parser_status}</span>
           </div>
           <p class="source-status-note status-${source.status}">${sourceStatusMessage(source)}</p>
