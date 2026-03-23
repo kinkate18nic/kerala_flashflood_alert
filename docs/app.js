@@ -515,51 +515,61 @@ const SOURCE_META = {
   "imd-cap-rss": {
     description: "Official severe weather warnings for Kerala",
     method: "XML RSS feed from NDMA/IMD",
+    cadence: "Every 15 min",
     impact: "No official warning data. Scores rely on satellite and ground observations only."
   },
   "imd-flash-flood-bulletin": {
     description: "IMD meteorologist flash flood risk guidance",
     method: "HTML scraper from mausam.imd.gov.in",
+    cadence: "Every 3 hrs",
     impact: "No expert meteorological guidance. Automated data sources still active."
   },
   "indiawris-rainfall": {
     description: "Ground rain gauge readings across Kerala",
     method: "JSON API via Cloudflare Proxy → India-WRIS",
+    cadence: "Every 3 hrs",
     impact: "No ground-truth rainfall. Satellite-only estimates (NASA IMERG) used instead."
   },
   "indiawris-river-level": {
     description: "River water level from CWC gauge stations",
     method: "JSON API via Cloudflare Proxy → India-WRIS",
+    cadence: "Every 3 hrs",
     impact: "No river level context. CWC flood forecasting used as fallback."
   },
   "ksdma-reservoirs": {
     description: "Kerala dam reservoir storage levels",
     method: "HTML scraper via Cloudflare Proxy → KSDMA",
+    cadence: "Every 1 hr",
     impact: "No reservoir data. Dam-related risk modifiers inactive."
   },
   "ksdma-dam-management": {
     description: "Dam spillway release bulletins",
     method: "HTML scraper via Cloudflare Proxy → KSDMA",
+    cadence: "Every 1 hr",
     impact: "No spillway alerts. Downstream consequence modifiers inactive."
   },
   "cwc-ffs": {
     description: "Central Water Commission river flood status",
-    method: "HTML scraper via Cloudflare Proxy → CWC",
+    method: "HTML scraper (direct fetch)",
+    cadence: "Every 1 hr",
     impact: "No river flood warnings. River-stage scoring relies on WRIS water level."
   },
   "rainviewer-radar": {
     description: "Real-time Doppler radar rain imagery",
     method: "JSON API from RainViewer (public)",
+    cadence: "Every 10 min",
     impact: "No short-range radar nowcasting. 0-2 hour storm tracking unavailable."
   },
   "nasa-imerg-nrt": {
     description: "Satellite-estimated rainfall (half-hourly)",
     method: "GeoTIFF raster download from NASA PPS",
+    cadence: "Every 30 min",
     impact: "Primary rainfall source offline. Scores depend entirely on ground gauges."
   },
   "operator-observations": {
     description: "Manual human observation input",
     method: "Local JSON file (data/manual/observations.json)",
+    cadence: "On demand",
     impact: "No manual overrides active. Fully automated scoring in effect."
   }
 };
@@ -601,7 +611,7 @@ function formatCadence(minutes) {
 function openSourceDetails(source) {
   const meta = SOURCE_META[source.source_id] ?? {};
   const freshLabel = formatFreshness(source.freshness_minutes);
-  const cadenceLabel = formatCadence(source.cadence_minutes);
+  const cadenceLabel = meta.cadence ?? "Unknown";
   const fetchNote = source.notes || source.summary?.excerpt || "None";
   const parserFailed = source.parser_status !== "ok";
 

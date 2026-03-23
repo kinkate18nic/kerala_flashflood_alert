@@ -1,22 +1,21 @@
 {
-  "generated_at": "2026-03-23T09:05:38.458Z",
+  "generated_at": "2026-03-23T10:00:31.158Z",
   "alerts": [
     {
-      "alert_id": "h-pamba-corridor:2026-03-23T09:05:38.458Z",
+      "alert_id": "h-pamba-corridor:2026-03-23T10:00:31.158Z",
       "area_id": "h-pamba-corridor",
       "area_type": "hotspot",
       "district_id": "pathanamthitta",
       "name": "Aranmula - Kozhencherry - Ranni",
-      "score": 40.5,
-      "valid_from": "2026-03-23T09:05:38.458Z",
-      "valid_to": "2026-03-23T15:05:38.458Z",
+      "score": 42.5,
+      "valid_from": "2026-03-23T10:00:31.158Z",
+      "valid_to": "2026-03-23T16:00:31.158Z",
       "level": "Watch",
-      "confidence": 0.4,
+      "confidence": 0.5,
       "review_state": "auto_published",
       "drivers": [
-        "Observed 24h rain 0 mm and 1h rain 0 mm",
-        "India-WRIS official 24h rainfall 0 mm from 1 station",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "Observed 24h rain 1.1 mm and 1h rain 0 mm",
+        "Rainfall aggregation district_polygon_mean",
         "RainViewer nowcast light (9 dBZ)",
         "Terrain susceptibility 83% from NASADEM + local baseline",
         "CWC river-stage warning/watch active",
@@ -30,7 +29,74 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8298,
+          "freshness_minutes": 8353,
+          "status": "offline"
+        },
+        {
+          "source_id": "imd-flash-flood-bulletin",
+          "detail": "No Kerala bulletin trigger",
+          "freshness_minutes": null,
+          "status": "degraded"
+        },
+        {
+          "source_id": "indiawris-rainfall",
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": 91,
+          "status": "degraded"
+        },
+        {
+          "source_id": "rainviewer-radar",
+          "detail": "RainViewer light cell near hotspot",
+          "freshness_minutes": 0,
+          "status": "ok"
+        },
+        {
+          "source_id": "indiawris-river-level",
+          "detail": "India-WRIS river level rise 0.94 m across 4 stations",
+          "freshness_minutes": 121,
+          "status": "ok"
+        },
+        {
+          "source_id": "cwc-ffs",
+          "detail": "No river-stage warning for district",
+          "freshness_minutes": null,
+          "status": "offline"
+        }
+      ],
+      "message_en": "Aranmula - Kozhencherry - Ranni: Watch. Observed 24h rain 1.1 mm and 1h rain 0 mm",
+      "recommended_actions": [
+        "Continue district monitoring.",
+        "Watch official IMD and district warnings for changes."
+      ]
+    },
+    {
+      "alert_id": "h-munnar-devikulam:2026-03-23T10:00:31.158Z",
+      "area_id": "h-munnar-devikulam",
+      "area_type": "hotspot",
+      "district_id": "idukki",
+      "name": "Munnar - Devikulam upper catchments",
+      "score": 35.6,
+      "valid_from": "2026-03-23T10:00:31.158Z",
+      "valid_to": "2026-03-23T16:00:31.158Z",
+      "level": "Watch",
+      "confidence": 0.5,
+      "review_state": "auto_published",
+      "drivers": [
+        "Observed 24h rain 20 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 20 mm from 1 station",
+        "Peak India-WRIS station 24h rainfall 20 mm",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "Terrain susceptibility 96% from NASADEM + local baseline",
+        "Dam downstream caution active",
+        "Hotspot susceptibility 95%",
+        "Hotspot category steep catchment",
+        "Hotspot analysis radius 14 km"
+      ],
+      "source_refs": [
+        {
+          "source_id": "imd-cap-rss",
+          "detail": "1 CAP items",
+          "freshness_minutes": 8353,
           "status": "offline"
         },
         {
@@ -42,20 +108,20 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 4086,
-          "status": "offline"
+          "freshness_minutes": 91,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer light cell near hotspot",
+          "detail": "No meaningful RainViewer radar echo near hotspot",
           "freshness_minutes": 0,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
-          "detail": "India-WRIS river level rise 11.01 m across 4 stations",
-          "freshness_minutes": 4086,
-          "status": "offline"
+          "detail": "India-WRIS river level available from 2 stations with no notable rise",
+          "freshness_minutes": 121,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
@@ -64,7 +130,74 @@
           "status": "offline"
         }
       ],
-      "message_en": "Aranmula - Kozhencherry - Ranni: Watch. Observed 24h rain 0 mm and 1h rain 0 mm",
+      "message_en": "Munnar - Devikulam upper catchments: Watch. Observed 24h rain 20 mm and 1h rain 0 mm",
+      "recommended_actions": [
+        "Continue district monitoring.",
+        "Watch official IMD and district warnings for changes."
+      ]
+    },
+    {
+      "alert_id": "h-peermade:2026-03-23T10:00:31.158Z",
+      "area_id": "h-peermade",
+      "area_type": "hotspot",
+      "district_id": "idukki",
+      "name": "Peermade high-range catchment",
+      "score": 35.3,
+      "valid_from": "2026-03-23T10:00:31.158Z",
+      "valid_to": "2026-03-23T16:00:31.158Z",
+      "level": "Watch",
+      "confidence": 0.5,
+      "review_state": "auto_published",
+      "drivers": [
+        "Observed 24h rain 20 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 20 mm from 1 station",
+        "Peak India-WRIS station 24h rainfall 20 mm",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "Terrain susceptibility 96% from NASADEM + local baseline",
+        "Dam downstream caution active",
+        "Hotspot susceptibility 94%",
+        "Hotspot category steep catchment",
+        "Hotspot analysis radius 10 km"
+      ],
+      "source_refs": [
+        {
+          "source_id": "imd-cap-rss",
+          "detail": "1 CAP items",
+          "freshness_minutes": 8353,
+          "status": "offline"
+        },
+        {
+          "source_id": "imd-flash-flood-bulletin",
+          "detail": "No Kerala bulletin trigger",
+          "freshness_minutes": null,
+          "status": "degraded"
+        },
+        {
+          "source_id": "indiawris-rainfall",
+          "detail": "Official rainfall available from 1 station",
+          "freshness_minutes": 91,
+          "status": "degraded"
+        },
+        {
+          "source_id": "rainviewer-radar",
+          "detail": "No meaningful RainViewer radar echo near hotspot",
+          "freshness_minutes": 0,
+          "status": "ok"
+        },
+        {
+          "source_id": "indiawris-river-level",
+          "detail": "India-WRIS river level available from 2 stations with no notable rise",
+          "freshness_minutes": 121,
+          "status": "ok"
+        },
+        {
+          "source_id": "cwc-ffs",
+          "detail": "No river-stage warning for district",
+          "freshness_minutes": null,
+          "status": "offline"
+        }
+      ],
+      "message_en": "Peermade high-range catchment: Watch. Observed 24h rain 20 mm and 1h rain 0 mm",
       "recommended_actions": [
         "Continue district monitoring.",
         "Watch official IMD and district warnings for changes."
