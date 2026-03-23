@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-23T13:43:52.912Z",
+  "generated_at": "2026-03-23T14:24:01.616Z",
   "taluks": [
     {
       "area_id": "kasaragod--hosdurg",
@@ -9,7 +9,7 @@
       "name": "Hosdurg",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.3,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -20,18 +20,23 @@
         "rain_6h_mm": 0,
         "rain_24h_mm": 0,
         "rain_3d_mm": 0,
-        "rain_7d_mm": 0.1,
-        "source": "nasa-imerg-pps",
+        "rain_7d_mm": 0,
+        "source": "nasa-imerg-pps+indiawris-cwc",
         "district_id": "kasaragod",
-        "spatial_aggregation": "taluk_representative_point",
+        "spatial_aggregation": "taluk_representative_point+indiawris_station_mean",
         "cell_count": 1,
-        "peak_30m_mm": 0
+        "peak_30m_mm": 0,
+        "official_rain_24h_mm": 0,
+        "official_rain_3d_mm": 0,
+        "official_rain_7d_mm": 0,
+        "official_station_count": 1,
+        "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
-        "Rainfall aggregation taluk_representative_point",
+        "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
         "No mapped hotspot override within taluk",
         "Taluk susceptibility 35% from district terrain and hotspot context"
       ],
@@ -39,7 +44,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -50,9 +55,9 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "detail": "Official rainfall available from 2 stations",
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -63,14 +68,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -83,7 +88,7 @@
       "name": "Taliparamba",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -101,8 +106,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0.3 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -113,7 +118,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -125,8 +130,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -137,14 +142,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -157,7 +162,7 @@
       "name": "Kannur",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -175,8 +180,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0.3 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -187,7 +192,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -199,8 +204,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -211,14 +216,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -231,7 +236,7 @@
       "name": "Thalassery",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -254,8 +259,8 @@
         "official_station_count": 1,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -266,7 +271,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -278,8 +283,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -290,14 +295,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -309,8 +314,8 @@
       "district_name": "Wayanad",
       "name": "Mananthavady",
       "level": "Normal",
-      "score": 10.3,
-      "confidence": 0.4,
+      "score": 11.7,
+      "confidence": 0.5,
       "susceptibility": 0.8,
       "hotspot_ids": [
         "h-padinjarathara-banasura"
@@ -330,8 +335,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 1.9 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -342,7 +347,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -354,8 +359,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -366,14 +371,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -385,8 +390,8 @@
       "district_name": "Kozhikode",
       "name": "Vadakara",
       "level": "Normal",
-      "score": 1.2,
-      "confidence": 0.4,
+      "score": 2.6,
+      "confidence": 0.5,
       "susceptibility": 0.6,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -409,8 +414,8 @@
         "official_station_count": 1,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -422,7 +427,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -434,8 +439,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -446,14 +451,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -465,8 +470,8 @@
       "district_name": "Wayanad",
       "name": "Vythiri",
       "level": "Normal",
-      "score": 14,
-      "confidence": 0.4,
+      "score": 15.4,
+      "confidence": 0.5,
       "susceptibility": 0.8,
       "hotspot_ids": [
         "h-mundakkai-chooralmala",
@@ -487,8 +492,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 1.9 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -499,7 +504,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -511,8 +516,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -523,14 +528,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -542,8 +547,8 @@
       "district_name": "Ernakulam",
       "name": "Aluva",
       "level": "Normal",
-      "score": 12.1,
-      "confidence": 0.4,
+      "score": 13.5,
+      "confidence": 0.5,
       "susceptibility": 0.7,
       "hotspot_ids": [
         "h-aluva-periyar",
@@ -564,8 +569,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 2.6 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -576,7 +581,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -588,8 +593,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -600,14 +605,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -620,7 +625,7 @@
       "name": "Sulthanbathery",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -638,8 +643,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 1.9 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -650,7 +655,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -662,8 +667,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -674,14 +679,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -694,7 +699,7 @@
       "name": "Mavelikkara",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.3,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -712,8 +717,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0.6 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -724,7 +729,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -736,8 +741,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -748,14 +753,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -767,8 +772,8 @@
       "district_name": "Pathanamthitta",
       "name": "Adoor",
       "level": "Normal",
-      "score": 4.1,
-      "confidence": 0.4,
+      "score": 5.5,
+      "confidence": 0.5,
       "susceptibility": 0.8,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -786,8 +791,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0.7 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -799,7 +804,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -811,8 +816,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -823,14 +828,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -843,7 +848,7 @@
       "name": "Kasaragod",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.3,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -854,18 +859,23 @@
         "rain_6h_mm": 0,
         "rain_24h_mm": 0,
         "rain_3d_mm": 0,
-        "rain_7d_mm": 0.1,
-        "source": "nasa-imerg-pps",
+        "rain_7d_mm": 13.2,
+        "source": "nasa-imerg-pps+indiawris-cwc",
         "district_id": "kasaragod",
-        "spatial_aggregation": "taluk_representative_point",
+        "spatial_aggregation": "taluk_representative_point+indiawris_station_mean",
         "cell_count": 1,
-        "peak_30m_mm": 0
+        "peak_30m_mm": 0,
+        "official_rain_24h_mm": 0,
+        "official_rain_3d_mm": 0,
+        "official_rain_7d_mm": 13.2,
+        "official_station_count": 1,
+        "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
-        "Rainfall aggregation taluk_representative_point",
+        "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
         "No mapped hotspot override within taluk",
         "Taluk susceptibility 35% from district terrain and hotspot context"
       ],
@@ -873,7 +883,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -884,9 +894,9 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "detail": "Official rainfall available from 2 stations",
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -897,14 +907,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -917,7 +927,7 @@
       "name": "Paravur",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.4,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -935,8 +945,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 2.6 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -947,7 +957,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -959,8 +969,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -971,14 +981,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -991,7 +1001,7 @@
       "name": "Kochi",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.4,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -1009,8 +1019,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 2.6 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -1021,7 +1031,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -1033,8 +1043,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -1045,14 +1055,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -1065,7 +1075,7 @@
       "name": "Cherthala",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.3,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -1083,8 +1093,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0.6 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -1095,7 +1105,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -1107,8 +1117,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -1119,14 +1129,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -1139,7 +1149,7 @@
       "name": "Meenachil",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -1162,8 +1172,8 @@
         "official_station_count": 2,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -1174,7 +1184,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -1186,8 +1196,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -1198,14 +1208,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -1218,7 +1228,7 @@
       "name": "Vaikom",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -1236,8 +1246,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -1248,7 +1258,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -1260,8 +1270,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -1272,14 +1282,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -1291,8 +1301,8 @@
       "district_name": "Thrissur",
       "name": "Mukundapuram",
       "level": "Normal",
-      "score": 13,
-      "confidence": 0.4,
+      "score": 14.4,
+      "confidence": 0.5,
       "susceptibility": 0.7,
       "hotspot_ids": [
         "h-chalakudy"
@@ -1317,8 +1327,8 @@
         "official_station_count": 2,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -1330,7 +1340,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -1342,8 +1352,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -1354,14 +1364,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 1 station",
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -1373,8 +1383,8 @@
       "district_name": "Thrissur",
       "name": "Kodungallur",
       "level": "Normal",
-      "score": 0.2,
-      "confidence": 0.4,
+      "score": 1.6,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -1392,8 +1402,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 1.2 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -1405,7 +1415,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -1417,8 +1427,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -1429,14 +1439,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 1 station",
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -1448,8 +1458,8 @@
       "district_name": "Kollam",
       "name": "Pathanapuram",
       "level": "Normal",
-      "score": 0.6,
-      "confidence": 0.4,
+      "score": 2,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -1472,8 +1482,8 @@
         "official_station_count": 1,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -1485,7 +1495,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -1497,8 +1507,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -1509,14 +1519,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -1528,8 +1538,8 @@
       "district_name": "Kollam",
       "name": "Kunnathur",
       "level": "Normal",
-      "score": 0.6,
-      "confidence": 0.4,
+      "score": 2,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -1547,8 +1557,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0.3 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -1560,7 +1570,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -1572,8 +1582,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -1584,14 +1594,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -1603,8 +1613,8 @@
       "district_name": "Thiruvananthapuram",
       "name": "Thiruvananthapuram",
       "level": "Normal",
-      "score": 14.4,
-      "confidence": 0.4,
+      "score": 15.8,
+      "confidence": 0.5,
       "susceptibility": 0.7,
       "hotspot_ids": [
         "h-thampanoor-eastfort",
@@ -1625,8 +1635,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 2 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -1639,7 +1649,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -1651,8 +1661,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -1663,14 +1673,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 1 station",
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -1682,8 +1692,8 @@
       "district_name": "Pathanamthitta",
       "name": "Ranni",
       "level": "Normal",
-      "score": 15.4,
-      "confidence": 0.4,
+      "score": 16.8,
+      "confidence": 0.5,
       "susceptibility": 0.9,
       "hotspot_ids": [
         "h-pamba-corridor"
@@ -1708,8 +1718,8 @@
         "official_station_count": 1,
         "official_peak_station_24h_mm": 2.4
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 2.4 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -1721,7 +1731,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -1733,8 +1743,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -1745,14 +1755,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -1764,8 +1774,8 @@
       "district_name": "Kozhikode",
       "name": "Kozhikode",
       "level": "Normal",
-      "score": 1.2,
-      "confidence": 0.4,
+      "score": 2.6,
+      "confidence": 0.5,
       "susceptibility": 0.6,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -1788,8 +1798,8 @@
         "official_station_count": 1,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -1801,7 +1811,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -1813,8 +1823,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -1825,14 +1835,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -1845,7 +1855,7 @@
       "name": "Tirur",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.7,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -1863,8 +1873,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -1875,7 +1885,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -1887,8 +1897,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 5 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -1899,14 +1909,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 1 station",
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -1918,8 +1928,8 @@
       "district_name": "Palakkad",
       "name": "Palakkad",
       "level": "Normal",
-      "score": 2.3,
-      "confidence": 0.4,
+      "score": 3.7,
+      "confidence": 0.5,
       "susceptibility": 0.7,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -1937,8 +1947,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -1950,7 +1960,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -1962,8 +1972,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -1974,14 +1984,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -1994,7 +2004,7 @@
       "name": "Ponnani",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.7,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -2017,8 +2027,8 @@
         "official_station_count": 1,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -2029,7 +2039,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -2041,8 +2051,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 5 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -2053,14 +2063,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 1 station",
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -2072,8 +2082,8 @@
       "district_name": "Thrissur",
       "name": "Chavakkad",
       "level": "Normal",
-      "score": 0.2,
-      "confidence": 0.4,
+      "score": 1.6,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -2091,8 +2101,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 1.2 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -2104,7 +2114,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -2116,8 +2126,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -2128,14 +2138,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 1 station",
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -2148,7 +2158,7 @@
       "name": "Kothamangalam",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.4,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -2171,8 +2181,8 @@
         "official_station_count": 1,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -2183,7 +2193,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -2195,8 +2205,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -2207,14 +2217,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -2226,8 +2236,8 @@
       "district_name": "Ernakulam",
       "name": "Kanayannur",
       "level": "Normal",
-      "score": 12.5,
-      "confidence": 0.4,
+      "score": 13.9,
+      "confidence": 0.5,
       "susceptibility": 0.7,
       "hotspot_ids": [
         "h-kochi-mgroad-kaloor",
@@ -2249,8 +2259,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 2.6 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -2261,7 +2271,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -2273,8 +2283,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -2285,14 +2295,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -2304,8 +2314,8 @@
       "district_name": "Idukki",
       "name": "Udumbanchola",
       "level": "Normal",
-      "score": 5.8,
-      "confidence": 0.4,
+      "score": 7.2,
+      "confidence": 0.5,
       "susceptibility": 1,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -2323,8 +2333,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0.4 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -2336,7 +2346,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -2348,8 +2358,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -2360,14 +2370,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -2379,8 +2389,8 @@
       "district_name": "Kollam",
       "name": "Karunagappally",
       "level": "Normal",
-      "score": 0.6,
-      "confidence": 0.4,
+      "score": 2,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -2398,8 +2408,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0.3 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -2411,7 +2421,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -2423,8 +2433,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -2435,14 +2445,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -2454,8 +2464,8 @@
       "district_name": "Idukki",
       "name": "Peerumade",
       "level": "Normal",
-      "score": 21.9,
-      "confidence": 0.4,
+      "score": 23.3,
+      "confidence": 0.5,
       "susceptibility": 0.9,
       "hotspot_ids": [
         "h-peermade",
@@ -2482,8 +2492,8 @@
         "official_station_count": 3,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -2495,7 +2505,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -2507,8 +2517,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -2519,14 +2529,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -2538,8 +2548,8 @@
       "district_name": "Thiruvananthapuram",
       "name": "Neyyattinkara",
       "level": "Normal",
-      "score": 0.3,
-      "confidence": 0.4,
+      "score": 1.7,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -2562,8 +2572,8 @@
         "official_station_count": 2,
         "official_peak_station_24h_mm": 3.2
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 1.6 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -2576,7 +2586,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -2588,8 +2598,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -2600,14 +2610,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 1 station",
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -2619,8 +2629,8 @@
       "district_name": "Pathanamthitta",
       "name": "Mallappally",
       "level": "Normal",
-      "score": 4,
-      "confidence": 0.4,
+      "score": 5.4,
+      "confidence": 0.5,
       "susceptibility": 0.8,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -2643,8 +2653,8 @@
         "official_station_count": 1,
         "official_peak_station_24h_mm": 0.2
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0.2 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -2656,7 +2666,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -2668,8 +2678,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -2680,14 +2690,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -2699,8 +2709,8 @@
       "district_name": "Kollam",
       "name": "Kottarakkara",
       "level": "Normal",
-      "score": 0.6,
-      "confidence": 0.4,
+      "score": 2,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -2723,8 +2733,8 @@
         "official_station_count": 2,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -2736,7 +2746,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -2748,8 +2758,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -2760,14 +2770,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -2779,8 +2789,8 @@
       "district_name": "Kollam",
       "name": "Kollam",
       "level": "Normal",
-      "score": 0.6,
-      "confidence": 0.4,
+      "score": 2,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -2798,8 +2808,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0.3 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -2811,7 +2821,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -2823,8 +2833,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -2835,14 +2845,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -2854,8 +2864,8 @@
       "district_name": "Pathanamthitta",
       "name": "Thiruvalla",
       "level": "Normal",
-      "score": 4.1,
-      "confidence": 0.4,
+      "score": 5.5,
+      "confidence": 0.5,
       "susceptibility": 0.8,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -2873,8 +2883,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0.7 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -2886,7 +2896,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -2898,8 +2908,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -2910,14 +2920,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -2929,8 +2939,8 @@
       "district_name": "Malappuram",
       "name": "Ernad",
       "level": "Normal",
-      "score": 9.7,
-      "confidence": 0.4,
+      "score": 11.1,
+      "confidence": 0.5,
       "susceptibility": 0.8,
       "hotspot_ids": [
         "h-nilambur-chaliyar"
@@ -2955,8 +2965,8 @@
         "official_station_count": 3,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -2967,7 +2977,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -2979,8 +2989,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 5 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -2991,14 +3001,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 1 station",
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -3011,7 +3021,7 @@
       "name": "Perinthalmanna",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.7,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -3029,8 +3039,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -3041,7 +3051,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -3053,8 +3063,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 5 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -3065,14 +3075,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 1 station",
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -3084,8 +3094,8 @@
       "district_name": "Palakkad",
       "name": "Chittur",
       "level": "Normal",
-      "score": 2.3,
-      "confidence": 0.4,
+      "score": 3.7,
+      "confidence": 0.5,
       "susceptibility": 0.7,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -3103,8 +3113,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -3116,7 +3126,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -3128,8 +3138,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -3140,14 +3150,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -3159,8 +3169,8 @@
       "district_name": "Thrissur",
       "name": "Thrissur",
       "level": "Normal",
-      "score": 0.2,
-      "confidence": 0.4,
+      "score": 1.6,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -3178,8 +3188,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 1.2 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -3191,7 +3201,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -3203,8 +3213,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -3215,14 +3225,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 1 station",
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -3234,8 +3244,8 @@
       "district_name": "Idukki",
       "name": "Devikulam",
       "level": "Normal",
-      "score": 17.5,
-      "confidence": 0.4,
+      "score": 18.9,
+      "confidence": 0.5,
       "susceptibility": 1,
       "hotspot_ids": [
         "h-munnar-devikulam"
@@ -3260,8 +3270,8 @@
         "official_station_count": 1,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -3273,7 +3283,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -3285,8 +3295,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -3297,14 +3307,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -3317,7 +3327,7 @@
       "name": "Muvattupuzha",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.4,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -3327,21 +3337,21 @@
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0,
-        "rain_3d_mm": 0.7,
-        "rain_7d_mm": 1.3,
+        "rain_3d_mm": 0.6,
+        "rain_7d_mm": 1,
         "source": "nasa-imerg-pps+indiawris-cwc",
         "district_id": "ernakulam",
         "spatial_aggregation": "taluk_representative_point+indiawris_station_mean",
         "cell_count": 1,
         "peak_30m_mm": 0,
         "official_rain_24h_mm": 0,
-        "official_rain_3d_mm": 0.7,
-        "official_rain_7d_mm": 1.3,
+        "official_rain_3d_mm": 0.6,
+        "official_rain_7d_mm": 1,
         "official_station_count": 2,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -3352,7 +3362,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -3364,8 +3374,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -3376,14 +3386,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -3395,8 +3405,8 @@
       "district_name": "Idukki",
       "name": "Thodupuzha",
       "level": "Normal",
-      "score": 6.3,
-      "confidence": 0.4,
+      "score": 7.7,
+      "confidence": 0.5,
       "susceptibility": 1,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -3419,8 +3429,8 @@
         "official_station_count": 1,
         "official_peak_station_24h_mm": 20
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 20 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -3432,7 +3442,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -3444,8 +3454,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -3456,14 +3466,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -3476,7 +3486,7 @@
       "name": "Kottayam",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -3494,8 +3504,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -3506,7 +3516,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -3518,8 +3528,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -3530,14 +3540,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -3550,7 +3560,7 @@
       "name": "Kanjirappally",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -3568,8 +3578,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -3580,7 +3590,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -3592,8 +3602,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -3604,14 +3614,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -3624,7 +3634,7 @@
       "name": "Kunnathunad",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.4,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -3634,21 +3644,21 @@
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0,
-        "rain_3d_mm": 0,
-        "rain_7d_mm": 2,
+        "rain_3d_mm": 80.7,
+        "rain_7d_mm": 82.7,
         "source": "nasa-imerg-pps+indiawris-cwc",
         "district_id": "ernakulam",
         "spatial_aggregation": "taluk_representative_point+indiawris_station_mean",
         "cell_count": 1,
         "peak_30m_mm": 0,
         "official_rain_24h_mm": 0,
-        "official_rain_3d_mm": 0,
-        "official_rain_7d_mm": 2,
+        "official_rain_3d_mm": 80.7,
+        "official_rain_7d_mm": 82.7,
         "official_station_count": 1,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -3659,7 +3669,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -3671,8 +3681,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -3683,14 +3693,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -3703,7 +3713,7 @@
       "name": "Karthikappally",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.3,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -3721,8 +3731,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0.6 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -3733,7 +3743,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -3745,8 +3755,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -3757,14 +3767,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -3776,8 +3786,8 @@
       "district_name": "Thiruvananthapuram",
       "name": "Chirayinkeezhu",
       "level": "Normal",
-      "score": 0.4,
-      "confidence": 0.4,
+      "score": 1.8,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -3800,8 +3810,8 @@
         "official_station_count": 1,
         "official_peak_station_24h_mm": 6.8
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 3.4 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -3814,7 +3824,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -3826,8 +3836,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -3838,14 +3848,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 1 station",
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -3857,8 +3867,8 @@
       "district_name": "Pathanamthitta",
       "name": "Kozhenchery",
       "level": "Normal",
-      "score": 3.9,
-      "confidence": 0.4,
+      "score": 5.3,
+      "confidence": 0.5,
       "susceptibility": 0.8,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -3881,8 +3891,8 @@
         "official_station_count": 2,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -3894,7 +3904,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -3906,8 +3916,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -3918,14 +3928,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -3937,8 +3947,8 @@
       "district_name": "Alappuzha",
       "name": "Chengannur",
       "level": "Normal",
-      "score": 8.8,
-      "confidence": 0.4,
+      "score": 10.2,
+      "confidence": 0.5,
       "susceptibility": 0.7,
       "hotspot_ids": [
         "h-chengannur-pandanad"
@@ -3958,8 +3968,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0.6 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -3970,7 +3980,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -3982,8 +3992,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -3994,14 +4004,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -4013,8 +4023,8 @@
       "district_name": "Thrissur",
       "name": "Talappilly",
       "level": "Normal",
-      "score": 0.2,
-      "confidence": 0.4,
+      "score": 1.6,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -4037,8 +4047,8 @@
         "official_station_count": 1,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -4050,7 +4060,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -4062,8 +4072,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -4074,14 +4084,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 1 station",
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -4093,8 +4103,8 @@
       "district_name": "Palakkad",
       "name": "Alathur",
       "level": "Normal",
-      "score": 2.3,
-      "confidence": 0.4,
+      "score": 3.7,
+      "confidence": 0.5,
       "susceptibility": 0.7,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -4117,8 +4127,8 @@
         "official_station_count": 1,
         "official_peak_station_24h_mm": 2.4
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 2.4 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -4130,7 +4140,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -4142,8 +4152,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -4154,14 +4164,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -4174,7 +4184,7 @@
       "name": "Ambalappuzha",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.3,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -4192,8 +4202,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0.6 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -4204,7 +4214,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -4216,8 +4226,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -4228,14 +4238,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -4248,7 +4258,7 @@
       "name": "Changanassery",
       "level": "Normal",
       "score": 0,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -4266,8 +4276,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -4278,7 +4288,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -4290,8 +4300,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -4302,14 +4312,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -4321,8 +4331,8 @@
       "district_name": "Alappuzha",
       "name": "Kuttanad",
       "level": "Normal",
-      "score": 11.9,
-      "confidence": 0.4,
+      "score": 13.3,
+      "confidence": 0.5,
       "susceptibility": 0.7,
       "hotspot_ids": [
         "h-kuttanad",
@@ -4343,8 +4353,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0.6 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -4355,7 +4365,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -4367,8 +4377,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -4379,14 +4389,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -4398,8 +4408,8 @@
       "district_name": "Thiruvananthapuram",
       "name": "Nedumangad",
       "level": "Normal",
-      "score": 0.4,
-      "confidence": 0.4,
+      "score": 1.8,
+      "confidence": 0.5,
       "susceptibility": 0.5,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -4417,8 +4427,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 2 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -4431,7 +4441,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -4443,8 +4453,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -4455,14 +4465,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 1 station",
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -4474,8 +4484,8 @@
       "district_name": "Palakkad",
       "name": "Mannarkad",
       "level": "Normal",
-      "score": 2.3,
-      "confidence": 0.4,
+      "score": 3.7,
+      "confidence": 0.5,
       "susceptibility": 0.7,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -4493,8 +4503,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -4506,7 +4516,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -4518,8 +4528,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -4530,14 +4540,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -4549,8 +4559,8 @@
       "district_name": "Kozhikode",
       "name": "Quilandy",
       "level": "Normal",
-      "score": 1.3,
-      "confidence": 0.4,
+      "score": 2.7,
+      "confidence": 0.5,
       "susceptibility": 0.6,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -4568,8 +4578,8 @@
         "cell_count": 1,
         "peak_30m_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point",
@@ -4581,7 +4591,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -4593,8 +4603,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -4605,14 +4615,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
@@ -4624,8 +4634,8 @@
       "district_name": "Palakkad",
       "name": "Ottappalam",
       "level": "Normal",
-      "score": 2.3,
-      "confidence": 0.4,
+      "score": 3.7,
+      "confidence": 0.5,
       "susceptibility": 0.7,
       "hotspot_ids": [],
       "hotspot_count": 0,
@@ -4648,8 +4658,8 @@
         "official_station_count": 1,
         "official_peak_station_24h_mm": 0
       },
-      "valid_from": "2026-03-23T13:43:52.912Z",
-      "valid_to": "2026-03-23T19:43:52.912Z",
+      "valid_from": "2026-03-23T14:24:01.616Z",
+      "valid_to": "2026-03-23T20:24:01.616Z",
       "drivers": [
         "Observed taluk 24h rain 0 mm and 1h rain 0 mm",
         "Rainfall aggregation taluk_representative_point+indiawris_station_mean",
@@ -4661,7 +4671,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 8577,
+          "freshness_minutes": 8617,
           "status": "offline"
         },
         {
@@ -4673,8 +4683,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 314,
-          "status": "degraded"
+          "freshness_minutes": 354,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -4685,14 +4695,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 344,
+          "freshness_minutes": 384,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 414,
+          "status": "stale"
         }
       ],
       "review_state": "auto_published"
