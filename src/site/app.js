@@ -651,7 +651,7 @@ function renderSources() {
         const freshLabel = formatFreshness(source.freshness_minutes);
         return `
           <article class="source-card" data-source-id="${source.source_id}">
-            <button class="source-info-btn" title="View details" type="button">ⓘ</button>
+            <button class="source-info-btn" title="View details" type="button">i</button>
             <div class="label">${source.owner}</div>
             <h3>${source.name}</h3>
             <p class="source-desc">${meta.description ?? ""}</p>
