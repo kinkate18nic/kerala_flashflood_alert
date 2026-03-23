@@ -5,16 +5,17 @@ const DEFAULT_HEADERS = {
 };
 
 export async function fetchText(url, options = {}) {
-  const timeoutMs = options.timeoutMs ?? 15000;
+  const timeoutMs = options.timeoutMs ?? 60000;
   
   if (url.includes("workers.dev")) {
     const method = options.method || "GET";
+    const curlTimeoutSec = Math.max(30, Math.floor(timeoutMs / 1000));
     const args = [
       "-s", "-k", "-L", "-X", method,
       url,
       "-H", "Accept: text/html,application/xhtml+xml,application/json,application/xml;q=0.9,*/*;q=0.8",
       "-H", "User-Agent: curl/8.4.0",
-      "--max-time", String(Math.floor(timeoutMs / 1000))
+      "--max-time", String(curlTimeoutSec)
     ];
     
     if (options.headers) {
@@ -31,7 +32,7 @@ export async function fetchText(url, options = {}) {
 
     try {
       // Execute curl directly without relying on a shell (fixes nested quote issues entirely)
-      const stdout = execFileSync("curl", args, { timeout: timeoutMs }).toString();
+      const stdout = execFileSync("curl", args, { timeout: timeoutMs + 5000 }).toString();
       
       if (stdout.includes("<html") && stdout.includes("Cloudflare") && stdout.includes("challenge")) {
         throw new Error("Cloudflare Bot Fight Mode intercepted request");

@@ -17,13 +17,28 @@ function addDays(date, days) {
 }
 
 function buildQueryUrl(baseUrl, parameters) {
-  const url = new URL(baseUrl);
+  const outerUrl = new URL(baseUrl);
+  const innerRaw = outerUrl.searchParams.get("url");
+
+  // If this is a proxy URL (?url=...), append query params to the INNER target URL
+  if (innerRaw) {
+    const innerUrl = new URL(innerRaw);
+    Object.entries(parameters).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") {
+        innerUrl.searchParams.set(key, String(value));
+      }
+    });
+    outerUrl.searchParams.set("url", innerUrl.toString());
+    return outerUrl.toString();
+  }
+
+  // Otherwise, standard direct URL
   Object.entries(parameters).forEach(([key, value]) => {
     if (value !== undefined && value !== null && value !== "") {
-      url.searchParams.set(key, String(value));
+      outerUrl.searchParams.set(key, String(value));
     }
   });
-  return url.toString();
+  return outerUrl.toString();
 }
 
 import { fetchText } from "./http.js";
