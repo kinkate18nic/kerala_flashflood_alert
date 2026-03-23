@@ -338,7 +338,10 @@ function renderMap() {
   const talukById = Object.fromEntries(talukRisk.taluks.map((item) => [item.area_id, item]));
   const hotspotById = Object.fromEntries(hotspotRisk.hotspots.map((item) => [item.area_id, item]));
   const talukLookup = Object.fromEntries(
-    (areas.taluks ?? []).map((taluk) => [`${taluk.district_id}--${normalizeBoundaryName(taluk.name)}`, taluk.id])
+    (areas.taluks ?? []).map((taluk) => [
+      `${taluk.district_id}--${normalizeBoundaryName(taluk.name)}`,
+      taluk.taluk_id
+    ])
   );
   const showTaluks =
     state.mapScope === "taluk" &&
@@ -376,6 +379,15 @@ function renderMap() {
     : state.districtGeometry.features
         .map((feature) => ({ ...feature, district_id: getDistrictIdFromFeature(feature) }))
         .filter((feature) => feature.district_id && districtById[feature.district_id]);
+
+  if (!visibleFeatures.length) {
+    references.districtLayer.innerHTML = "";
+    references.districtLabelLayer.innerHTML = "";
+    references.hotspotFootprintLayer.innerHTML = "";
+    references.mapOverlay.innerHTML = "";
+    bindMapInteractions();
+    return;
+  }
 
   const bounds = geometryCollectionBounds(visibleFeatures);
   const project = buildProjector(bounds);
