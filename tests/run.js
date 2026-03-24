@@ -293,6 +293,14 @@ async function testPipeline() {
     "ok"
   );
   assert.equal(
+    sources.sources.find((source) => source.source_id === "imd-cap-rss")?.fetch_status,
+    "ok"
+  );
+  assert.equal(
+    sources.sources.find((source) => source.source_id === "imd-cap-rss")?.parser_status,
+    "ok"
+  );
+  assert.equal(
     sources.sources.find((source) => source.source_id === "indiawris-rainfall")?.status,
     "ok"
   );

@@ -587,6 +587,12 @@ const SOURCE_META = {
 };
 
 function sourceStatusMessage(source) {
+  if (source.fetch_status === "failed") {
+    return "Fetch failed in this run. Current scores are being generated without this source.";
+  }
+  if (source.parser_status === "failed") {
+    return "Raw data arrived, but this source could not be parsed in this run.";
+  }
   if (source.status === "offline") {
     return "Unavailable in this run. Current scores are being generated without this source.";
   }
@@ -600,6 +606,19 @@ function sourceStatusMessage(source) {
     return "Partially usable. Some fields or mappings may be incomplete in this run.";
   }
   return "Current for this run.";
+}
+
+function sourceStateLabel(source) {
+  if (source.fetch_status === "failed") {
+    return "Fetch failed";
+  }
+  if (source.parser_status === "failed") {
+    return "Parser failed";
+  }
+  if (source.status === "degraded") {
+    return "Partial data";
+  }
+  return "Parser ok";
 }
 
 function formatFreshness(minutes) {
@@ -625,7 +644,10 @@ function openSourceDetails(source) {
   const freshLabel = formatFreshness(source.freshness_minutes);
   const cadenceLabel = meta.cadence ?? "Unknown";
   const fetchNote = source.notes || source.summary?.excerpt || "None";
-  const parserFailed = source.parser_status !== "ok";
+  const fetchFailed = source.fetch_status === "failed";
+  const parserFailed = source.parser_status === "failed";
+  const parserStateClass = parserFailed ? "status-offline" : source.parser_status === "ok" ? "status-ok" : "status-degraded";
+  const fetchStateClass = fetchFailed ? "status-offline" : "status-ok";
 
   openEvidence(
     source.name,
@@ -649,12 +671,16 @@ function openSourceDetails(source) {
           <span class="source-detail-value">${meta.method ?? "Unknown"}</span>
         </div>
         <div class="source-detail-row">
+          <span class="source-detail-label">Fetch</span>
+          <span class="source-detail-value ${fetchStateClass}">${source.fetch_status ?? "unknown"}</span>
+        </div>
+        <div class="source-detail-row">
           <span class="source-detail-label">Parser</span>
-          <span class="source-detail-value ${parserFailed ? "status-offline" : "status-ok"}">${source.parser_status}</span>
+          <span class="source-detail-value ${parserStateClass}">${source.parser_status}</span>
         </div>
       </div>
       ${fetchNote !== "None" ? `
-        <h3>Fetch Notes</h3>
+        <h3>${fetchFailed ? "Fetch Notes" : parserFailed ? "Parser Notes" : "Notes"}</h3>
         <p class="source-detail-fetch-note">${fetchNote}</p>
       ` : ""}
       ${source.status === "offline" || source.status === "degraded" ? `
@@ -680,7 +706,7 @@ function renderSources() {
             <div class="score status-${source.status}">${source.status}</div>
             <div class="meta">
               <span>Updated ${freshLabel}</span>
-              <span>Parser ${source.parser_status}</span>
+              <span>${sourceStateLabel(source)}</span>
             </div>
             <p class="source-status-note status-${source.status}">${sourceStatusMessage(source)}</p>
           </article>

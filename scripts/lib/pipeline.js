@@ -111,6 +111,31 @@ function applyCoverageStatus(baseStatus, parsed) {
   return baseStatus;
 }
 
+function parserStatusFromState(fetchOk, parserOk) {
+  if (!fetchOk) {
+    return "skipped";
+  }
+  return parserOk ? "ok" : "failed";
+}
+
+function failureStageFromState(fetchOk, parserOk, parsed) {
+  if (!fetchOk) {
+    return "fetch";
+  }
+  if (!parserOk) {
+    return "parse";
+  }
+  const partialFailureCount =
+    parsed?.partial_failure_count ??
+    parsed?.failed_districts?.length ??
+    parsed?.failed_stations?.length ??
+    0;
+  if (partialFailureCount > 0) {
+    return "partial";
+  }
+  return null;
+}
+
 async function loadRawContent(repoRoot, source, options) {
   if (options.useFixtures) {
     const fixtureFile = path.join(repoRoot, "fixtures", `${source.id}.${rawExtension(source.format)}`);
@@ -617,6 +642,9 @@ export async function runPipeline(repoRoot, options = {}) {
     const freshnessMinutes = minutesBetween(issuedDate, new Date(generatedAt));
     const baseStatus = statusFromFreshness(freshnessMinutes, source, fetchOk, parserOk);
     const status = applyCoverageStatus(baseStatus, parsed);
+    const fetchStatus = fetchOk ? "ok" : "failed";
+    const parserStatus = parserStatusFromState(fetchOk, parserOk);
+    const failureStage = failureStageFromState(fetchOk, parserOk, parsed);
 
     if (raw) {
       const outputName = `${source.id}.${rawExtension(source.format)}`;
@@ -632,7 +660,9 @@ export async function runPipeline(repoRoot, options = {}) {
       fetched_at: fetchedAt,
       issued_at: issuedDate?.toISOString() ?? null,
       raw_url: resolvedUrl ?? source.url ?? source.path,
-      parser_status: parserOk ? "ok" : "failed",
+      fetch_status: fetchStatus,
+      parser_status: parserStatus,
+      failure_stage: failureStage,
       status,
       freshness_minutes: freshnessMinutes,
       notes: note,
