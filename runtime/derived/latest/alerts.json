@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-03-24T06:43:55.717Z",
+  "generated_at": "2026-03-24T07:42:19.877Z",
   "alerts": [
     {
-      "alert_id": "h-pamba-corridor:2026-03-24T06:43:55.717Z",
+      "alert_id": "h-pamba-corridor:2026-03-24T07:42:19.877Z",
       "area_id": "h-pamba-corridor",
       "area_type": "hotspot",
       "district_id": "pathanamthitta",
       "name": "Aranmula - Kozhencherry - Ranni",
-      "score": 38.6,
-      "valid_from": "2026-03-24T06:43:55.717Z",
-      "valid_to": "2026-03-24T12:43:55.717Z",
+      "score": 40,
+      "valid_from": "2026-03-24T07:42:19.877Z",
+      "valid_to": "2026-03-24T13:42:19.877Z",
       "level": "Watch",
-      "confidence": 0.5,
+      "confidence": 0.6,
       "review_state": "auto_published",
       "drivers": [
         "Observed 24h rain 0.3 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 0.3 mm from 4 stations",
         "Peak India-WRIS station 24h rainfall 2.4 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast light (14 dBZ)",
+        "RainViewer nowcast light (9 dBZ)",
         "Terrain susceptibility 83% from NASADEM + local baseline",
         "Reservoir caution active",
         "Dam downstream caution active",
@@ -31,7 +31,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 9597,
+          "freshness_minutes": 9655,
           "status": "offline"
         },
         {
@@ -43,8 +43,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 1334,
-          "status": "degraded"
+          "freshness_minutes": 1392,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -55,14 +55,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1364,
+          "freshness_minutes": 1422,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": 254,
-          "status": "stale"
+          "detail": "CWC flood forecasting observed river rise 0.2 m across 3 stations",
+          "freshness_minutes": 12,
+          "status": "degraded"
         }
       ],
       "message_en": "Aranmula - Kozhencherry - Ranni: Watch. Observed 24h rain 0.3 mm and 1h rain 0 mm",
@@ -72,83 +72,16 @@
       ]
     },
     {
-      "alert_id": "h-mundakkai-chooralmala:2026-03-24T06:43:55.717Z",
-      "area_id": "h-mundakkai-chooralmala",
-      "area_type": "hotspot",
-      "district_id": "wayanad",
-      "name": "Mundakkai - Chooralmala - Vellarimala",
-      "score": 35.1,
-      "valid_from": "2026-03-24T06:43:55.717Z",
-      "valid_to": "2026-03-24T12:43:55.717Z",
-      "level": "Watch",
-      "confidence": 0.5,
-      "review_state": "auto_published",
-      "drivers": [
-        "Observed 24h rain 0.4 mm and 1h rain 0 mm",
-        "Rainfall aggregation district_polygon_mean",
-        "RainViewer nowcast moderate (27 dBZ)",
-        "Terrain susceptibility 53% from NASADEM + local baseline",
-        "Reservoir caution active",
-        "Dam downstream caution active",
-        "Hotspot susceptibility 83%",
-        "Hotspot category steep catchment",
-        "Hotspot analysis radius 8 km"
-      ],
-      "source_refs": [
-        {
-          "source_id": "imd-cap-rss",
-          "detail": "1 CAP items",
-          "freshness_minutes": 9597,
-          "status": "offline"
-        },
-        {
-          "source_id": "imd-flash-flood-bulletin",
-          "detail": "No Kerala bulletin trigger",
-          "freshness_minutes": null,
-          "status": "degraded"
-        },
-        {
-          "source_id": "indiawris-rainfall",
-          "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 1334,
-          "status": "degraded"
-        },
-        {
-          "source_id": "rainviewer-radar",
-          "detail": "No meaningful RainViewer radar echo near hotspot",
-          "freshness_minutes": 0,
-          "status": "ok"
-        },
-        {
-          "source_id": "indiawris-river-level",
-          "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1364,
-          "status": "ok"
-        },
-        {
-          "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": 254,
-          "status": "stale"
-        }
-      ],
-      "message_en": "Mundakkai - Chooralmala - Vellarimala: Watch. Observed 24h rain 0.4 mm and 1h rain 0 mm",
-      "recommended_actions": [
-        "Continue district monitoring.",
-        "Watch official IMD and district warnings for changes."
-      ]
-    },
-    {
-      "alert_id": "h-munnar-devikulam:2026-03-24T06:43:55.717Z",
+      "alert_id": "h-munnar-devikulam:2026-03-24T07:42:19.877Z",
       "area_id": "h-munnar-devikulam",
       "area_type": "hotspot",
       "district_id": "idukki",
       "name": "Munnar - Devikulam upper catchments",
-      "score": 35.1,
-      "valid_from": "2026-03-24T06:43:55.717Z",
-      "valid_to": "2026-03-24T12:43:55.717Z",
+      "score": 36.5,
+      "valid_from": "2026-03-24T07:42:19.877Z",
+      "valid_to": "2026-03-24T13:42:19.877Z",
       "level": "Watch",
-      "confidence": 0.5,
+      "confidence": 0.6,
       "review_state": "auto_published",
       "drivers": [
         "Observed 24h rain 10 mm and 1h rain 0 mm",
@@ -166,7 +99,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 9597,
+          "freshness_minutes": 9655,
           "status": "offline"
         },
         {
@@ -178,8 +111,8 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 1334,
-          "status": "degraded"
+          "freshness_minutes": 1392,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
@@ -190,17 +123,85 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1364,
+          "freshness_minutes": 1422,
           "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": 254,
-          "status": "stale"
+          "detail": "CWC flood forecasting live river level available from 1 station",
+          "freshness_minutes": 12,
+          "status": "degraded"
         }
       ],
       "message_en": "Munnar - Devikulam upper catchments: Watch. Observed 24h rain 10 mm and 1h rain 0 mm",
+      "recommended_actions": [
+        "Continue district monitoring.",
+        "Watch official IMD and district warnings for changes."
+      ]
+    },
+    {
+      "alert_id": "h-peermade:2026-03-24T07:42:19.877Z",
+      "area_id": "h-peermade",
+      "area_type": "hotspot",
+      "district_id": "idukki",
+      "name": "Peermade high-range catchment",
+      "score": 36.2,
+      "valid_from": "2026-03-24T07:42:19.877Z",
+      "valid_to": "2026-03-24T13:42:19.877Z",
+      "level": "Watch",
+      "confidence": 0.6,
+      "review_state": "auto_published",
+      "drivers": [
+        "Observed 24h rain 10 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 10 mm from 2 stations",
+        "Peak India-WRIS station 24h rainfall 20 mm",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "Terrain susceptibility 96% from NASADEM + local baseline",
+        "Reservoir caution active",
+        "Dam downstream caution active",
+        "Hotspot susceptibility 94%",
+        "Hotspot category steep catchment",
+        "Hotspot analysis radius 10 km"
+      ],
+      "source_refs": [
+        {
+          "source_id": "imd-cap-rss",
+          "detail": "1 CAP items",
+          "freshness_minutes": 9655,
+          "status": "offline"
+        },
+        {
+          "source_id": "imd-flash-flood-bulletin",
+          "detail": "No Kerala bulletin trigger",
+          "freshness_minutes": null,
+          "status": "degraded"
+        },
+        {
+          "source_id": "indiawris-rainfall",
+          "detail": "Official rainfall available from 2 stations",
+          "freshness_minutes": 1392,
+          "status": "ok"
+        },
+        {
+          "source_id": "rainviewer-radar",
+          "detail": "No meaningful RainViewer radar echo near hotspot",
+          "freshness_minutes": 0,
+          "status": "ok"
+        },
+        {
+          "source_id": "indiawris-river-level",
+          "detail": "No India-WRIS river-level context for district",
+          "freshness_minutes": 1422,
+          "status": "ok"
+        },
+        {
+          "source_id": "cwc-ffs",
+          "detail": "CWC flood forecasting live river level available from 1 station",
+          "freshness_minutes": 12,
+          "status": "degraded"
+        }
+      ],
+      "message_en": "Peermade high-range catchment: Watch. Observed 24h rain 10 mm and 1h rain 0 mm",
       "recommended_actions": [
         "Continue district monitoring.",
         "Watch official IMD and district warnings for changes."
