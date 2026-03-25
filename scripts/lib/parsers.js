@@ -438,6 +438,8 @@ export function parseCwcFfs(raw) {
         (Array.isArray(payload.failed_stations) ? payload.failed_stations.length : 0),
       above_warning_station_count: payload.above_warning_station_count ?? 0,
       above_danger_station_count: payload.above_danger_station_count ?? 0,
+      forecast_warning_station_count: payload.forecast_warning_station_count ?? 0,
+      forecast_danger_station_count: payload.forecast_danger_station_count ?? 0,
       warning: Boolean(payload.warning),
       watch: Boolean(payload.watch)
     };

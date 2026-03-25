@@ -10,6 +10,8 @@
       "threshold_station_count": 1,
       "above_warning_station_count": 1,
       "above_danger_station_count": 1,
+      "forecast_warning_station_count": 0,
+      "forecast_danger_station_count": 0,
       "max_threshold_ratio": 1.1,
       "severity_basis": "threshold",
       "summary_note": "CWC flood forecasting river level above danger at NEELEESWARAM",
@@ -26,6 +28,11 @@
           "highest_flood_level_m": 12.4,
           "threshold_ratio": 1.1,
           "level_status": "above_danger",
+          "forecast_peak_level_m": 10.2,
+          "forecast_crossing_time": null,
+          "forecast_status": "forecast_below_warning",
+          "forecast_rows": 4,
+          "forecast_severity": 0,
           "severity_basis": "threshold",
           "severity": 1
         }
@@ -40,9 +47,11 @@
       "threshold_station_count": 1,
       "above_warning_station_count": 1,
       "above_danger_station_count": 0,
+      "forecast_warning_station_count": 1,
+      "forecast_danger_station_count": 1,
       "max_threshold_ratio": 0.3,
-      "severity_basis": "threshold",
-      "summary_note": "CWC flood forecasting river level above warning at MALAKKARA",
+      "severity_basis": "threshold_forecast",
+      "summary_note": "CWC flood forecasting forecast to cross danger at MALAKKARA by 2026-03-18T14:00:00+05:30",
       "stations": [
         {
           "station_code": "018-SWRDKOCHI",
@@ -56,8 +65,13 @@
           "highest_flood_level_m": 9.58,
           "threshold_ratio": 0.3,
           "level_status": "above_warning",
-          "severity_basis": "threshold",
-          "severity": 0.65
+          "forecast_peak_level_m": 7.2,
+          "forecast_crossing_time": "2026-03-18T14:00:00+05:30",
+          "forecast_status": "forecast_above_danger",
+          "forecast_rows": 4,
+          "forecast_severity": 0.95,
+          "severity_basis": "threshold_forecast",
+          "severity": 0.95
         }
       ]
     }
@@ -69,6 +83,8 @@
   "partial_failure_count": 0,
   "above_warning_station_count": 2,
   "above_danger_station_count": 1,
+  "forecast_warning_station_count": 1,
+  "forecast_danger_station_count": 1,
   "warning": true,
   "watch": true
 }

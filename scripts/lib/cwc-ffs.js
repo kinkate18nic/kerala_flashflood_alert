@@ -90,6 +90,52 @@ function buildLatestObservedUrl(stationCode, pageSize = 2) {
   return url.toString();
 }
 
+function buildForecastUrl(stationCode, pageSize = 8) {
+  const sortCriteria = {
+    sortOrderDtos: [
+      {
+        sortDirection: "ASC",
+        field: "id.dataTime"
+      }
+    ]
+  };
+
+  const specification = {
+    where: {
+      where: {
+        expression: {
+          valueIsRelationField: false,
+          fieldName: "id.stationCode",
+          operator: "eq",
+          value: stationCode
+        }
+      },
+      and: {
+        expression: {
+          valueIsRelationField: false,
+          fieldName: "id.datatypeCode",
+          operator: "eq",
+          value: FFS_DATATYPE_CODE
+        }
+      }
+    },
+    and: {
+      expression: {
+        valueIsRelationField: false,
+        fieldName: "dataValue",
+        operator: "null",
+        value: "false"
+      }
+    }
+  };
+
+  const url = new URL(`${FFS_API_BASE}/new-forecasted-entry-data/specification/sorted`);
+  url.searchParams.set("sort-criteria", JSON.stringify(sortCriteria));
+  url.searchParams.set("specification", JSON.stringify(specification));
+  url.searchParams.set("page-size", String(pageSize));
+  return url.toString();
+}
+
 async function fetchJson(url, { timeoutMs = 25000, retries = 2 } = {}) {
   let lastFailure = null;
 
@@ -223,10 +269,115 @@ function buildDistrictSummaryNote(districtSummary) {
     );
     return `CWC flood forecasting river level above warning at ${station?.station_name ?? "a district station"}`;
   }
+  if ((districtSummary.forecast_danger_station_count ?? 0) > 0) {
+    const station = districtSummary.stations.find((entry) => entry.forecast_status === "forecast_above_danger");
+    return `CWC flood forecasting forecast to cross danger at ${station?.station_name ?? "a district station"} by ${station?.forecast_crossing_time ?? "the next forecast window"}`;
+  }
+  if ((districtSummary.forecast_warning_station_count ?? 0) > 0) {
+    const station = districtSummary.stations.find((entry) =>
+      entry.forecast_status === "forecast_above_warning" || entry.forecast_status === "forecast_above_danger"
+    );
+    return `CWC flood forecasting forecast to cross warning at ${station?.station_name ?? "a district station"} by ${station?.forecast_crossing_time ?? "the next forecast window"}`;
+  }
   if ((districtSummary.station_count ?? 0) > 0 && (districtSummary.max_rise_m ?? 0) > 0) {
     return `CWC flood forecasting observed river rise ${districtSummary.max_rise_m} m across ${districtSummary.station_count} station${districtSummary.station_count === 1 ? "" : "s"}`;
   }
   return `CWC flood forecasting live river level available from ${districtSummary.station_count ?? 0} station${districtSummary.station_count === 1 ? "" : "s"}`;
+}
+
+function safeNumber(value) {
+  if (value === null || value === undefined || value === "") {
+    return null;
+  }
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : null;
+}
+
+function classifyForecastRows(stationSummary, forecastRows) {
+  if (!forecastRows.length) {
+    return null;
+  }
+  if (stationSummary.warning_level_m === null || stationSummary.danger_level_m === null) {
+    return null;
+  }
+
+  const normalizedRows = forecastRows
+    .map((row) => ({
+      value: safeNumber(row?.dataValue),
+      dataTime: normalizeFfsTimestamp(row?.id?.dataTime ?? row?.dataTime ?? row?.forecastDate ?? row?.id?.forecastDate)
+    }))
+    .filter((row) => row.value !== null && row.dataTime)
+    .sort((left, right) => new Date(left.dataTime).getTime() - new Date(right.dataTime).getTime());
+
+  if (!normalizedRows.length) {
+    return null;
+  }
+
+  const warning = stationSummary.warning_level_m;
+  const danger = stationSummary.danger_level_m;
+  const peak = normalizedRows.reduce((best, row) => Math.max(best, row.value), Number.NEGATIVE_INFINITY);
+  const warningCrossing = normalizedRows.find((row) => row.value >= warning) ?? null;
+  const dangerCrossing = normalizedRows.find((row) => row.value >= danger) ?? null;
+  const latestObserved = stationSummary.latest_level_m ?? null;
+
+  let forecastStatus = "forecast_below_warning";
+  let severity = 0;
+  let crossingTime = null;
+  if (dangerCrossing) {
+    forecastStatus = "forecast_above_danger";
+    severity = latestObserved !== null && latestObserved >= warning ? 0.95 : 0.82;
+    crossingTime = dangerCrossing.dataTime;
+  } else if (warningCrossing) {
+    forecastStatus = "forecast_above_warning";
+    severity = latestObserved !== null && latestObserved >= warning ? 0.75 : 0.55;
+    crossingTime = warningCrossing.dataTime;
+  } else if (peak >= warning - Math.max(0.2, (danger - warning) * 0.4)) {
+    forecastStatus = "forecast_near_warning";
+    severity = 0.22;
+  }
+
+  return {
+    forecast_peak_level_m: Number(peak.toFixed(2)),
+    forecast_rows: normalizedRows.length,
+    forecast_crossing_time: crossingTime,
+    forecast_status: forecastStatus,
+    forecast_severity: Number(severity.toFixed(2))
+  };
+}
+
+function mergeForecastIntoSummary(summary, forecastByStation) {
+  const stations = summary.stations.map((station) => {
+    const forecastRows = forecastByStation.get(station.station_code) ?? [];
+    const forecast = classifyForecastRows(station, forecastRows);
+    return {
+      ...station,
+      forecast_peak_level_m: forecast?.forecast_peak_level_m ?? null,
+      forecast_crossing_time: forecast?.forecast_crossing_time ?? null,
+      forecast_status: forecast?.forecast_status ?? "forecast_unavailable",
+      forecast_rows: forecast?.forecast_rows ?? 0,
+      forecast_severity: forecast?.forecast_severity ?? 0
+    };
+  });
+
+  const forecastWarningStations = stations.filter((station) =>
+    station.forecast_status === "forecast_above_warning" || station.forecast_status === "forecast_above_danger"
+  );
+  const forecastDangerStations = stations.filter((station) => station.forecast_status === "forecast_above_danger");
+  const forecastSeverity = stations.reduce((best, station) => Math.max(best, station.forecast_severity ?? 0), 0);
+
+  return {
+    ...summary,
+    severity: Number(Math.max(summary.severity ?? 0, forecastSeverity).toFixed(2)),
+    forecast_warning_station_count: forecastWarningStations.length,
+    forecast_danger_station_count: forecastDangerStations.length,
+    forecast_station_count: stations.filter((station) => station.forecast_rows > 0).length,
+    forecast_severity: Number(forecastSeverity.toFixed(2)),
+    severity_basis:
+      forecastSeverity > (summary.severity ?? 0)
+        ? "threshold_forecast"
+        : summary.severity_basis,
+    stations
+  };
 }
 
 export async function fetchCwcFfsPayload(repoRoot, source) {
@@ -240,8 +391,8 @@ export async function fetchCwcFfsPayload(repoRoot, source) {
   const stationResponses = await mapWithConcurrency(
     stations,
     async (station) => {
-      const url = buildLatestObservedUrl(station.station_code, pageSize);
-      const response = await fetchJson(wrapTargetUrl(source.url, url), {
+      const observedUrl = buildLatestObservedUrl(station.station_code, pageSize);
+      const response = await fetchJson(wrapTargetUrl(source.url, observedUrl), {
         timeoutMs: source.fetch_options?.timeoutMs ?? 25000,
         retries: source.fetch_options?.retries ?? 2
       });
@@ -256,10 +407,20 @@ export async function fetchCwcFfsPayload(repoRoot, source) {
       }
 
       const rows = Array.isArray(response.json) ? response.json : [];
+      const forecastResponse = await fetchJson(
+        wrapTargetUrl(source.url, buildForecastUrl(station.station_code, source.fetch_options?.forecastPageSize ?? 8)),
+        {
+          timeoutMs: source.fetch_options?.forecastTimeoutMs ?? source.fetch_options?.timeoutMs ?? 25000,
+          retries: source.fetch_options?.forecastRetries ?? source.fetch_options?.retries ?? 2
+        }
+      );
+      const forecastRows = forecastResponse.ok && Array.isArray(forecastResponse.json) ? forecastResponse.json : [];
       return {
         station,
         ok: true,
         status: response.status ?? 200,
+        forecast_ok: forecastResponse.ok,
+        forecast_error: forecastResponse.ok ? null : forecastResponse.error ?? forecastResponse.text?.slice(0, 200) ?? "forecast fetch failed",
         rows: rows.map((row) => ({
           stationCode: row?.id?.stationCode ?? station.station_code,
           stationName: station.station_name,
@@ -269,7 +430,8 @@ export async function fetchCwcFfsPayload(repoRoot, source) {
           taluk_id: station.taluk_id ?? null,
           station_lat: station.lat ?? null,
           station_lon: station.lon ?? null
-        }))
+        })),
+        forecast_rows: forecastRows
       };
     },
     concurrency
@@ -294,6 +456,9 @@ export async function fetchCwcFfsPayload(repoRoot, source) {
 
   const successfulResponses = stationResponses.filter((entry) => entry.ok);
   const allRows = successfulResponses.flatMap((entry) => entry.rows ?? []);
+  const forecastByStation = new Map(
+    successfulResponses.map((entry) => [entry.station.station_code, entry.forecast_rows ?? []])
+  );
   const districtBuckets = new Map();
 
   for (const row of allRows) {
@@ -307,11 +472,12 @@ export async function fetchCwcFfsPayload(repoRoot, source) {
 
   const districts = [...districtBuckets.entries()].map(([districtId, rows]) => {
     const summary = summarizeRiverLevelSeries(rows, context);
+    const enrichedSummary = mergeForecastIntoSummary(summary, forecastByStation);
     return {
       district_id: districtId,
       source: "cwc-ffs",
-      ...summary,
-      summary_note: buildDistrictSummaryNote(summary)
+      ...enrichedSummary,
+      summary_note: buildDistrictSummaryNote(enrichedSummary)
     };
   });
 
@@ -325,6 +491,14 @@ export async function fetchCwcFfsPayload(repoRoot, source) {
   );
   const totalAboveDanger = districts.reduce(
     (sum, district) => sum + (district.above_danger_station_count ?? 0),
+    0
+  );
+  const totalForecastWarning = districts.reduce(
+    (sum, district) => sum + (district.forecast_warning_station_count ?? 0),
+    0
+  );
+  const totalForecastDanger = districts.reduce(
+    (sum, district) => sum + (district.forecast_danger_station_count ?? 0),
     0
   );
 
@@ -341,8 +515,10 @@ export async function fetchCwcFfsPayload(repoRoot, source) {
       partial_failure_count: failedStations.length,
       above_warning_station_count: totalAboveWarning,
       above_danger_station_count: totalAboveDanger,
+      forecast_warning_station_count: totalForecastWarning,
+      forecast_danger_station_count: totalForecastDanger,
       warning: totalAboveWarning > 0,
-      watch: districts.some((district) => (district.severity ?? 0) > 0)
+      watch: districts.some((district) => (district.severity ?? 0) > 0) || totalForecastWarning > 0
     }),
     note:
       failedStations.length > 0

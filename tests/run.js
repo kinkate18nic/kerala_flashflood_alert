@@ -130,6 +130,9 @@ async function testParsers() {
   assert.equal(cwc.station_count, 2);
   assert.equal(cwc.districts.length, 2);
   assert.equal(cwc.districts[0].above_danger_station_count, 1);
+  assert.equal(cwc.forecast_warning_station_count, 1);
+  assert.equal(cwc.forecast_danger_station_count, 1);
+  assert.equal(cwc.districts[1].severity_basis, "threshold_forecast");
 
   const imergRaw = await readFile(path.join(repoRoot, "fixtures", "nasa-imerg-nrt.json"), "utf8");
   const imerg = parseNasaImergNrt(imergRaw);
