@@ -233,8 +233,11 @@ function testRiskModel() {
 
   const idukki = result.districtStates.find((district) => district.area_id === "idukki");
   assert.ok(idukki.score >= thresholds.thresholds.watch);
+  assert.ok(idukki.runoff_potential);
+  assert.equal(typeof idukki.runoff_potential.score, "number");
   assert.equal(result.talukStates.length, 1);
   assert.equal(result.talukStates[0].area_type, "taluk");
+  assert.ok(result.talukStates[0].runoff_potential);
   assert.ok(result.alerts.every((alert) => alert.source_refs.length > 0));
 }
 
@@ -315,6 +318,7 @@ function testHotspotWatchNeedsDynamicTrigger() {
   const hotspot = result.hotspotStates.find((entry) => entry.area_id === "h-pamba-corridor");
   assert.ok(hotspot);
   assert.equal(hotspot.level, "Normal");
+  assert.ok(hotspot.runoff_potential);
   assert.ok(
     hotspot.drivers.some((driver) =>
       driver.includes("No current rain, river-stage, or operational release trigger supporting hotspot watch")
