@@ -392,10 +392,28 @@ export async function fetchCwcFfsPayload(repoRoot, source) {
     stations,
     async (station) => {
       const observedUrl = buildLatestObservedUrl(station.station_code, pageSize);
-      const response = await fetchJson(wrapTargetUrl(source.url, observedUrl), {
-        timeoutMs: source.fetch_options?.timeoutMs ?? 25000,
-        retries: source.fetch_options?.retries ?? 2
-      });
+      const [response, forecastResponse] = await Promise.all([
+        fetchJson(wrapTargetUrl(source.url, observedUrl), {
+          timeoutMs: source.fetch_options?.timeoutMs ?? 25000,
+          retries: source.fetch_options?.retries ?? 2
+        }),
+        fetchJson(
+          wrapTargetUrl(
+            source.url,
+            buildForecastUrl(station.station_code, source.fetch_options?.forecastPageSize ?? 8)
+          ),
+          {
+            timeoutMs:
+              source.fetch_options?.forecastTimeoutMs ??
+              source.fetch_options?.timeoutMs ??
+              25000,
+            retries:
+              source.fetch_options?.forecastRetries ??
+              source.fetch_options?.retries ??
+              2
+          }
+        )
+      ]);
 
       if (!response.ok) {
         return {
@@ -407,13 +425,6 @@ export async function fetchCwcFfsPayload(repoRoot, source) {
       }
 
       const rows = Array.isArray(response.json) ? response.json : [];
-      const forecastResponse = await fetchJson(
-        wrapTargetUrl(source.url, buildForecastUrl(station.station_code, source.fetch_options?.forecastPageSize ?? 8)),
-        {
-          timeoutMs: source.fetch_options?.forecastTimeoutMs ?? source.fetch_options?.timeoutMs ?? 25000,
-          retries: source.fetch_options?.forecastRetries ?? source.fetch_options?.retries ?? 2
-        }
-      );
       const forecastRows = forecastResponse.ok && Array.isArray(forecastResponse.json) ? forecastResponse.json : [];
       return {
         station,

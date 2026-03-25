@@ -136,6 +136,23 @@ function failureStageFromState(fetchOk, parserOk, parsed) {
   return null;
 }
 
+function mapWithConcurrency(items, worker, concurrency = 3) {
+  const results = new Array(items.length);
+  let nextIndex = 0;
+
+  async function runWorker() {
+    while (nextIndex < items.length) {
+      const currentIndex = nextIndex;
+      nextIndex += 1;
+      results[currentIndex] = await worker(items[currentIndex], currentIndex);
+    }
+  }
+
+  return Promise.all(
+    Array.from({ length: Math.min(concurrency, items.length) }, () => runWorker())
+  ).then(() => results);
+}
+
 async function loadRawContent(repoRoot, source, options) {
   if (options.useFixtures) {
     const fixtureFile = path.join(repoRoot, "fixtures", `${source.id}.${rawExtension(source.format)}`);
@@ -597,79 +614,94 @@ export async function runPipeline(repoRoot, options = {}) {
   await ensureDir(rawDir);
 
   const parsedSources = {};
-  const snapshots = [];
+  const enabledSources = sources.filter((entry) => entry.enabled);
+  const sourceFetchConcurrency = options.sourceFetchConcurrency ?? 3;
+  const sourceResults = await mapWithConcurrency(
+    enabledSources,
+    async (source) => {
+      const parser = parserRegistry[source.parser];
+      const fetchedAt = nowIso();
+      const startedAtMs = Date.now();
+      let raw = "";
+      let parsed = null;
+      let fetchOk = false;
+      let parserOk = false;
+      let issuedAt = null;
+      let note = "";
+      let resolvedUrl = source.url ?? source.path;
 
-  for (const source of sources.filter((entry) => entry.enabled)) {
-    const parser = parserRegistry[source.parser];
-    const fetchedAt = nowIso();
-    let raw = "";
-    let parsed = null;
-    let fetchOk = false;
-    let parserOk = false;
-    let issuedAt = null;
-    let note = "";
-    let resolvedUrl = source.url ?? source.path;
+      try {
+        const response = await loadRawContent(repoRoot, source, options);
+        fetchOk = response.ok;
+        raw = response.text ?? "";
+        note = response.note ?? "";
+        resolvedUrl = response.resolvedUrl ?? resolvedUrl;
 
-    try {
-      const response = await loadRawContent(repoRoot, source, options);
-      fetchOk = response.ok;
-      raw = response.text ?? "";
-      note = response.note ?? "";
-      resolvedUrl = response.resolvedUrl ?? resolvedUrl;
+        if ((source.fallback_urls?.length ?? 0) > 0 && resolvedUrl && resolvedUrl !== source.url) {
+          note = note ? `${note} Using fallback feed ${resolvedUrl}` : `Using fallback feed ${resolvedUrl}`;
+        }
 
-      if ((source.fallback_urls?.length ?? 0) > 0 && resolvedUrl && resolvedUrl !== source.url) {
-        note = note ? `${note} Using fallback feed ${resolvedUrl}` : `Using fallback feed ${resolvedUrl}`;
+        if (raw) {
+          parsed =
+            source.path || source.id === "imd-cap-rss"
+              ? await parser(repoRoot, source, raw)
+              : await parser(raw);
+          parserOk = true;
+          issuedAt = parsed?.issued_at ?? parsed?.published_at ?? parsed?.items?.[0]?.published_at ?? null;
+          if (options.useFixtures) {
+            issuedAt = new Date(
+              new Date(generatedAt).getTime() - Math.max(5, source.cadence_minutes) * 60000
+            ).toISOString();
+          }
+        }
+      } catch (error) {
+        note = error instanceof Error ? error.message : String(error);
       }
+
+      const issuedDate = parseDate(issuedAt);
+      const freshnessMinutes = minutesBetween(issuedDate, new Date(generatedAt));
+      const baseStatus = statusFromFreshness(freshnessMinutes, source, fetchOk, parserOk);
+      const status = applyCoverageStatus(baseStatus, parsed);
+      const fetchStatus = fetchOk ? "ok" : "failed";
+      const parserStatus = parserStatusFromState(fetchOk, parserOk);
+      const failureStage = failureStageFromState(fetchOk, parserOk, parsed);
+      const durationMs = Date.now() - startedAtMs;
 
       if (raw) {
-        parsed =
-          source.path || source.id === "imd-cap-rss"
-            ? await parser(repoRoot, source, raw)
-            : await parser(raw);
-        parserOk = true;
-        issuedAt = parsed?.issued_at ?? parsed?.published_at ?? parsed?.items?.[0]?.published_at ?? null;
-        if (options.useFixtures) {
-          issuedAt = new Date(
-            new Date(generatedAt).getTime() - Math.max(5, source.cadence_minutes) * 60000
-          ).toISOString();
-        }
+        const outputName = `${source.id}.${rawExtension(source.format)}`;
+        await writeText(path.join(rawDir, outputName), raw);
       }
-    } catch (error) {
-      note = error instanceof Error ? error.message : String(error);
-    }
 
-    const issuedDate = parseDate(issuedAt);
-    const freshnessMinutes = minutesBetween(issuedDate, new Date(generatedAt));
-    const baseStatus = statusFromFreshness(freshnessMinutes, source, fetchOk, parserOk);
-    const status = applyCoverageStatus(baseStatus, parsed);
-    const fetchStatus = fetchOk ? "ok" : "failed";
-    const parserStatus = parserStatusFromState(fetchOk, parserOk);
-    const failureStage = failureStageFromState(fetchOk, parserOk, parsed);
+      return {
+        sourceId: source.id,
+        parsed,
+        snapshot: {
+          source_id: source.id,
+          name: source.name,
+          owner: source.owner,
+          category: source.category,
+          fetched_at: fetchedAt,
+          issued_at: issuedDate?.toISOString() ?? null,
+          raw_url: resolvedUrl ?? source.url ?? source.path,
+          fetch_status: fetchStatus,
+          parser_status: parserStatus,
+          failure_stage: failureStage,
+          status,
+          freshness_minutes: freshnessMinutes,
+          duration_ms: durationMs,
+          notes: note,
+          auth: source.auth,
+          summary: summarizeSource(parsed)
+        }
+      };
+    },
+    sourceFetchConcurrency
+  );
 
-    if (raw) {
-      const outputName = `${source.id}.${rawExtension(source.format)}`;
-      await writeText(path.join(rawDir, outputName), raw);
-    }
-
-    parsedSources[source.id] = parsed;
-    snapshots.push({
-      source_id: source.id,
-      name: source.name,
-      owner: source.owner,
-      category: source.category,
-      fetched_at: fetchedAt,
-      issued_at: issuedDate?.toISOString() ?? null,
-      raw_url: resolvedUrl ?? source.url ?? source.path,
-      fetch_status: fetchStatus,
-      parser_status: parserStatus,
-      failure_stage: failureStage,
-      status,
-      freshness_minutes: freshnessMinutes,
-      notes: note,
-      auth: source.auth,
-      summary: summarizeSource(parsed)
-    });
-  }
+  const snapshots = sourceResults.map((result) => {
+    parsedSources[result.sourceId] = result.parsed;
+    return result.snapshot;
+  });
 
   const signalMaps = collapseSignals(parsedSources);
   const rainfall = normalizeRainfall(parsedSources, taluks);
@@ -849,7 +881,18 @@ export async function runPipeline(repoRoot, options = {}) {
     generated_at: generatedAt,
     source_count: snapshots.length,
     online_sources: snapshots.filter((source) => source.status === "ok").length,
-    severe_pending_count: outputs["dashboard.json"].severe_pending_count
+    severe_pending_count: outputs["dashboard.json"].severe_pending_count,
+    total_source_duration_ms: snapshots.reduce((sum, source) => sum + (source.duration_ms ?? 0), 0),
+    slowest_sources: [...snapshots]
+      .sort((left, right) => (right.duration_ms ?? 0) - (left.duration_ms ?? 0))
+      .slice(0, 5)
+      .map((source) => ({
+        source_id: source.source_id,
+        duration_ms: source.duration_ms ?? 0,
+        status: source.status,
+        fetch_status: source.fetch_status,
+        parser_status: source.parser_status
+      }))
   });
 
   return outputs;

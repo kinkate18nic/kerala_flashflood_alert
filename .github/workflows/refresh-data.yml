@@ -3,10 +3,14 @@ name: Refresh flood data
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "*/30 * * * *"
 
 permissions:
   contents: write
+
+concurrency:
+  group: refresh-flood-data
+  cancel-in-progress: true
 
 jobs:
   refresh:
