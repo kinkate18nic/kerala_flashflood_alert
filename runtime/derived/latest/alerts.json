@@ -1,23 +1,23 @@
 {
-  "generated_at": "2026-03-25T11:06:46.248Z",
+  "generated_at": "2026-03-25T11:55:37.377Z",
   "alerts": [
     {
-      "alert_id": "h-pamba-corridor:2026-03-25T11:06:46.248Z",
+      "alert_id": "h-pamba-corridor:2026-03-25T11:55:37.377Z",
       "area_id": "h-pamba-corridor",
       "area_type": "hotspot",
       "district_id": "pathanamthitta",
       "name": "Aranmula - Kozhencherry - Ranni",
-      "score": 35.6,
-      "valid_from": "2026-03-25T11:06:46.248Z",
-      "valid_to": "2026-03-25T17:06:46.248Z",
+      "score": 37,
+      "valid_from": "2026-03-25T11:55:37.377Z",
+      "valid_to": "2026-03-25T17:55:37.377Z",
       "level": "Watch",
-      "confidence": 0.4,
+      "confidence": 0.5,
       "review_state": "auto_published",
       "drivers": [
         "Observed 24h rain 0 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 0 mm from 4 stations",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast light (14 dBZ)",
+        "RainViewer nowcast light (18 dBZ)",
         "Terrain susceptibility 83% from NASADEM + local baseline",
         "Reservoir caution active",
         "Dam downstream caution active",
@@ -30,7 +30,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 11299,
+          "freshness_minutes": 11348,
           "status": "offline"
         },
         {
@@ -42,7 +42,7 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 157,
+          "freshness_minutes": 206,
           "status": "degraded"
         },
         {
@@ -54,14 +54,14 @@
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 187,
-          "status": "degraded"
+          "freshness_minutes": 236,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "No river-stage warning for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "CWC flood forecasting observed river rise 0.02 m across 1 station",
+          "freshness_minutes": 266,
+          "status": "stale"
         }
       ],
       "message_en": "Aranmula - Kozhencherry - Ranni: Watch. Observed 24h rain 0 mm and 1h rain 0 mm",
