@@ -71,19 +71,96 @@ function sourceRef(sourceId, detail, freshnessMinutes, status) {
 function hotspotCategoryBoost(category) {
   switch (category) {
     case "steep_catchment":
-      return 8;
-    case "dam_downstream":
-      return 7;
-    case "river_floodplain":
-      return 6;
-    case "river_confluence":
       return 5;
-    case "low_lying_basin":
-      return 7;
-    case "urban_flood_pocket":
+    case "dam_downstream":
       return 4;
+    case "river_floodplain":
+      return 3;
+    case "river_confluence":
+      return 3;
+    case "low_lying_basin":
+      return 4;
+    case "urban_flood_pocket":
+      return 3;
     default:
       return 0;
+  }
+}
+
+function hotspotSusceptibilityWeight(category) {
+  switch (category) {
+    case "steep_catchment":
+      return 14;
+    case "low_lying_basin":
+      return 12;
+    case "dam_downstream":
+      return 10;
+    case "river_floodplain":
+      return 9;
+    case "river_confluence":
+      return 8;
+    case "urban_flood_pocket":
+      return 9;
+    default:
+      return 10;
+  }
+}
+
+function hasOfficialSupport(cap, bulletin) {
+  return (cap?.severity ?? 0) > 0.2 || (bulletin?.severity ?? 0) > 0.2;
+}
+
+function hasRainSupport(observation) {
+  if (!observation) {
+    return false;
+  }
+  return (
+    (observation.peak_30m_mm ?? 0) >= 4 ||
+    (observation.rain_1h_mm ?? 0) >= 8 ||
+    (observation.rain_24h_mm ?? 0) >= 20
+  );
+}
+
+function hasAntecedentSupport(observation) {
+  if (!observation) {
+    return false;
+  }
+  return (observation.rain_3d_mm ?? 0) >= 45 || (observation.rain_7d_mm ?? 0) >= 90;
+}
+
+function hasRadarSupport(radar, { strongOnly = false } = {}) {
+  const severity = radar?.severity ?? 0;
+  const maxDbz = radar?.max_dbz ?? 0;
+  if (strongOnly) {
+    return severity >= 0.45 || maxDbz >= 25;
+  }
+  return severity >= 0.25 || maxDbz >= 18;
+}
+
+function hasHydrologySupport(cwc) {
+  return (cwc?.severity ?? 0) >= 0.25;
+}
+
+function hasOperationalDamSupport(reservoir, dam) {
+  return (reservoir?.severity ?? 0) >= 0.32 || (dam?.severity ?? 0) >= 0.32;
+}
+
+function hasWatchSupport({ category, cap, bulletin, observation, radar, cwc, reservoir, dam }) {
+  const official = hasOfficialSupport(cap, bulletin);
+  const rain = hasRainSupport(observation);
+  const antecedent = hasAntecedentSupport(observation);
+  const radarStrong = hasRadarSupport(radar, { strongOnly: true });
+  const hydro = hasHydrologySupport(cwc);
+  const damOps = hasOperationalDamSupport(reservoir, dam);
+
+  switch (category) {
+    case "river_floodplain":
+    case "river_confluence":
+      return official || hydro || damOps || (rain && radarStrong) || (antecedent && (rain || radarStrong));
+    case "dam_downstream":
+      return official || hydro || damOps || (rain && radarStrong);
+    default:
+      return official || rain || antecedent || radarStrong || hydro || damOps;
   }
 }
 
@@ -110,6 +187,7 @@ export function buildRiskOutputs(context) {
   const onlineSources = sourceSnapshots.filter((source) => source.status === "ok").length;
   const confidenceBase = confidenceFromCoverage(onlineSources, totalSources);
   const terrainByDistrict = buildDistrictTerrainLookup(districts, terrainStats);
+  const districtModelContextById = {};
 
   const hotspotOverrideLookup = Object.fromEntries(
     hotspotOverrides.map((override) => [override.hotspot_id, override])
@@ -167,6 +245,20 @@ export function buildRiskOutputs(context) {
       Object.values(componentScores).reduce((sum, value) => sum + value, 0) +
       agreementBonus(activeSignals, thresholds.agreement_bonus) -
       snapshotPenalty;
+
+    districtModelContextById[district.id] = {
+      cap,
+      bulletin,
+      reservoir,
+      dam,
+      cwc,
+      radar,
+      observation,
+      terrain,
+      componentScores,
+      rawScore,
+      dynamicRawScore: Math.max(0, rawScore - componentScores.terrain)
+    };
 
     const score = clamp(rawScore / 100, 0, 1) * 100;
     const level = scoreToLevel(score);
@@ -260,6 +352,7 @@ export function buildRiskOutputs(context) {
 
   const hotspotStates = hotspots.map((hotspot) => {
     const districtState = districtStates.find((state) => state.area_id === hotspot.district_id);
+    const districtModel = districtModelContextById[hotspot.district_id];
     const override = hotspotOverrideLookup[hotspot.id];
     const radar = radarByHotspot[hotspot.id] ?? {
       severity: radarByDistrict[hotspot.district_id]?.severity ?? 0,
@@ -271,18 +364,32 @@ export function buildRiskOutputs(context) {
     const districtTerrain = terrainByDistrict[hotspot.district_id];
     const hotspotSusceptibility = clamp(hotspot.susceptibility * 0.7 + districtTerrain.value * 0.3);
     const categoryBoost = hotspotCategoryBoost(hotspot.category);
-    const score = round(
-      clamp(
-        (districtState.score +
-          hotspotSusceptibility * 20 +
-          categoryBoost +
-          manualBoost +
-          severityToPoints(radar.severity) * 0.12) /
-          100,
-        0,
-        1
-      ) * 100
-    );
+    const supportForWatch = hasWatchSupport({
+      category: hotspot.category,
+      cap: districtModel?.cap,
+      bulletin: districtModel?.bulletin,
+      observation: districtModel?.observation,
+      radar,
+      cwc: districtModel?.cwc,
+      reservoir: districtModel?.reservoir,
+      dam: districtModel?.dam
+    });
+    const hotspotRawScore =
+      (districtModel?.dynamicRawScore ?? Math.max(0, districtState.score - districtTerrain.value * 100 * thresholds.weights.terrain)) +
+      hotspotSusceptibility * hotspotSusceptibilityWeight(hotspot.category) +
+      categoryBoost +
+      manualBoost +
+      severityToPoints(radar.severity) * 0.08 +
+      Math.max(
+        severityToPoints(districtModel?.cwc?.severity),
+        severityToPoints(districtModel?.reservoir?.severity),
+        severityToPoints(districtModel?.dam?.severity)
+      ) *
+        (["river_floodplain", "river_confluence", "dam_downstream"].includes(hotspot.category) ? 0.06 : 0.02);
+    let score = round(clamp(hotspotRawScore / 100, 0, 1) * 100);
+    if (!supportForWatch && score >= thresholds.thresholds.watch) {
+      score = thresholds.thresholds.watch - 0.1;
+    }
     const level = scoreToLevel(score);
     return {
       area_id: hotspot.id,
@@ -302,6 +409,7 @@ export function buildRiskOutputs(context) {
         radar.severity > 0
           ? `Hotspot radar echo ${radar.intensity.replaceAll("_", " ")} (${radar.max_dbz ?? "n/a"} dBZ)`
           : null,
+        !supportForWatch ? "No current rain, river-stage, or operational release trigger supporting hotspot watch" : null,
         `Hotspot susceptibility ${(hotspotSusceptibility * 100).toFixed(0)}%`,
         hotspot.category ? `Hotspot category ${hotspot.category.replaceAll("_", " ")}` : null,
         hotspot.buffer_km ? `Hotspot analysis radius ${hotspot.buffer_km} km` : null
@@ -395,7 +503,33 @@ export function buildRiskOutputs(context) {
       hotspotExcess * 0.35 +
       Math.min(8, talukHotspots.length * 2.5) -
       snapshotPenalty;
-    const score = round(clamp(rawScore / 100, 0, 1) * 100);
+    const talukSupportsWatch = talukHotspots.length
+      ? talukHotspots.some((hotspot) =>
+          hasWatchSupport({
+            category: hotspot.category,
+            cap,
+            bulletin,
+            observation,
+            radar,
+            cwc,
+            reservoir,
+            dam
+          })
+        )
+      : hasWatchSupport({
+          category: null,
+          cap,
+          bulletin,
+          observation,
+          radar,
+          cwc,
+          reservoir,
+          dam
+        });
+    let score = round(clamp(rawScore / 100, 0, 1) * 100);
+    if (!talukSupportsWatch && score >= thresholds.thresholds.watch) {
+      score = thresholds.thresholds.watch - 0.1;
+    }
     const level = scoreToLevel(score);
     const hotspotNames = hotspotDefinitions.map((hotspot) => hotspot.name);
 
@@ -428,6 +562,7 @@ export function buildRiskOutputs(context) {
           ? `${talukHotspots.length} mapped hotspot${talukHotspots.length > 1 ? "s" : ""}: ${hotspotNames.slice(0, 3).join(", ")}${hotspotNames.length > 3 ? ", ..." : ""}`
           : "No mapped hotspot override within taluk",
         `Taluk susceptibility ${(hotspotSusceptibility * 100).toFixed(0)}% from district terrain and hotspot context`,
+        !talukSupportsWatch ? "No current rain, river-stage, or operational release trigger supporting taluk watch" : null,
         cwc.active ? "CWC river-stage warning/watch active" : null,
         reservoir.active ? "Reservoir caution active" : null,
         dam.active ? "Dam downstream caution active" : null

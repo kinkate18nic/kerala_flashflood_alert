@@ -238,6 +238,90 @@ function testRiskModel() {
   assert.ok(result.alerts.every((alert) => alert.source_refs.length > 0));
 }
 
+function testHotspotWatchNeedsDynamicTrigger() {
+  const generatedAt = "2026-03-25T04:00:00.000Z";
+  const result = buildRiskOutputs({
+    generatedAt,
+    thresholds,
+    sourceSnapshots: [
+      { source_id: "imd-cap-rss", status: "ok" },
+      { source_id: "imd-flash-flood-bulletin", status: "ok" },
+      { source_id: "cwc-ffs", status: "ok" },
+      { source_id: "indiawris-rainfall", status: "ok" },
+      { source_id: "rainviewer-radar", status: "ok" },
+      { source_id: "ksdma-reservoirs", status: "ok" },
+      { source_id: "ksdma-dam-management", status: "ok" }
+    ],
+    capByDistrict: {},
+    bulletinByDistrict: {},
+    reservoirByDistrict: {
+      pathanamthitta: { active: false, severity: 0.12, notes: ["KSEB high storage context"] }
+    },
+    damByDistrict: {
+      pathanamthitta: { active: false, severity: 0.12, notes: ["Irrigation high storage context"] }
+    },
+    cwcByDistrict: {
+      pathanamthitta: { active: false, severity: 0, notes: ["No river-stage warning for district"] }
+    },
+    radarByDistrict: {
+      pathanamthitta: { severity: 0.25, intensity: "light", max_dbz: 18, notes: ["Light district radar echo"] }
+    },
+    radarByHotspot: {
+      "h-pamba-corridor": {
+        severity: 0.25,
+        intensity: "light",
+        max_dbz: 18,
+        notes: ["Light hotspot radar echo"]
+      }
+    },
+    rainfallByDistrict: {
+      pathanamthitta: {
+        rain_1h_mm: 0,
+        rain_3h_mm: 0,
+        rain_6h_mm: 0,
+        rain_24h_mm: 0.3,
+        rain_3d_mm: 0.9,
+        rain_7d_mm: 1.2,
+        official_rain_24h_mm: 0.3,
+        official_station_count: 4,
+        official_peak_station_24h_mm: 2.4,
+        spatial_aggregation: "district_polygon_mean+indiawris_station_mean",
+        peak_30m_mm: 0
+      }
+    },
+    taluks: [],
+    approvals: [],
+    hotspotOverrides: [],
+    freshnessBySource: {
+      "imd-cap-rss": 20,
+      "imd-flash-flood-bulletin": 20,
+      "cwc-ffs": 20,
+      "indiawris-rainfall": 20,
+      "rainviewer-radar": 20,
+      "ksdma-reservoirs": 20,
+      "ksdma-dam-management": 20
+    },
+    statusBySource: {
+      "imd-cap-rss": "ok",
+      "imd-flash-flood-bulletin": "ok",
+      "cwc-ffs": "ok",
+      "indiawris-rainfall": "ok",
+      "rainviewer-radar": "ok",
+      "ksdma-reservoirs": "ok",
+      "ksdma-dam-management": "ok"
+    }
+  });
+
+  const hotspot = result.hotspotStates.find((entry) => entry.area_id === "h-pamba-corridor");
+  assert.ok(hotspot);
+  assert.equal(hotspot.level, "Normal");
+  assert.ok(
+    hotspot.drivers.some((driver) =>
+      driver.includes("No current rain, river-stage, or operational release trigger supporting hotspot watch")
+    )
+  );
+}
+
 async function testPipeline() {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), "kerala-flood-watch-"));
   await cp(path.join(repoRoot, "config"), path.join(tempRoot, "config"), { recursive: true });
@@ -583,6 +667,7 @@ const tests = [
   ["indiawris-thresholds", testIndiaWrisRiverThresholdSeverity],
   ["hotspot-footprints", testHotspotFootprints],
   ["risk-model", testRiskModel],
+  ["risk-model-hotspot-gating", testHotspotWatchNeedsDynamicTrigger],
   ["pipeline", testPipeline],
   ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage]
 ];

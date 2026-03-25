@@ -212,7 +212,8 @@ function buildDamRow(chunk, department) {
     alertStage = "release";
     severity = 0.32;
   } else if ((data.storage_percent ?? 0) >= 90) {
-    severity = 0.18;
+    // High storage is useful background context, but it is not by itself an active flood trigger.
+    severity = 0.12;
   }
 
   return {
@@ -253,8 +254,11 @@ function summarizeDistrictRows(rows, department) {
       return best;
     }, null);
 
-    const activeDamCount = districtRows.filter((row) => (row.severity ?? 0) > 0).length;
+    const activeDamCount = districtRows.filter(
+      (row) => row.release_active || ["blue", "orange", "red", "release"].includes(row.alert_stage)
+    ).length;
     const releaseDamCount = districtRows.filter((row) => row.release_active).length;
+    const highStorageCount = districtRows.filter((row) => (row.storage_percent ?? 0) >= 90).length;
     let summaryNote = `${department.toUpperCase()} daily dam table available from ${districtRows.length} dam${districtRows.length === 1 ? "" : "s"}`;
     if (topRow?.alert_stage === "red") {
       summaryNote = `${department.toUpperCase()} dam level at red alert for ${topRow.dam_name}`;
@@ -264,6 +268,8 @@ function summarizeDistrictRows(rows, department) {
       summaryNote = `${department.toUpperCase()} dam level at blue alert for ${topRow.dam_name}`;
     } else if (releaseDamCount > 0) {
       summaryNote = `${department.toUpperCase()} controlled outflow/release active at ${releaseDamCount} dam${releaseDamCount === 1 ? "" : "s"}`;
+    } else if (highStorageCount > 0) {
+      summaryNote = `${department.toUpperCase()} high storage context at ${highStorageCount} dam${highStorageCount === 1 ? "" : "s"}`;
     }
 
     return {
