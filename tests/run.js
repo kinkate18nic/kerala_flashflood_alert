@@ -428,6 +428,34 @@ async function testPipelineDegradesPartialIndiaWrisCoverage() {
   assert.equal(indiaWrisSource?.summary.successful_district_count, 13);
 }
 
+async function testPipelineReusesSourcesWithinCadenceWindow() {
+  const tempRoot = await mkdtemp(path.join(os.tmpdir(), "kerala-flood-watch-cache-"));
+  await cp(path.join(repoRoot, "config"), path.join(tempRoot, "config"), { recursive: true });
+  await cp(path.join(repoRoot, "data"), path.join(tempRoot, "data"), { recursive: true });
+  await cp(path.join(repoRoot, "fixtures"), path.join(tempRoot, "fixtures"), { recursive: true });
+  await cp(path.join(repoRoot, "src"), path.join(tempRoot, "src"), { recursive: true });
+
+  await runPipeline(tempRoot, { useFixtures: true });
+  await runPipeline(tempRoot, { useFixtures: false });
+
+  const sourcesRaw = await readFile(path.join(tempRoot, "docs", "data", "latest", "sources.json"), "utf8");
+  const latestRunRaw = await readFile(
+    path.join(tempRoot, "runtime", "metrics", "latest-run.json"),
+    "utf8"
+  );
+  const sources = JSON.parse(sourcesRaw);
+  const latestRun = JSON.parse(latestRunRaw);
+
+  const reusedSourceCount = sources.sources.filter((source) => source.reused_in_run === true).length;
+  assert.equal(reusedSourceCount, sources.sources.length);
+  assert.ok(
+    sources.sources.every((source) =>
+      String(source.notes ?? "").includes("Reused last successful fetch within")
+    )
+  );
+  assert.equal(Array.isArray(latestRun.slowest_sources), true);
+}
+
 function testImergListingSelection() {
   const listing = [
     "/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260316-S023000-E025959.0150.V07C.30min.tif",
@@ -676,7 +704,8 @@ const tests = [
   ["risk-model", testRiskModel],
   ["risk-model-hotspot-gating", testHotspotWatchNeedsDynamicTrigger],
   ["pipeline", testPipeline],
-  ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage]
+  ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage],
+  ["pipeline-cadence-reuse", testPipelineReusesSourcesWithinCadenceWindow]
 ];
 
 let failures = 0;

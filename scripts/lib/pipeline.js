@@ -153,6 +153,42 @@ function mapWithConcurrency(items, worker, concurrency = 3) {
   ).then(() => results);
 }
 
+function sourceCachePath(repoRoot) {
+  return path.join(repoRoot, "runtime", "cache", "source-results.json");
+}
+
+function canReuseSource(source, cacheEntry, generatedAt) {
+  if (!cacheEntry?.snapshot || cacheEntry.parsed === undefined || source.cadence_minutes === undefined) {
+    return false;
+  }
+
+  if (cacheEntry.snapshot.fetch_status !== "ok" || cacheEntry.snapshot.parser_status !== "ok") {
+    return false;
+  }
+
+  const fetchedDate = parseDate(cacheEntry.snapshot.fetched_at);
+  const ageMinutes = minutesBetween(fetchedDate, new Date(generatedAt));
+  if (ageMinutes === null) {
+    return false;
+  }
+
+  return ageMinutes < source.cadence_minutes;
+}
+
+function buildReusedSnapshot(source, cacheEntry, generatedAt) {
+  const previousSnapshot = cacheEntry.snapshot;
+  const reusedAgeMinutes = minutesBetween(parseDate(previousSnapshot.fetched_at), new Date(generatedAt));
+  const cadenceMinutes = source.cadence_minutes ?? null;
+  const priorNote = previousSnapshot.notes ? `${previousSnapshot.notes}. ` : "";
+  return {
+    ...previousSnapshot,
+    notes: `${priorNote}Reused last successful fetch within ${cadenceMinutes}-minute cadence window.`,
+    reused_in_run: true,
+    reused_age_minutes: reusedAgeMinutes,
+    duration_ms: 0
+  };
+}
+
 async function loadRawContent(repoRoot, source, options) {
   if (options.useFixtures) {
     const fixtureFile = path.join(repoRoot, "fixtures", `${source.id}.${rawExtension(source.format)}`);
@@ -614,11 +650,23 @@ export async function runPipeline(repoRoot, options = {}) {
   await ensureDir(rawDir);
 
   const parsedSources = {};
+  const priorSourceCache = options.useFixtures
+    ? { sources: {} }
+    : await readJson(sourceCachePath(repoRoot), { sources: {} });
   const enabledSources = sources.filter((entry) => entry.enabled);
   const sourceFetchConcurrency = options.sourceFetchConcurrency ?? 3;
   const sourceResults = await mapWithConcurrency(
     enabledSources,
     async (source) => {
+      const cacheEntry = priorSourceCache.sources?.[source.id];
+      if (!options.useFixtures && canReuseSource(source, cacheEntry, generatedAt)) {
+        return {
+          sourceId: source.id,
+          parsed: cacheEntry.parsed,
+          snapshot: buildReusedSnapshot(source, cacheEntry, generatedAt)
+        };
+      }
+
       const parser = parserRegistry[source.parser];
       const fetchedAt = nowIso();
       const startedAtMs = Date.now();
@@ -702,6 +750,18 @@ export async function runPipeline(repoRoot, options = {}) {
     parsedSources[result.sourceId] = result.parsed;
     return result.snapshot;
   });
+  const sourceCache = {
+    generated_at: generatedAt,
+    sources: Object.fromEntries(
+      sourceResults.map((result) => [
+        result.sourceId,
+        {
+          snapshot: result.snapshot,
+          parsed: result.parsed
+        }
+      ])
+    )
+  };
 
   const signalMaps = collapseSignals(parsedSources);
   const rainfall = normalizeRainfall(parsedSources, taluks);
@@ -894,6 +954,7 @@ export async function runPipeline(repoRoot, options = {}) {
         parser_status: source.parser_status
       }))
   });
+  await writeJson(sourceCachePath(repoRoot), sourceCache);
 
   return outputs;
 }
