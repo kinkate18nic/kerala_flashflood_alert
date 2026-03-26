@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-03-26T20:46:30.242Z",
+  "generated_at": "2026-03-26T21:38:48.023Z",
   "sources": [
     {
       "source_id": "imd-cap-rss",
       "name": "IMD CAP RSS",
       "owner": "India Meteorological Department",
       "category": "official-warning",
-      "fetched_at": "2026-03-26T20:46:30.546Z",
+      "fetched_at": "2026-03-26T21:38:48.224Z",
       "issued_at": null,
       "raw_url": "https://sachet.ndma.gov.in/cap_public_website/rss/rss_kerala.xml",
       "fetch_status": "failed",
@@ -14,7 +14,7 @@
       "failure_stage": "fetch",
       "status": "offline",
       "freshness_minutes": null,
-      "duration_ms": 1798003,
+      "duration_ms": 1669091,
       "notes": "This operation was aborted",
       "auth": "none",
       "summary": {}
@@ -24,7 +24,7 @@
       "name": "IMD Flash Flood Bulletin",
       "owner": "India Meteorological Department",
       "category": "official-guidance",
-      "fetched_at": "2026-03-26T20:46:30.548Z",
+      "fetched_at": "2026-03-26T21:38:48.227Z",
       "issued_at": null,
       "raw_url": "https://mausam.imd.gov.in/responsive/flashFloodBulletin.php",
       "fetch_status": "failed",
@@ -32,7 +32,7 @@
       "failure_stage": "fetch",
       "status": "offline",
       "freshness_minutes": null,
-      "duration_ms": 1798005,
+      "duration_ms": 1669091,
       "notes": "This operation was aborted",
       "auth": "none",
       "summary": {}
@@ -51,7 +51,7 @@
       "status": "stale",
       "freshness_minutes": 2089,
       "duration_ms": 0,
-      "notes": "India-WRIS rainfall queried for 12 Kerala districts. Reused last successful fetch within 180-minute cadence window.",
+      "notes": "India-WRIS rainfall queried for 12 Kerala districts. Reused last successful fetch within 180-minute cadence window.. Reused last successful fetch within 180-minute cadence window.",
       "auth": "none",
       "summary": {
         "district_count": 12,
@@ -62,7 +62,7 @@
         "failed_district_count": 0
       },
       "reused_in_run": true,
-      "reused_age_minutes": 87
+      "reused_age_minutes": 140
     },
     {
       "source_id": "indiawris-river-level",
@@ -78,7 +78,7 @@
       "status": "stale",
       "freshness_minutes": 2119,
       "duration_ms": 0,
-      "notes": "India-WRIS river level queried for 12 Kerala districts. Reused last successful fetch within 180-minute cadence window.",
+      "notes": "India-WRIS river level queried for 12 Kerala districts. Reused last successful fetch within 180-minute cadence window.. Reused last successful fetch within 180-minute cadence window.",
       "auth": "none",
       "summary": {
         "district_count": 12,
@@ -88,7 +88,7 @@
         "failed_district_count": 0
       },
       "reused_in_run": true,
-      "reused_age_minutes": 87
+      "reused_age_minutes": 139
     },
     {
       "source_id": "ksdma-reservoirs",
@@ -103,13 +103,15 @@
       "failure_stage": null,
       "status": "offline",
       "freshness_minutes": 1247,
-      "duration_ms": 7859,
-      "notes": "KSDMA KSEB daily dam PDF Water Levels of Major Reservoirs (KSEB)",
+      "duration_ms": 0,
+      "notes": "KSDMA KSEB daily dam PDF Water Levels of Major Reservoirs (KSEB). Reused last successful fetch within 60-minute cadence window.",
       "auth": "none",
       "summary": {
         "district_count": 6,
         "taluk_count": 0
-      }
+      },
+      "reused_in_run": true,
+      "reused_age_minutes": 52
     },
     {
       "source_id": "ksdma-dam-management",
@@ -124,52 +126,63 @@
       "failure_stage": null,
       "status": "offline",
       "freshness_minutes": 1247,
-      "duration_ms": 7331,
-      "notes": "KSDMA IRRIGATION daily dam PDF Water Levels of Major Reservoirs (IRRIGATION",
+      "duration_ms": 0,
+      "notes": "KSDMA IRRIGATION daily dam PDF Water Levels of Major Reservoirs (IRRIGATION. Reused last successful fetch within 60-minute cadence window.",
       "auth": "none",
       "summary": {
         "district_count": 10,
         "taluk_count": 0
-      }
+      },
+      "reused_in_run": true,
+      "reused_age_minutes": 52
     },
     {
       "source_id": "cwc-ffs",
       "name": "CWC FFS Live River Levels",
       "owner": "Central Water Commission",
       "category": "river-stage",
-      "fetched_at": "2026-03-26T20:46:45.741Z",
-      "issued_at": null,
+      "fetched_at": "2026-03-26T21:38:48.229Z",
+      "issued_at": "2026-03-26T12:30:00.000Z",
       "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://ffs.india-water.gov.in/",
-      "fetch_status": "failed",
-      "parser_status": "skipped",
-      "failure_stage": "fetch",
+      "fetch_status": "ok",
+      "parser_status": "ok",
+      "failure_stage": "partial",
       "status": "offline",
-      "freshness_minutes": null,
-      "duration_ms": 1782805,
-      "notes": "CWC FFS fetch failed (200) for 041cdbng: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+      "freshness_minutes": 549,
+      "duration_ms": 1669420,
+      "notes": "CWC FFS live river levels queried for 6/45 Kerala stations",
       "auth": "none",
-      "summary": {}
+      "summary": {
+        "district_count": 5,
+        "taluk_count": 0,
+        "station_count": 5,
+        "requested_station_count": 45,
+        "successful_station_count": 6,
+        "failed_station_count": 39,
+        "above_warning_station_count": 0,
+        "above_danger_station_count": 0
+      }
     },
     {
       "source_id": "rainviewer-radar",
       "name": "RainViewer Radar Nowcast",
       "owner": "RainViewer / IMD radar aggregation",
       "category": "radar-nowcast",
-      "fetched_at": "2026-03-26T21:16:28.546Z",
-      "issued_at": "2026-03-26T21:10:00.000Z",
+      "fetched_at": "2026-03-26T22:06:37.315Z",
+      "issued_at": "2026-03-26T22:00:00.000Z",
       "raw_url": "https://api.rainviewer.com/public/weather-maps.json",
       "fetch_status": "ok",
       "parser_status": "ok",
       "failure_stage": null,
       "status": "ok",
       "freshness_minutes": 0,
-      "duration_ms": 2247,
-      "notes": "RainViewer latest radar frame /v2/radar/fe741032b769",
+      "duration_ms": 1070,
+      "notes": "RainViewer latest radar frame /v2/radar/0b61209673a9",
       "auth": "none",
       "summary": {
         "district_count": 14,
         "hotspot_count": 20,
-        "latest_frame_time": "2026-03-26T21:10:00.000Z"
+        "latest_frame_time": "2026-03-26T22:00:00.000Z"
       }
     },
     {
@@ -185,8 +198,8 @@
       "failure_stage": null,
       "status": "ok",
       "freshness_minutes": 227,
-      "duration_ms": 44080,
-      "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260326-S163000-E165959.0990.V07C.30min.zip",
+      "duration_ms": 0,
+      "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260326-S163000-E165959.0990.V07C.30min.zip. Reused last successful fetch within 30-minute cadence window.",
       "auth": "pps-basic",
       "summary": {
         "district_count": 14,
@@ -194,14 +207,16 @@
         "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260326-S163000-E165959.0990.V07C.30min.zip",
         "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260326-S143000-E145959.0870.V07C.3hr.zip",
         "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260326-S143000-E145959.0870.V07C.1day.zip"
-      }
+      },
+      "reused_in_run": true,
+      "reused_age_minutes": 22
     },
     {
       "source_id": "operator-observations",
       "name": "Operator Observation Override",
       "owner": "Local operator",
       "category": "manual-observation",
-      "fetched_at": "2026-03-26T21:16:28.553Z",
+      "fetched_at": "2026-03-26T22:06:37.318Z",
       "issued_at": null,
       "raw_url": "data/manual/observations.json",
       "fetch_status": "ok",
@@ -209,7 +224,7 @@
       "failure_stage": null,
       "status": "degraded",
       "freshness_minutes": null,
-      "duration_ms": 13,
+      "duration_ms": 338,
       "notes": "",
       "auth": "none",
       "summary": {
