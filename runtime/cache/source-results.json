@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-26T07:21:16.298Z",
+  "generated_at": "2026-03-26T09:07:37.166Z",
   "sources": {
     "imd-cap-rss": {
       "snapshot": {
@@ -7,7 +7,7 @@
         "name": "IMD CAP RSS",
         "owner": "India Meteorological Department",
         "category": "official-warning",
-        "fetched_at": "2026-03-26T07:21:16.475Z",
+        "fetched_at": "2026-03-26T09:07:37.335Z",
         "issued_at": null,
         "raw_url": "https://sachet.ndma.gov.in/cap_public_website/rss/rss_kerala.xml",
         "fetch_status": "failed",
@@ -15,7 +15,7 @@
         "failure_stage": "fetch",
         "status": "offline",
         "freshness_minutes": null,
-        "duration_ms": 20968,
+        "duration_ms": 765313,
         "notes": "This operation was aborted",
         "auth": "none",
         "summary": {}
@@ -28,7 +28,7 @@
         "name": "IMD Flash Flood Bulletin",
         "owner": "India Meteorological Department",
         "category": "official-guidance",
-        "fetched_at": "2026-03-26T07:21:16.477Z",
+        "fetched_at": "2026-03-26T09:07:37.337Z",
         "issued_at": null,
         "raw_url": "https://mausam.imd.gov.in/responsive/flashFloodBulletin.php",
         "fetch_status": "failed",
@@ -36,7 +36,7 @@
         "failure_stage": "fetch",
         "status": "offline",
         "freshness_minutes": null,
-        "duration_ms": 41683,
+        "duration_ms": 765315,
         "notes": "This operation was aborted",
         "auth": "none",
         "summary": {}
@@ -57,8 +57,8 @@
         "failure_stage": null,
         "status": "ok",
         "freshness_minutes": 1371,
-        "duration_ms": 372045,
-        "notes": "India-WRIS rainfall queried for 12 Kerala districts",
+        "duration_ms": 0,
+        "notes": "India-WRIS rainfall queried for 12 Kerala districts. Reused last successful fetch within 180-minute cadence window.",
         "auth": "none",
         "summary": {
           "district_count": 12,
@@ -67,7 +67,9 @@
           "requested_district_count": 14,
           "successful_district_count": 14,
           "failed_district_count": 0
-        }
+        },
+        "reused_in_run": true,
+        "reused_age_minutes": 106
       },
       "parsed": {
         "issued_at": "2026-03-25T08:30:00.000Z",
@@ -1512,8 +1514,8 @@
         "failure_stage": "partial",
         "status": "degraded",
         "freshness_minutes": 1401,
-        "duration_ms": 1864226,
-        "notes": "India-WRIS river level queried for 13/14 Kerala districts",
+        "duration_ms": 0,
+        "notes": "India-WRIS river level queried for 13/14 Kerala districts. Reused last successful fetch within 180-minute cadence window.",
         "auth": "none",
         "summary": {
           "district_count": 11,
@@ -1521,7 +1523,9 @@
           "requested_district_count": 14,
           "successful_district_count": 13,
           "failed_district_count": 1
-        }
+        },
+        "reused_in_run": true,
+        "reused_age_minutes": 106
       },
       "parsed": {
         "issued_at": "2026-03-25T08:00:00.000Z",
@@ -2362,15 +2366,15 @@
         "name": "KSDMA Daily Dam Levels (KSEB)",
         "owner": "Kerala State Disaster Management Authority",
         "category": "reservoir-status",
-        "fetched_at": "2026-03-26T07:21:58.160Z",
+        "fetched_at": "2026-03-26T09:07:37.338Z",
         "issued_at": "2026-03-26T00:00:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sdma.kerala.gov.in/dam-water-level/",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
-        "status": "stale",
-        "freshness_minutes": 441,
-        "duration_ms": 368321,
+        "status": "offline",
+        "freshness_minutes": 548,
+        "duration_ms": 12632,
         "notes": "KSDMA KSEB daily dam PDF Water Levels of Major Reservoirs (KSEB)",
         "auth": "none",
         "summary": {
@@ -3117,15 +3121,15 @@
         "name": "KSDMA Daily Dam Levels (Irrigation)",
         "owner": "Kerala State Disaster Management Authority",
         "category": "dam-status",
-        "fetched_at": "2026-03-26T07:28:06.482Z",
+        "fetched_at": "2026-03-26T09:07:49.971Z",
         "issued_at": "2026-03-26T00:00:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sdma.kerala.gov.in/dam-water-level/",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
-        "status": "stale",
-        "freshness_minutes": 441,
-        "duration_ms": 6686,
+        "status": "offline",
+        "freshness_minutes": 548,
+        "duration_ms": 6611,
         "notes": "KSDMA IRRIGATION daily dam PDF Water Levels of Major Reservoirs (IRRIGATION",
         "auth": "none",
         "summary": {
@@ -3994,50 +3998,144 @@
         "name": "CWC FFS Live River Levels",
         "owner": "Central Water Commission",
         "category": "river-stage",
-        "fetched_at": "2026-03-26T07:28:29.113Z",
-        "issued_at": "2026-03-26T02:30:00.000Z",
+        "fetched_at": "2026-03-26T09:07:56.583Z",
+        "issued_at": "2026-03-26T07:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://ffs.india-water.gov.in/",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": "partial",
-        "status": "stale",
-        "freshness_minutes": 291,
-        "duration_ms": 1076110,
-        "notes": "CWC FFS live river levels queried for 21/45 Kerala stations",
+        "status": "degraded",
+        "freshness_minutes": 98,
+        "duration_ms": 746064,
+        "notes": "CWC FFS live river levels queried for 30/45 Kerala stations",
         "auth": "none",
         "summary": {
-          "district_count": 11,
+          "district_count": 12,
           "taluk_count": 0,
-          "station_count": 20,
+          "station_count": 28,
           "requested_station_count": 45,
-          "successful_station_count": 21,
-          "failed_station_count": 24,
+          "successful_station_count": 30,
+          "failed_station_count": 15,
           "above_warning_station_count": 0,
           "above_danger_station_count": 0
         }
       },
       "parsed": {
-        "issued_at": "2026-03-26T08:00:00+05:30",
+        "issued_at": "2026-03-26T13:00:00+05:30",
         "districts": [
           {
-            "district_id": "thiruvananthapuram",
+            "district_id": "kollam",
             "source": "cwc-ffs",
             "severity": 0,
-            "station_count": 1,
+            "station_count": 3,
             "max_rise_m": 0,
-            "threshold_station_count": 1,
+            "threshold_station_count": 3,
             "above_warning_station_count": 0,
             "above_danger_station_count": 0,
             "max_threshold_ratio": -1,
             "severity_basis": "threshold",
-            "summary_note": "CWC flood forecasting live river level available from 1 station",
+            "summary_note": "CWC flood forecasting live river level available from 3 stations",
+            "stations": [
+              {
+                "station_code": "036-SWRDKOCHI",
+                "station_name": "ARKKANNUR",
+                "latest_level_m": 23.15,
+                "rise_m": 0,
+                "data_time": "2026-03-26T13:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 8.8725,
+                "station_lon": 76.84666666666666,
+                "district_id": "kollam",
+                "taluk_id": null,
+                "warning_level_m": 27,
+                "danger_level_m": 28,
+                "highest_flood_level_m": 28.15,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              },
+              {
+                "station_code": "039-SWRDKOCHI",
+                "station_name": "NELLIPPALLI",
+                "latest_level_m": 15.27,
+                "rise_m": 0,
+                "data_time": "2026-03-26T13:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 9.027777777777779,
+                "station_lon": 76.92472222222223,
+                "district_id": "kollam",
+                "taluk_id": null,
+                "warning_level_m": 18,
+                "danger_level_m": 20,
+                "highest_flood_level_m": 21.5,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              },
+              {
+                "station_code": "019-SWRDKOCHI",
+                "station_name": "PATTAZHY",
+                "latest_level_m": 1.09,
+                "rise_m": 0,
+                "data_time": "2026-03-26T08:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 9.072777777777777,
+                "station_lon": 76.7611111111111,
+                "district_id": "kollam",
+                "taluk_id": null,
+                "warning_level_m": 7,
+                "danger_level_m": 8,
+                "highest_flood_level_m": 13.805,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              }
+            ],
+            "forecast_warning_station_count": 0,
+            "forecast_danger_station_count": 0,
+            "forecast_station_count": 0,
+            "forecast_severity": 0
+          },
+          {
+            "district_id": "thiruvananthapuram",
+            "source": "cwc-ffs",
+            "severity": 0,
+            "station_count": 2,
+            "max_rise_m": 0,
+            "threshold_station_count": 2,
+            "above_warning_station_count": 0,
+            "above_danger_station_count": 0,
+            "max_threshold_ratio": -1,
+            "severity_basis": "threshold",
+            "summary_note": "CWC flood forecasting live river level available from 2 stations",
             "stations": [
               {
                 "station_code": "021-SWRDKOCHI",
                 "station_name": "AYILAM",
-                "latest_level_m": 0.42,
-                "rise_m": -0.07,
-                "data_time": "2026-03-26T08:00:00+05:30",
+                "latest_level_m": 0.4,
+                "rise_m": -0.02,
+                "data_time": "2026-03-26T13:00:00+05:30",
                 "tehsil": null,
                 "station_lat": 8.715277777777777,
                 "station_lon": 76.85416666666666,
@@ -4046,6 +4144,31 @@
                 "warning_level_m": 6,
                 "danger_level_m": 8.5,
                 "highest_flood_level_m": 10.685,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              },
+              {
+                "station_code": "042-SWRDKOCHI",
+                "station_name": "VELLAIKADAVU",
+                "latest_level_m": 7.45,
+                "rise_m": 0,
+                "data_time": "2026-03-26T13:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 8.498055555555554,
+                "station_lon": 77.0125,
+                "district_id": "thiruvananthapuram",
+                "taluk_id": null,
+                "warning_level_m": 9,
+                "danger_level_m": 10,
+                "highest_flood_level_m": 14,
                 "threshold_confidence": "confirmed",
                 "threshold_ratio": -1,
                 "level_status": "below_warning",
@@ -4067,14 +4190,14 @@
             "district_id": "malappuram",
             "source": "cwc-ffs",
             "severity": 0,
-            "station_count": 3,
+            "station_count": 4,
             "max_rise_m": 0,
-            "threshold_station_count": 3,
+            "threshold_station_count": 4,
             "above_warning_station_count": 0,
             "above_danger_station_count": 0,
             "max_threshold_ratio": -1,
             "severity_basis": "threshold",
-            "summary_note": "CWC flood forecasting live river level available from 3 stations",
+            "summary_note": "CWC flood forecasting live river level available from 4 stations",
             "stations": [
               {
                 "station_code": "024-SWRDKOCHI",
@@ -4127,19 +4250,44 @@
                 "forecast_severity": 0
               },
               {
-                "station_code": "CW1VAR000466",
-                "station_name": "KUTTIPPURAM",
-                "latest_level_m": 1.75,
-                "rise_m": -0.02,
+                "station_code": "005-SWRDKOCHI",
+                "station_name": "KUNIYIL",
+                "latest_level_m": 2.36,
+                "rise_m": 0,
                 "data_time": "2026-03-26T08:00:00+05:30",
                 "tehsil": null,
-                "station_lat": 10.840833333333334,
-                "station_lon": 76.02222222222223,
+                "station_lat": 11.239444444444443,
+                "station_lon": 76.02333333333333,
                 "district_id": "malappuram",
                 "taluk_id": null,
-                "warning_level_m": 7.5,
-                "danger_level_m": 8.5,
-                "highest_flood_level_m": null,
+                "warning_level_m": 10.85,
+                "danger_level_m": 11.85,
+                "highest_flood_level_m": 12.14,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              },
+              {
+                "station_code": "025-SWRDKOCHI",
+                "station_name": "PERUVAMPADAM",
+                "latest_level_m": 20.18,
+                "rise_m": 0,
+                "data_time": "2026-03-26T08:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 11.3153,
+                "station_lon": 76.19635000000001,
+                "district_id": "malappuram",
+                "taluk_id": null,
+                "warning_level_m": 26.5,
+                "danger_level_m": 27.5,
+                "highest_flood_level_m": 28.1,
                 "threshold_confidence": "confirmed",
                 "threshold_ratio": -1,
                 "level_status": "below_warning",
@@ -4158,32 +4306,57 @@
             "forecast_severity": 0
           },
           {
-            "district_id": "ernakulam",
+            "district_id": "idukki",
             "source": "cwc-ffs",
             "severity": 0,
-            "station_count": 2,
-            "max_rise_m": 0.01,
+            "station_count": 3,
+            "max_rise_m": 0.76,
             "threshold_station_count": 2,
             "above_warning_station_count": 0,
             "above_danger_station_count": 0,
             "max_threshold_ratio": -1,
             "severity_basis": "threshold",
-            "summary_note": "CWC flood forecasting observed river rise 0.01 m across 2 stations",
+            "summary_note": "CWC flood forecasting observed river rise 0.76 m across 3 stations",
             "stations": [
               {
-                "station_code": "013-SWRDKOCHI",
-                "station_name": "KALAMPUR",
-                "latest_level_m": 8.16,
-                "rise_m": 0,
-                "data_time": "2026-03-26T08:00:00+05:30",
+                "station_code": "0024-SWRDKOCHI",
+                "station_name": "Idukki (Eb)/Idukki Arch Reservoir",
+                "latest_level_m": 724.814,
+                "rise_m": -0.09,
+                "data_time": "2026-01-02T07:00:00+05:30",
                 "tehsil": null,
-                "station_lat": 9.990555555555554,
-                "station_lon": 76.63222222222221,
-                "district_id": "ernakulam",
-                "taluk_id": "ernakulam--muvattupuzha",
-                "warning_level_m": 12.64,
-                "danger_level_m": 13.64,
-                "highest_flood_level_m": 17.47,
+                "station_lat": 9.84,
+                "station_lon": 76.97,
+                "district_id": "idukki",
+                "taluk_id": null,
+                "warning_level_m": null,
+                "danger_level_m": null,
+                "highest_flood_level_m": null,
+                "threshold_confidence": null,
+                "threshold_ratio": null,
+                "level_status": "unclassified",
+                "severity_basis": "none",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              },
+              {
+                "station_code": "031-SWRDKOCHI",
+                "station_name": "MANAKKAD",
+                "latest_level_m": 0,
+                "rise_m": -1.02,
+                "data_time": "2026-03-04T08:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 9.908888888888889,
+                "station_lon": 76.69611111111111,
+                "district_id": "idukki",
+                "taluk_id": null,
+                "warning_level_m": 36.5,
+                "danger_level_m": 37.5,
+                "highest_flood_level_m": 38.18,
                 "threshold_confidence": "confirmed",
                 "threshold_ratio": -1,
                 "level_status": "below_warning",
@@ -4196,19 +4369,19 @@
                 "forecast_severity": 0
               },
               {
-                "station_code": "034-SWRDKOCHI",
-                "station_name": "PALLIPPADY",
-                "latest_level_m": 19.26,
-                "rise_m": 0.01,
+                "station_code": "CW1PAR000963",
+                "station_name": "OLAMATTOM",
+                "latest_level_m": 54.135,
+                "rise_m": 0.76,
                 "data_time": "2026-03-26T08:00:00+05:30",
                 "tehsil": null,
-                "station_lat": 10.039444444444444,
-                "station_lon": 76.61638888888888,
-                "district_id": "ernakulam",
+                "station_lat": 9.88861111111111,
+                "station_lon": 76.71722222222222,
+                "district_id": "idukki",
                 "taluk_id": null,
-                "warning_level_m": 23.8,
-                "danger_level_m": 24.8,
-                "highest_flood_level_m": 25.5,
+                "warning_level_m": 57.03,
+                "danger_level_m": 58.03,
+                "highest_flood_level_m": null,
                 "threshold_confidence": "confirmed",
                 "threshold_ratio": -1,
                 "level_status": "below_warning",
@@ -4244,7 +4417,7 @@
                 "station_name": "KALATHUKADAVU",
                 "latest_level_m": 22.68,
                 "rise_m": 0,
-                "data_time": "2026-03-26T08:00:00+05:30",
+                "data_time": "2026-03-26T13:00:00+05:30",
                 "tehsil": null,
                 "station_lat": 9.719722222222222,
                 "station_lon": 76.77833333333334,
@@ -4269,7 +4442,7 @@
                 "station_name": "KIDANGOOR",
                 "latest_level_m": 0.12,
                 "rise_m": 0,
-                "data_time": "2026-03-26T08:00:00+05:30",
+                "data_time": "2026-03-26T13:00:00+05:30",
                 "tehsil": null,
                 "station_lat": 9.674999999999999,
                 "station_lon": 76.60277777777777,
@@ -4294,7 +4467,7 @@
                 "station_name": "MANIKAL",
                 "latest_level_m": 75.365,
                 "rise_m": 0,
-                "data_time": "2026-03-26T08:00:00+05:30",
+                "data_time": "2026-03-26T13:00:00+05:30",
                 "tehsil": null,
                 "station_lat": 9.531111111111112,
                 "station_lon": 76.91222222222223,
@@ -4324,29 +4497,54 @@
             "district_id": "thrissur",
             "source": "cwc-ffs",
             "severity": 0,
-            "station_count": 1,
-            "max_rise_m": 0,
-            "threshold_station_count": 1,
+            "station_count": 2,
+            "max_rise_m": 0.01,
+            "threshold_station_count": 2,
             "above_warning_station_count": 0,
             "above_danger_station_count": 0,
             "max_threshold_ratio": -1,
             "severity_basis": "threshold",
-            "summary_note": "CWC flood forecasting live river level available from 1 station",
+            "summary_note": "CWC flood forecasting observed river rise 0.01 m across 2 stations",
             "stations": [
               {
-                "station_code": "029-SWRDKOCHI",
-                "station_name": "KONDAZHY",
-                "latest_level_m": 30.02,
-                "rise_m": -0.05,
-                "data_time": "2026-03-26T08:00:00+05:30",
+                "station_code": "030-SWRDKOCHI",
+                "station_name": "KOTTAPURAM",
+                "latest_level_m": 15.5,
+                "rise_m": 0,
+                "data_time": "2026-03-26T13:00:00+05:30",
                 "tehsil": null,
-                "station_lat": 10.723333333333333,
-                "station_lon": 76.40194444444445,
+                "station_lat": 10.677777777777777,
+                "station_lon": 76.20055555555555,
                 "district_id": "thrissur",
                 "taluk_id": null,
-                "warning_level_m": 32.3,
-                "danger_level_m": 33.3,
-                "highest_flood_level_m": 36.145,
+                "warning_level_m": 18.5,
+                "danger_level_m": 20,
+                "highest_flood_level_m": 20.45,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              },
+              {
+                "station_code": "033-SWRDKOCHI",
+                "station_name": "PALAKADAVU",
+                "latest_level_m": 1.96,
+                "rise_m": 0.01,
+                "data_time": "2026-03-26T13:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 10.424999999999999,
+                "station_lon": 76.23777777777778,
+                "district_id": "thrissur",
+                "taluk_id": null,
+                "warning_level_m": 4.14,
+                "danger_level_m": 5.14,
+                "highest_flood_level_m": 6.08,
                 "threshold_confidence": "confirmed",
                 "threshold_ratio": -1,
                 "level_status": "below_warning",
@@ -4368,14 +4566,14 @@
             "district_id": "palakkad",
             "source": "cwc-ffs",
             "severity": 0,
-            "station_count": 2,
+            "station_count": 4,
             "max_rise_m": 0,
-            "threshold_station_count": 2,
+            "threshold_station_count": 4,
             "above_warning_station_count": 0,
             "above_danger_station_count": 0,
             "max_threshold_ratio": -1,
             "severity_basis": "threshold",
-            "summary_note": "CWC flood forecasting live river level available from 2 stations",
+            "summary_note": "CWC flood forecasting live river level available from 4 stations",
             "stations": [
               {
                 "station_code": "40- SRDCBE",
@@ -4391,6 +4589,56 @@
                 "warning_level_m": 290.65,
                 "danger_level_m": 291.65,
                 "highest_flood_level_m": 295.65,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              },
+              {
+                "station_code": "010-SWRDKOCHI",
+                "station_name": "MANKARA",
+                "latest_level_m": 47.08,
+                "rise_m": -0.01,
+                "data_time": "2026-03-26T13:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 10.761111111111111,
+                "station_lon": 76.48611111111111,
+                "district_id": "palakkad",
+                "taluk_id": null,
+                "warning_level_m": 51.53,
+                "danger_level_m": 52.53,
+                "highest_flood_level_m": 52.53,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              },
+              {
+                "station_code": "009-SWRDKOCHI",
+                "station_name": "PUDUR",
+                "latest_level_m": 59.94,
+                "rise_m": -0.01,
+                "data_time": "2026-03-26T13:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 10.777500000000002,
+                "station_lon": 76.51222222222222,
+                "district_id": "palakkad",
+                "taluk_id": null,
+                "warning_level_m": 63.5,
+                "danger_level_m": 64.5,
+                "highest_flood_level_m": 65.14,
                 "threshold_confidence": "confirmed",
                 "threshold_ratio": -1,
                 "level_status": "below_warning",
@@ -4434,32 +4682,32 @@
             "forecast_severity": 0
           },
           {
-            "district_id": "pathanamthitta",
+            "district_id": "kozhikode",
             "source": "cwc-ffs",
             "severity": 0,
-            "station_count": 3,
-            "max_rise_m": 0.12,
-            "threshold_station_count": 3,
+            "station_count": 1,
+            "max_rise_m": 0,
+            "threshold_station_count": 1,
             "above_warning_station_count": 0,
             "above_danger_station_count": 0,
             "max_threshold_ratio": -1,
             "severity_basis": "threshold",
-            "summary_note": "CWC flood forecasting observed river rise 0.12 m across 3 stations",
+            "summary_note": "CWC flood forecasting live river level available from 1 station",
             "stations": [
               {
-                "station_code": "038-SWRDKOCHI",
-                "station_name": "MADAMON",
-                "latest_level_m": 96.98,
-                "rise_m": 0.12,
+                "station_code": "004-SWRDKOCHI",
+                "station_name": "KUTTYADI",
+                "latest_level_m": 0.58,
+                "rise_m": 0,
                 "data_time": "2026-03-26T08:00:00+05:30",
                 "tehsil": null,
-                "station_lat": 9.363888888888889,
-                "station_lon": 76.83777777777777,
-                "district_id": "pathanamthitta",
+                "station_lat": 11.650833333333333,
+                "station_lon": 75.75833333333334,
+                "district_id": "kozhikode",
                 "taluk_id": null,
-                "warning_level_m": 100,
-                "danger_level_m": 101,
-                "highest_flood_level_m": 111,
+                "warning_level_m": 5.95,
+                "danger_level_m": 6.95,
+                "highest_flood_level_m": 8.7,
                 "threshold_confidence": "confirmed",
                 "threshold_ratio": -1,
                 "level_status": "below_warning",
@@ -4470,21 +4718,40 @@
                 "forecast_status": "forecast_unavailable",
                 "forecast_rows": 0,
                 "forecast_severity": 0
-              },
+              }
+            ],
+            "forecast_warning_station_count": 0,
+            "forecast_danger_station_count": 0,
+            "forecast_station_count": 0,
+            "forecast_severity": 0
+          },
+          {
+            "district_id": "pathanamthitta",
+            "source": "cwc-ffs",
+            "severity": 0,
+            "station_count": 2,
+            "max_rise_m": 0.12,
+            "threshold_station_count": 2,
+            "above_warning_station_count": 0,
+            "above_danger_station_count": 0,
+            "max_threshold_ratio": -1,
+            "severity_basis": "threshold",
+            "summary_note": "CWC flood forecasting observed river rise 0.12 m across 2 stations",
+            "stations": [
               {
-                "station_code": "018-SWRDKOCHI",
-                "station_name": "MALAKKARA",
-                "latest_level_m": 0.14,
-                "rise_m": -0.07,
-                "data_time": "2026-03-26T08:00:00+05:30",
+                "station_code": "038-SWRDKOCHI",
+                "station_name": "MADAMON",
+                "latest_level_m": 97.1,
+                "rise_m": 0.12,
+                "data_time": "2026-03-26T13:00:00+05:30",
                 "tehsil": null,
-                "station_lat": 9.329166666666666,
-                "station_lon": 76.66388888888889,
+                "station_lat": 9.363888888888889,
+                "station_lon": 76.83777777777777,
                 "district_id": "pathanamthitta",
                 "taluk_id": null,
-                "warning_level_m": 6,
-                "danger_level_m": 7,
-                "highest_flood_level_m": 9.58,
+                "warning_level_m": 100,
+                "danger_level_m": 101,
+                "highest_flood_level_m": 111,
                 "threshold_confidence": "confirmed",
                 "threshold_ratio": -1,
                 "level_status": "below_warning",
@@ -4510,75 +4777,6 @@
                 "warning_level_m": 9,
                 "danger_level_m": 10,
                 "highest_flood_level_m": 13.735,
-                "threshold_confidence": "confirmed",
-                "threshold_ratio": -1,
-                "level_status": "below_warning",
-                "severity_basis": "threshold",
-                "severity": 0,
-                "forecast_peak_level_m": null,
-                "forecast_crossing_time": null,
-                "forecast_status": "forecast_unavailable",
-                "forecast_rows": 0,
-                "forecast_severity": 0
-              }
-            ],
-            "forecast_warning_station_count": 0,
-            "forecast_danger_station_count": 0,
-            "forecast_station_count": 0,
-            "forecast_severity": 0
-          },
-          {
-            "district_id": "idukki",
-            "source": "cwc-ffs",
-            "severity": 0,
-            "station_count": 2,
-            "max_rise_m": 0.76,
-            "threshold_station_count": 2,
-            "above_warning_station_count": 0,
-            "above_danger_station_count": 0,
-            "max_threshold_ratio": -1,
-            "severity_basis": "threshold",
-            "summary_note": "CWC flood forecasting observed river rise 0.76 m across 2 stations",
-            "stations": [
-              {
-                "station_code": "031-SWRDKOCHI",
-                "station_name": "MANAKKAD",
-                "latest_level_m": 0,
-                "rise_m": -1.02,
-                "data_time": "2026-03-04T08:00:00+05:30",
-                "tehsil": null,
-                "station_lat": 9.908888888888889,
-                "station_lon": 76.69611111111111,
-                "district_id": "idukki",
-                "taluk_id": null,
-                "warning_level_m": 36.5,
-                "danger_level_m": 37.5,
-                "highest_flood_level_m": 38.18,
-                "threshold_confidence": "confirmed",
-                "threshold_ratio": -1,
-                "level_status": "below_warning",
-                "severity_basis": "threshold",
-                "severity": 0,
-                "forecast_peak_level_m": null,
-                "forecast_crossing_time": null,
-                "forecast_status": "forecast_unavailable",
-                "forecast_rows": 0,
-                "forecast_severity": 0
-              },
-              {
-                "station_code": "CW1PAR000963",
-                "station_name": "OLAMATTOM",
-                "latest_level_m": 54.135,
-                "rise_m": 0.76,
-                "data_time": "2026-03-26T08:00:00+05:30",
-                "tehsil": null,
-                "station_lat": 9.88861111111111,
-                "station_lon": 76.71722222222222,
-                "district_id": "idukki",
-                "taluk_id": null,
-                "warning_level_m": 57.03,
-                "danger_level_m": 58.03,
-                "highest_flood_level_m": null,
                 "threshold_confidence": "confirmed",
                 "threshold_ratio": -1,
                 "level_status": "below_warning",
@@ -4641,6 +4839,75 @@
             "forecast_severity": 0
           },
           {
+            "district_id": "ernakulam",
+            "source": "cwc-ffs",
+            "severity": 0,
+            "station_count": 2,
+            "max_rise_m": 0.07,
+            "threshold_station_count": 2,
+            "above_warning_station_count": 0,
+            "above_danger_station_count": 0,
+            "max_threshold_ratio": -1,
+            "severity_basis": "threshold",
+            "summary_note": "CWC flood forecasting observed river rise 0.07 m across 2 stations",
+            "stations": [
+              {
+                "station_code": "012-SWRDKOCHI",
+                "station_name": "NEELEESWARAM",
+                "latest_level_m": 0.68,
+                "rise_m": -0.16,
+                "data_time": "2026-03-26T13:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 10.18361111111111,
+                "station_lon": 76.49555555555555,
+                "district_id": "ernakulam",
+                "taluk_id": null,
+                "warning_level_m": 9,
+                "danger_level_m": 10,
+                "highest_flood_level_m": 12.4,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              },
+              {
+                "station_code": "014-SWRDKOCHI",
+                "station_name": "RAMAMANGALAM",
+                "latest_level_m": 2.28,
+                "rise_m": 0.07,
+                "data_time": "2026-03-26T13:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 9.943611111111112,
+                "station_lon": 76.47833333333334,
+                "district_id": "ernakulam",
+                "taluk_id": null,
+                "warning_level_m": 8,
+                "danger_level_m": 9,
+                "highest_flood_level_m": 9.8,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              }
+            ],
+            "forecast_warning_station_count": 0,
+            "forecast_danger_station_count": 0,
+            "forecast_station_count": 0,
+            "forecast_severity": 0
+          },
+          {
             "district_id": "kannur",
             "source": "cwc-ffs",
             "severity": 0,
@@ -4683,55 +4950,11 @@
             "forecast_danger_station_count": 0,
             "forecast_station_count": 0,
             "forecast_severity": 0
-          },
-          {
-            "district_id": "kozhikode",
-            "source": "cwc-ffs",
-            "severity": 0,
-            "station_count": 1,
-            "max_rise_m": 0,
-            "threshold_station_count": 1,
-            "above_warning_station_count": 0,
-            "above_danger_station_count": 0,
-            "max_threshold_ratio": -1,
-            "severity_basis": "threshold",
-            "summary_note": "CWC flood forecasting live river level available from 1 station",
-            "stations": [
-              {
-                "station_code": "027-SWRDKOCHI",
-                "station_name": "THOTTATHINKADAVU",
-                "latest_level_m": 3.94,
-                "rise_m": 0,
-                "data_time": "2026-03-25T18:00:00+05:30",
-                "tehsil": null,
-                "station_lat": 11.361944444444443,
-                "station_lon": 76.00194444444445,
-                "district_id": "kozhikode",
-                "taluk_id": null,
-                "warning_level_m": 15.8,
-                "danger_level_m": 16.8,
-                "highest_flood_level_m": null,
-                "threshold_confidence": "confirmed",
-                "threshold_ratio": -1,
-                "level_status": "below_warning",
-                "severity_basis": "threshold",
-                "severity": 0,
-                "forecast_peak_level_m": null,
-                "forecast_crossing_time": null,
-                "forecast_status": "forecast_unavailable",
-                "forecast_rows": 0,
-                "forecast_severity": 0
-              }
-            ],
-            "forecast_warning_station_count": 0,
-            "forecast_danger_station_count": 0,
-            "forecast_station_count": 0,
-            "forecast_severity": 0
           }
         ],
-        "station_count": 20,
+        "station_count": 28,
         "requested_station_count": 45,
-        "successful_station_count": 21,
+        "successful_station_count": 30,
         "failed_stations": [
           {
             "station_code": "041cdbng",
@@ -4744,13 +4967,6 @@
             "station_code": "011-SWRDKOCHI",
             "station_name": "ARANGALI",
             "district_id": "thrissur",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "036-SWRDKOCHI",
-            "station_name": "ARKKANNUR",
-            "district_id": "kollam",
             "status": 200,
             "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
           },
@@ -4776,9 +4992,9 @@
             "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
           },
           {
-            "station_code": "0024-SWRDKOCHI",
-            "station_name": "Idukki (Eb)/Idukki Arch Reservoir",
-            "district_id": "idukki",
+            "station_code": "013-SWRDKOCHI",
+            "station_name": "KALAMPUR",
+            "district_id": "ernakulam",
             "status": 200,
             "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
           },
@@ -4790,72 +5006,30 @@
             "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
           },
           {
-            "station_code": "030-SWRDKOCHI",
-            "station_name": "KOTTAPURAM",
+            "station_code": "029-SWRDKOCHI",
+            "station_name": "KONDAZHY",
             "district_id": "thrissur",
             "status": 200,
             "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
           },
           {
-            "station_code": "005-SWRDKOCHI",
-            "station_name": "KUNIYIL",
+            "station_code": "CW1VAR000466",
+            "station_name": "KUTTIPPURAM",
             "district_id": "malappuram",
             "status": 200,
             "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
           },
           {
-            "station_code": "004-SWRDKOCHI",
-            "station_name": "KUTTYADI",
-            "district_id": "kozhikode",
+            "station_code": "018-SWRDKOCHI",
+            "station_name": "MALAKKARA",
+            "district_id": "pathanamthitta",
             "status": 200,
             "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
           },
           {
-            "station_code": "050-CDBNG-T",
-            "station_name": "MANANTHAVADY",
-            "district_id": "wayanad",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "010-SWRDKOCHI",
-            "station_name": "MANKARA",
-            "district_id": "palakkad",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "012-SWRDKOCHI",
-            "station_name": "NEELEESWARAM",
+            "station_code": "034-SWRDKOCHI",
+            "station_name": "PALLIPPADY",
             "district_id": "ernakulam",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "039-SWRDKOCHI",
-            "station_name": "NELLIPPALLI",
-            "district_id": "kollam",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "033-SWRDKOCHI",
-            "station_name": "PALAKADAVU",
-            "district_id": "thrissur",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "019-SWRDKOCHI",
-            "station_name": "PATTAZHY",
-            "district_id": "kollam",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "025-SWRDKOCHI",
-            "station_name": "PERUVAMPADAM",
-            "district_id": "malappuram",
             "status": 200,
             "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
           },
@@ -4867,13 +5041,6 @@
             "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
           },
           {
-            "station_code": "009-SWRDKOCHI",
-            "station_name": "PUDUR",
-            "district_id": "palakkad",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
             "station_code": "035-SWRDKOCHI",
             "station_name": "PULLAKKAYAR",
             "district_id": "kottayam",
@@ -4881,9 +5048,9 @@
             "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
           },
           {
-            "station_code": "014-SWRDKOCHI",
-            "station_name": "RAMAMANGALAM",
-            "district_id": "ernakulam",
+            "station_code": "027-SWRDKOCHI",
+            "station_name": "THOTTATHINKADAVU",
+            "district_id": "kozhikode",
             "status": 200,
             "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
           },
@@ -4893,16 +5060,9 @@
             "district_id": "idukki",
             "status": 200,
             "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "042-SWRDKOCHI",
-            "station_name": "VELLAIKADAVU",
-            "district_id": "thiruvananthapuram",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
           }
         ],
-        "partial_failure_count": 24,
+        "partial_failure_count": 15,
         "above_warning_station_count": 0,
         "above_danger_station_count": 0,
         "forecast_warning_station_count": 0,
@@ -4917,20 +5077,476 @@
         "name": "RainViewer Radar Nowcast",
         "owner": "RainViewer / IMD radar aggregation",
         "category": "radar-nowcast",
-        "fetched_at": "2026-03-26T07:46:45.651Z",
-        "issued_at": null,
+        "fetched_at": "2026-03-26T09:20:22.648Z",
+        "issued_at": "2026-03-26T09:10:00.000Z",
         "raw_url": "https://api.rainviewer.com/public/weather-maps.json",
-        "fetch_status": "failed",
-        "parser_status": "skipped",
-        "failure_stage": "fetch",
-        "status": "offline",
-        "freshness_minutes": null,
-        "duration_ms": 68243,
-        "notes": "RainViewer tile sampling failed for all Kerala samples.",
+        "fetch_status": "ok",
+        "parser_status": "ok",
+        "failure_stage": null,
+        "status": "ok",
+        "freshness_minutes": 0,
+        "duration_ms": 1116,
+        "notes": "RainViewer latest radar frame /v2/radar/781acd1f9f7c",
         "auth": "none",
-        "summary": {}
+        "summary": {
+          "district_count": 14,
+          "hotspot_count": 20,
+          "latest_frame_time": "2026-03-26T09:10:00.000Z"
+        }
       },
-      "parsed": null
+      "parsed": {
+        "issued_at": "2026-03-26T09:10:00.000Z",
+        "generated_at": "2026-03-26T09:17:38.000Z",
+        "frame_time": "2026-03-26T09:10:00.000Z",
+        "frame_path": "/v2/radar/781acd1f9f7c",
+        "color_scheme": "universal_blue",
+        "districts": [
+          {
+            "district_id": "kasaragod",
+            "name": "Kasaragod",
+            "intensity": "light",
+            "severity": 0.25,
+            "max_dbz": 13,
+            "sample_location": {
+              "lat": 12.4996,
+              "lon": 74.9869
+            },
+            "active_pixels": 34,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "kannur",
+            "name": "Kannur",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 11.8745,
+              "lon": 75.3704
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "wayanad",
+            "name": "Wayanad",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 11.6854,
+              "lon": 76.132
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "kozhikode",
+            "name": "Kozhikode",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 11.2588,
+              "lon": 75.7804
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "malappuram",
+            "name": "Malappuram",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 11.073,
+              "lon": 76.074
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "palakkad",
+            "name": "Palakkad",
+            "intensity": "very_heavy",
+            "severity": 1,
+            "max_dbz": 54,
+            "sample_location": {
+              "lat": 10.7867,
+              "lon": 76.6548
+            },
+            "active_pixels": 19,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "thrissur",
+            "name": "Thrissur",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 10.5276,
+              "lon": 76.2144
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "ernakulam",
+            "name": "Ernakulam",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 9.9816,
+              "lon": 76.2999
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "idukki",
+            "name": "Idukki",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 9.8494,
+              "lon": 76.972
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "kottayam",
+            "name": "Kottayam",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 9.5916,
+              "lon": 76.5222
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "alappuzha",
+            "name": "Alappuzha",
+            "intensity": "light",
+            "severity": 0.25,
+            "max_dbz": 9,
+            "sample_location": {
+              "lat": 9.4981,
+              "lon": 76.3388
+            },
+            "active_pixels": 12,
+            "hotspot_detection_count": 2
+          },
+          {
+            "district_id": "pathanamthitta",
+            "name": "Pathanamthitta",
+            "intensity": "light",
+            "severity": 0.25,
+            "max_dbz": 14,
+            "sample_location": {
+              "lat": 9.2648,
+              "lon": 76.787
+            },
+            "active_pixels": 14,
+            "hotspot_detection_count": 1
+          },
+          {
+            "district_id": "kollam",
+            "name": "Kollam",
+            "intensity": "light",
+            "severity": 0.25,
+            "max_dbz": 14,
+            "sample_location": {
+              "lat": 8.8932,
+              "lon": 76.6141
+            },
+            "active_pixels": 15,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "thiruvananthapuram",
+            "name": "Thiruvananthapuram",
+            "intensity": "light",
+            "severity": 0.25,
+            "max_dbz": 5,
+            "sample_location": {
+              "lat": 8.5241,
+              "lon": 76.9366
+            },
+            "active_pixels": 8,
+            "hotspot_detection_count": 0
+          }
+        ],
+        "hotspots": [
+          {
+            "hotspot_id": "h-mundakkai-chooralmala",
+            "district_id": "wayanad",
+            "name": "Mundakkai - Chooralmala - Vellarimala",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 11.558,
+              "lon": 76.089
+            }
+          },
+          {
+            "hotspot_id": "h-meppadi-vythiri",
+            "district_id": "wayanad",
+            "name": "Meppadi - Vythiri slopes",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 11.546,
+              "lon": 76.049
+            }
+          },
+          {
+            "hotspot_id": "h-padinjarathara-banasura",
+            "district_id": "wayanad",
+            "name": "Padinjarathara - Panamaram dam corridor",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 11.707,
+              "lon": 76.028
+            }
+          },
+          {
+            "hotspot_id": "h-peermade",
+            "district_id": "idukki",
+            "name": "Peermade high-range catchment",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 9.574,
+              "lon": 76.967
+            }
+          },
+          {
+            "hotspot_id": "h-munnar-devikulam",
+            "district_id": "idukki",
+            "name": "Munnar - Devikulam upper catchments",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 10.088,
+              "lon": 77.06
+            }
+          },
+          {
+            "hotspot_id": "h-vandiperiyar-mullaperiyar",
+            "district_id": "idukki",
+            "name": "Vandiperiyar - Vallakadavu - Chappathu",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 9.567,
+              "lon": 77.139
+            }
+          },
+          {
+            "hotspot_id": "h-kumily-attapallam",
+            "district_id": "idukki",
+            "name": "Kumily - Attapallam downstream pocket",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 9.606,
+              "lon": 77.165
+            }
+          },
+          {
+            "hotspot_id": "h-nilambur-chaliyar",
+            "district_id": "malappuram",
+            "name": "Nilambur - Chaliyar surge corridor",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 11.276,
+              "lon": 76.226
+            }
+          },
+          {
+            "hotspot_id": "h-kuttanad",
+            "district_id": "alappuzha",
+            "name": "Kuttanad low-lying basin",
+            "intensity": "light",
+            "severity": 0.25,
+            "max_dbz": 9,
+            "active_pixels": 1,
+            "location": {
+              "lat": 9.365,
+              "lon": 76.421
+            }
+          },
+          {
+            "hotspot_id": "h-chengannur-pandanad",
+            "district_id": "alappuzha",
+            "name": "Chengannur - Pandanad floodplain",
+            "intensity": "light",
+            "severity": 0.25,
+            "max_dbz": 9,
+            "active_pixels": 10,
+            "location": {
+              "lat": 9.323,
+              "lon": 76.612
+            }
+          },
+          {
+            "hotspot_id": "h-thottappally-thanneermukkom",
+            "district_id": "alappuzha",
+            "name": "Thottappally - Thanneermukkom control zone",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 9.481,
+              "lon": 76.372
+            }
+          },
+          {
+            "hotspot_id": "h-pamba-corridor",
+            "district_id": "pathanamthitta",
+            "name": "Aranmula - Kozhencherry - Ranni",
+            "intensity": "light",
+            "severity": 0.25,
+            "max_dbz": 9,
+            "active_pixels": 2,
+            "location": {
+              "lat": 9.367,
+              "lon": 76.755
+            }
+          },
+          {
+            "hotspot_id": "h-chalakudy",
+            "district_id": "thrissur",
+            "name": "Chalakudy river and dam influence belt",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 10.303,
+              "lon": 76.338
+            }
+          },
+          {
+            "hotspot_id": "h-aluva-periyar",
+            "district_id": "ernakulam",
+            "name": "Aluva - Periyar floodplain",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 10.108,
+              "lon": 76.352
+            }
+          },
+          {
+            "hotspot_id": "h-neeleswaram-periyar",
+            "district_id": "ernakulam",
+            "name": "Neeleswaram gauge corridor",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 10.171,
+              "lon": 76.451
+            }
+          },
+          {
+            "hotspot_id": "h-kochi-mgroad-kaloor",
+            "district_id": "ernakulam",
+            "name": "Kochi MG Road - Kaloor pocket",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 9.985,
+              "lon": 76.291
+            }
+          },
+          {
+            "hotspot_id": "h-kakkanad-infopark",
+            "district_id": "ernakulam",
+            "name": "Infopark - Kakkanad thodu network",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 10.015,
+              "lon": 76.355
+            }
+          },
+          {
+            "hotspot_id": "h-kalamassery",
+            "district_id": "ernakulam",
+            "name": "Kalamassery drainage pocket",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 10.062,
+              "lon": 76.329
+            }
+          },
+          {
+            "hotspot_id": "h-thampanoor-eastfort",
+            "district_id": "thiruvananthapuram",
+            "name": "Thampanoor - East Fort core",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 8.489,
+              "lon": 76.95
+            }
+          },
+          {
+            "hotspot_id": "h-kannammoola-uppidamoodu",
+            "district_id": "thiruvananthapuram",
+            "name": "Kannammoola - Uppidamoodu canals",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 8.522,
+              "lon": 76.944
+            }
+          }
+        ]
+      }
     },
     "nasa-imerg-nrt": {
       "snapshot": {
@@ -4938,27 +5554,27 @@
         "name": "NASA IMERG Near-Real-Time",
         "owner": "NASA GPM",
         "category": "satellite-rainfall",
-        "fetched_at": "2026-03-26T07:46:45.655Z",
-        "issued_at": "2026-03-26T02:59:59.000Z",
+        "fetched_at": "2026-03-26T09:20:22.652Z",
+        "issued_at": "2026-03-26T04:59:59.000Z",
         "raw_url": "https://gpm.nasa.gov/imerg",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 261,
-        "duration_ms": 296742,
-        "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260326-S023000-E025959.0150.V07C.30min.zip",
+        "freshness_minutes": 248,
+        "duration_ms": 51330,
+        "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260326-S043000-E045959.0270.V07C.30min.zip",
         "auth": "pps-basic",
         "summary": {
           "district_count": 14,
           "taluk_count": 61,
-          "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260326-S023000-E025959.0150.V07C.30min.zip",
+          "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260326-S043000-E045959.0270.V07C.30min.zip",
           "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260326-S023000-E025959.0150.V07C.3hr.zip",
           "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260326-S023000-E025959.0150.V07C.1day.zip"
         }
       },
       "parsed": {
-        "issued_at": "2026-03-26T02:59:59.000Z",
+        "issued_at": "2026-03-26T04:59:59.000Z",
         "districts": [
           {
             "district_id": "kasaragod",
@@ -6062,8 +6678,8 @@
         ],
         "source_files": {
           "half_hour": [
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260326-S023000-E025959.0150.V07C.30min.zip",
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260326-S020000-E022959.0120.V07C.30min.zip"
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260326-S043000-E045959.0270.V07C.30min.zip",
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260326-S040000-E042959.0240.V07C.30min.zip"
           ],
           "three_hour": [
             "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260326-S023000-E025959.0150.V07C.3hr.zip",
@@ -6087,7 +6703,7 @@
         "name": "Operator Observation Override",
         "owner": "Local operator",
         "category": "manual-observation",
-        "fetched_at": "2026-03-26T07:47:53.894Z",
+        "fetched_at": "2026-03-26T09:20:22.667Z",
         "issued_at": null,
         "raw_url": "data/manual/observations.json",
         "fetch_status": "ok",
@@ -6095,7 +6711,7 @@
         "failure_stage": null,
         "status": "degraded",
         "freshness_minutes": null,
-        "duration_ms": 17532,
+        "duration_ms": 0,
         "notes": "",
         "auth": "none",
         "summary": {
