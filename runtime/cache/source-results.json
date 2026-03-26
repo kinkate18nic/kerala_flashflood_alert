@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-26T03:16:17.591Z",
+  "generated_at": "2026-03-26T05:44:27.677Z",
   "sources": {
     "imd-cap-rss": {
       "snapshot": {
@@ -7,7 +7,7 @@
         "name": "IMD CAP RSS",
         "owner": "India Meteorological Department",
         "category": "official-warning",
-        "fetched_at": "2026-03-26T03:16:17.761Z",
+        "fetched_at": "2026-03-26T05:44:27.883Z",
         "issued_at": null,
         "raw_url": "https://sachet.ndma.gov.in/cap_public_website/rss/rss_kerala.xml",
         "fetch_status": "failed",
@@ -15,7 +15,7 @@
         "failure_stage": "fetch",
         "status": "offline",
         "freshness_minutes": null,
-        "duration_ms": 21691,
+        "duration_ms": 1745471,
         "notes": "This operation was aborted",
         "auth": "none",
         "summary": {}
@@ -28,7 +28,7 @@
         "name": "IMD Flash Flood Bulletin",
         "owner": "India Meteorological Department",
         "category": "official-guidance",
-        "fetched_at": "2026-03-26T03:16:17.763Z",
+        "fetched_at": "2026-03-26T05:44:27.884Z",
         "issued_at": null,
         "raw_url": "https://mausam.imd.gov.in/responsive/flashFloodBulletin.php",
         "fetch_status": "failed",
@@ -36,7 +36,7 @@
         "failure_stage": "fetch",
         "status": "offline",
         "freshness_minutes": null,
-        "duration_ms": 42508,
+        "duration_ms": 1745473,
         "notes": "This operation was aborted",
         "auth": "none",
         "summary": {}
@@ -57,8 +57,8 @@
         "failure_stage": "partial",
         "status": "degraded",
         "freshness_minutes": 1126,
-        "duration_ms": 356798,
-        "notes": "India-WRIS rainfall queried for 13/14 Kerala districts",
+        "duration_ms": 0,
+        "notes": "India-WRIS rainfall queried for 13/14 Kerala districts. Reused last successful fetch within 180-minute cadence window.",
         "auth": "none",
         "summary": {
           "district_count": 11,
@@ -67,7 +67,9 @@
           "requested_district_count": 14,
           "successful_district_count": 13,
           "failed_district_count": 1
-        }
+        },
+        "reused_in_run": true,
+        "reused_age_minutes": 148
       },
       "parsed": {
         "issued_at": "2026-03-25T08:30:00.000Z",
@@ -1411,8 +1413,8 @@
         "failure_stage": "partial",
         "status": "degraded",
         "freshness_minutes": 1156,
-        "duration_ms": 2332187,
-        "notes": "India-WRIS river level queried for 13/14 Kerala districts",
+        "duration_ms": 0,
+        "notes": "India-WRIS river level queried for 13/14 Kerala districts. Reused last successful fetch within 180-minute cadence window.",
         "auth": "none",
         "summary": {
           "district_count": 11,
@@ -1420,7 +1422,9 @@
           "requested_district_count": 14,
           "successful_district_count": 13,
           "failed_district_count": 1
-        }
+        },
+        "reused_in_run": true,
+        "reused_age_minutes": 148
       },
       "parsed": {
         "issued_at": "2026-03-25T08:00:00.000Z",
@@ -2221,15 +2225,15 @@
         "name": "KSDMA Daily Dam Levels (KSEB)",
         "owner": "Kerala State Disaster Management Authority",
         "category": "reservoir-status",
-        "fetched_at": "2026-03-26T03:17:00.271Z",
+        "fetched_at": "2026-03-26T05:44:27.886Z",
         "issued_at": "2026-03-25T00:00:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sdma.kerala.gov.in/dam-water-level/",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "offline",
-        "freshness_minutes": 1636,
-        "duration_ms": 326081,
+        "freshness_minutes": 1784,
+        "duration_ms": 5412,
         "notes": "KSDMA KSEB daily dam PDF Water Levels of Major Reservoirs (KSEB)",
         "auth": "none",
         "summary": {
@@ -2976,15 +2980,15 @@
         "name": "KSDMA Daily Dam Levels (Irrigation)",
         "owner": "Kerala State Disaster Management Authority",
         "category": "dam-status",
-        "fetched_at": "2026-03-26T03:22:26.353Z",
+        "fetched_at": "2026-03-26T05:44:33.299Z",
         "issued_at": "2026-03-25T00:00:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sdma.kerala.gov.in/dam-water-level/",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "offline",
-        "freshness_minutes": 1636,
-        "duration_ms": 6481,
+        "freshness_minutes": 1784,
+        "duration_ms": 8036,
         "notes": "KSDMA IRRIGATION daily dam PDF Water Levels of Major Reservoirs (IRRIGATION",
         "auth": "none",
         "summary": {
@@ -3853,397 +3857,20 @@
         "name": "CWC FFS Live River Levels",
         "owner": "Central Water Commission",
         "category": "river-stage",
-        "fetched_at": "2026-03-26T03:22:43.735Z",
-        "issued_at": "2026-03-25T12:30:00.000Z",
+        "fetched_at": "2026-03-26T05:44:41.337Z",
+        "issued_at": null,
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://ffs.india-water.gov.in/",
-        "fetch_status": "ok",
-        "parser_status": "ok",
-        "failure_stage": "partial",
+        "fetch_status": "failed",
+        "parser_status": "skipped",
+        "failure_stage": "fetch",
         "status": "offline",
-        "freshness_minutes": 886,
-        "duration_ms": 1757779,
-        "notes": "CWC FFS live river levels queried for 1/45 Kerala stations",
+        "freshness_minutes": null,
+        "duration_ms": 1732014,
+        "notes": "CWC FFS fetch failed (200) for 041cdbng: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
         "auth": "none",
-        "summary": {
-          "district_count": 1,
-          "taluk_count": 0,
-          "station_count": 1,
-          "requested_station_count": 45,
-          "successful_station_count": 1,
-          "failed_station_count": 44,
-          "above_warning_station_count": 0,
-          "above_danger_station_count": 0
-        }
+        "summary": {}
       },
-      "parsed": {
-        "issued_at": "2026-03-25T18:00:00+05:30",
-        "districts": [
-          {
-            "district_id": "palakkad",
-            "source": "cwc-ffs",
-            "severity": 0,
-            "station_count": 1,
-            "max_rise_m": 0,
-            "threshold_station_count": 1,
-            "above_warning_station_count": 0,
-            "above_danger_station_count": 0,
-            "max_threshold_ratio": -1,
-            "severity_basis": "threshold",
-            "summary_note": "CWC flood forecasting live river level available from 1 station",
-            "stations": [
-              {
-                "station_code": "009-SWRDKOCHI",
-                "station_name": "PUDUR",
-                "latest_level_m": 59.92,
-                "rise_m": -0.02,
-                "data_time": "2026-03-25T18:00:00+05:30",
-                "tehsil": null,
-                "station_lat": 10.777500000000002,
-                "station_lon": 76.51222222222222,
-                "district_id": "palakkad",
-                "taluk_id": null,
-                "warning_level_m": 63.5,
-                "danger_level_m": 64.5,
-                "highest_flood_level_m": 65.14,
-                "threshold_confidence": "confirmed",
-                "threshold_ratio": -1,
-                "level_status": "below_warning",
-                "severity_basis": "threshold",
-                "severity": 0,
-                "forecast_peak_level_m": null,
-                "forecast_crossing_time": null,
-                "forecast_status": "forecast_unavailable",
-                "forecast_rows": 0,
-                "forecast_severity": 0
-              }
-            ],
-            "forecast_warning_station_count": 0,
-            "forecast_danger_station_count": 0,
-            "forecast_station_count": 0,
-            "forecast_severity": 0
-          }
-        ],
-        "station_count": 1,
-        "requested_station_count": 45,
-        "successful_station_count": 1,
-        "failed_stations": [
-          {
-            "station_code": "041cdbng",
-            "station_name": "ADKASTHALA",
-            "district_id": "kasaragod",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "011-SWRDKOCHI",
-            "station_name": "ARANGALI",
-            "district_id": "thrissur",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "036-SWRDKOCHI",
-            "station_name": "ARKKANNUR",
-            "district_id": "kollam",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "037-SWRDKOCHI",
-            "station_name": "ARUVIPURAM",
-            "district_id": "thiruvananthapuram",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "021-SWRDKOCHI",
-            "station_name": "AYILAM",
-            "district_id": "thiruvananthapuram",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "024-SWRDKOCHI",
-            "station_name": "CHAKKALAKUTH",
-            "district_id": "malappuram",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "001-SWRDKOCHI",
-            "station_name": "ERINJIPUZHA",
-            "district_id": "kasaragod",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "0025-SWRDKOCHI",
-            "station_name": "Idamalayar Reservoir",
-            "district_id": "ernakulam",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "0024-SWRDKOCHI",
-            "station_name": "Idukki (Eb)/Idukki Arch Reservoir",
-            "district_id": "idukki",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "013-SWRDKOCHI",
-            "station_name": "KALAMPUR",
-            "district_id": "ernakulam",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "028-SWRDKOCHI",
-            "station_name": "KALATHUKADAVU",
-            "district_id": "kottayam",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "017-SWRDKOCHI",
-            "station_name": "KALLOOPPARA",
-            "district_id": "pathanamthitta",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "006-SWRDKOCHI",
-            "station_name": "KARATHODU",
-            "district_id": "malappuram",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "015-SWRDKOCHI",
-            "station_name": "KIDANGOOR",
-            "district_id": "kottayam",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "029-SWRDKOCHI",
-            "station_name": "KONDAZHY",
-            "district_id": "thrissur",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "030-SWRDKOCHI",
-            "station_name": "KOTTAPURAM",
-            "district_id": "thrissur",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "40- SRDCBE",
-            "station_name": "KOTTATHARA",
-            "district_id": "palakkad",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "005-SWRDKOCHI",
-            "station_name": "KUNIYIL",
-            "district_id": "malappuram",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "CW1VAR000466",
-            "station_name": "KUTTIPPURAM",
-            "district_id": "malappuram",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "004-SWRDKOCHI",
-            "station_name": "KUTTYADI",
-            "district_id": "kozhikode",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "038-SWRDKOCHI",
-            "station_name": "MADAMON",
-            "district_id": "pathanamthitta",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "018-SWRDKOCHI",
-            "station_name": "MALAKKARA",
-            "district_id": "pathanamthitta",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "031-SWRDKOCHI",
-            "station_name": "MANAKKAD",
-            "district_id": "idukki",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "050-CDBNG-T",
-            "station_name": "MANANTHAVADY",
-            "district_id": "wayanad",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "032-SWRDKOCHI",
-            "station_name": "MANIKAL",
-            "district_id": "kottayam",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "010-SWRDKOCHI",
-            "station_name": "MANKARA",
-            "district_id": "palakkad",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "003-SWRDKOCHI",
-            "station_name": "MUTHANKERA",
-            "district_id": "wayanad",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "012-SWRDKOCHI",
-            "station_name": "NEELEESWARAM",
-            "district_id": "ernakulam",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "039-SWRDKOCHI",
-            "station_name": "NELLIPPALLI",
-            "district_id": "kollam",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "CW1PAR000963",
-            "station_name": "OLAMATTOM",
-            "district_id": "idukki",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "033-SWRDKOCHI",
-            "station_name": "PALAKADAVU",
-            "district_id": "thrissur",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "034-SWRDKOCHI",
-            "station_name": "PALLIPPADY",
-            "district_id": "ernakulam",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "019-SWRDKOCHI",
-            "station_name": "PATTAZHY",
-            "district_id": "kollam",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "002-SWRDKOCHI",
-            "station_name": "PERUMANNU",
-            "district_id": "kannur",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "025-SWRDKOCHI",
-            "station_name": "PERUVAMPADAM",
-            "district_id": "malappuram",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "026-SWRDKOCHI",
-            "station_name": "POOKKAYAM",
-            "district_id": "kasaragod",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "007-SWRDKOCHI",
-            "station_name": "PULAMANTHOLE",
-            "district_id": "palakkad",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "035-SWRDKOCHI",
-            "station_name": "PULLAKKAYAR",
-            "district_id": "kottayam",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "014-SWRDKOCHI",
-            "station_name": "RAMAMANGALAM",
-            "district_id": "ernakulam",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "027-SWRDKOCHI",
-            "station_name": "THOTTATHINKADAVU",
-            "district_id": "kozhikode",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "020-SWRDKOCHI",
-            "station_name": "THUMPAMON",
-            "district_id": "pathanamthitta",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "016-SWRDKOCHI",
-            "station_name": "VANDIPERIYAR",
-            "district_id": "idukki",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "042-SWRDKOCHI",
-            "station_name": "VELLAIKADAVU",
-            "district_id": "thiruvananthapuram",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          },
-          {
-            "station_code": "051-CDBNG-T",
-            "station_name": "VYTHIRI",
-            "district_id": "wayanad",
-            "status": 200,
-            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
-          }
-        ],
-        "partial_failure_count": 44,
-        "above_warning_station_count": 0,
-        "above_danger_station_count": 0,
-        "forecast_warning_station_count": 0,
-        "forecast_danger_station_count": 0,
-        "warning": false,
-        "watch": false
-      }
+      "parsed": null
     },
     "rainviewer-radar": {
       "snapshot": {
@@ -4251,20 +3878,476 @@
         "name": "RainViewer Radar Nowcast",
         "owner": "RainViewer / IMD radar aggregation",
         "category": "radar-nowcast",
-        "fetched_at": "2026-03-26T03:22:43.736Z",
-        "issued_at": null,
+        "fetched_at": "2026-03-26T06:13:33.351Z",
+        "issued_at": "2026-03-26T06:10:00.000Z",
         "raw_url": "https://api.rainviewer.com/public/weather-maps.json",
-        "fetch_status": "failed",
-        "parser_status": "skipped",
-        "failure_stage": "fetch",
-        "status": "offline",
-        "freshness_minutes": null,
-        "duration_ms": 1777718,
-        "notes": "This operation was aborted",
+        "fetch_status": "ok",
+        "parser_status": "ok",
+        "failure_stage": null,
+        "status": "ok",
+        "freshness_minutes": 0,
+        "duration_ms": 994,
+        "notes": "RainViewer latest radar frame /v2/radar/fd6b6d03abb1",
         "auth": "none",
-        "summary": {}
+        "summary": {
+          "district_count": 14,
+          "hotspot_count": 20,
+          "latest_frame_time": "2026-03-26T06:10:00.000Z"
+        }
       },
-      "parsed": null
+      "parsed": {
+        "issued_at": "2026-03-26T06:10:00.000Z",
+        "generated_at": "2026-03-26T06:12:20.000Z",
+        "frame_time": "2026-03-26T06:10:00.000Z",
+        "frame_path": "/v2/radar/fd6b6d03abb1",
+        "color_scheme": "universal_blue",
+        "districts": [
+          {
+            "district_id": "kasaragod",
+            "name": "Kasaragod",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 12.4996,
+              "lon": 74.9869
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "kannur",
+            "name": "Kannur",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 11.8745,
+              "lon": 75.3704
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "wayanad",
+            "name": "Wayanad",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 11.6854,
+              "lon": 76.132
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "kozhikode",
+            "name": "Kozhikode",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 11.2588,
+              "lon": 75.7804
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "malappuram",
+            "name": "Malappuram",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 11.073,
+              "lon": 76.074
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "palakkad",
+            "name": "Palakkad",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 10.7867,
+              "lon": 76.6548
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "thrissur",
+            "name": "Thrissur",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 10.5276,
+              "lon": 76.2144
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "ernakulam",
+            "name": "Ernakulam",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 9.9816,
+              "lon": 76.2999
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "idukki",
+            "name": "Idukki",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 9.8494,
+              "lon": 76.972
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "kottayam",
+            "name": "Kottayam",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 9.5916,
+              "lon": 76.5222
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "alappuzha",
+            "name": "Alappuzha",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 9.4981,
+              "lon": 76.3388
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "pathanamthitta",
+            "name": "Pathanamthitta",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 9.2648,
+              "lon": 76.787
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "kollam",
+            "name": "Kollam",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 8.8932,
+              "lon": 76.6141
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          },
+          {
+            "district_id": "thiruvananthapuram",
+            "name": "Thiruvananthapuram",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "sample_location": {
+              "lat": 8.5241,
+              "lon": 76.9366
+            },
+            "active_pixels": 0,
+            "hotspot_detection_count": 0
+          }
+        ],
+        "hotspots": [
+          {
+            "hotspot_id": "h-mundakkai-chooralmala",
+            "district_id": "wayanad",
+            "name": "Mundakkai - Chooralmala - Vellarimala",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 11.558,
+              "lon": 76.089
+            }
+          },
+          {
+            "hotspot_id": "h-meppadi-vythiri",
+            "district_id": "wayanad",
+            "name": "Meppadi - Vythiri slopes",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 11.546,
+              "lon": 76.049
+            }
+          },
+          {
+            "hotspot_id": "h-padinjarathara-banasura",
+            "district_id": "wayanad",
+            "name": "Padinjarathara - Panamaram dam corridor",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 11.707,
+              "lon": 76.028
+            }
+          },
+          {
+            "hotspot_id": "h-peermade",
+            "district_id": "idukki",
+            "name": "Peermade high-range catchment",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 9.574,
+              "lon": 76.967
+            }
+          },
+          {
+            "hotspot_id": "h-munnar-devikulam",
+            "district_id": "idukki",
+            "name": "Munnar - Devikulam upper catchments",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 10.088,
+              "lon": 77.06
+            }
+          },
+          {
+            "hotspot_id": "h-vandiperiyar-mullaperiyar",
+            "district_id": "idukki",
+            "name": "Vandiperiyar - Vallakadavu - Chappathu",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 9.567,
+              "lon": 77.139
+            }
+          },
+          {
+            "hotspot_id": "h-kumily-attapallam",
+            "district_id": "idukki",
+            "name": "Kumily - Attapallam downstream pocket",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 9.606,
+              "lon": 77.165
+            }
+          },
+          {
+            "hotspot_id": "h-nilambur-chaliyar",
+            "district_id": "malappuram",
+            "name": "Nilambur - Chaliyar surge corridor",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 11.276,
+              "lon": 76.226
+            }
+          },
+          {
+            "hotspot_id": "h-kuttanad",
+            "district_id": "alappuzha",
+            "name": "Kuttanad low-lying basin",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 9.365,
+              "lon": 76.421
+            }
+          },
+          {
+            "hotspot_id": "h-chengannur-pandanad",
+            "district_id": "alappuzha",
+            "name": "Chengannur - Pandanad floodplain",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 9.323,
+              "lon": 76.612
+            }
+          },
+          {
+            "hotspot_id": "h-thottappally-thanneermukkom",
+            "district_id": "alappuzha",
+            "name": "Thottappally - Thanneermukkom control zone",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 9.481,
+              "lon": 76.372
+            }
+          },
+          {
+            "hotspot_id": "h-pamba-corridor",
+            "district_id": "pathanamthitta",
+            "name": "Aranmula - Kozhencherry - Ranni",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 9.367,
+              "lon": 76.755
+            }
+          },
+          {
+            "hotspot_id": "h-chalakudy",
+            "district_id": "thrissur",
+            "name": "Chalakudy river and dam influence belt",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 10.303,
+              "lon": 76.338
+            }
+          },
+          {
+            "hotspot_id": "h-aluva-periyar",
+            "district_id": "ernakulam",
+            "name": "Aluva - Periyar floodplain",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 10.108,
+              "lon": 76.352
+            }
+          },
+          {
+            "hotspot_id": "h-neeleswaram-periyar",
+            "district_id": "ernakulam",
+            "name": "Neeleswaram gauge corridor",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 10.171,
+              "lon": 76.451
+            }
+          },
+          {
+            "hotspot_id": "h-kochi-mgroad-kaloor",
+            "district_id": "ernakulam",
+            "name": "Kochi MG Road - Kaloor pocket",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 9.985,
+              "lon": 76.291
+            }
+          },
+          {
+            "hotspot_id": "h-kakkanad-infopark",
+            "district_id": "ernakulam",
+            "name": "Infopark - Kakkanad thodu network",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 10.015,
+              "lon": 76.355
+            }
+          },
+          {
+            "hotspot_id": "h-kalamassery",
+            "district_id": "ernakulam",
+            "name": "Kalamassery drainage pocket",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 10.062,
+              "lon": 76.329
+            }
+          },
+          {
+            "hotspot_id": "h-thampanoor-eastfort",
+            "district_id": "thiruvananthapuram",
+            "name": "Thampanoor - East Fort core",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 8.489,
+              "lon": 76.95
+            }
+          },
+          {
+            "hotspot_id": "h-kannammoola-uppidamoodu",
+            "district_id": "thiruvananthapuram",
+            "name": "Kannammoola - Uppidamoodu canals",
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
+            "location": {
+              "lat": 8.522,
+              "lon": 76.944
+            }
+          }
+        ]
+      }
     },
     "nasa-imerg-nrt": {
       "snapshot": {
@@ -4272,27 +4355,27 @@
         "name": "NASA IMERG Near-Real-Time",
         "owner": "NASA GPM",
         "category": "satellite-rainfall",
-        "fetched_at": "2026-03-26T03:52:21.454Z",
-        "issued_at": "2026-03-25T22:59:59.000Z",
+        "fetched_at": "2026-03-26T06:13:33.354Z",
+        "issued_at": "2026-03-26T01:59:59.000Z",
         "raw_url": "https://gpm.nasa.gov/imerg",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 256,
-        "duration_ms": 201590,
-        "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260325-S223000-E225959.1350.V07C.30min.zip",
+        "freshness_minutes": 224,
+        "duration_ms": 42745,
+        "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260326-S013000-E015959.0090.V07C.30min.zip",
         "auth": "pps-basic",
         "summary": {
           "district_count": 14,
           "taluk_count": 61,
-          "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260325-S223000-E225959.1350.V07C.30min.zip",
-          "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260325-S203000-E205959.1230.V07C.3hr.zip",
-          "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260325-S203000-E205959.1230.V07C.1day.zip"
+          "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260326-S013000-E015959.0090.V07C.30min.zip",
+          "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260325-S233000-E235959.1410.V07C.3hr.zip",
+          "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260325-S233000-E235959.1410.V07C.1day.zip"
         }
       },
       "parsed": {
-        "issued_at": "2026-03-25T22:59:59.000Z",
+        "issued_at": "2026-03-26T01:59:59.000Z",
         "districts": [
           {
             "district_id": "kasaragod",
@@ -4301,7 +4384,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0,
-            "rain_7d_mm": 0.2,
+            "rain_7d_mm": 0.1,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 17,
@@ -4312,9 +4395,9 @@
             "rain_1h_mm": 0,
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
-            "rain_24h_mm": 0.1,
-            "rain_3d_mm": 0.4,
-            "rain_7d_mm": 4.4,
+            "rain_24h_mm": 0,
+            "rain_3d_mm": 0.2,
+            "rain_7d_mm": 0.5,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 25,
@@ -4327,7 +4410,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0.2,
             "rain_3d_mm": 2.4,
-            "rain_7d_mm": 3.8,
+            "rain_7d_mm": 3.7,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 15,
@@ -4337,10 +4420,10 @@
             "district_id": "kozhikode",
             "rain_1h_mm": 0,
             "rain_3h_mm": 0,
-            "rain_6h_mm": 0.1,
-            "rain_24h_mm": 0.2,
-            "rain_3d_mm": 1,
-            "rain_7d_mm": 1.5,
+            "rain_6h_mm": 0,
+            "rain_24h_mm": 0.1,
+            "rain_3d_mm": 0.5,
+            "rain_7d_mm": 1.1,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 19,
@@ -4353,7 +4436,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0.4,
-            "rain_7d_mm": 0.7,
+            "rain_7d_mm": 0.9,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 28,
@@ -4365,8 +4448,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0,
-            "rain_7d_mm": 1.4,
+            "rain_3d_mm": 0.1,
+            "rain_7d_mm": 0.3,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 40,
@@ -4378,8 +4461,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.8,
-            "rain_7d_mm": 2.9,
+            "rain_3d_mm": 0.7,
+            "rain_7d_mm": 1.3,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 22,
@@ -4388,15 +4471,15 @@
           {
             "district_id": "ernakulam",
             "rain_1h_mm": 0,
-            "rain_3h_mm": 0,
-            "rain_6h_mm": 0,
-            "rain_24h_mm": 0,
-            "rain_3d_mm": 1.5,
-            "rain_7d_mm": 4.2,
+            "rain_3h_mm": 0.1,
+            "rain_6h_mm": 0.1,
+            "rain_24h_mm": 0.1,
+            "rain_3d_mm": 2.2,
+            "rain_7d_mm": 4.5,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 21,
-            "peak_30m_mm": 0.1
+            "peak_30m_mm": 0
           },
           {
             "district_id": "idukki",
@@ -4405,7 +4488,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0.8,
-            "rain_7d_mm": 5.8,
+            "rain_7d_mm": 6,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 41,
@@ -4416,9 +4499,9 @@
             "rain_1h_mm": 0,
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
-            "rain_24h_mm": 0,
-            "rain_3d_mm": 0.9,
-            "rain_7d_mm": 2.5,
+            "rain_24h_mm": 0.1,
+            "rain_3d_mm": 1.3,
+            "rain_7d_mm": 3.4,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 16,
@@ -4427,8 +4510,8 @@
           {
             "district_id": "alappuzha",
             "rain_1h_mm": 0,
-            "rain_3h_mm": 0,
-            "rain_6h_mm": 0,
+            "rain_3h_mm": 0.1,
+            "rain_6h_mm": 0.1,
             "rain_24h_mm": 0.1,
             "rain_3d_mm": 0.2,
             "rain_7d_mm": 1.3,
@@ -4443,8 +4526,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.6,
-            "rain_7d_mm": 4.5,
+            "rain_3d_mm": 0.3,
+            "rain_7d_mm": 5,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 22,
@@ -4456,8 +4539,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.3,
-            "rain_7d_mm": 2.3,
+            "rain_3d_mm": 0.2,
+            "rain_7d_mm": 1.8,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 22,
@@ -4469,8 +4552,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.1,
-            "rain_7d_mm": 4.7,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 4.3,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 18,
@@ -4487,7 +4570,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0,
-            "rain_7d_mm": 0.1,
+            "rain_7d_mm": 0,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4501,8 +4584,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.3,
-            "rain_7d_mm": 1,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 0.2,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4516,8 +4599,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.3,
-            "rain_7d_mm": 1,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 0.2,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4531,8 +4614,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.3,
-            "rain_7d_mm": 1,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 0.2,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4547,7 +4630,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 1.3,
-            "rain_7d_mm": 1.7,
+            "rain_7d_mm": 2.5,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4561,8 +4644,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.9,
-            "rain_7d_mm": 0.9,
+            "rain_3d_mm": 0.6,
+            "rain_7d_mm": 0.6,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4577,7 +4660,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 1.3,
-            "rain_7d_mm": 1.7,
+            "rain_7d_mm": 2.5,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4587,16 +4670,16 @@
             "taluk_id": "ernakulam--aluva",
             "district_id": "ernakulam",
             "name": "Aluva",
-            "rain_1h_mm": 0.2,
-            "rain_3h_mm": 0.1,
-            "rain_6h_mm": 0.1,
-            "rain_24h_mm": 0.1,
-            "rain_3d_mm": 1.5,
-            "rain_7d_mm": 4.9,
+            "rain_1h_mm": 0,
+            "rain_3h_mm": 0.6,
+            "rain_6h_mm": 0.7,
+            "rain_24h_mm": 0.7,
+            "rain_3d_mm": 1.9,
+            "rain_7d_mm": 6.2,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.1
+            "peak_30m_mm": 0
           },
           {
             "taluk_id": "wayanad--sulthanbathery",
@@ -4607,7 +4690,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 1.3,
-            "rain_7d_mm": 1.7,
+            "rain_7d_mm": 2.5,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4636,8 +4719,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.1,
-            "rain_7d_mm": 5.8,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 7.1,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4652,7 +4735,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0,
-            "rain_7d_mm": 0.1,
+            "rain_7d_mm": 0,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4662,31 +4745,31 @@
             "taluk_id": "ernakulam--paravur",
             "district_id": "ernakulam",
             "name": "Paravur",
-            "rain_1h_mm": 0.2,
-            "rain_3h_mm": 0.1,
-            "rain_6h_mm": 0.1,
-            "rain_24h_mm": 0.1,
-            "rain_3d_mm": 1.5,
-            "rain_7d_mm": 4.9,
+            "rain_1h_mm": 0,
+            "rain_3h_mm": 0.6,
+            "rain_6h_mm": 0.7,
+            "rain_24h_mm": 0.7,
+            "rain_3d_mm": 1.9,
+            "rain_7d_mm": 6.2,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.1
+            "peak_30m_mm": 0
           },
           {
             "taluk_id": "ernakulam--kochi",
             "district_id": "ernakulam",
             "name": "Kochi",
-            "rain_1h_mm": 0.2,
-            "rain_3h_mm": 0.1,
-            "rain_6h_mm": 0.1,
-            "rain_24h_mm": 0.1,
-            "rain_3d_mm": 1.5,
-            "rain_7d_mm": 4.9,
+            "rain_1h_mm": 0,
+            "rain_3h_mm": 0.6,
+            "rain_6h_mm": 0.7,
+            "rain_24h_mm": 0.7,
+            "rain_3d_mm": 1.9,
+            "rain_7d_mm": 6.2,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.1
+            "peak_30m_mm": 0
           },
           {
             "taluk_id": "alappuzha--cherthala",
@@ -4711,8 +4794,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.3,
-            "rain_7d_mm": 0.5,
+            "rain_3d_mm": 0.4,
+            "rain_7d_mm": 0.6,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4726,8 +4809,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.3,
-            "rain_7d_mm": 0.5,
+            "rain_3d_mm": 0.4,
+            "rain_7d_mm": 0.6,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4741,8 +4824,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.3,
-            "rain_7d_mm": 1.3,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 0.8,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4756,8 +4839,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.3,
-            "rain_7d_mm": 1.3,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 0.8,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4771,8 +4854,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 1,
-            "rain_7d_mm": 2.8,
+            "rain_3d_mm": 0.8,
+            "rain_7d_mm": 2.3,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4786,8 +4869,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 1,
-            "rain_7d_mm": 2.8,
+            "rain_3d_mm": 0.8,
+            "rain_7d_mm": 2.3,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4801,8 +4884,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.2,
-            "rain_7d_mm": 4,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 4.6,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4816,8 +4899,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.1,
-            "rain_7d_mm": 5.8,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 7.1,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4831,8 +4914,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.9,
-            "rain_7d_mm": 0.9,
+            "rain_3d_mm": 0.6,
+            "rain_7d_mm": 0.6,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4847,7 +4930,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0,
-            "rain_7d_mm": 0.1,
+            "rain_7d_mm": 0,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4862,7 +4945,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0,
-            "rain_7d_mm": 0.6,
+            "rain_7d_mm": 0,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4877,7 +4960,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0,
-            "rain_7d_mm": 0.1,
+            "rain_7d_mm": 0,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4891,8 +4974,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.3,
-            "rain_7d_mm": 1.3,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 0.8,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4902,31 +4985,31 @@
             "taluk_id": "ernakulam--kothamangalam",
             "district_id": "ernakulam",
             "name": "Kothamangalam",
-            "rain_1h_mm": 0.2,
-            "rain_3h_mm": 0.1,
-            "rain_6h_mm": 0.1,
-            "rain_24h_mm": 0.1,
-            "rain_3d_mm": 1.5,
-            "rain_7d_mm": 4.9,
+            "rain_1h_mm": 0,
+            "rain_3h_mm": 0.6,
+            "rain_6h_mm": 0.7,
+            "rain_24h_mm": 0.7,
+            "rain_3d_mm": 1.9,
+            "rain_7d_mm": 6.2,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.1
+            "peak_30m_mm": 0
           },
           {
             "taluk_id": "ernakulam--kanayannur",
             "district_id": "ernakulam",
             "name": "Kanayannur",
-            "rain_1h_mm": 0.2,
-            "rain_3h_mm": 0.1,
-            "rain_6h_mm": 0.1,
-            "rain_24h_mm": 0.1,
-            "rain_3d_mm": 1.5,
-            "rain_7d_mm": 4.9,
+            "rain_1h_mm": 0,
+            "rain_3h_mm": 0.6,
+            "rain_6h_mm": 0.7,
+            "rain_24h_mm": 0.7,
+            "rain_3d_mm": 1.9,
+            "rain_7d_mm": 6.2,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.1
+            "peak_30m_mm": 0
           },
           {
             "taluk_id": "idukki--udumbanchola",
@@ -4936,8 +5019,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.5,
-            "rain_7d_mm": 8.2,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 7.3,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4951,8 +5034,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 1,
-            "rain_7d_mm": 2.8,
+            "rain_3d_mm": 0.8,
+            "rain_7d_mm": 2.3,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4966,8 +5049,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.5,
-            "rain_7d_mm": 8.2,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 7.3,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4981,8 +5064,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.2,
-            "rain_7d_mm": 4,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 4.6,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -4996,8 +5079,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.1,
-            "rain_7d_mm": 5.8,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 7.1,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5011,8 +5094,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 1,
-            "rain_7d_mm": 2.8,
+            "rain_3d_mm": 0.8,
+            "rain_7d_mm": 2.3,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5026,8 +5109,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 1,
-            "rain_7d_mm": 2.8,
+            "rain_3d_mm": 0.8,
+            "rain_7d_mm": 2.3,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5041,8 +5124,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.1,
-            "rain_7d_mm": 5.8,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 7.1,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5057,7 +5140,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0,
-            "rain_7d_mm": 0.1,
+            "rain_7d_mm": 0,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5072,7 +5155,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0,
-            "rain_7d_mm": 0.1,
+            "rain_7d_mm": 0,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5087,7 +5170,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0,
-            "rain_7d_mm": 0.6,
+            "rain_7d_mm": 0,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5101,8 +5184,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.3,
-            "rain_7d_mm": 1.3,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 0.8,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5116,8 +5199,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.5,
-            "rain_7d_mm": 8.2,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 7.3,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5127,16 +5210,16 @@
             "taluk_id": "ernakulam--muvattupuzha",
             "district_id": "ernakulam",
             "name": "Muvattupuzha",
-            "rain_1h_mm": 0.2,
-            "rain_3h_mm": 0.1,
-            "rain_6h_mm": 0.1,
-            "rain_24h_mm": 0.1,
-            "rain_3d_mm": 1.5,
-            "rain_7d_mm": 4.9,
+            "rain_1h_mm": 0,
+            "rain_3h_mm": 0.6,
+            "rain_6h_mm": 0.7,
+            "rain_24h_mm": 0.7,
+            "rain_3d_mm": 1.9,
+            "rain_7d_mm": 6.2,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.1
+            "peak_30m_mm": 0
           },
           {
             "taluk_id": "idukki--thodupuzha",
@@ -5146,8 +5229,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.5,
-            "rain_7d_mm": 8.2,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 7.3,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5161,8 +5244,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.3,
-            "rain_7d_mm": 0.5,
+            "rain_3d_mm": 0.4,
+            "rain_7d_mm": 0.6,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5176,8 +5259,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.3,
-            "rain_7d_mm": 0.5,
+            "rain_3d_mm": 0.4,
+            "rain_7d_mm": 0.6,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5187,16 +5270,16 @@
             "taluk_id": "ernakulam--kunnathunad",
             "district_id": "ernakulam",
             "name": "Kunnathunad",
-            "rain_1h_mm": 0.2,
-            "rain_3h_mm": 0.1,
-            "rain_6h_mm": 0.1,
-            "rain_24h_mm": 0.1,
-            "rain_3d_mm": 1.5,
-            "rain_7d_mm": 4.9,
+            "rain_1h_mm": 0,
+            "rain_3h_mm": 0.6,
+            "rain_6h_mm": 0.7,
+            "rain_24h_mm": 0.7,
+            "rain_3d_mm": 1.9,
+            "rain_7d_mm": 6.2,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.1
+            "peak_30m_mm": 0
           },
           {
             "taluk_id": "alappuzha--karthikappally",
@@ -5221,8 +5304,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.2,
-            "rain_7d_mm": 4,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 4.6,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5236,8 +5319,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.1,
-            "rain_7d_mm": 5.8,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 7.1,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5266,8 +5349,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.3,
-            "rain_7d_mm": 1.3,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 0.8,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5282,7 +5365,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0,
-            "rain_7d_mm": 0.6,
+            "rain_7d_mm": 0,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5311,8 +5394,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.3,
-            "rain_7d_mm": 0.5,
+            "rain_3d_mm": 0.4,
+            "rain_7d_mm": 0.6,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5341,8 +5424,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.2,
-            "rain_7d_mm": 4,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 4.6,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5357,7 +5440,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0,
-            "rain_7d_mm": 0.6,
+            "rain_7d_mm": 0,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5371,8 +5454,8 @@
             "rain_3h_mm": 0,
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 0.9,
-            "rain_7d_mm": 0.9,
+            "rain_3d_mm": 0.6,
+            "rain_7d_mm": 0.6,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5387,7 +5470,7 @@
             "rain_6h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0,
-            "rain_7d_mm": 0.6,
+            "rain_7d_mm": 0,
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
@@ -5396,21 +5479,21 @@
         ],
         "source_files": {
           "half_hour": [
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260325-S223000-E225959.1350.V07C.30min.zip",
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260325-S220000-E222959.1320.V07C.30min.zip"
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260326-S013000-E015959.0090.V07C.30min.zip",
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260326-S010000-E012959.0060.V07C.30min.zip"
           ],
           "three_hour": [
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260325-S203000-E205959.1230.V07C.3hr.zip",
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260325-S173000-E175959.1050.V07C.3hr.zip"
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260325-S233000-E235959.1410.V07C.3hr.zip",
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260325-S203000-E205959.1230.V07C.3hr.zip"
           ],
           "daily": [
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260325-S203000-E205959.1230.V07C.1day.zip",
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260324-S203000-E205959.1230.V07C.1day.zip",
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260323-S203000-E205959.1230.V07C.1day.zip",
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260322-S203000-E205959.1230.V07C.1day.zip",
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260321-S203000-E205959.1230.V07C.1day.zip",
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260320-S203000-E205959.1230.V07C.1day.zip",
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260319-S203000-E205959.1230.V07C.1day.zip"
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260325-S233000-E235959.1410.V07C.1day.zip",
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260324-S233000-E235959.1410.V07C.1day.zip",
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260323-S233000-E235959.1410.V07C.1day.zip",
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260322-S233000-E235959.1410.V07C.1day.zip",
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260321-S233000-E235959.1410.V07C.1day.zip",
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260320-S233000-E235959.1410.V07C.1day.zip",
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260319-S233000-E235959.1410.V07C.1day.zip"
           ]
         }
       }
@@ -5421,7 +5504,7 @@
         "name": "Operator Observation Override",
         "owner": "Local operator",
         "category": "manual-observation",
-        "fetched_at": "2026-03-26T03:52:21.459Z",
+        "fetched_at": "2026-03-26T06:13:33.358Z",
         "issued_at": null,
         "raw_url": "data/manual/observations.json",
         "fetch_status": "ok",
@@ -5429,7 +5512,7 @@
         "failure_stage": null,
         "status": "degraded",
         "freshness_minutes": null,
-        "duration_ms": 1,
+        "duration_ms": 12,
         "notes": "",
         "auth": "none",
         "summary": {
