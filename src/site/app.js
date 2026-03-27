@@ -587,8 +587,20 @@ const SOURCE_META = {
 };
 
 function sourceStatusMessage(source) {
+  if (source.fetch_status === "failed_cached") {
+    return "Fetch failed in this run, but the last successful payload is still being used.";
+  }
+  if (source.fetch_status === "skipped_cached") {
+    return "Not refreshed in this run. Last successful cached data remains active.";
+  }
+  if (source.fetch_status === "skipped") {
+    return "Not refreshed in this run and no cached payload was available.";
+  }
   if (source.fetch_status === "failed") {
     return "Fetch failed in this run. Current scores are being generated without this source.";
+  }
+  if (source.parser_status === "failed_cached") {
+    return "Raw data arrived, but parsing failed in this run. The last successful cached payload is being used.";
   }
   if (source.parser_status === "failed") {
     return "Raw data arrived, but this source could not be parsed in this run.";
@@ -609,8 +621,20 @@ function sourceStatusMessage(source) {
 }
 
 function sourceStateLabel(source) {
+  if (source.fetch_status === "failed_cached") {
+    return "Fetch fallback";
+  }
+  if (source.fetch_status === "skipped_cached") {
+    return "Cached reuse";
+  }
+  if (source.fetch_status === "skipped") {
+    return "Skipped";
+  }
   if (source.fetch_status === "failed") {
     return "Fetch failed";
+  }
+  if (source.parser_status === "failed_cached") {
+    return "Parser fallback";
   }
   if (source.parser_status === "failed") {
     return "Parser failed";
@@ -645,9 +669,13 @@ function openSourceDetails(source) {
   const cadenceLabel = meta.cadence ?? "Unknown";
   const fetchNote = source.notes || source.summary?.excerpt || "None";
   const fetchFailed = source.fetch_status === "failed";
+  const fetchFallback = source.fetch_status === "failed_cached";
   const parserFailed = source.parser_status === "failed";
-  const parserStateClass = parserFailed ? "status-offline" : source.parser_status === "ok" ? "status-ok" : "status-degraded";
-  const fetchStateClass = fetchFailed ? "status-offline" : "status-ok";
+  const parserFallback = source.parser_status === "failed_cached";
+  const parserStateClass =
+    parserFailed ? "status-offline" : parserFallback ? "status-degraded" : source.parser_status === "ok" ? "status-ok" : "status-degraded";
+  const fetchStateClass =
+    fetchFailed ? "status-offline" : fetchFallback ? "status-degraded" : source.fetch_status === "ok" ? "status-ok" : "status-degraded";
 
   openEvidence(
     source.name,
@@ -680,7 +708,7 @@ function openSourceDetails(source) {
         </div>
       </div>
       ${fetchNote !== "None" ? `
-        <h3>${fetchFailed ? "Fetch Notes" : parserFailed ? "Parser Notes" : "Notes"}</h3>
+        <h3>${fetchFailed || fetchFallback ? "Fetch Notes" : parserFailed || parserFallback ? "Parser Notes" : "Notes"}</h3>
         <p class="source-detail-fetch-note">${fetchNote}</p>
       ` : ""}
       ${source.status === "offline" || source.status === "degraded" ? `

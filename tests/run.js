@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import os from "node:os";
 import path from "node:path";
-import { cp, mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { cp, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { zipSync } from "fflate";
 import thresholds from "../config/risk-thresholds.json" with { type: "json" };
@@ -456,6 +456,44 @@ async function testPipelineReusesSourcesWithinCadenceWindow() {
   assert.equal(Array.isArray(latestRun.slowest_sources), true);
 }
 
+async function testPipelineFallsBackToLastSuccessfulPayloadOnFetchFailure() {
+  const tempRoot = await mkdtemp(path.join(os.tmpdir(), "kerala-flood-watch-fallback-"));
+  await cp(path.join(repoRoot, "config"), path.join(tempRoot, "config"), { recursive: true });
+  await cp(path.join(repoRoot, "data"), path.join(tempRoot, "data"), { recursive: true });
+  await cp(path.join(repoRoot, "fixtures"), path.join(tempRoot, "fixtures"), { recursive: true });
+  await cp(path.join(repoRoot, "src"), path.join(tempRoot, "src"), { recursive: true });
+
+  await runPipeline(tempRoot, { useFixtures: true });
+  const sourcesConfigPath = path.join(tempRoot, "config", "sources.json");
+  const sourcesConfig = JSON.parse(await readFile(sourcesConfigPath, "utf8"));
+  const operatorConfig = sourcesConfig.find((source) => source.id === "operator-observations");
+  operatorConfig.cadence_minutes = 0;
+  await writeFile(sourcesConfigPath, JSON.stringify(sourcesConfig, null, 2));
+  await rm(path.join(tempRoot, "data", "manual", "observations.json"));
+
+  await runPipeline(tempRoot, { useFixtures: false, sourceIds: ["operator-observations"] });
+
+  const sourcesRaw = await readFile(path.join(tempRoot, "docs", "data", "latest", "sources.json"), "utf8");
+  const cacheRaw = await readFile(
+    path.join(tempRoot, "runtime", "cache", "source-results.json"),
+    "utf8"
+  );
+  const sources = JSON.parse(sourcesRaw);
+  const cache = JSON.parse(cacheRaw);
+  const operatorSource = sources.sources.find((source) => source.source_id === "operator-observations");
+  const rainfallSource = sources.sources.find((source) => source.source_id === "indiawris-rainfall");
+
+  assert.equal(operatorSource?.fetch_status, "failed_cached");
+  assert.equal(operatorSource?.parser_status, "ok");
+  assert.equal(operatorSource?.reused_in_run, true);
+  assert.equal(operatorSource?.reuse_reason, "fetch_failure");
+  assert.ok(String(operatorSource?.notes ?? "").includes("Reused last successful cached payload"));
+  assert.equal(cache.sources["operator-observations"]?.snapshot.fetch_status, "ok");
+  assert.equal(rainfallSource?.fetch_status, "skipped_cached");
+  assert.equal(rainfallSource?.reused_in_run, true);
+  assert.equal(rainfallSource?.reuse_reason, "source_selection");
+}
+
 function testImergListingSelection() {
   const listing = [
     "/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260316-S023000-E025959.0150.V07C.30min.tif",
@@ -705,7 +743,8 @@ const tests = [
   ["risk-model-hotspot-gating", testHotspotWatchNeedsDynamicTrigger],
   ["pipeline", testPipeline],
   ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage],
-  ["pipeline-cadence-reuse", testPipelineReusesSourcesWithinCadenceWindow]
+  ["pipeline-cadence-reuse", testPipelineReusesSourcesWithinCadenceWindow],
+  ["pipeline-fallback-cache", testPipelineFallsBackToLastSuccessfulPayloadOnFetchFailure]
 ];
 
 let failures = 0;

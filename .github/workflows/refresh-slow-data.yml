@@ -1,0 +1,59 @@
+name: Refresh flood data (slow hydrology)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-flood-data
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build live data (slow sources)
+        env:
+          PPS_EMAIL: ${{ secrets.PPS_EMAIL }}
+          PPS_PASSWORD: ${{ secrets.PPS_PASSWORD }}
+          NODE_OPTIONS: "--dns-result-order=ipv4first"
+          SOURCE_IDS: "indiawris-rainfall,indiawris-river-level,ksdma-reservoirs,ksdma-dam-management,cwc-ffs"
+        run: node scripts/run-pipeline.js
+
+      - name: Build static site
+        run: node scripts/build-site.js
+
+      - name: Send reviewed severe alerts
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node scripts/send-telegram.js
+
+      - name: Commit refreshed data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs runtime data/manual/review-approvals.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: refresh slow flood data"
+            git push
+          fi
