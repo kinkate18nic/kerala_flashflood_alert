@@ -58,6 +58,11 @@ on:
         required: false
         default: false
         type: boolean
+      ffs_curl_diagnostic:
+        description: Run FFS curl diagnostic before refresh
+        required: false
+        default: true
+        type: boolean
       send_telegram:
         description: Send Telegram alerts after refresh
         required: false
@@ -113,6 +118,96 @@ jobs:
       - name: Run tests
         if: ${{ inputs.run_tests }}
         run: npm test
+
+      - name: Run FFS curl diagnostic
+        if: ${{ inputs.cwc_ffs && inputs.ffs_curl_diagnostic }}
+        run: |
+          set +e
+          OUT_CSV="$RUNNER_TEMP/ffs-gha-curl-test.csv"
+          STATIONS_TSV="$RUNNER_TEMP/ffs-stations.tsv"
+
+          node -e "const fs=require('fs'); const data=JSON.parse(fs.readFileSync('data/manual/indiawris-stations.json','utf8')); const stations=(data.stations||[]).filter(s=>s.station_code && Array.isArray(s.source_types) && s.source_types.includes('river_level')); const sortCriteria={sortOrderDtos:[{sortDirection:'DESC',field:'id.dataTime'}]}; for (const s of stations) { const specification={where:{where:{expression:{valueIsRelationField:false,fieldName:'id.stationCode',operator:'eq',value:s.station_code}},and:{expression:{valueIsRelationField:false,fieldName:'id.datatypeCode',operator:'eq',value:'HHS'}}},and:{expression:{valueIsRelationField:false,fieldName:'dataValue',operator:'null',value:'false'}}}; const url='https://ffs.india-water.gov.in/iam/api/new-entry-data/specification/sorted-page?sort-criteria='+encodeURIComponent(JSON.stringify(sortCriteria))+'&page-number=0&page-size=2&specification='+encodeURIComponent(JSON.stringify(specification)); console.log([s.station_name||'', s.station_code, s.district_id||'', url].join('\t')); }" > "$STATIONS_TSV"
+
+          printf 'station,code,district,status,type,rows,ms,error\n' > "$OUT_CSV"
+          total=0
+          failures=0
+
+          while IFS=$'\t' read -r station code district url; do
+            [ -z "$code" ] && continue
+            total=$((total+1))
+            body="$(mktemp)"
+            started_ms=$(date +%s%3N)
+            curl -sS -L \
+              --max-time 15 \
+              -H 'Accept: application/json, text/plain, */*' \
+              -H 'Referer: https://ffs.india-water.gov.in/#/main/site' \
+              -H 'User-Agent: KeralaFlashFloodWatch/0.1 (+https://github.com/kinkate18nic/kerala_flashflood_alert)' \
+              "$url" \
+              -o "$body"
+            curl_exit=$?
+            ended_ms=$(date +%s%3N)
+            elapsed_ms=$((ended_ms-started_ms))
+
+            if [ $curl_exit -ne 0 ]; then
+              failures=$((failures+1))
+              error="curl_exit_$curl_exit"
+              printf '"%s","%s","%s",599,exception,0,%s,"%s"\n' "$station" "$code" "$district" "$elapsed_ms" "$error" >> "$OUT_CSV"
+              rm -f "$body"
+              continue
+            fi
+
+            content=$(cat "$body")
+            compact=$(tr '\r\n' ' ' < "$body")
+            rm -f "$body"
+
+            first_char="${content:0:1}"
+            type="other"
+            rows=0
+            status=200
+            error=""
+
+            if [[ "$content" == \[* ]]; then
+              if [[ "$content" == "[]" ]]; then
+                type="empty-json"
+              else
+                type="rows-json"
+                rows=2
+              fi
+            elif [[ "$content" == \{* ]]; then
+              type="object-json"
+            elif [[ "$content" == \<* ]]; then
+              type="html"
+              failures=$((failures+1))
+              error="html_instead_of_json"
+            else
+              type="other"
+              failures=$((failures+1))
+              error="non_json_response"
+            fi
+
+            printf '"%s","%s","%s",%s,%s,%s,%s,"%s"\n' \
+              "$station" "$code" "$district" "$status" "$type" "$rows" "$elapsed_ms" "$error" >> "$OUT_CSV"
+
+            sleep 0.8
+          done < "$STATIONS_TSV"
+
+          {
+            echo "## FFS curl diagnostic"
+            echo ""
+            echo "- Stations tested: $total"
+            echo "- Failures: $failures"
+            echo "- CSV artifact: ffs-gha-curl-test"
+            echo ""
+            echo "### Type counts"
+            tail -n +2 "$OUT_CSV" | cut -d, -f5 | sort | uniq -c | sed 's/^/- /'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload FFS curl diagnostic
+        if: ${{ inputs.cwc_ffs && inputs.ffs_curl_diagnostic }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ffs-gha-curl-test
+          path: ${{ runner.temp }}/ffs-gha-curl-test.csv
 
       - name: Build live data (selected sources)
         env:
