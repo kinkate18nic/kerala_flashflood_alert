@@ -437,7 +437,7 @@ async function testPipelineReusesSourcesWithinCadenceWindow() {
   await cp(path.join(repoRoot, "src"), path.join(tempRoot, "src"), { recursive: true });
 
   await runPipeline(tempRoot, { useFixtures: true });
-  await runPipeline(tempRoot, { useFixtures: false });
+  await runPipeline(tempRoot, { useFixtures: false, enableCadenceReuse: true });
 
   const sourcesRaw = await readFile(path.join(tempRoot, "docs", "data", "latest", "sources.json"), "utf8");
   const latestRunRaw = await readFile(

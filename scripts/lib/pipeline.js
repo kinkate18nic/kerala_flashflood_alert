@@ -176,6 +176,9 @@ function cacheEntryHasSuccessfulPayload(cacheEntry) {
 }
 
 function canReuseSource(source, cacheEntry, generatedAt) {
+  if (source.cadence_minutes === 0) {
+    return false;
+  }
   if (!cacheEntryHasSuccessfulPayload(cacheEntry) || source.cadence_minutes === undefined) {
     return false;
   }
@@ -734,7 +737,7 @@ export async function runPipeline(repoRoot, options = {}) {
         };
       }
 
-      if (!options.useFixtures && canReuseSource(source, cacheEntry, generatedAt)) {
+      if (!options.useFixtures && options.enableCadenceReuse === true && canReuseSource(source, cacheEntry, generatedAt)) {
         return {
           sourceId: source.id,
           parsed: cacheEntry.parsed,

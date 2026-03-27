@@ -148,6 +148,27 @@ async function fetchJson(url, { timeoutMs = 25000, retries = 2 } = {}) {
         };
       }
 
+      const trimmedText = response.text?.trim?.() ?? "";
+      if (trimmedText.startsWith("<!DOCTYPE") || trimmedText.startsWith("<html") || trimmedText.startsWith("<")) {
+        return {
+          ok: false,
+          status: response.status,
+          text: response.text,
+          json: null,
+          error: "HTML returned instead of JSON"
+        };
+      }
+
+      if (trimmedText && !trimmedText.startsWith("{") && !trimmedText.startsWith("[")) {
+        return {
+          ok: false,
+          status: response.status,
+          text: response.text,
+          json: null,
+          error: "Non-JSON response returned from API endpoint"
+        };
+      }
+
       try {
         return {
           ...response,
@@ -415,25 +436,11 @@ export async function fetchCwcFfsPayload(repoRoot, source) {
     stations,
     async (station) => {
       const observedUrl = buildLatestObservedUrl(station.station_code, pageSize);
-      const observedUrls = [observedUrl, wrapTargetUrl(source.url, observedUrl)];
-      const forecastUrl = buildForecastUrl(station.station_code, source.fetch_options?.forecastPageSize ?? 8);
-      const forecastUrls = [forecastUrl, wrapTargetUrl(source.url, forecastUrl)];
-      const [response, forecastResponse] = await Promise.all([
-        fetchJsonWithFallback(observedUrls, {
-          timeoutMs: source.fetch_options?.timeoutMs ?? 25000,
-          retries: source.fetch_options?.retries ?? 2
-        }),
-        fetchJsonWithFallback(forecastUrls, {
-          timeoutMs:
-            source.fetch_options?.forecastTimeoutMs ??
-            source.fetch_options?.timeoutMs ??
-            25000,
-          retries:
-            source.fetch_options?.forecastRetries ??
-            source.fetch_options?.retries ??
-            2
-        })
-      ]);
+      const observedUrls = [observedUrl];
+      const response = await fetchJsonWithFallback(observedUrls, {
+        timeoutMs: source.fetch_options?.timeoutMs ?? 25000,
+        retries: source.fetch_options?.retries ?? 2
+      });
 
       if (!response.ok) {
         return {
@@ -445,13 +452,17 @@ export async function fetchCwcFfsPayload(repoRoot, source) {
       }
 
       const rows = Array.isArray(response.json) ? response.json : [];
-      const forecastRows = forecastResponse.ok && Array.isArray(forecastResponse.json) ? forecastResponse.json : [];
+      const forecastRows = [];
+      const stationDelayMs = source.fetch_options?.stationDelayMs ?? 0;
+      if (stationDelayMs > 0) {
+        await sleep(stationDelayMs);
+      }
       return {
         station,
         ok: true,
         status: response.status ?? 200,
-        forecast_ok: forecastResponse.ok,
-        forecast_error: forecastResponse.ok ? null : forecastResponse.error ?? forecastResponse.text?.slice(0, 200) ?? "forecast fetch failed",
+        forecast_ok: false,
+        forecast_error: "Forecast fetch disabled",
         rows: rows.map((row) => ({
           stationCode: row?.id?.stationCode ?? station.station_code,
           stationName: station.station_name,
