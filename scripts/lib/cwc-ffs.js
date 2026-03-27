@@ -118,14 +118,6 @@ function buildForecastUrl(stationCode, pageSize = 8) {
           value: FFS_DATATYPE_CODE
         }
       }
-    },
-    and: {
-      expression: {
-        valueIsRelationField: false,
-        fieldName: "dataValue",
-        operator: "null",
-        value: "false"
-      }
     }
   };
 
