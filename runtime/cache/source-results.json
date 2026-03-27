@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-27T08:55:11.657Z",
+  "generated_at": "2026-03-27T10:21:08.915Z",
   "sources": {
     "imd-cap-rss": {
       "snapshot": {
@@ -128,24 +128,24 @@
         "name": "India-WRIS CWC Rainfall",
         "owner": "India-WRIS / CWC",
         "category": "ground-rainfall",
-        "fetched_at": "2026-03-27T07:11:14.640Z",
+        "fetched_at": "2026-03-27T10:21:09.220Z",
         "issued_at": "2026-03-25T08:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://indiawris.gov.in/Dataset/RainFall",
         "fetch_status": "ok",
         "parser_status": "ok",
-        "failure_stage": null,
-        "status": "stale",
-        "freshness_minutes": 2801,
-        "duration_ms": 450826,
-        "notes": "India-WRIS rainfall queried for 12 Kerala districts",
+        "failure_stage": "partial",
+        "status": "offline",
+        "freshness_minutes": 2991,
+        "duration_ms": 688576,
+        "notes": "India-WRIS rainfall queried for 13/14 Kerala districts",
         "auth": "none",
         "summary": {
           "district_count": 12,
-          "taluk_count": 24,
-          "station_count": 31,
+          "taluk_count": 22,
+          "station_count": 27,
           "requested_district_count": 14,
-          "successful_district_count": 14,
-          "failed_district_count": 0
+          "successful_district_count": 13,
+          "failed_district_count": 1
         }
       },
       "parsed": {
@@ -230,36 +230,6 @@
             ]
           },
           {
-            "district_id": "malappuram",
-            "district_name": "Malappuram",
-            "source": "indiawris-cwc",
-            "station_count": 6,
-            "max_station_24h_mm": 0,
-            "rain_24h_mm": 0,
-            "rain_3d_mm": 0,
-            "rain_7d_mm": 0,
-            "daily_series": [
-              {
-                "date": "2026-03-25",
-                "mean": 0,
-                "max": 0,
-                "station_count": 6
-              },
-              {
-                "date": "2026-03-24",
-                "mean": 0,
-                "max": 0,
-                "station_count": 6
-              },
-              {
-                "date": "2026-03-21",
-                "mean": 0,
-                "max": 0,
-                "station_count": 5
-              }
-            ]
-          },
-          {
             "district_id": "palakkad",
             "district_name": "Palakkad",
             "source": "indiawris-cwc",
@@ -283,6 +253,36 @@
               },
               {
                 "date": "2026-03-23",
+                "mean": 0,
+                "max": 0,
+                "station_count": 1
+              }
+            ]
+          },
+          {
+            "district_id": "malappuram",
+            "district_name": "Malappuram",
+            "source": "indiawris-cwc",
+            "station_count": 1,
+            "max_station_24h_mm": 0,
+            "rain_24h_mm": 0,
+            "rain_3d_mm": 0,
+            "rain_7d_mm": 0,
+            "daily_series": [
+              {
+                "date": "2026-03-25",
+                "mean": 0,
+                "max": 0,
+                "station_count": 1
+              },
+              {
+                "date": "2026-03-24",
+                "mean": 0,
+                "max": 0,
+                "station_count": 1
+              },
+              {
+                "date": "2026-03-21",
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
@@ -437,7 +437,7 @@
             "district_id": "pathanamthitta",
             "district_name": "Pathanamthitta",
             "source": "indiawris-cwc",
-            "station_count": 3,
+            "station_count": 4,
             "max_station_24h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0.1,
@@ -447,25 +447,25 @@
                 "date": "2026-03-25",
                 "mean": 0,
                 "max": 0,
-                "station_count": 3
+                "station_count": 4
               },
               {
                 "date": "2026-03-24",
                 "mean": 0,
                 "max": 0,
-                "station_count": 3
+                "station_count": 4
               },
               {
                 "date": "2026-03-23",
                 "mean": 0.052000000000000005,
                 "max": 2.4,
-                "station_count": 3
+                "station_count": 4
               },
               {
                 "date": "2026-03-22",
                 "mean": 0.5740740740740741,
                 "max": 9,
-                "station_count": 3
+                "station_count": 4
               },
               {
                 "date": "2026-03-21",
@@ -562,7 +562,7 @@
         ],
         "taluks": [
           {
-            "taluk_id": "kasaragod--kasaragod",
+            "taluk_id": "kasaragod--hosdurg",
             "district_id": "kasaragod",
             "source": "indiawris-cwc",
             "station_count": 1,
@@ -592,7 +592,7 @@
             ]
           },
           {
-            "taluk_id": "kasaragod--hosdurg",
+            "taluk_id": "kasaragod--kasaragod",
             "district_id": "kasaragod",
             "source": "indiawris-cwc",
             "station_count": 1,
@@ -666,66 +666,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
-              }
-            ]
-          },
-          {
-            "taluk_id": "malappuram--ponnani",
-            "district_id": "malappuram",
-            "source": "indiawris-cwc",
-            "station_count": 1,
-            "max_station_24h_mm": 0,
-            "rain_24h_mm": 0,
-            "rain_3d_mm": 0,
-            "rain_7d_mm": 0,
-            "daily_series": [
-              {
-                "date": "2026-03-25",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              },
-              {
-                "date": "2026-03-24",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              },
-              {
-                "date": "2026-03-21",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              }
-            ]
-          },
-          {
-            "taluk_id": "malappuram--ernad",
-            "district_id": "malappuram",
-            "source": "indiawris-cwc",
-            "station_count": 4,
-            "max_station_24h_mm": 0,
-            "rain_24h_mm": 0,
-            "rain_3d_mm": 0,
-            "rain_7d_mm": 0,
-            "daily_series": [
-              {
-                "date": "2026-03-25",
-                "mean": 0,
-                "max": 0,
-                "station_count": 4
-              },
-              {
-                "date": "2026-03-24",
-                "mean": 0,
-                "max": 0,
-                "station_count": 4
-              },
-              {
-                "date": "2026-03-21",
-                "mean": 0,
-                "max": 0,
-                "station_count": 3
               }
             ]
           },
@@ -1159,7 +1099,7 @@
             "taluk_id": "pathanamthitta--kozhenchery",
             "district_id": "pathanamthitta",
             "source": "indiawris-cwc",
-            "station_count": 1,
+            "station_count": 2,
             "max_station_24h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0,
@@ -1169,25 +1109,25 @@
                 "date": "2026-03-25",
                 "mean": 0,
                 "max": 0,
-                "station_count": 1
+                "station_count": 2
               },
               {
                 "date": "2026-03-24",
                 "mean": 0,
                 "max": 0,
-                "station_count": 1
+                "station_count": 2
               },
               {
                 "date": "2026-03-23",
                 "mean": 0,
                 "max": 0,
-                "station_count": 1
+                "station_count": 2
               },
               {
                 "date": "2026-03-22",
                 "mean": 0.32,
                 "max": 2,
-                "station_count": 1
+                "station_count": 2
               },
               {
                 "date": "2026-03-21",
@@ -1366,11 +1306,18 @@
             ]
           }
         ],
-        "station_count": 31,
+        "station_count": 27,
         "requested_district_count": 14,
-        "successful_district_count": 14,
-        "failed_districts": [],
-        "partial_failure_count": 0
+        "successful_district_count": 13,
+        "failed_districts": [
+          {
+            "district_id": "malappuram",
+            "district_name": "Malappuram",
+            "status": 599,
+            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+          }
+        ],
+        "partial_failure_count": 1
       }
     },
     "indiawris-river-level": {
@@ -1379,15 +1326,15 @@
         "name": "India-WRIS CWC River Water Level",
         "owner": "India-WRIS / CWC",
         "category": "river-stage",
-        "fetched_at": "2026-03-27T07:11:14.640Z",
+        "fetched_at": "2026-03-27T10:21:09.221Z",
         "issued_at": "2026-03-25T08:00:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://indiawris.gov.in/Dataset/River Water Level",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
-        "status": "stale",
-        "freshness_minutes": 2831,
-        "duration_ms": 550917,
+        "status": "offline",
+        "freshness_minutes": 3021,
+        "duration_ms": 812589,
         "notes": "India-WRIS river level queried for 12 Kerala districts",
         "auth": "none",
         "summary": {
@@ -2326,15 +2273,15 @@
         "name": "KSDMA Daily Dam Levels (KSEB)",
         "owner": "Kerala State Disaster Management Authority",
         "category": "reservoir-status",
-        "fetched_at": "2026-03-27T08:55:11.823Z",
+        "fetched_at": "2026-03-27T10:21:09.221Z",
         "issued_at": "2026-03-27T05:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sdma.kerala.gov.in/dam-water-level/",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
-        "status": "ok",
-        "freshness_minutes": 205,
-        "duration_ms": 14270,
+        "status": "stale",
+        "freshness_minutes": 291,
+        "duration_ms": 695393,
         "notes": "KSDMA KSEB daily dam PDF Water Levels of Major Reservoirs (KSEB)",
         "auth": "none",
         "summary": {
@@ -3081,15 +3028,15 @@
         "name": "KSDMA Daily Dam Levels (Irrigation)",
         "owner": "Kerala State Disaster Management Authority",
         "category": "dam-status",
-        "fetched_at": "2026-03-27T08:55:14.783Z",
+        "fetched_at": "2026-03-27T10:32:44.614Z",
         "issued_at": "2026-03-27T05:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sdma.kerala.gov.in/dam-water-level/",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
-        "status": "ok",
-        "freshness_minutes": 205,
-        "duration_ms": 11308,
+        "status": "stale",
+        "freshness_minutes": 291,
+        "duration_ms": 5989,
         "notes": "KSDMA IRRIGATION daily dam PDF Water Levels of Major Reservoirs (IRRIGATION",
         "auth": "none",
         "summary": {
