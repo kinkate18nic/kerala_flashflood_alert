@@ -95,7 +95,7 @@ function buildForecastUrl(stationCode, pageSize = 8) {
     sortOrderDtos: [
       {
         sortDirection: "ASC",
-        field: "id.dataTime"
+        field: "id.forecastedDate"
       }
     ]
   };
