@@ -187,6 +187,37 @@ async function fetchJson(url, { timeoutMs = 25000, retries = 2 } = {}) {
   };
 }
 
+async function fetchJsonWithFallback(urls, options = {}) {
+  const failures = [];
+
+  for (const url of [...new Set(urls.filter(Boolean))]) {
+    const response = await fetchJson(url, options);
+    if (response.ok && response.json !== null) {
+      return {
+        ...response,
+        resolvedUrl: url,
+        attemptedUrls: failures.map((entry) => entry.url)
+      };
+    }
+    failures.push({
+      url,
+      status: response.status ?? 599,
+      error: response.error ?? response.text?.slice(0, 200) ?? "fetch failed"
+    });
+  }
+
+  const lastFailure = failures.at(-1) ?? { url: urls[0] ?? null, status: 599, error: "fetch failed" };
+  return {
+    ok: false,
+    status: lastFailure.status,
+    text: "",
+    json: null,
+    error: failures.map((entry) => `${entry.url}: ${entry.error}`).join(" | "),
+    resolvedUrl: lastFailure.url,
+    attemptedUrls: failures.map((entry) => entry.url)
+  };
+}
+
 async function loadFfsContext(repoRoot) {
   if (!contextCache) {
     contextCache = (async () => {
@@ -392,27 +423,24 @@ export async function fetchCwcFfsPayload(repoRoot, source) {
     stations,
     async (station) => {
       const observedUrl = buildLatestObservedUrl(station.station_code, pageSize);
+      const observedUrls = [observedUrl, wrapTargetUrl(source.url, observedUrl)];
+      const forecastUrl = buildForecastUrl(station.station_code, source.fetch_options?.forecastPageSize ?? 8);
+      const forecastUrls = [forecastUrl, wrapTargetUrl(source.url, forecastUrl)];
       const [response, forecastResponse] = await Promise.all([
-        fetchJson(wrapTargetUrl(source.url, observedUrl), {
+        fetchJsonWithFallback(observedUrls, {
           timeoutMs: source.fetch_options?.timeoutMs ?? 25000,
           retries: source.fetch_options?.retries ?? 2
         }),
-        fetchJson(
-          wrapTargetUrl(
-            source.url,
-            buildForecastUrl(station.station_code, source.fetch_options?.forecastPageSize ?? 8)
-          ),
-          {
-            timeoutMs:
-              source.fetch_options?.forecastTimeoutMs ??
-              source.fetch_options?.timeoutMs ??
-              25000,
-            retries:
-              source.fetch_options?.forecastRetries ??
-              source.fetch_options?.retries ??
-              2
-          }
-        )
+        fetchJsonWithFallback(forecastUrls, {
+          timeoutMs:
+            source.fetch_options?.forecastTimeoutMs ??
+            source.fetch_options?.timeoutMs ??
+            25000,
+          retries:
+            source.fetch_options?.forecastRetries ??
+            source.fetch_options?.retries ??
+            2
+        })
       ]);
 
       if (!response.ok) {
