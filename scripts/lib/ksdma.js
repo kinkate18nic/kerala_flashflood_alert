@@ -100,16 +100,47 @@ function extractPdfLink(pageHtml, department) {
   };
 }
 
-function extractIssuedAt(pageHtml, pdfHref) {
+export function extractKsdmaIssuedAt(pageHtml, pdfHref) {
   const escapedHref = pdfHref.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const match = pageHtml.match(new RegExp(`${escapedHref}"[^>]*>[^<]*<\\/a>\\s*[–-]\\s*(\\d{2}\\/\\d{2}\\/\\d{4})`, "i"));
-  if (!match) {
+  const anchorPattern = new RegExp(
+    `<a[^>]+href="${escapedHref}"[^>]*>.*?<\\/a>([\\s\\S]{0,240})`,
+    "i"
+  );
+  const anchorMatch = pageHtml.match(anchorPattern);
+  const searchWindow = anchorMatch?.[1] ?? pageHtml;
+  const dateMatches = [...searchWindow.matchAll(/(\d{2})\/(\d{2})\/(\d{4})(?:\s+(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?)?/gi)];
+
+  if (!dateMatches.length) {
     return null;
   }
 
-  const [day, month, year] = match[1].split("/").map(Number);
-  const issuedAt = new Date(Date.UTC(year, month - 1, day, 5, 30, 0));
-  return issuedAt.toISOString();
+  const [, dayText, monthText, yearText, hourText, minuteText, meridiemText] = dateMatches[dateMatches.length - 1];
+  const day = Number(dayText);
+  const month = Number(monthText);
+  const year = Number(yearText);
+  let hour = hourText ? Number(hourText) : 11;
+  const minute = minuteText ? Number(minuteText) : 0;
+  const meridiem = String(meridiemText ?? "").toUpperCase();
+
+  if (meridiem === "PM" && hour < 12) {
+    hour += 12;
+  } else if (meridiem === "AM" && hour === 12) {
+    hour = 0;
+  }
+
+  const issuedAt = new Date(Date.UTC(year, month - 1, day, hour - 5, minute - 30, 0));
+  return Number.isNaN(issuedAt.getTime()) ? null : issuedAt.toISOString();
+}
+
+function extractIssuedAtFromPdfUrl(pdfUrl) {
+  const match = pdfUrl.match(/\/uploads\/(\d{4})\/(\d{2})\//i);
+  if (!match) {
+    return null;
+  }
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const issuedAt = new Date(Date.UTC(year, month - 1, 1, 5, 30, 0));
+  return Number.isNaN(issuedAt.getTime()) ? null : issuedAt.toISOString();
 }
 
 function splitRowChunks(text, headerMarker) {
@@ -333,7 +364,10 @@ export async function fetchKsdmaDailyDamPayload(source) {
     ok: true,
     status: 200,
     text: JSON.stringify({
-      issued_at: extractIssuedAt(pageResponse.text, pdfLink.href) ?? parseDate(pageResponse.text.match(/(\d{2}\/\d{2}\/\d{4})/)?.[1]?.split("/").reverse().join("-"))?.toISOString() ?? null,
+      issued_at:
+        extractKsdmaIssuedAt(pageResponse.text, pdfLink.href) ??
+        extractIssuedAtFromPdfUrl(absolutePdfUrl) ??
+        null,
       department,
       pdf_url: absolutePdfUrl,
       pdf_label: pdfLink.label,

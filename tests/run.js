@@ -22,6 +22,7 @@ import {
   selectImergWindows
 } from "../scripts/lib/imerg.js";
 import { buildRainviewerPayload, parseRainviewerColorTable } from "../scripts/lib/rainviewer.js";
+import { extractKsdmaIssuedAt } from "../scripts/lib/ksdma.js";
 import {
   districtIdFromBoundaryName,
   parseDistrictBoundaries,
@@ -494,6 +495,24 @@ async function testPipelineFallsBackToLastSuccessfulPayloadOnFetchFailure() {
   assert.equal(rainfallSource?.reuse_reason, "source_selection");
 }
 
+async function testKsdmaIssuedAtExtractionPrefersCurrentLinkedDate() {
+  const pageHtml = `
+    <html>
+      <body>
+        <a href="https://sdma.kerala.gov.in/wp-content/uploads/2026/03/KSEB-SITE-20.pdf">Water Levels of Major Reservoirs (KSEB)</a> - 27/03/2026 11 AM
+        <a href="https://sdma.kerala.gov.in/wp-content/uploads/2026/03/IRR-SITE-17.pdf">Water Levels of Major Reservoirs (IRRIGATION)</a> - 27/03/2026 11 AM
+      </body>
+    </html>
+  `;
+  assert.equal(
+    extractKsdmaIssuedAt(
+      pageHtml,
+      "https://sdma.kerala.gov.in/wp-content/uploads/2026/03/KSEB-SITE-20.pdf"
+    ),
+    "2026-03-27T05:30:00.000Z"
+  );
+}
+
 function testImergListingSelection() {
   const listing = [
     "/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260316-S023000-E025959.0150.V07C.30min.tif",
@@ -744,7 +763,8 @@ const tests = [
   ["pipeline", testPipeline],
   ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage],
   ["pipeline-cadence-reuse", testPipelineReusesSourcesWithinCadenceWindow],
-  ["pipeline-fallback-cache", testPipelineFallsBackToLastSuccessfulPayloadOnFetchFailure]
+  ["pipeline-fallback-cache", testPipelineFallsBackToLastSuccessfulPayloadOnFetchFailure],
+  ["ksdma-issued-at", testKsdmaIssuedAtExtractionPrefersCurrentLinkedDate]
 ];
 
 let failures = 0;
