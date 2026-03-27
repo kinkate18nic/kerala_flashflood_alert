@@ -1,0 +1,144 @@
+name: Refresh selected sources
+
+on:
+  workflow_dispatch:
+    inputs:
+      imd_cap_rss:
+        description: IMD CAP RSS
+        required: false
+        default: false
+        type: boolean
+      imd_flash_flood_bulletin:
+        description: IMD Flash Flood Bulletin
+        required: false
+        default: false
+        type: boolean
+      indiawris_rainfall:
+        description: India-WRIS CWC Rainfall
+        required: false
+        default: false
+        type: boolean
+      indiawris_river_level:
+        description: India-WRIS CWC River Water Level
+        required: false
+        default: false
+        type: boolean
+      ksdma_reservoirs:
+        description: KSDMA Daily Dam Levels (KSEB)
+        required: false
+        default: false
+        type: boolean
+      ksdma_dam_management:
+        description: KSDMA Daily Dam Levels (Irrigation)
+        required: false
+        default: false
+        type: boolean
+      cwc_ffs:
+        description: CWC FFS Live River Levels
+        required: false
+        default: true
+        type: boolean
+      rainviewer_radar:
+        description: RainViewer Radar Nowcast
+        required: false
+        default: false
+        type: boolean
+      nasa_imerg_nrt:
+        description: NASA IMERG Near-Real-Time
+        required: false
+        default: false
+        type: boolean
+      operator_observations:
+        description: Operator Observation Override
+        required: false
+        default: false
+        type: boolean
+      run_tests:
+        description: Run npm test before refresh
+        required: false
+        default: false
+        type: boolean
+      send_telegram:
+        description: Send Telegram alerts after refresh
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-flood-data
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Resolve selected sources
+        run: |
+          ids=()
+          [[ "${{ inputs.imd_cap_rss }}" == "true" ]] && ids+=("imd-cap-rss")
+          [[ "${{ inputs.imd_flash_flood_bulletin }}" == "true" ]] && ids+=("imd-flash-flood-bulletin")
+          [[ "${{ inputs.indiawris_rainfall }}" == "true" ]] && ids+=("indiawris-rainfall")
+          [[ "${{ inputs.indiawris_river_level }}" == "true" ]] && ids+=("indiawris-river-level")
+          [[ "${{ inputs.ksdma_reservoirs }}" == "true" ]] && ids+=("ksdma-reservoirs")
+          [[ "${{ inputs.ksdma_dam_management }}" == "true" ]] && ids+=("ksdma-dam-management")
+          [[ "${{ inputs.cwc_ffs }}" == "true" ]] && ids+=("cwc-ffs")
+          [[ "${{ inputs.rainviewer_radar }}" == "true" ]] && ids+=("rainviewer-radar")
+          [[ "${{ inputs.nasa_imerg_nrt }}" == "true" ]] && ids+=("nasa-imerg-nrt")
+          [[ "${{ inputs.operator_observations }}" == "true" ]] && ids+=("operator-observations")
+
+          if [ ${#ids[@]} -eq 0 ]; then
+            echo "No sources selected."
+            exit 1
+          fi
+
+          source_ids="$(IFS=,; echo "${ids[*]}")"
+          echo "SOURCE_IDS=$source_ids" >> "$GITHUB_ENV"
+          echo "Selected sources: $source_ids"
+
+      - name: Run tests
+        if: ${{ inputs.run_tests }}
+        run: npm test
+
+      - name: Build live data (selected sources)
+        env:
+          PPS_EMAIL: ${{ secrets.PPS_EMAIL }}
+          PPS_PASSWORD: ${{ secrets.PPS_PASSWORD }}
+          NODE_OPTIONS: "--dns-result-order=ipv4first"
+        run: node scripts/run-pipeline.js
+
+      - name: Build static site
+        run: node scripts/build-site.js
+
+      - name: Send reviewed severe alerts
+        if: ${{ inputs.send_telegram }}
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node scripts/send-telegram.js
+
+      - name: Commit refreshed data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs runtime data/manual/review-approvals.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: refresh selected sources"
+            git push
+          fi
