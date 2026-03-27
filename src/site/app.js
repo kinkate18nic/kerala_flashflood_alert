@@ -663,6 +663,35 @@ function formatCadence(minutes) {
   return `Every ${hours} hr${hours === 1 ? "" : "s"}`;
 }
 
+function dataUsageSummary(source) {
+  const currentDataLabel = source.issued_at ? formatTime(source.issued_at) : "the latest available update";
+  const cachedFetchLabel = source.last_successful_fetched_at
+    ? formatTime(source.last_successful_fetched_at)
+    : source.fetched_at
+      ? formatTime(source.fetched_at)
+      : "an earlier successful run";
+
+  if (source.fetch_status === "failed_cached") {
+    return `Using the previous successful update from ${cachedFetchLabel} because this source could not be refreshed in the current run.`;
+  }
+  if (source.parser_status === "failed_cached") {
+    return `Using the previous successful update from ${cachedFetchLabel} because the latest downloaded file could not be read safely.`;
+  }
+  if (source.fetch_status === "skipped_cached") {
+    return `Using the last successful update from ${cachedFetchLabel}. This source was intentionally not refreshed in the current run.`;
+  }
+  if (source.fetch_status === "skipped") {
+    return "No usable data was available for this source in the current run.";
+  }
+  if (source.fetch_status === "failed") {
+    return "This source could not be reached in the current run, so it is not contributing new data.";
+  }
+  if (source.parser_status === "failed") {
+    return "A new file was downloaded, but it could not be interpreted safely, so this source is not contributing new data.";
+  }
+  return `Using data published at ${currentDataLabel}.`;
+}
+
 function openSourceDetails(source) {
   const meta = SOURCE_META[source.source_id] ?? {};
   const freshLabel = formatFreshness(source.freshness_minutes);
@@ -681,6 +710,7 @@ function openSourceDetails(source) {
     source.name,
     `
       <p class="source-detail-desc">${meta.description ?? source.name}</p>
+      <p class="source-detail-desc"><strong>Data in use:</strong> ${dataUsageSummary(source)}</p>
       <div class="source-detail-grid">
         <div class="source-detail-row">
           <span class="source-detail-label">Status</span>
@@ -690,6 +720,18 @@ function openSourceDetails(source) {
           <span class="source-detail-label">Last updated</span>
           <span class="source-detail-value">${freshLabel}</span>
         </div>
+        <div class="source-detail-row">
+          <span class="source-detail-label">Data being used</span>
+          <span class="source-detail-value">${source.issued_at ? formatTime(source.issued_at) : "Unknown"}</span>
+        </div>
+        ${
+          source.reused_in_run
+            ? `<div class="source-detail-row">
+          <span class="source-detail-label">Previous successful refresh</span>
+          <span class="source-detail-value">${source.last_successful_fetched_at ? formatTime(source.last_successful_fetched_at) : "Unknown"}</span>
+        </div>`
+            : ""
+        }
         <div class="source-detail-row">
           <span class="source-detail-label">Expected cadence</span>
           <span class="source-detail-value">${cadenceLabel}</span>
@@ -736,6 +778,7 @@ function renderSources() {
               <span>Updated ${freshLabel}</span>
               <span>${sourceStateLabel(source)}</span>
             </div>
+            <p class="source-desc">${dataUsageSummary(source)}</p>
             <p class="source-status-note status-${source.status}">${sourceStatusMessage(source)}</p>
           </article>
         `;
