@@ -6,6 +6,34 @@ function round(value) {
   return Math.round(value * 10) / 10;
 }
 
+function sourceStatusWeight(status) {
+  switch (status) {
+    case "ok":
+      return 1;
+    case "degraded":
+      return 0.6;
+    case "stale":
+      return 0.25;
+    case "offline":
+    case "skipped":
+      return 0;
+    default:
+      return 1;
+  }
+}
+
+function maxSourceWeight(statusBySource, sourceIds = []) {
+  const ids = Array.isArray(sourceIds) ? [...new Set(sourceIds.filter(Boolean))] : [];
+  if (!ids.length) {
+    return 1;
+  }
+  return Math.max(...ids.map((sourceId) => sourceStatusWeight(statusBySource?.[sourceId])));
+}
+
+function effectiveSeverity(signal) {
+  return signal?.effective_severity ?? signal?.severity ?? 0;
+}
+
 function normalize(value, cap) {
   if (!value || !cap) {
     return 0;
@@ -17,25 +45,25 @@ function severityToPoints(value) {
   return clamp(value ?? 0) * 100;
 }
 
-function computeRainfallScore(observation, rainfallCaps) {
+function computeRainfallScore(observation, rainfallCaps, rainfallSourceWeights = {}) {
   if (!observation) {
     return 0;
   }
   return (
-    normalize(observation.rain_1h_mm, rainfallCaps.one_hour) * 0.28 +
-    normalize(observation.rain_3h_mm, rainfallCaps.three_hour) * 0.24 +
-    normalize(observation.rain_6h_mm, rainfallCaps.six_hour) * 0.24 +
-    normalize(observation.rain_24h_mm, rainfallCaps.day) * 0.24
+    normalize(observation.rain_1h_mm, rainfallCaps.one_hour) * 0.28 * (rainfallSourceWeights.short_duration ?? 1) +
+    normalize(observation.rain_3h_mm, rainfallCaps.three_hour) * 0.24 * (rainfallSourceWeights.short_duration ?? 1) +
+    normalize(observation.rain_6h_mm, rainfallCaps.six_hour) * 0.24 * (rainfallSourceWeights.short_duration ?? 1) +
+    normalize(observation.rain_24h_mm, rainfallCaps.day) * 0.24 * (rainfallSourceWeights.daily ?? 1)
   ) * 100;
 }
 
-function computeAntecedentScore(observation, rainfallCaps) {
+function computeAntecedentScore(observation, rainfallCaps, rainfallSourceWeights = {}) {
   if (!observation) {
     return 0;
   }
   return (
-    normalize(observation.rain_3d_mm, rainfallCaps.three_day) * 0.55 +
-    normalize(observation.rain_7d_mm, rainfallCaps.seven_day) * 0.45
+    normalize(observation.rain_3d_mm, rainfallCaps.three_day) * 0.55 * (rainfallSourceWeights.antecedent ?? 1) +
+    normalize(observation.rain_7d_mm, rainfallCaps.seven_day) * 0.45 * (rainfallSourceWeights.antecedent ?? 1)
   ) * 100;
 }
 
@@ -107,7 +135,7 @@ function hotspotSusceptibilityWeight(category) {
 }
 
 function hasOfficialSupport(cap, bulletin) {
-  return (cap?.severity ?? 0) > 0.2 || (bulletin?.severity ?? 0) > 0.2;
+  return effectiveSeverity(cap) > 0.2 || effectiveSeverity(bulletin) > 0.2;
 }
 
 function hasRainSupport(observation) {
@@ -128,19 +156,19 @@ function hasAntecedentSupport(observation) {
   return (observation.rain_3d_mm ?? 0) >= 45 || (observation.rain_7d_mm ?? 0) >= 90;
 }
 
-function computeCatchmentWetnessIndex(observation, rainfallCaps) {
+function computeCatchmentWetnessIndex(observation, rainfallCaps, rainfallSourceWeights = {}) {
   if (!observation) {
     return 0;
   }
   return (
-    normalize(observation.rain_24h_mm, rainfallCaps.day) * 0.15 +
-    normalize(observation.rain_3d_mm, rainfallCaps.three_day) * 0.5 +
-    normalize(observation.rain_7d_mm, rainfallCaps.seven_day) * 0.35
+    normalize(observation.rain_24h_mm, rainfallCaps.day) * 0.15 * (rainfallSourceWeights.daily ?? 1) +
+    normalize(observation.rain_3d_mm, rainfallCaps.three_day) * 0.5 * (rainfallSourceWeights.antecedent ?? 1) +
+    normalize(observation.rain_7d_mm, rainfallCaps.seven_day) * 0.35 * (rainfallSourceWeights.antecedent ?? 1)
   ) * 100;
 }
 
 function hasRadarSupport(radar, { strongOnly = false } = {}) {
-  const severity = radar?.severity ?? 0;
+  const severity = effectiveSeverity(radar);
   const maxDbz = radar?.max_dbz ?? 0;
   if (strongOnly) {
     return severity >= 0.45 || maxDbz >= 25;
@@ -149,23 +177,24 @@ function hasRadarSupport(radar, { strongOnly = false } = {}) {
 }
 
 function hasHydrologySupport(cwc) {
-  return (cwc?.severity ?? 0) >= 0.25;
+  return effectiveSeverity(cwc) >= 0.25;
 }
 
 function hasOperationalDamSupport(reservoir, dam) {
-  return (reservoir?.severity ?? 0) >= 0.32 || (dam?.severity ?? 0) >= 0.32;
+  return effectiveSeverity(reservoir) >= 0.32 || effectiveSeverity(dam) >= 0.32;
 }
 
-function computeRunoffTriggerIndex(observation, radar) {
+function computeRunoffTriggerIndex(observation, radar, rainfallSourceWeights = {}) {
   const shortDurationIndex = observation
     ? (
-        normalize(observation.peak_30m_mm, 20) * 0.25 +
-        normalize(observation.rain_1h_mm, 40) * 0.35 +
-        normalize(observation.rain_3h_mm, 70) * 0.25 +
-        normalize(observation.rain_6h_mm, 110) * 0.15
+        normalize(observation.peak_30m_mm, 20) * 0.25 * (rainfallSourceWeights.short_duration ?? 1) +
+        normalize(observation.rain_1h_mm, 40) * 0.35 * (rainfallSourceWeights.short_duration ?? 1) +
+        normalize(observation.rain_3h_mm, 70) * 0.25 * (rainfallSourceWeights.short_duration ?? 1) +
+        normalize(observation.rain_6h_mm, 110) * 0.15 * (rainfallSourceWeights.short_duration ?? 1)
       ) * 100
     : 0;
-  const radarIndex = Math.max((radar?.severity ?? 0) * 100, normalize(radar?.max_dbz ?? 0, 45) * 100);
+  const radarWeight = radar?.source_weight ?? 1;
+  const radarIndex = Math.max(effectiveSeverity(radar) * 100, normalize(radar?.max_dbz ?? 0, 45) * 100) * radarWeight;
   return shortDurationIndex * 0.75 + radarIndex * 0.25;
 }
 
@@ -223,9 +252,9 @@ function runoffPotentialLabel(value) {
   return "low";
 }
 
-function computeRunoffPotential({ category, observation, radar, susceptibility, rainfallCaps }) {
-  const wetnessIndex = computeCatchmentWetnessIndex(observation, rainfallCaps);
-  const triggerIndex = computeRunoffTriggerIndex(observation, radar);
+function computeRunoffPotential({ category, observation, radar, susceptibility, rainfallCaps, rainfallSourceWeights = {} }) {
+  const wetnessIndex = computeCatchmentWetnessIndex(observation, rainfallCaps, rainfallSourceWeights);
+  const triggerIndex = computeRunoffTriggerIndex(observation, radar, rainfallSourceWeights);
   const weights = runoffBlendWeights(category);
   const score =
     wetnessIndex * weights.wetness +
@@ -238,6 +267,27 @@ function computeRunoffPotential({ category, observation, radar, susceptibility, 
     trigger_index: round(triggerIndex),
     susceptibility_index: round((susceptibility ?? 0) * 100),
     label: runoffPotentialLabel(normalized)
+  };
+}
+
+function rainfallSourceWeights(observation, statusBySource) {
+  const shortDurationWeight = maxSourceWeight(
+    statusBySource,
+    observation?.short_duration_source_ids ?? observation?.source_ids ?? []
+  );
+  const dailyWeight = maxSourceWeight(
+    statusBySource,
+    observation?.daily_source_ids ?? observation?.source_ids ?? []
+  );
+  const antecedentWeight = maxSourceWeight(
+    statusBySource,
+    observation?.antecedent_source_ids ?? observation?.daily_source_ids ?? observation?.source_ids ?? []
+  );
+
+  return {
+    short_duration: shortDurationWeight,
+    daily: dailyWeight,
+    antecedent: antecedentWeight
   };
 }
 
@@ -296,64 +346,106 @@ export function buildRiskOutputs(context) {
     const radar = radarByDistrict[district.id] ?? { severity: 0, intensity: "none", max_dbz: null, notes: [] };
     const observation = rainfallByDistrict[district.id] ?? null;
     const terrain = terrainByDistrict[district.id];
+    const capWeight = maxSourceWeight(context.statusBySource, cap.source_ids ?? ["imd-cap-rss"]);
+    const bulletinWeight = maxSourceWeight(
+      context.statusBySource,
+      bulletin.source_ids ?? ["imd-flash-flood-bulletin"]
+    );
+    const reservoirWeight = maxSourceWeight(
+      context.statusBySource,
+      reservoir.source_ids ?? ["ksdma-reservoirs"]
+    );
+    const damWeight = maxSourceWeight(
+      context.statusBySource,
+      dam.source_ids ?? ["ksdma-dam-management"]
+    );
+    const hydrologyWeight = maxSourceWeight(
+      context.statusBySource,
+      cwc.source_ids ?? ["cwc-ffs", "indiawris-river-level"]
+    );
+    const radarWeight = maxSourceWeight(
+      context.statusBySource,
+      radar.source_ids ?? ["rainviewer-radar"]
+    );
+    const weightedCap = { ...cap, source_weight: capWeight, effective_severity: (cap.severity ?? 0) * capWeight };
+    const weightedBulletin = {
+      ...bulletin,
+      source_weight: bulletinWeight,
+      effective_severity: (bulletin.severity ?? 0) * bulletinWeight
+    };
+    const weightedReservoir = {
+      ...reservoir,
+      source_weight: reservoirWeight,
+      effective_severity: (reservoir.severity ?? 0) * reservoirWeight
+    };
+    const weightedDam = {
+      ...dam,
+      source_weight: damWeight,
+      effective_severity: (dam.severity ?? 0) * damWeight
+    };
+    const weightedCwc = {
+      ...cwc,
+      source_weight: hydrologyWeight,
+      effective_severity: (cwc.severity ?? 0) * hydrologyWeight
+    };
+    const weightedRadar = {
+      ...radar,
+      source_weight: radarWeight,
+      effective_severity: (radar.severity ?? 0) * radarWeight
+    };
+    const observationSourceWeights = rainfallSourceWeights(observation, context.statusBySource);
     const runoffPotential = computeRunoffPotential({
       category: null,
       observation,
-      radar,
+      radar: weightedRadar,
       susceptibility: terrain.value,
-      rainfallCaps: thresholds.rainfall_caps_mm
+      rainfallCaps: thresholds.rainfall_caps_mm,
+      rainfallSourceWeights: observationSourceWeights
     });
 
     const componentScores = {
-      cap_warning: severityToPoints(cap.severity) * thresholds.weights.cap_warning,
+      cap_warning: severityToPoints(weightedCap.effective_severity) * thresholds.weights.cap_warning,
       flash_flood_bulletin:
-        severityToPoints(bulletin.severity) * thresholds.weights.flash_flood_bulletin,
-      rainfall: computeRainfallScore(observation, thresholds.rainfall_caps_mm) * thresholds.weights.rainfall,
+        severityToPoints(weightedBulletin.effective_severity) * thresholds.weights.flash_flood_bulletin,
+      rainfall:
+        computeRainfallScore(observation, thresholds.rainfall_caps_mm, observationSourceWeights) *
+        thresholds.weights.rainfall,
       antecedent_wetness:
-        computeAntecedentScore(observation, thresholds.rainfall_caps_mm) *
+        computeAntecedentScore(observation, thresholds.rainfall_caps_mm, observationSourceWeights) *
         thresholds.weights.antecedent_wetness,
       terrain: terrain.value * 100 * thresholds.weights.terrain,
-      hydrology: severityToPoints(cwc.severity) * thresholds.weights.hydrology,
+      hydrology: severityToPoints(weightedCwc.effective_severity) * thresholds.weights.hydrology,
       radar_nowcast:
-        severityToPoints(radar.severity) * (thresholds.weights.radar_nowcast ?? 0.08),
+        severityToPoints(weightedRadar.effective_severity) * (thresholds.weights.radar_nowcast ?? 0.08),
       reservoir_dam:
-        Math.max(severityToPoints(reservoir.severity), severityToPoints(dam.severity)) *
+        Math.max(
+          severityToPoints(weightedReservoir.effective_severity),
+          severityToPoints(weightedDam.effective_severity)
+        ) *
         thresholds.weights.reservoir_dam
     };
 
     const activeSignals = [
-      cap.severity > 0.2,
-      bulletin.severity > 0.2,
+      weightedCap.effective_severity > 0.2,
+      weightedBulletin.effective_severity > 0.2,
       (runoffPotential.score ?? 0) >= runoffPotentialThreshold(null),
-      radar.severity > 0.2,
-      cwc.severity > 0.2 || reservoir.severity > 0.2 || dam.severity > 0.2
+      weightedRadar.effective_severity > 0.2,
+      weightedCwc.effective_severity > 0.2 ||
+        weightedReservoir.effective_severity > 0.2 ||
+        weightedDam.effective_severity > 0.2
     ].filter(Boolean).length;
-
-    const snapshotPenalty = sourceSnapshots.reduce((penalty, source) => {
-      if (source.status === "offline") {
-        return penalty + thresholds.freshness_penalties.offline / totalSources;
-      }
-      if (source.status === "stale") {
-        return penalty + thresholds.freshness_penalties.stale / totalSources;
-      }
-      if (source.status === "degraded") {
-        return penalty + thresholds.freshness_penalties.degraded / totalSources;
-      }
-      return penalty;
-    }, 0);
 
     const rawScore =
       Object.values(componentScores).reduce((sum, value) => sum + value, 0) +
-      agreementBonus(activeSignals, thresholds.agreement_bonus) -
-      snapshotPenalty;
+      agreementBonus(activeSignals, thresholds.agreement_bonus);
 
     districtModelContextById[district.id] = {
-      cap,
-      bulletin,
-      reservoir,
-      dam,
-      cwc,
-      radar,
+      cap: weightedCap,
+      bulletin: weightedBulletin,
+      reservoir: weightedReservoir,
+      dam: weightedDam,
+      cwc: weightedCwc,
+      radar: weightedRadar,
       observation,
       terrain,
       runoffPotential,
@@ -366,8 +458,8 @@ export function buildRiskOutputs(context) {
     const level = scoreToLevel(score);
 
     const drivers = [
-      cap.severity > 0 ? `IMD CAP severity ${round(cap.severity * 100)}%` : null,
-      bulletin.severity > 0 ? "IMD flash-flood bulletin corroborates threat" : null,
+      weightedCap.effective_severity > 0 ? `IMD CAP severity ${round(weightedCap.effective_severity * 100)}%` : null,
+      weightedBulletin.effective_severity > 0 ? "IMD flash-flood bulletin corroborates threat" : null,
       observation
         ? `Observed 24h rain ${observation.rain_24h_mm ?? 0} mm and 1h rain ${observation.rain_1h_mm ?? 0} mm`
         : null,
@@ -379,16 +471,16 @@ export function buildRiskOutputs(context) {
         : null,
       observation?.peak_30m_mm ? `Peak recent 30 min rain ${observation.peak_30m_mm} mm` : null,
       observation?.spatial_aggregation ? `Rainfall aggregation ${observation.spatial_aggregation}` : null,
-      radar.severity > 0
-        ? `RainViewer nowcast ${radar.intensity.replaceAll("_", " ")} (${radar.max_dbz ?? "n/a"} dBZ)`
+      weightedRadar.effective_severity > 0
+        ? `RainViewer nowcast ${weightedRadar.intensity.replaceAll("_", " ")} (${weightedRadar.max_dbz ?? "n/a"} dBZ)`
         : null,
       `Runoff potential ${runoffPotential.label} (wetness ${runoffPotential.wetness_index}, trigger ${runoffPotential.trigger_index})`,
       terrain.dem
         ? `Terrain susceptibility ${(terrain.value * 100).toFixed(0)}% from NASADEM + local baseline`
         : `Terrain susceptibility ${(terrain.value * 100).toFixed(0)}% from local baseline`,
-      cwc.active ? "CWC river-stage warning/watch active" : null,
-      reservoir.active ? "Reservoir caution active" : null,
-      dam.active ? "Dam downstream caution active" : null
+      weightedCwc.active && weightedCwc.effective_severity > 0 ? "CWC river-stage warning/watch active" : null,
+      weightedReservoir.active && weightedReservoir.effective_severity > 0 ? "Reservoir caution active" : null,
+      weightedDam.active && weightedDam.effective_severity > 0 ? "Dam downstream caution active" : null
     ].filter(Boolean);
 
     return {
@@ -462,7 +554,17 @@ export function buildRiskOutputs(context) {
       severity: radarByDistrict[hotspot.district_id]?.severity ?? 0,
       intensity: radarByDistrict[hotspot.district_id]?.intensity ?? "none",
       max_dbz: radarByDistrict[hotspot.district_id]?.max_dbz ?? null,
-      notes: radarByDistrict[hotspot.district_id]?.notes ?? []
+      notes: radarByDistrict[hotspot.district_id]?.notes ?? [],
+      source_ids: radarByDistrict[hotspot.district_id]?.source_ids ?? ["rainviewer-radar"]
+    };
+    const radarWeight = maxSourceWeight(
+      context.statusBySource,
+      radar.source_ids ?? ["rainviewer-radar"]
+    );
+    const weightedRadar = {
+      ...radar,
+      source_weight: radarWeight,
+      effective_severity: (radar.severity ?? 0) * radarWeight
     };
     const manualBoost = override?.score_boost ?? 0;
     const districtTerrain = terrainByDistrict[hotspot.district_id];
@@ -471,15 +573,16 @@ export function buildRiskOutputs(context) {
     const runoffPotential = computeRunoffPotential({
       category: hotspot.category,
       observation: districtModel?.observation,
-      radar,
+      radar: weightedRadar,
       susceptibility: hotspotSusceptibility,
-      rainfallCaps: thresholds.rainfall_caps_mm
+      rainfallCaps: thresholds.rainfall_caps_mm,
+      rainfallSourceWeights: rainfallSourceWeights(districtModel?.observation, context.statusBySource)
     });
     const supportForWatch = hasWatchSupport({
       category: hotspot.category,
       cap: districtModel?.cap,
       bulletin: districtModel?.bulletin,
-      radar,
+      radar: weightedRadar,
       cwc: districtModel?.cwc,
       reservoir: districtModel?.reservoir,
       dam: districtModel?.dam,
@@ -490,11 +593,11 @@ export function buildRiskOutputs(context) {
       hotspotSusceptibility * hotspotSusceptibilityWeight(hotspot.category) +
       categoryBoost +
       manualBoost +
-      severityToPoints(radar.severity) * 0.08 +
+      severityToPoints(effectiveSeverity(weightedRadar)) * 0.08 +
       Math.max(
-        severityToPoints(districtModel?.cwc?.severity),
-        severityToPoints(districtModel?.reservoir?.severity),
-        severityToPoints(districtModel?.dam?.severity)
+        severityToPoints(effectiveSeverity(districtModel?.cwc)),
+        severityToPoints(effectiveSeverity(districtModel?.reservoir)),
+        severityToPoints(effectiveSeverity(districtModel?.dam))
       ) *
         (["river_floodplain", "river_confluence", "dam_downstream"].includes(hotspot.category) ? 0.06 : 0.02);
     let score = round(clamp(hotspotRawScore / 100, 0, 1) * 100);
@@ -518,8 +621,8 @@ export function buildRiskOutputs(context) {
       buffer_km: hotspot.buffer_km ?? null,
       drivers: [
         ...districtState.drivers,
-        radar.severity > 0
-          ? `Hotspot radar echo ${radar.intensity.replaceAll("_", " ")} (${radar.max_dbz ?? "n/a"} dBZ)`
+        effectiveSeverity(weightedRadar) > 0
+          ? `Hotspot radar echo ${weightedRadar.intensity.replaceAll("_", " ")} (${weightedRadar.max_dbz ?? "n/a"} dBZ)`
           : null,
         !supportForWatch ? "No current rain, river-stage, or operational release trigger supporting hotspot watch" : null,
         `Hotspot runoff potential ${runoffPotential.label} (wetness ${runoffPotential.wetness_index}, trigger ${runoffPotential.trigger_index})`,
@@ -531,7 +634,7 @@ export function buildRiskOutputs(context) {
         sourceRefEntry.source_id === "rainviewer-radar"
           ? {
               ...sourceRefEntry,
-              detail: radar.notes?.[0] ?? sourceRefEntry.detail
+              detail: weightedRadar.notes?.[0] ?? sourceRefEntry.detail
             }
           : sourceRefEntry
       ),
@@ -562,6 +665,54 @@ export function buildRiskOutputs(context) {
         )
       : radarByDistrict[taluk.district_id] ?? { severity: 0, intensity: "none", max_dbz: null, notes: [] };
     const observation = rainfallByTaluk[taluk.taluk_id] ?? rainfallByDistrict[taluk.district_id] ?? null;
+    const capWeight = maxSourceWeight(context.statusBySource, cap.source_ids ?? ["imd-cap-rss"]);
+    const bulletinWeight = maxSourceWeight(
+      context.statusBySource,
+      bulletin.source_ids ?? ["imd-flash-flood-bulletin"]
+    );
+    const reservoirWeight = maxSourceWeight(
+      context.statusBySource,
+      reservoir.source_ids ?? ["ksdma-reservoirs"]
+    );
+    const damWeight = maxSourceWeight(
+      context.statusBySource,
+      dam.source_ids ?? ["ksdma-dam-management"]
+    );
+    const hydrologyWeight = maxSourceWeight(
+      context.statusBySource,
+      cwc.source_ids ?? ["cwc-ffs", "indiawris-river-level"]
+    );
+    const radarWeight = maxSourceWeight(
+      context.statusBySource,
+      radar.source_ids ?? ["rainviewer-radar"]
+    );
+    const weightedCap = { ...cap, source_weight: capWeight, effective_severity: (cap.severity ?? 0) * capWeight };
+    const weightedBulletin = {
+      ...bulletin,
+      source_weight: bulletinWeight,
+      effective_severity: (bulletin.severity ?? 0) * bulletinWeight
+    };
+    const weightedReservoir = {
+      ...reservoir,
+      source_weight: reservoirWeight,
+      effective_severity: (reservoir.severity ?? 0) * reservoirWeight
+    };
+    const weightedDam = {
+      ...dam,
+      source_weight: damWeight,
+      effective_severity: (dam.severity ?? 0) * damWeight
+    };
+    const weightedCwc = {
+      ...cwc,
+      source_weight: hydrologyWeight,
+      effective_severity: (cwc.severity ?? 0) * hydrologyWeight
+    };
+    const weightedRadar = {
+      ...radar,
+      source_weight: radarWeight,
+      effective_severity: (radar.severity ?? 0) * radarWeight
+    };
+    const observationSourceWeights = rainfallSourceWeights(observation, context.statusBySource);
     const talukHotspots = (taluk.hotspot_ids ?? [])
       .map((hotspotId) => hotspotStateLookup[hotspotId])
       .filter(Boolean);
@@ -579,72 +730,67 @@ export function buildRiskOutputs(context) {
     const runoffPotential = computeRunoffPotential({
       category: dominantHotspotCategory,
       observation,
-      radar,
+      radar: weightedRadar,
       susceptibility: hotspotSusceptibility,
-      rainfallCaps: thresholds.rainfall_caps_mm
+      rainfallCaps: thresholds.rainfall_caps_mm,
+      rainfallSourceWeights: observationSourceWeights
     });
     const componentScores = {
-      cap_warning: severityToPoints(cap.severity) * thresholds.weights.cap_warning,
+      cap_warning: severityToPoints(weightedCap.effective_severity) * thresholds.weights.cap_warning,
       flash_flood_bulletin:
-        severityToPoints(bulletin.severity) * thresholds.weights.flash_flood_bulletin,
-      rainfall: computeRainfallScore(observation, thresholds.rainfall_caps_mm) * thresholds.weights.rainfall,
+        severityToPoints(weightedBulletin.effective_severity) * thresholds.weights.flash_flood_bulletin,
+      rainfall:
+        computeRainfallScore(observation, thresholds.rainfall_caps_mm, observationSourceWeights) *
+        thresholds.weights.rainfall,
       antecedent_wetness:
-        computeAntecedentScore(observation, thresholds.rainfall_caps_mm) *
+        computeAntecedentScore(observation, thresholds.rainfall_caps_mm, observationSourceWeights) *
         thresholds.weights.antecedent_wetness,
       terrain: hotspotSusceptibility * 100 * thresholds.weights.terrain,
-      hydrology: severityToPoints(cwc.severity) * thresholds.weights.hydrology,
+      hydrology: severityToPoints(weightedCwc.effective_severity) * thresholds.weights.hydrology,
       radar_nowcast:
-        severityToPoints(radar.severity) * (thresholds.weights.radar_nowcast ?? 0.08),
+        severityToPoints(weightedRadar.effective_severity) * (thresholds.weights.radar_nowcast ?? 0.08),
       reservoir_dam:
-        Math.max(severityToPoints(reservoir.severity), severityToPoints(dam.severity)) *
+        Math.max(
+          severityToPoints(weightedReservoir.effective_severity),
+          severityToPoints(weightedDam.effective_severity)
+        ) *
         thresholds.weights.reservoir_dam
     };
     const activeSignals = [
-      cap.severity > 0.2,
-      bulletin.severity > 0.2,
+      weightedCap.effective_severity > 0.2,
+      weightedBulletin.effective_severity > 0.2,
       (runoffPotential.score ?? 0) >= runoffPotentialThreshold(dominantHotspotCategory),
-      radar.severity > 0.2,
-      cwc.severity > 0.2 || reservoir.severity > 0.2 || dam.severity > 0.2
+      weightedRadar.effective_severity > 0.2,
+      weightedCwc.effective_severity > 0.2 ||
+        weightedReservoir.effective_severity > 0.2 ||
+        weightedDam.effective_severity > 0.2
     ].filter(Boolean).length;
-    const snapshotPenalty = sourceSnapshots.reduce((penalty, source) => {
-      if (source.status === "offline") {
-        return penalty + thresholds.freshness_penalties.offline / totalSources;
-      }
-      if (source.status === "stale") {
-        return penalty + thresholds.freshness_penalties.stale / totalSources;
-      }
-      if (source.status === "degraded") {
-        return penalty + thresholds.freshness_penalties.degraded / totalSources;
-      }
-      return penalty;
-    }, 0);
     const rawScore =
       Object.values(componentScores).reduce((sum, value) => sum + value, 0) +
       agreementBonus(activeSignals, thresholds.agreement_bonus) +
       hotspotExcess * 0.35 +
-      Math.min(8, talukHotspots.length * 2.5) -
-      snapshotPenalty;
+      Math.min(8, talukHotspots.length * 2.5);
     const talukSupportsWatch = talukHotspots.length
       ? talukHotspots.some((hotspot) =>
           hasWatchSupport({
             category: hotspot.category,
-            cap,
-            bulletin,
-            radar,
-            cwc,
-            reservoir,
-            dam,
+            cap: weightedCap,
+            bulletin: weightedBulletin,
+            radar: weightedRadar,
+            cwc: weightedCwc,
+            reservoir: weightedReservoir,
+            dam: weightedDam,
             runoffPotential
           })
         )
       : hasWatchSupport({
           category: null,
-          cap,
-          bulletin,
-          radar,
-          cwc,
-          reservoir,
-          dam,
+          cap: weightedCap,
+          bulletin: weightedBulletin,
+          radar: weightedRadar,
+          cwc: weightedCwc,
+          reservoir: weightedReservoir,
+          dam: weightedDam,
           runoffPotential
         });
     let score = round(clamp(rawScore / 100, 0, 1) * 100);
@@ -677,8 +823,8 @@ export function buildRiskOutputs(context) {
           : `Inherited rainfall and warning signal from ${districtState.name}`,
         observation?.peak_30m_mm ? `Peak recent 30 min rain ${observation.peak_30m_mm} mm` : null,
         observation?.spatial_aggregation ? `Rainfall aggregation ${observation.spatial_aggregation}` : null,
-        radar.severity > 0
-          ? `RainViewer nowcast ${radar.intensity.replaceAll("_", " ")} (${radar.max_dbz ?? "n/a"} dBZ)`
+        weightedRadar.effective_severity > 0
+          ? `RainViewer nowcast ${weightedRadar.intensity.replaceAll("_", " ")} (${weightedRadar.max_dbz ?? "n/a"} dBZ)`
           : null,
         talukHotspots.length
           ? `${talukHotspots.length} mapped hotspot${talukHotspots.length > 1 ? "s" : ""}: ${hotspotNames.slice(0, 3).join(", ")}${hotspotNames.length > 3 ? ", ..." : ""}`
@@ -686,9 +832,9 @@ export function buildRiskOutputs(context) {
         `Taluk susceptibility ${(hotspotSusceptibility * 100).toFixed(0)}% from district terrain and hotspot context`,
         `Runoff potential ${runoffPotential.label} (wetness ${runoffPotential.wetness_index}, trigger ${runoffPotential.trigger_index})`,
         !talukSupportsWatch ? "No current rain, river-stage, or operational release trigger supporting taluk watch" : null,
-        cwc.active ? "CWC river-stage warning/watch active" : null,
-        reservoir.active ? "Reservoir caution active" : null,
-        dam.active ? "Dam downstream caution active" : null
+        weightedCwc.active && weightedCwc.effective_severity > 0 ? "CWC river-stage warning/watch active" : null,
+        weightedReservoir.active && weightedReservoir.effective_severity > 0 ? "Reservoir caution active" : null,
+        weightedDam.active && weightedDam.effective_severity > 0 ? "Dam downstream caution active" : null
       ].filter(Boolean),
       source_refs: districtState.source_refs,
       review_state: level === "Severe - review required" ? "pending_review" : "auto_published"

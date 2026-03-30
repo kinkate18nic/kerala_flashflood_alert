@@ -288,6 +288,92 @@ function testRiskModel() {
   assert.ok(result.alerts.every((alert) => alert.source_refs.length > 0));
 }
 
+function testRiskModelDownweightsStaleSignals() {
+  const baseContext = {
+    generatedAt: "2026-03-30T12:00:00.000Z",
+    thresholds,
+    taluks: [],
+    approvals: [],
+    hotspotOverrides: [],
+    bulletinByDistrict: {},
+    rainfallByDistrict: {},
+    rainfallByTaluk: {},
+    capByDistrict: {
+      pathanamthitta: { severity: 0.72, items: ["Orange warning"], source_ids: ["imd-cap-rss"] }
+    },
+    reservoirByDistrict: {
+      pathanamthitta: {
+        active: true,
+        severity: 0.35,
+        notes: ["Reservoir caution active"],
+        source_ids: ["ksdma-reservoirs"]
+      }
+    },
+    damByDistrict: {},
+    cwcByDistrict: {
+      pathanamthitta: {
+        active: true,
+        severity: 0.4,
+        notes: ["CWC watch"],
+        source_ids: ["cwc-ffs"]
+      }
+    },
+    radarByDistrict: {
+      pathanamthitta: {
+        severity: 0.65,
+        intensity: "moderate",
+        max_dbz: 31,
+        notes: ["RainViewer moderate cell near district"],
+        source_ids: ["rainviewer-radar"]
+      }
+    },
+    freshnessBySource: {
+      "imd-cap-rss": 20,
+      "rainviewer-radar": 20,
+      "cwc-ffs": 20,
+      "ksdma-reservoirs": 20
+    }
+  };
+
+  const healthy = buildRiskOutputs({
+    ...baseContext,
+    sourceSnapshots: [
+      { source_id: "imd-cap-rss", status: "ok" },
+      { source_id: "rainviewer-radar", status: "ok" },
+      { source_id: "cwc-ffs", status: "ok" },
+      { source_id: "ksdma-reservoirs", status: "ok" }
+    ],
+    statusBySource: {
+      "imd-cap-rss": "ok",
+      "rainviewer-radar": "ok",
+      "cwc-ffs": "ok",
+      "ksdma-reservoirs": "ok"
+    }
+  });
+
+  const stale = buildRiskOutputs({
+    ...baseContext,
+    sourceSnapshots: [
+      { source_id: "imd-cap-rss", status: "stale" },
+      { source_id: "rainviewer-radar", status: "stale" },
+      { source_id: "cwc-ffs", status: "stale" },
+      { source_id: "ksdma-reservoirs", status: "stale" }
+    ],
+    statusBySource: {
+      "imd-cap-rss": "stale",
+      "rainviewer-radar": "stale",
+      "cwc-ffs": "stale",
+      "ksdma-reservoirs": "stale"
+    }
+  });
+
+  const healthyDistrict = healthy.districtStates.find((district) => district.area_id === "pathanamthitta");
+  const staleDistrict = stale.districtStates.find((district) => district.area_id === "pathanamthitta");
+
+  assert.ok(healthyDistrict.score >= thresholds.thresholds.watch);
+  assert.ok(staleDistrict.score < thresholds.thresholds.watch);
+}
+
 function testHotspotWatchNeedsDynamicTrigger() {
   const generatedAt = "2026-03-25T04:00:00.000Z";
   const result = buildRiskOutputs({
@@ -802,6 +888,7 @@ const tests = [
   ["indiawris-thresholds", testIndiaWrisRiverThresholdSeverity],
   ["hotspot-footprints", testHotspotFootprints],
   ["risk-model", testRiskModel],
+  ["risk-model-stale-weighting", testRiskModelDownweightsStaleSignals],
   ["risk-model-hotspot-gating", testHotspotWatchNeedsDynamicTrigger],
   ["pipeline", testPipeline],
   ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage],

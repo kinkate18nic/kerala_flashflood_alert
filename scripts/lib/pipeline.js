@@ -353,7 +353,14 @@ function normalizeRainfall(parsedSources, taluks) {
   const districtRainfallMap = {};
   const talukRainfallMap = {};
 
-  for (const entry of [...(imergSource.districts ?? []), ...(observationSource.active ? observationSource.districts ?? [] : [])]) {
+  const districtObservationEntries = [
+    ...(imergSource.districts ?? []).map((entry) => ({ ...entry, _sourceId: "nasa-imerg-nrt" })),
+    ...(observationSource.active
+      ? (observationSource.districts ?? []).map((entry) => ({ ...entry, _sourceId: "operator-observations" }))
+      : [])
+  ];
+
+  for (const entry of districtObservationEntries) {
     districtRainfallMap[entry.district_id] = {
       rain_1h_mm: entry.rain_1h_mm ?? 0,
       rain_3h_mm: entry.rain_3h_mm ?? 0,
@@ -362,6 +369,10 @@ function normalizeRainfall(parsedSources, taluks) {
       rain_3d_mm: entry.rain_3d_mm ?? 0,
       rain_7d_mm: entry.rain_7d_mm ?? 0,
       source: entry.source ?? (observationSource.active ? "operator" : "nasa-imerg"),
+      source_ids: [entry._sourceId],
+      short_duration_source_ids: [entry._sourceId],
+      daily_source_ids: [entry._sourceId],
+      antecedent_source_ids: [entry._sourceId],
       spatial_aggregation: entry.spatial_aggregation ?? null,
       cell_count: entry.cell_count ?? null,
       peak_30m_mm: entry.peak_30m_mm ?? null
@@ -377,6 +388,10 @@ function normalizeRainfall(parsedSources, taluks) {
       rain_3d_mm: entry.rain_3d_mm ?? 0,
       rain_7d_mm: entry.rain_7d_mm ?? 0,
       source: entry.source ?? "nasa-imerg",
+      source_ids: ["nasa-imerg-nrt"],
+      short_duration_source_ids: ["nasa-imerg-nrt"],
+      daily_source_ids: ["nasa-imerg-nrt"],
+      antecedent_source_ids: ["nasa-imerg-nrt"],
       district_id: entry.district_id ?? null,
       spatial_aggregation: entry.spatial_aggregation ?? null,
       cell_count: entry.cell_count ?? null,
@@ -398,6 +413,10 @@ function normalizeRainfall(parsedSources, taluks) {
       source: districtRainfallMap[entry.district_id]?.source
         ? `${districtRainfallMap[entry.district_id].source}+indiawris-cwc`
         : "indiawris-cwc",
+      source_ids: [...new Set([...(districtRainfallMap[entry.district_id]?.source_ids ?? []), "indiawris-rainfall"])],
+      short_duration_source_ids: districtRainfallMap[entry.district_id]?.short_duration_source_ids ?? ["indiawris-rainfall"],
+      daily_source_ids: ["indiawris-rainfall"],
+      antecedent_source_ids: ["indiawris-rainfall"],
       spatial_aggregation: districtRainfallMap[entry.district_id]?.spatial_aggregation
         ? `${districtRainfallMap[entry.district_id].spatial_aggregation}+indiawris_station_mean`
         : "indiawris_station_mean",
@@ -424,6 +443,10 @@ function normalizeRainfall(parsedSources, taluks) {
       source: talukRainfallMap[entry.taluk_id]?.source
         ? `${talukRainfallMap[entry.taluk_id].source}+indiawris-cwc`
         : "indiawris-cwc",
+      source_ids: [...new Set([...(talukRainfallMap[entry.taluk_id]?.source_ids ?? []), "indiawris-rainfall"])],
+      short_duration_source_ids: talukRainfallMap[entry.taluk_id]?.short_duration_source_ids ?? ["indiawris-rainfall"],
+      daily_source_ids: ["indiawris-rainfall"],
+      antecedent_source_ids: ["indiawris-rainfall"],
       spatial_aggregation: talukRainfallMap[entry.taluk_id]?.spatial_aggregation
         ? `${talukRainfallMap[entry.taluk_id].spatial_aggregation}+indiawris_station_mean`
         : "indiawris_station_mean",
@@ -453,7 +476,7 @@ function collapseSignals(parsedSources) {
   const capByDistrict = {};
   for (const item of parsedSources["imd-cap-rss"]?.items ?? []) {
     for (const districtId of item.districts) {
-      capByDistrict[districtId] ??= { severity: 0, items: [] };
+      capByDistrict[districtId] ??= { severity: 0, items: [], source_ids: ["imd-cap-rss"] };
       capByDistrict[districtId].severity = Math.max(capByDistrict[districtId].severity, item.severity);
       capByDistrict[districtId].items.push(item.title);
     }
@@ -463,7 +486,8 @@ function collapseSignals(parsedSources) {
   for (const districtId of parsedSources["imd-flash-flood-bulletin"]?.kerala_district_ids ?? []) {
     bulletinByDistrict[districtId] = {
       severity: parsedSources["imd-flash-flood-bulletin"].severity,
-      notes: ["Flash flood bulletin references district"]
+      notes: ["Flash flood bulletin references district"],
+      source_ids: ["imd-flash-flood-bulletin"]
     };
   }
 
@@ -474,7 +498,8 @@ function collapseSignals(parsedSources) {
       reservoirByDistrict[district.district_id] = {
         active: district.active ?? reservoirSource.alert_active ?? false,
         severity: district.severity ?? 0.35,
-        notes: [district.summary_note ?? "KSDMA KSEB dam level context"]
+        notes: [district.summary_note ?? "KSDMA KSEB dam level context"],
+        source_ids: ["ksdma-reservoirs"]
       };
     }
   } else {
@@ -482,7 +507,8 @@ function collapseSignals(parsedSources) {
       reservoirByDistrict[districtId] = {
         active: reservoirSource.alert_active,
         severity: reservoirSource.severity || 0.35,
-        notes: ["KSDMA reservoir caution context"]
+        notes: ["KSDMA reservoir caution context"],
+        source_ids: ["ksdma-reservoirs"]
       };
     }
   }
@@ -494,7 +520,8 @@ function collapseSignals(parsedSources) {
       damByDistrict[district.district_id] = {
         active: district.active ?? damSource.release_preparedness ?? false,
         severity: district.severity ?? 0.38,
-        notes: [district.summary_note ?? "KSDMA irrigation dam release context"]
+        notes: [district.summary_note ?? "KSDMA irrigation dam release context"],
+        source_ids: ["ksdma-dam-management"]
       };
     }
   } else {
@@ -502,7 +529,8 @@ function collapseSignals(parsedSources) {
       damByDistrict[districtId] = {
         active: damSource.release_preparedness,
         severity: damSource.severity || 0.38,
-        notes: ["KSDMA dam downstream notice"]
+        notes: ["KSDMA dam downstream notice"],
+        source_ids: ["ksdma-dam-management"]
       };
     }
   }
@@ -513,14 +541,16 @@ function collapseSignals(parsedSources) {
       cwcByDistrict[district] = {
         active: Boolean(parsedSources["cwc-ffs"].warning || parsedSources["cwc-ffs"].watch),
         severity: parsedSources["cwc-ffs"].warning ? 0.7 : parsedSources["cwc-ffs"].watch ? 0.4 : 0,
-        notes: ["CWC flood forecasting signal"]
+        notes: ["CWC flood forecasting signal"],
+        source_ids: ["cwc-ffs"]
       };
       continue;
     }
     cwcByDistrict[district.district_id] = {
       active: (district.severity ?? 0) > 0,
       severity: district.severity ?? 0,
-      notes: [district.summary_note ?? "CWC flood forecasting live river-level signal"].filter(Boolean)
+      notes: [district.summary_note ?? "CWC flood forecasting live river-level signal"].filter(Boolean),
+      source_ids: ["cwc-ffs"]
     };
   }
 
@@ -528,7 +558,8 @@ function collapseSignals(parsedSources) {
     const existing = cwcByDistrict[district.district_id] ?? {
       active: false,
       severity: 0,
-      notes: []
+      notes: [],
+      source_ids: []
     };
     const riverLevelText = district.summary_note ??
       (district.max_rise_m > 0
@@ -537,7 +568,8 @@ function collapseSignals(parsedSources) {
     cwcByDistrict[district.district_id] = {
       active: existing.active || (district.severity ?? 0) > 0,
       severity: Math.max(existing.severity, district.severity ?? 0),
-      notes: [riverLevelText, ...existing.notes].filter(Boolean)
+      notes: [riverLevelText, ...existing.notes].filter(Boolean),
+      source_ids: [...new Set([...(existing.source_ids ?? []), "indiawris-river-level"])]
     };
   }
 
@@ -547,6 +579,7 @@ function collapseSignals(parsedSources) {
       severity: district.severity ?? 0,
       intensity: district.intensity ?? "none",
       max_dbz: district.max_dbz ?? null,
+      source_ids: ["rainviewer-radar"],
       notes: district.intensity && district.intensity !== "none"
         ? [`RainViewer ${district.intensity.replaceAll("_", " ")} cell near district`]
         : ["No meaningful RainViewer radar echo near district"]
@@ -559,6 +592,7 @@ function collapseSignals(parsedSources) {
       severity: hotspot.severity ?? 0,
       intensity: hotspot.intensity ?? "none",
       max_dbz: hotspot.max_dbz ?? null,
+      source_ids: ["rainviewer-radar"],
       notes: hotspot.intensity && hotspot.intensity !== "none"
         ? [`RainViewer ${hotspot.intensity.replaceAll("_", " ")} cell near hotspot`]
         : ["No meaningful RainViewer radar echo near hotspot"]
