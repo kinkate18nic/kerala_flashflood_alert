@@ -249,6 +249,18 @@ h1 {
   transition: opacity 180ms ease, transform 180ms ease;
 }
 
+.district-shape.taluk-shape {
+  stroke: rgba(255, 252, 245, 0.92);
+  stroke-width: 1.8;
+  fill-opacity: 0.88;
+}
+
+.district-shape.district-context {
+  stroke: rgba(255, 249, 238, 0.28);
+  stroke-width: 2.2;
+  pointer-events: none;
+}
+
 .hotspot-footprint {
   fill-opacity: 0.22;
   stroke: rgba(255, 255, 255, 0.36);
@@ -271,6 +283,12 @@ h1 {
   stroke-width: 3px;
   stroke-linejoin: round;
   pointer-events: none;
+}
+
+.district-label.taluk-label {
+  font-size: 8px;
+  fill: rgba(255, 252, 245, 0.96);
+  stroke-width: 4px;
 }
 
 .map-overlay {

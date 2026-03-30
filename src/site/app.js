@@ -273,6 +273,19 @@ function getTalukIdFromFeature(feature, talukLookup) {
   return talukLookup[`${districtId}--${normalizeBoundaryName(talukName)}`] ?? null;
 }
 
+function shouldRenderTalukLabel(item) {
+  if (!item) {
+    return false;
+  }
+  if (item.level && item.level !== "Normal") {
+    return true;
+  }
+  if ((item.hotspot_count ?? 0) > 0) {
+    return true;
+  }
+  return (item.score ?? 0) >= 18;
+}
+
 function bindMapInteractions() {
   document.querySelectorAll("[data-area-id][data-area-type]").forEach((element) => {
     element.addEventListener("click", () => {
@@ -393,6 +406,11 @@ function renderMap() {
   const project = buildProjector(bounds);
   const districtAnchorsById = Object.fromEntries(areas.districts.map((district) => [district.id, district.anchor]));
   const projectedCentroids = {};
+  const districtContextFeatures = showTaluks
+    ? state.districtGeometry.features
+        .map((feature) => ({ ...feature, district_id: getDistrictIdFromFeature(feature) }))
+        .filter((feature) => feature.district_id && districtById[feature.district_id])
+    : [];
 
   references.districtLayer.innerHTML = visibleFeatures
     .map((feature) => {
@@ -404,7 +422,7 @@ function renderMap() {
       projectedCentroids[areaId] = centroid;
       return `
         <path
-          class="district-shape"
+          class="district-shape${showTaluks ? " taluk-shape" : ""}"
           data-area-id="${areaId}"
           data-area-type="${showTaluks ? "taluk" : "district"}"
           d="${pathData}"
@@ -415,13 +433,32 @@ function renderMap() {
     })
     .join("");
 
+  if (showTaluks && districtContextFeatures.length) {
+    references.districtLayer.innerHTML =
+      districtContextFeatures
+        .map((feature) => `
+          <path
+            class="district-shape district-context"
+            d="${geometryToPath(feature.geometry, project)}"
+            fill="none"
+          ></path>
+        `)
+        .join("") + references.districtLayer.innerHTML;
+  }
+
   references.districtLabelLayer.innerHTML = visibleFeatures
+    .filter((feature) => {
+      if (!showTaluks) {
+        return true;
+      }
+      return shouldRenderTalukLabel(talukById[feature.taluk_id]);
+    })
     .map((feature) => {
       const areaId = showTaluks ? feature.taluk_id : feature.district_id;
       const centroid = projectedCentroids[areaId];
       const item = showTaluks ? talukById[feature.taluk_id] : districtById[feature.district_id];
       return `
-        <text class="district-label" x="${centroid.x.toFixed(1)}" y="${(centroid.y + 4).toFixed(1)}">
+        <text class="district-label${showTaluks ? " taluk-label" : ""}" x="${centroid.x.toFixed(1)}" y="${(centroid.y + 4).toFixed(1)}">
           ${item?.name ?? feature.district_id}
         </text>
       `;
