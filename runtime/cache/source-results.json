@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-30T12:09:23.593Z",
+  "generated_at": "2026-03-30T12:13:39.609Z",
   "sources": {
     "imd-cap-rss": {
       "snapshot": {
@@ -7,41 +7,34 @@
         "name": "IMD CAP RSS",
         "owner": "India Meteorological Department",
         "category": "official-warning",
-        "fetched_at": "2026-03-30T11:40:23.053Z",
+        "fetched_at": "2026-03-30T12:13:40.019Z",
         "issued_at": "2026-03-30T11:21:53.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sachet.ndma.gov.in/cap_public_website/rss/rss_kerala.xml",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 18,
-        "duration_ms": 33050,
+        "freshness_minutes": 52,
+        "duration_ms": 23683,
         "notes": "IMD CAP RSS with 10 detail XML messages",
         "auth": "none",
         "summary": {
-          "item_count": 7,
+          "item_count": 3,
           "raw_item_count": 10,
-          "filtered_item_count": 3,
-          "district_count": 10
+          "filtered_item_count": 7,
+          "district_count": 3
         }
       },
       "parsed": {
         "issued_at": "2026-03-30T11:21:53.000Z",
-        "item_count": 7,
+        "item_count": 3,
         "raw_item_count": 10,
-        "filtered_item_count": 3,
-        "max_severity": 0.45,
+        "filtered_item_count": 7,
+        "max_severity": 0,
         "kerala_district_ids": [
           "ernakulam",
           "palakkad",
-          "thrissur",
-          "thiruvananthapuram",
-          "pathanamthitta",
-          "kottayam",
-          "alappuzha",
-          "idukki",
-          "wayanad",
-          "kasaragod"
+          "thrissur"
         ],
         "items": [
           {
@@ -58,6 +51,9 @@
               "ernakulam"
             ],
             "instruction": "Please follow SDMA guidelines.",
+            "effective_at": "2026-03-30T11:01:00.000Z",
+            "onset_at": "2026-03-30T11:21:53.000Z",
+            "expires_at": "2026-03-30T14:01:00.000Z",
             "geocodes": [
               {
                 "value_name": "LGD District Code",
@@ -85,6 +81,9 @@
               "thrissur"
             ],
             "instruction": "Please follow SDMA guidelines.",
+            "effective_at": "2026-03-30T10:14:00.000Z",
+            "onset_at": "2026-03-30T10:16:23.000Z",
+            "expires_at": "2026-03-30T13:14:00.000Z",
             "geocodes": [
               {
                 "value_name": "LGD District Code",
@@ -98,179 +97,21 @@
             "polygons": []
           },
           {
-            "title": "Thunderstorm with Heavy rainfall (&amp;gt;15mm/hr)  gusty winds speed reaching 40 Kmph is likely at one or two places in Thiruvananthapuram district.",
+            "title": "Very High Forest Fire Risk is likely to occur over forest area near you, in next 7 days.",
             "description": "",
-            "area_desc": "Thiruvananthapuram district of Kerala",
+            "area_desc": "Kerala",
             "categories": [
               "Met"
             ],
-            "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1774788168488006",
-            "published_at": "2026-03-29T12:50:12.000Z",
+            "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1774595318637006",
+            "published_at": "2026-03-27T07:08:38.000Z",
             "severity": 0,
-            "districts": [
-              "thiruvananthapuram"
-            ],
-            "instruction": "Please follow SDMA guidelines.",
-            "geocodes": [
-              {
-                "value_name": "LGD District Code",
-                "value": "565"
-              },
-              {
-                "value_name": "LGD District Code",
-                "value": "565"
-              }
-            ],
-            "polygons": []
-          },
-          {
-            "title": "TThunderstorm with Heavy rainfall (&amp;gt;15mm/hr)  gusty winds speed reaching 40 Kmph is likely at one or two places in  Pathanamthitta, Kottayam and Ernakulam districts",
-            "description": "",
-            "area_desc": "Ernakulam,Kottayam,Pathanamthitta districts of Kerala",
-            "categories": [
-              "Met"
-            ],
-            "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1774782599843006",
-            "published_at": "2026-03-29T11:44:52.000Z",
-            "severity": 0,
-            "districts": [
-              "ernakulam",
-              "pathanamthitta",
-              "kottayam"
-            ],
-            "instruction": "Please follow SDMA guidelines.",
-            "geocodes": [
-              {
-                "value_name": "LGD District Code",
-                "value": "555"
-              },
-              {
-                "value_name": "LGD District Code",
-                "value": "564"
-              },
-              {
-                "value_name": "LGD District Code",
-                "value": "560"
-              },
-              {
-                "value_name": "LGD District Code",
-                "value": "555"
-              },
-              {
-                "value_name": "LGD District Code",
-                "value": "564"
-              },
-              {
-                "value_name": "LGD District Code",
-                "value": "560"
-              }
-            ],
-            "polygons": []
-          },
-          {
-            "title": "Thunderstorm with Moderate rain (5-15mm/hr) and gusty wind speed reaching 50 kmph is very likely to occur at a few places over Alappuzha, Ernakulam in next 3 hours.",
-            "description": "",
-            "area_desc": "Alappuzha,Ernakulam districts of Kerala",
-            "categories": [
-              "Met"
-            ],
-            "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1774705667051006",
-            "published_at": "2026-03-28T14:29:07.000Z",
-            "severity": 0.45,
-            "districts": [
-              "alappuzha",
-              "ernakulam"
-            ],
-            "instruction": "Please follow SDMA guidelines.",
-            "geocodes": [
-              {
-                "value_name": "LGD District Code",
-                "value": "554"
-              },
-              {
-                "value_name": "LGD District Code",
-                "value": "555"
-              },
-              {
-                "value_name": "LGD District Code",
-                "value": "554"
-              },
-              {
-                "value_name": "LGD District Code",
-                "value": "555"
-              }
-            ],
-            "polygons": []
-          },
-          {
-            "title": "Thunderstorm with Moderate rain (5-15mm/hr) and gusty wind speed reaching 50 kmph  is very likely to occur at a few places over Idukki, Kottayam in next 3 hours.",
-            "description": "",
-            "area_desc": "Idukki, Kottayam districts of Kerala",
-            "categories": [
-              "Met"
-            ],
-            "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1774699843447006",
-            "published_at": "2026-03-28T12:10:20.000Z",
-            "severity": 0.45,
-            "districts": [
-              "idukki",
-              "kottayam"
-            ],
-            "instruction": "Please follow SDMA guidelines.",
-            "geocodes": [
-              {
-                "value_name": "LGD District Code",
-                "value": "556"
-              },
-              {
-                "value_name": "LGD District Code",
-                "value": "560"
-              }
-            ],
-            "polygons": []
-          },
-          {
-            "title": "Thunderstorm with Moderate rainfall(5-15mm/hr) and gusty wind speed reaching 50 kmph is very likely to occur at a few places over Kasaragod, Pathanamthitta, Wayanad in next 3 hours.",
-            "description": "",
-            "area_desc": "Kasaragod,Pathanamthitta,Wayanad districts of Kerala",
-            "categories": [
-              "Met"
-            ],
-            "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1774694606297006",
-            "published_at": "2026-03-28T11:23:19.000Z",
-            "severity": 0.45,
-            "districts": [
-              "wayanad",
-              "pathanamthitta",
-              "kasaragod"
-            ],
-            "instruction": "Please follow SDMA guidelines.",
-            "geocodes": [
-              {
-                "value_name": "LGD District Code",
-                "value": "567"
-              },
-              {
-                "value_name": "LGD District Code",
-                "value": "564"
-              },
-              {
-                "value_name": "LGD District Code",
-                "value": "558"
-              },
-              {
-                "value_name": "LGD District Code",
-                "value": "567"
-              },
-              {
-                "value_name": "LGD District Code",
-                "value": "564"
-              },
-              {
-                "value_name": "LGD District Code",
-                "value": "558"
-              }
-            ],
+            "districts": [],
+            "instruction": null,
+            "effective_at": "2026-03-27T07:04:00.000Z",
+            "onset_at": "2026-03-27T07:08:38.000Z",
+            "expires_at": "2026-04-03T07:04:00.000Z",
+            "geocodes": [],
             "polygons": []
           }
         ]
@@ -282,7 +123,7 @@
         "name": "IMD Flash Flood Bulletin",
         "owner": "India Meteorological Department",
         "category": "official-guidance",
-        "fetched_at": "2026-03-30T10:42:32.443Z",
+        "fetched_at": "2026-03-30T12:13:41.942Z",
         "issued_at": null,
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://mausam.imd.gov.in/responsive/flashFloodBulletin.php",
         "fetch_status": "ok",
@@ -290,7 +131,7 @@
         "failure_stage": null,
         "status": "degraded",
         "freshness_minutes": null,
-        "duration_ms": 3192,
+        "duration_ms": 1421,
         "notes": "",
         "auth": "none",
         "summary": {
@@ -7409,7 +7250,7 @@
         "name": "Operator Observation Override",
         "owner": "Local operator",
         "category": "manual-observation",
-        "fetched_at": "2026-03-30T11:40:28.828Z",
+        "fetched_at": "2026-03-30T12:13:43.364Z",
         "issued_at": null,
         "raw_url": "data/manual/observations.json",
         "fetch_status": "ok",
@@ -7417,7 +7258,7 @@
         "failure_stage": null,
         "status": "degraded",
         "freshness_minutes": null,
-        "duration_ms": 6,
+        "duration_ms": 3,
         "notes": "",
         "auth": "none",
         "summary": {
