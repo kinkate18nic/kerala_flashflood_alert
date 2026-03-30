@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-03-30T11:40:22.482Z",
+  "generated_at": "2026-03-30T11:46:28.920Z",
   "alerts": [
     {
-      "alert_id": "h-pamba-corridor:2026-03-30T11:40:22.482Z",
+      "alert_id": "h-pamba-corridor:2026-03-30T11:46:28.920Z",
       "area_id": "h-pamba-corridor",
       "area_type": "hotspot",
       "district_id": "pathanamthitta",
       "name": "Aranmula - Kozhencherry - Ranni",
-      "score": 39.4,
-      "valid_from": "2026-03-30T11:40:22.482Z",
-      "valid_to": "2026-03-30T17:40:22.482Z",
+      "score": 45.8,
+      "valid_from": "2026-03-30T11:46:28.920Z",
+      "valid_to": "2026-03-30T17:46:28.920Z",
       "level": "Watch",
-      "confidence": 0.3,
+      "confidence": 0.5,
       "review_state": "auto_published",
       "drivers": [
         "IMD CAP severity 45%",
@@ -19,8 +19,8 @@
         "India-WRIS official 24h rainfall 2 mm from 1 station",
         "Peak India-WRIS station 24h rainfall 4 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast light (14 dBZ)",
-        "Runoff potential guarded (wetness 0.4, trigger 7.8)",
+        "RainViewer nowcast moderate (32 dBZ)",
+        "Runoff potential guarded (wetness 0.4, trigger 17.8)",
         "Terrain susceptibility 83% from NASADEM + local baseline",
         "CWC river-stage warning/watch active",
         "Reservoir caution active",
@@ -35,7 +35,7 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "2 CAP items",
-          "freshness_minutes": 18,
+          "freshness_minutes": 25,
           "status": "ok"
         },
         {
@@ -47,29 +47,98 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 2050,
+          "freshness_minutes": 2056,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 4640,
-          "status": "offline"
+          "freshness_minutes": 6,
+          "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "India-WRIS river level above danger at MALAKKARA",
-          "freshness_minutes": 2050,
+          "freshness_minutes": 2056,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.25 m across 4 stations",
-          "freshness_minutes": 250,
+          "freshness_minutes": 256,
           "status": "stale"
         }
       ],
       "message_en": "Aranmula - Kozhencherry - Ranni: Watch. IMD CAP severity 45%",
+      "recommended_actions": [
+        "Continue district monitoring.",
+        "Watch official IMD and district warnings for changes."
+      ]
+    },
+    {
+      "alert_id": "pathanamthitta:2026-03-30T11:46:28.920Z",
+      "area_id": "pathanamthitta",
+      "area_type": "district",
+      "district_id": "pathanamthitta",
+      "name": "Pathanamthitta",
+      "score": 36.8,
+      "valid_from": "2026-03-30T11:46:28.920Z",
+      "valid_to": "2026-03-30T17:46:28.920Z",
+      "level": "Watch",
+      "confidence": 0.5,
+      "review_state": "auto_published",
+      "drivers": [
+        "IMD CAP severity 45%",
+        "Observed 24h rain 2 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 2 mm from 1 station",
+        "Peak India-WRIS station 24h rainfall 4 mm",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "RainViewer nowcast moderate (32 dBZ)",
+        "Runoff potential guarded (wetness 0.4, trigger 17.8)",
+        "Terrain susceptibility 83% from NASADEM + local baseline",
+        "CWC river-stage warning/watch active",
+        "Reservoir caution active",
+        "Dam downstream caution active"
+      ],
+      "source_refs": [
+        {
+          "source_id": "imd-cap-rss",
+          "detail": "2 CAP items",
+          "freshness_minutes": 25,
+          "status": "ok"
+        },
+        {
+          "source_id": "imd-flash-flood-bulletin",
+          "detail": "No Kerala bulletin trigger",
+          "freshness_minutes": null,
+          "status": "degraded"
+        },
+        {
+          "source_id": "indiawris-rainfall",
+          "detail": "Official rainfall available from 1 station",
+          "freshness_minutes": 2056,
+          "status": "stale"
+        },
+        {
+          "source_id": "rainviewer-radar",
+          "detail": "RainViewer moderate cell near district",
+          "freshness_minutes": 6,
+          "status": "ok"
+        },
+        {
+          "source_id": "indiawris-river-level",
+          "detail": "India-WRIS river level above danger at MALAKKARA",
+          "freshness_minutes": 2056,
+          "status": "stale"
+        },
+        {
+          "source_id": "cwc-ffs",
+          "detail": "CWC flood forecasting observed river rise 0.25 m across 4 stations",
+          "freshness_minutes": 256,
+          "status": "stale"
+        }
+      ],
+      "message_en": "Pathanamthitta: Watch. IMD CAP severity 45%",
       "recommended_actions": [
         "Continue district monitoring.",
         "Watch official IMD and district warnings for changes."

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-30T11:40:22.482Z",
+  "generated_at": "2026-03-30T11:46:28.920Z",
   "sources": [
     {
       "source_id": "imd-cap-rss",
@@ -9,20 +9,24 @@
       "fetched_at": "2026-03-30T11:40:23.053Z",
       "issued_at": "2026-03-30T11:21:53.000Z",
       "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sachet.ndma.gov.in/cap_public_website/rss/rss_kerala.xml",
-      "fetch_status": "ok",
+      "fetch_status": "skipped_cached",
       "parser_status": "ok",
       "failure_stage": null,
       "status": "ok",
-      "freshness_minutes": 18,
-      "duration_ms": 33050,
-      "notes": "IMD CAP RSS with 10 detail XML messages",
+      "freshness_minutes": 25,
+      "duration_ms": 0,
+      "notes": "IMD CAP RSS with 10 detail XML messages. Source was not selected for this run. Reused last successful cached payload.",
       "auth": "none",
       "summary": {
         "item_count": 7,
         "raw_item_count": 10,
         "filtered_item_count": 3,
         "district_count": 10
-      }
+      },
+      "reused_in_run": true,
+      "reuse_reason": "source_selection",
+      "reused_age_minutes": 6,
+      "last_successful_fetched_at": "2026-03-30T11:40:23.053Z"
     },
     {
       "source_id": "imd-flash-flood-bulletin",
@@ -32,20 +36,20 @@
       "fetched_at": "2026-03-30T10:42:32.443Z",
       "issued_at": null,
       "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://mausam.imd.gov.in/responsive/flashFloodBulletin.php",
-      "fetch_status": "ok",
+      "fetch_status": "skipped_cached",
       "parser_status": "ok",
       "failure_stage": null,
       "status": "degraded",
       "freshness_minutes": null,
       "duration_ms": 0,
-      "notes": "Reused last successful fetch within 60-minute cadence window.",
+      "notes": "Source was not selected for this run. Reused last successful cached payload.",
       "auth": "none",
       "summary": {
         "excerpt": "Flash Flood Bulletin | India Meteorological Department हिन्दी वेबसाईट India Meteorological Department Ministry of Earth Sciences Government of India Navigation "
       },
       "reused_in_run": true,
-      "reuse_reason": "cadence_window",
-      "reused_age_minutes": 58,
+      "reuse_reason": "source_selection",
+      "reused_age_minutes": 64,
       "last_successful_fetched_at": "2026-03-30T10:42:32.443Z"
     },
     {
@@ -60,7 +64,7 @@
       "parser_status": "ok",
       "failure_stage": null,
       "status": "stale",
-      "freshness_minutes": 2050,
+      "freshness_minutes": 2056,
       "duration_ms": 0,
       "notes": "India-WRIS rainfall queried for 12 Kerala districts. Source was not selected for this run. Reused last successful cached payload.",
       "auth": "none",
@@ -74,7 +78,7 @@
       },
       "reused_in_run": true,
       "reuse_reason": "source_selection",
-      "reused_age_minutes": 58,
+      "reused_age_minutes": 64,
       "last_successful_fetched_at": "2026-03-30T10:42:35.621Z"
     },
     {
@@ -89,7 +93,7 @@
       "parser_status": "ok",
       "failure_stage": null,
       "status": "stale",
-      "freshness_minutes": 2050,
+      "freshness_minutes": 2056,
       "duration_ms": 0,
       "notes": "India-WRIS river level queried for 12 Kerala districts. Source was not selected for this run. Reused last successful cached payload.",
       "auth": "none",
@@ -102,7 +106,7 @@
       },
       "reused_in_run": true,
       "reuse_reason": "source_selection",
-      "reused_age_minutes": 57,
+      "reused_age_minutes": 64,
       "last_successful_fetched_at": "2026-03-30T10:42:55.624Z"
     },
     {
@@ -117,7 +121,7 @@
       "parser_status": "ok",
       "failure_stage": null,
       "status": "stale",
-      "freshness_minutes": 370,
+      "freshness_minutes": 376,
       "duration_ms": 0,
       "notes": "KSDMA KSEB daily dam PDF Water Levels of Major Reservoirs (KSEB). Source was not selected for this run. Reused last successful cached payload.",
       "auth": "none",
@@ -127,7 +131,7 @@
       },
       "reused_in_run": true,
       "reuse_reason": "source_selection",
-      "reused_age_minutes": 52,
+      "reused_age_minutes": 58,
       "last_successful_fetched_at": "2026-03-30T10:48:45.104Z"
     },
     {
@@ -142,7 +146,7 @@
       "parser_status": "ok",
       "failure_stage": null,
       "status": "stale",
-      "freshness_minutes": 370,
+      "freshness_minutes": 376,
       "duration_ms": 0,
       "notes": "KSDMA IRRIGATION daily dam PDF Water Levels of Major Reservoirs (IRRIGATION. Source was not selected for this run. Reused last successful cached payload.",
       "auth": "none",
@@ -152,7 +156,7 @@
       },
       "reused_in_run": true,
       "reuse_reason": "source_selection",
-      "reused_age_minutes": 51,
+      "reused_age_minutes": 57,
       "last_successful_fetched_at": "2026-03-30T10:49:06.117Z"
     },
     {
@@ -167,7 +171,7 @@
       "parser_status": "ok",
       "failure_stage": null,
       "status": "stale",
-      "freshness_minutes": 250,
+      "freshness_minutes": 256,
       "duration_ms": 0,
       "notes": "CWC FFS live river levels queried for 45 Kerala stations. Source was not selected for this run. Reused last successful cached payload.",
       "auth": "none",
@@ -183,7 +187,7 @@
       },
       "reused_in_run": true,
       "reuse_reason": "source_selection",
-      "reused_age_minutes": 51,
+      "reused_age_minutes": 57,
       "last_successful_fetched_at": "2026-03-30T10:49:26.566Z"
     },
     {
@@ -191,54 +195,46 @@
       "name": "RainViewer Radar Nowcast",
       "owner": "RainViewer / IMD radar aggregation",
       "category": "radar-nowcast",
-      "fetched_at": "2026-03-27T06:22:41.364Z",
-      "issued_at": "2026-03-27T06:20:00.000Z",
+      "fetched_at": "2026-03-30T11:46:29.065Z",
+      "issued_at": "2026-03-30T11:40:00.000Z",
       "raw_url": "https://api.rainviewer.com/public/weather-maps.json",
-      "fetch_status": "skipped_cached",
+      "fetch_status": "ok",
       "parser_status": "ok",
       "failure_stage": null,
-      "status": "offline",
-      "freshness_minutes": 4640,
-      "duration_ms": 0,
-      "notes": "RainViewer latest radar frame /v2/radar/a1306dbde0cb. Source was not selected for this run. Reused last successful cached payload.",
+      "status": "ok",
+      "freshness_minutes": 6,
+      "duration_ms": 1162,
+      "notes": "RainViewer latest radar frame /v2/radar/91e311dd8876",
       "auth": "none",
       "summary": {
         "district_count": 14,
         "hotspot_count": 20,
-        "latest_frame_time": "2026-03-27T06:20:00.000Z"
-      },
-      "reused_in_run": true,
-      "reuse_reason": "source_selection",
-      "reused_age_minutes": 4638,
-      "last_successful_fetched_at": "2026-03-27T06:22:41.364Z"
+        "latest_frame_time": "2026-03-30T11:40:00.000Z"
+      }
     },
     {
       "source_id": "nasa-imerg-nrt",
       "name": "NASA IMERG Near-Real-Time",
       "owner": "NASA GPM",
       "category": "satellite-rainfall",
-      "fetched_at": "2026-03-27T06:22:41.369Z",
-      "issued_at": "2026-03-27T01:59:59.000Z",
+      "fetched_at": "2026-03-30T11:46:29.068Z",
+      "issued_at": "2026-03-30T06:59:59.000Z",
       "raw_url": "https://gpm.nasa.gov/imerg",
-      "fetch_status": "skipped_cached",
+      "fetch_status": "ok",
       "parser_status": "ok",
       "failure_stage": null,
-      "status": "offline",
-      "freshness_minutes": 4900,
-      "duration_ms": 0,
-      "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260327-S013000-E015959.0090.V07C.30min.zip. Source was not selected for this run. Reused last successful cached payload.",
+      "status": "ok",
+      "freshness_minutes": 286,
+      "duration_ms": 20060,
+      "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260330-S063000-E065959.0390.V07C.30min.zip",
       "auth": "pps-basic",
       "summary": {
         "district_count": 14,
         "taluk_count": 61,
-        "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260327-S013000-E015959.0090.V07C.30min.zip",
-        "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260326-S233000-E235959.1410.V07C.3hr.zip",
-        "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260326-S233000-E235959.1410.V07C.1day.zip"
-      },
-      "reused_in_run": true,
-      "reuse_reason": "source_selection",
-      "reused_age_minutes": 4638,
-      "last_successful_fetched_at": "2026-03-27T06:22:41.369Z"
+        "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260330-S063000-E065959.0390.V07C.30min.zip",
+        "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260330-S053000-E055959.0330.V07C.3hr.zip",
+        "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260330-S053000-E055959.0330.V07C.1day.zip"
+      }
     },
     {
       "source_id": "operator-observations",
@@ -248,18 +244,22 @@
       "fetched_at": "2026-03-30T11:40:28.828Z",
       "issued_at": null,
       "raw_url": "data/manual/observations.json",
-      "fetch_status": "ok",
+      "fetch_status": "skipped_cached",
       "parser_status": "ok",
       "failure_stage": null,
       "status": "degraded",
       "freshness_minutes": null,
-      "duration_ms": 6,
-      "notes": "",
+      "duration_ms": 0,
+      "notes": "Source was not selected for this run. Reused last successful cached payload.",
       "auth": "none",
       "summary": {
         "district_count": 0,
         "taluk_count": 0
-      }
+      },
+      "reused_in_run": true,
+      "reuse_reason": "source_selection",
+      "reused_age_minutes": 6,
+      "last_successful_fetched_at": "2026-03-30T11:40:28.828Z"
     }
   ]
 }
