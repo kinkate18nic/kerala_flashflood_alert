@@ -1,18 +1,20 @@
-name: Refresh flood data (fast)
+name: Refresh India fast sources (local)
 
 on:
+  schedule:
+    - cron: "*/20 * * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: refresh-flood-data
+  group: refresh-india-fast-local
   cancel-in-progress: true
 
 jobs:
   refresh:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, windows, ffs-local]
 
     steps:
       - name: Checkout
@@ -24,36 +26,43 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
+        shell: powershell
         run: npm ci
 
       - name: Run tests
+        shell: powershell
         run: npm test
 
-      - name: Build live data (fast sources)
+      - name: Build live data (India fast sources)
+        shell: powershell
         env:
           PPS_EMAIL: ${{ secrets.PPS_EMAIL }}
           PPS_PASSWORD: ${{ secrets.PPS_PASSWORD }}
           NODE_OPTIONS: "--dns-result-order=ipv4first"
-          SOURCE_IDS: "imd-cap-rss,imd-flash-flood-bulletin,rainviewer-radar,nasa-imerg-nrt,operator-observations"
+          ENABLE_CADENCE_REUSE: "true"
+          SOURCE_IDS: "imd-cap-rss,imd-flash-flood-bulletin,operator-observations"
         run: node scripts/run-pipeline.js
 
       - name: Build static site
+        shell: powershell
         run: node scripts/build-site.js
 
       - name: Send reviewed severe alerts
+        shell: powershell
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: node scripts/send-telegram.js
 
       - name: Commit refreshed data
+        shell: powershell
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs runtime data/manual/review-approvals.json
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "chore: refresh fast flood data"
+          if (git diff --cached --quiet) {
+            Write-Output "No changes to commit"
+          } else {
+            git commit -m "chore: refresh india fast sources"
             git push
-          fi
+          }
