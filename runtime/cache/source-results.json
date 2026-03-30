@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-30T10:09:18.849Z",
+  "generated_at": "2026-03-30T10:42:28.212Z",
   "sources": {
     "imd-cap-rss": {
       "snapshot": {
@@ -7,31 +7,33 @@
         "name": "IMD CAP RSS",
         "owner": "India Meteorological Department",
         "category": "official-warning",
-        "fetched_at": "2026-03-30T10:09:19.589Z",
-        "issued_at": "2026-03-29T12:50:15.000Z",
+        "fetched_at": "2026-03-30T10:42:30.574Z",
+        "issued_at": "2026-03-30T10:16:30.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sachet.ndma.gov.in/cap_public_website/rss/rss_kerala.xml",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
-        "status": "stale",
-        "freshness_minutes": 1279,
-        "duration_ms": 489081,
-        "notes": "IMD CAP RSS with 1 detail XML messages",
+        "status": "ok",
+        "freshness_minutes": 26,
+        "duration_ms": 424960,
+        "notes": "IMD CAP RSS with 2 detail XML messages",
         "auth": "none",
         "summary": {
           "item_count": 8,
           "raw_item_count": 10,
           "filtered_item_count": 2,
-          "district_count": 5
+          "district_count": 7
         }
       },
       "parsed": {
-        "issued_at": "2026-03-29T12:50:15.000Z",
+        "issued_at": "2026-03-30T10:16:30.000Z",
         "item_count": 8,
         "raw_item_count": 10,
         "filtered_item_count": 2,
         "max_severity": 0.45,
         "kerala_district_ids": [
+          "palakkad",
+          "thrissur",
           "idukki",
           "kottayam",
           "kannur",
@@ -39,6 +41,21 @@
           "malappuram"
         ],
         "items": [
+          {
+            "title": "Thunderstorm with Heavy rainfall (&gt;15mm/hr)  gusty winds speed reaching 50 Kmph is likely at one or two places in Thrissur and Palakkad districts in next 3 hrs.",
+            "description": "",
+            "area_desc": null,
+            "categories": [
+              "Met"
+            ],
+            "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1774865783315006",
+            "published_at": "2026-03-30T10:16:30.000Z",
+            "severity": 0,
+            "districts": [
+              "palakkad",
+              "thrissur"
+            ]
+          },
           {
             "title": "അടുത്ത 3 മണിക്കൂറിൽ തിരുവനന്തപുരം ജില്ലയിൽ ഇടിമിന്നലോട് കൂടിയ ശക്തമായ മഴയ്ക്കും 40 kmph വരെ വേഗതയിൽ ശക്തമായ കാറ്റിനും സാധ്യത. 6.20 PM; 29.03.2026 IMD-KSDMA",
             "description": "",
@@ -129,18 +146,6 @@
             "published_at": "2026-03-28T11:17:57.000Z",
             "severity": 0,
             "districts": []
-          },
-          {
-            "title": "എറണാകുളം ജില്ലയിൽ ഒറ്റപ്പെട്ടയിടങ്ങളിൽ ഇടിമിന്നലോട് കൂടിയ ശക്തമായ മഴയ്ക്കും (&gt;15mm/hr) മണിക്കൂറിൽ 40 കിലോമീറ്റർ വരെ വേഗതയിൽ ശക്തമായ കാറ്റിനും സാധ്യത. IMD_KSDMA; 27.03.2026 10.30 PM",
-            "description": "",
-            "area_desc": null,
-            "categories": [
-              "Met"
-            ],
-            "link": "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1774630982487006",
-            "published_at": "2026-03-27T17:13:48.000Z",
-            "severity": 0,
-            "districts": []
           }
         ]
       }
@@ -151,7 +156,7 @@
         "name": "IMD Flash Flood Bulletin",
         "owner": "India Meteorological Department",
         "category": "official-guidance",
-        "fetched_at": "2026-03-30T10:09:21.223Z",
+        "fetched_at": "2026-03-30T10:42:32.443Z",
         "issued_at": null,
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://mausam.imd.gov.in/responsive/flashFloodBulletin.php",
         "fetch_status": "ok",
@@ -159,7 +164,7 @@
         "failure_stage": null,
         "status": "degraded",
         "freshness_minutes": null,
-        "duration_ms": 3316,
+        "duration_ms": 3192,
         "notes": "",
         "auth": "none",
         "summary": {
@@ -179,15 +184,15 @@
         "name": "India-WRIS CWC Rainfall",
         "owner": "India-WRIS / CWC",
         "category": "ground-rainfall",
-        "fetched_at": "2026-03-30T10:09:24.519Z",
+        "fetched_at": "2026-03-30T10:42:35.621Z",
         "issued_at": "2026-03-29T01:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://indiawris.gov.in/Dataset/RainFall",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "stale",
-        "freshness_minutes": 1959,
-        "duration_ms": 425387,
+        "freshness_minutes": 1992,
+        "duration_ms": 352212,
         "notes": "India-WRIS rainfall queried for 12 Kerala districts",
         "auth": "none",
         "summary": {
@@ -1706,15 +1711,15 @@
         "name": "India-WRIS CWC River Water Level",
         "owner": "India-WRIS / CWC",
         "category": "river-stage",
-        "fetched_at": "2026-03-30T10:09:45.656Z",
+        "fetched_at": "2026-03-30T10:42:55.624Z",
         "issued_at": "2026-03-29T01:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://indiawris.gov.in/Dataset/River Water Level",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "stale",
-        "freshness_minutes": 1959,
-        "duration_ms": 559794,
+        "freshness_minutes": 1992,
+        "duration_ms": 531887,
         "notes": "India-WRIS river level queried for 12 Kerala districts",
         "auth": "none",
         "summary": {
@@ -2653,15 +2658,15 @@
         "name": "KSDMA Daily Dam Levels (KSEB)",
         "owner": "Kerala State Disaster Management Authority",
         "category": "reservoir-status",
-        "fetched_at": "2026-03-30T10:16:42.617Z",
+        "fetched_at": "2026-03-30T10:48:45.104Z",
         "issued_at": "2026-03-30T05:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sdma.kerala.gov.in/dam-water-level/",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "stale",
-        "freshness_minutes": 279,
-        "duration_ms": 5702,
+        "freshness_minutes": 312,
+        "duration_ms": 3875,
         "notes": "KSDMA KSEB daily dam PDF Water Levels of Major Reservoirs (KSEB)",
         "auth": "none",
         "summary": {
@@ -3408,15 +3413,15 @@
         "name": "KSDMA Daily Dam Levels (Irrigation)",
         "owner": "Kerala State Disaster Management Authority",
         "category": "dam-status",
-        "fetched_at": "2026-03-30T10:16:55.426Z",
+        "fetched_at": "2026-03-30T10:49:06.117Z",
         "issued_at": "2026-03-30T05:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sdma.kerala.gov.in/dam-water-level/",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "stale",
-        "freshness_minutes": 279,
-        "duration_ms": 3430,
+        "freshness_minutes": 312,
+        "duration_ms": 2924,
         "notes": "KSDMA IRRIGATION daily dam PDF Water Levels of Major Reservoirs (IRRIGATION",
         "auth": "none",
         "summary": {
@@ -4285,15 +4290,15 @@
         "name": "CWC FFS Live River Levels",
         "owner": "Central Water Commission",
         "category": "river-stage",
-        "fetched_at": "2026-03-30T10:17:05.382Z",
+        "fetched_at": "2026-03-30T10:49:26.566Z",
         "issued_at": "2026-03-30T07:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://ffs.india-water.gov.in/",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 159,
-        "duration_ms": 160666,
+        "freshness_minutes": 192,
+        "duration_ms": 175460,
         "notes": "CWC FFS live river levels queried for 45 Kerala stations",
         "auth": "none",
         "summary": {
@@ -7278,7 +7283,7 @@
         "name": "Operator Observation Override",
         "owner": "Local operator",
         "category": "manual-observation",
-        "fetched_at": "2026-03-30T10:18:44.527Z",
+        "fetched_at": "2026-03-30T10:50:58.859Z",
         "issued_at": null,
         "raw_url": "data/manual/observations.json",
         "fetch_status": "ok",
@@ -7286,7 +7291,7 @@
         "failure_stage": null,
         "status": "degraded",
         "freshness_minutes": null,
-        "duration_ms": 19,
+        "duration_ms": 6,
         "notes": "",
         "auth": "none",
         "summary": {
