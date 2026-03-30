@@ -43,13 +43,14 @@ const repoRoot = path.resolve(__dirname, "..");
 async function testParsers() {
   const capRaw = await readFile(path.join(repoRoot, "fixtures", "imd-cap-rss.xml"), "utf8");
   const cap = await parseImdCapRss(capRaw);
-  assert.equal(cap.item_count, 2);
-  assert.ok(cap.kerala_district_ids.includes("idukki"));
+  assert.equal(cap.item_count, 0);
+  assert.equal(cap.raw_item_count, 2);
+  assert.equal(cap.kerala_district_ids.length, 0);
 
   const capDetailRaw = await readFile(path.join(repoRoot, "fixtures", "imd-cap-detail.xml"), "utf8");
   const capWithDetails = await parseImdCapRss(
     repoRoot,
-    { active_window_hours: 48 },
+    { reference_time: "2026-03-16T09:30:00+05:30" },
     JSON.stringify({
       rss: `<?xml version="1.0" encoding="UTF-8"?><rss><channel><item><title>Localized alert</title><description>Regional alert</description><link>https://example.org/cap/imd-test-ernakulam</link></item></channel></rss>`,
       details: [
@@ -64,7 +65,7 @@ async function testParsers() {
 
   const capWithGeocodeOnly = await parseImdCapRss(
     repoRoot,
-    { active_window_hours: 48 },
+    { reference_time: "2026-03-16T09:30:00+05:30" },
     JSON.stringify({
       rss: `<?xml version="1.0" encoding="UTF-8"?><rss><channel><item><title>Localized alert</title><description></description><link>https://example.org/cap/imd-test-geocode</link><pubDate>Mon, 16 Mar 2026 09:00:00 +0530</pubDate></item></channel></rss>`,
       details: [
@@ -77,6 +78,7 @@ async function testParsers() {
             <cap:info>
               <cap:category>Met</cap:category>
               <cap:severity>Severe</cap:severity>
+              <cap:expires>2026-03-16T12:00:00+05:30</cap:expires>
               <cap:headline>മുന്നറിയിപ്പ്</cap:headline>
               <cap:area>
                 <cap:areaDesc>4 districts of Kerala</cap:areaDesc>
@@ -99,24 +101,65 @@ async function testParsers() {
   assert.ok(capWithGeocodeOnly.kerala_district_ids.includes("kottayam"));
 
   const filteredCap = await parseImdCapRss(
-    `<?xml version="1.0" encoding="UTF-8"?><rss><channel>
-      <item>
-        <title>Fresh alert for Ernakulam</title>
-        <description>Heavy rain expected</description>
-        <pubDate>Tue, 18 Mar 2026 09:00:00 +0530</pubDate>
-      </item>
-      <item>
-        <title>Old alert for Idukki</title>
-        <description>Heavy rain expected</description>
-        <pubDate>Fri, 21 Feb 2026 09:00:00 +0530</pubDate>
-      </item>
-    </channel></rss>`,
-    { active_window_hours: 48 }
+    repoRoot,
+    { reference_time: "2026-03-30T17:16:00+05:30" },
+    JSON.stringify({
+      rss: `<?xml version="1.0" encoding="UTF-8"?><rss><channel>
+        <item>
+          <title>Fresh alert for Ernakulam</title>
+          <description>Heavy rain expected</description>
+          <link>https://example.org/cap/fresh-ernakulam</link>
+          <pubDate>Mon, 30 Mar 2026 16:51:53 +0530</pubDate>
+        </item>
+        <item>
+          <title>Expired alert for Pathanamthitta</title>
+          <description>Heavy rain expected</description>
+          <link>https://example.org/cap/expired-pathanamthitta</link>
+          <pubDate>Sun, 29 Mar 2026 17:14:55 +0530</pubDate>
+        </item>
+      </channel></rss>`,
+      details: [
+        {
+          link: "https://example.org/cap/fresh-ernakulam",
+          xml: `<?xml version="1.0" encoding="UTF-8"?>
+          <cap:alert xmlns:cap="urn:oasis:names:tc:emergency:cap:1.2">
+            <cap:identifier>fresh-ernakulam</cap:identifier>
+            <cap:sent>2026-03-30T16:51:53+05:30</cap:sent>
+            <cap:info>
+              <cap:category>Met</cap:category>
+              <cap:severity>Moderate</cap:severity>
+              <cap:expires>2026-03-30T19:31:00+05:30</cap:expires>
+              <cap:headline>Fresh alert for Ernakulam</cap:headline>
+              <cap:area>
+                <cap:areaDesc>Ernakulam district of Kerala</cap:areaDesc>
+              </cap:area>
+            </cap:info>
+          </cap:alert>`
+        },
+        {
+          link: "https://example.org/cap/expired-pathanamthitta",
+          xml: `<?xml version="1.0" encoding="UTF-8"?>
+          <cap:alert xmlns:cap="urn:oasis:names:tc:emergency:cap:1.2">
+            <cap:identifier>expired-pathanamthitta</cap:identifier>
+            <cap:sent>2026-03-29T17:14:55+05:30</cap:sent>
+            <cap:info>
+              <cap:category>Met</cap:category>
+              <cap:severity>Moderate</cap:severity>
+              <cap:expires>2026-03-29T20:00:00+05:30</cap:expires>
+              <cap:headline>Expired alert for Pathanamthitta</cap:headline>
+              <cap:area>
+                <cap:areaDesc>Pathanamthitta district of Kerala</cap:areaDesc>
+              </cap:area>
+            </cap:info>
+          </cap:alert>`
+        }
+      ]
+    })
   );
   assert.equal(filteredCap.item_count, 1);
   assert.equal(filteredCap.filtered_item_count, 1);
   assert.ok(filteredCap.kerala_district_ids.includes("ernakulam"));
-  assert.equal(filteredCap.kerala_district_ids.includes("idukki"), false);
+  assert.equal(filteredCap.kerala_district_ids.includes("pathanamthitta"), false);
 
   const bulletinRaw = await readFile(
     path.join(repoRoot, "fixtures", "imd-flash-flood-bulletin.html"),

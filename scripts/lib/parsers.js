@@ -156,6 +156,9 @@ function parseCapXmlDetail(detailXml, districtBoundaries) {
   const instruction = readFirstTag(detailXml, ["instruction"]) ?? "";
   const areaDesc = readFirstTag(detailXml, ["areaDesc"]) ?? "";
   const severityText = readFirstTag(detailXml, ["severity"]) ?? "";
+  const effectiveAt = parseDate(readFirstTag(detailXml, ["effective"]))?.toISOString() ?? null;
+  const onsetAt = parseDate(readFirstTag(detailXml, ["onset"]))?.toISOString() ?? null;
+  const expiresAt = parseDate(readFirstTag(detailXml, ["expires"]))?.toISOString() ?? null;
   const categoryValues = readCategoryValues(detailXml);
   const geocodes = parseCapGeocodes(detailXml);
   const polygons = [...detailXml.matchAll(/<(?:(?:\w+):)?polygon[^>]*>([\s\S]*?)<\/(?:(?:\w+):)?polygon>/gi)]
@@ -173,6 +176,9 @@ function parseCapXmlDetail(detailXml, districtBoundaries) {
   return {
     identifier: readFirstTag(detailXml, ["identifier"]) ?? null,
     sent: parseDate(readFirstTag(detailXml, ["sent"]))?.toISOString() ?? null,
+    effective_at: effectiveAt,
+    onset_at: onsetAt,
+    expires_at: expiresAt,
     title,
     description,
     instruction: instruction || null,
@@ -213,26 +219,26 @@ function latestPublishedAt(items) {
   return new Date(Math.max(...timestamps));
 }
 
-function filterRecentCapItems(items, activeWindowHours = 48) {
+function filterRecentCapItems(items, referenceTime = null) {
   const latest = latestPublishedAt(items);
-  if (!latest) {
+  if (!items.length) {
     return {
-      activeItems: items,
+      activeItems: [],
       filteredCount: 0,
       latestPublishedAt: null
     };
   }
 
-  const threshold = new Date(latest.getTime() - activeWindowHours * 60 * 60 * 1000);
+  const effectiveReference = parseDate(referenceTime) ?? new Date();
   const activeItems = items.filter((item) => {
-    const publishedAt = parseDate(item.published_at);
-    return publishedAt ? publishedAt.getTime() >= threshold.getTime() : false;
+    const expiresAt = parseDate(item.expires_at);
+    return expiresAt ? expiresAt.getTime() > effectiveReference.getTime() : false;
   });
 
   return {
     activeItems,
     filteredCount: items.length - activeItems.length,
-    latestPublishedAt: latest.toISOString()
+    latestPublishedAt: latest?.toISOString() ?? null
   };
 }
 
@@ -286,10 +292,10 @@ export async function parseImdCapRss(repoRootOrRaw, source = null, rawInput = nu
 
   const rssRaw = payload?.rss ?? raw;
   const base = await parseImdCapItems(rssRaw);
-  const activeWindowHours = Number(source?.active_window_hours ?? 48);
+  const referenceTime = source?.reference_time ?? null;
 
   if (!payload?.details?.length || !repoRoot) {
-    const filtered = filterRecentCapItems(base.items, activeWindowHours);
+    const filtered = filterRecentCapItems(base.items, referenceTime);
     return {
       issued_at: filtered.latestPublishedAt ?? base.issued_at,
       item_count: filtered.activeItems.length,
@@ -337,6 +343,9 @@ export async function parseImdCapRss(repoRootOrRaw, source = null, rawInput = nu
       area_desc: detail.area_desc,
       categories: detail.categories.length ? detail.categories : item.categories,
       published_at: detail.sent ?? item.published_at,
+      effective_at: detail.effective_at,
+      onset_at: detail.onset_at,
+      expires_at: detail.expires_at,
       severity,
       districts: detail.districts.length ? detail.districts : [...new Set([...item.districts, ...findDistrictIds(combinedText)])],
       geocodes: detail.geocodes,
@@ -344,7 +353,7 @@ export async function parseImdCapRss(repoRootOrRaw, source = null, rawInput = nu
     };
   });
 
-  const filtered = filterRecentCapItems(mergedItems, activeWindowHours);
+  const filtered = filterRecentCapItems(mergedItems, referenceTime);
 
   return {
     issued_at: filtered.latestPublishedAt ?? base.issued_at ?? null,
