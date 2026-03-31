@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-31T14:18:53.750Z",
+  "generated_at": "2026-03-31T15:05:29.770Z",
   "sources": {
     "imd-cap-rss": {
       "snapshot": {
@@ -88,71 +88,29 @@
         "name": "India-WRIS CWC Rainfall",
         "owner": "India-WRIS / CWC",
         "category": "ground-rainfall",
-        "fetched_at": "2026-03-31T13:27:14.252Z",
+        "fetched_at": "2026-03-31T15:05:30.168Z",
         "issued_at": "2026-03-30T09:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://indiawris.gov.in/Dataset/RainFall",
         "fetch_status": "ok",
         "parser_status": "ok",
-        "failure_stage": null,
+        "failure_stage": "partial",
         "status": "stale",
-        "freshness_minutes": 1677,
-        "duration_ms": 318340,
-        "notes": "India-WRIS rainfall queried for 12 Kerala districts",
+        "freshness_minutes": 1775,
+        "duration_ms": 383191,
+        "notes": "India-WRIS rainfall queried for 13/14 Kerala districts",
         "auth": "none",
         "summary": {
-          "district_count": 12,
-          "taluk_count": 25,
-          "station_count": 38,
+          "district_count": 11,
+          "taluk_count": 23,
+          "station_count": 36,
           "requested_district_count": 14,
-          "successful_district_count": 14,
-          "failed_district_count": 0
+          "successful_district_count": 13,
+          "failed_district_count": 1
         }
       },
       "parsed": {
         "issued_at": "2026-03-30T09:30:00.000Z",
         "districts": [
-          {
-            "district_id": "kasaragod",
-            "district_name": "Kasaragod",
-            "source": "indiawris-cwc",
-            "station_count": 2,
-            "max_station_24h_mm": 0,
-            "rain_24h_mm": 0,
-            "rain_3d_mm": 2.9,
-            "rain_7d_mm": 2.9,
-            "daily_series": [
-              {
-                "date": "2026-03-30",
-                "mean": 0,
-                "max": 0,
-                "station_count": 2
-              },
-              {
-                "date": "2026-03-28",
-                "mean": 2.9,
-                "max": 5.8,
-                "station_count": 2
-              },
-              {
-                "date": "2026-03-27",
-                "mean": 0,
-                "max": 0,
-                "station_count": 2
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 2
-              },
-              {
-                "date": "2026-03-25",
-                "mean": 0,
-                "max": 0,
-                "station_count": 2
-              }
-            ]
-          },
           {
             "district_id": "kannur",
             "district_name": "Kannur",
@@ -641,90 +599,6 @@
           }
         ],
         "taluks": [
-          {
-            "taluk_id": "kasaragod--hosdurg",
-            "district_id": "kasaragod",
-            "source": "indiawris-cwc",
-            "station_count": 1,
-            "max_station_24h_mm": 0,
-            "rain_24h_mm": 0,
-            "rain_3d_mm": 0,
-            "rain_7d_mm": 0,
-            "daily_series": [
-              {
-                "date": "2026-03-30",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              },
-              {
-                "date": "2026-03-28",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              },
-              {
-                "date": "2026-03-27",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              },
-              {
-                "date": "2026-03-25",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              }
-            ]
-          },
-          {
-            "taluk_id": "kasaragod--kasaragod",
-            "district_id": "kasaragod",
-            "source": "indiawris-cwc",
-            "station_count": 1,
-            "max_station_24h_mm": 0,
-            "rain_24h_mm": 0,
-            "rain_3d_mm": 5.8,
-            "rain_7d_mm": 5.8,
-            "daily_series": [
-              {
-                "date": "2026-03-30",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              },
-              {
-                "date": "2026-03-28",
-                "mean": 5.8,
-                "max": 5.8,
-                "station_count": 1
-              },
-              {
-                "date": "2026-03-27",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              },
-              {
-                "date": "2026-03-25",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              }
-            ]
-          },
           {
             "taluk_id": "kannur--thalassery",
             "district_id": "kannur",
@@ -1722,11 +1596,18 @@
             ]
           }
         ],
-        "station_count": 38,
+        "station_count": 36,
         "requested_district_count": 14,
-        "successful_district_count": 14,
-        "failed_districts": [],
-        "partial_failure_count": 0
+        "successful_district_count": 13,
+        "failed_districts": [
+          {
+            "district_id": "kasaragod",
+            "district_name": "Kasaragod",
+            "status": 599,
+            "error": "Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+          }
+        ],
+        "partial_failure_count": 1
       }
     },
     "indiawris-river-level": {
@@ -1735,15 +1616,15 @@
         "name": "India-WRIS CWC River Water Level",
         "owner": "India-WRIS / CWC",
         "category": "river-stage",
-        "fetched_at": "2026-03-31T13:27:14.252Z",
+        "fetched_at": "2026-03-31T15:05:30.168Z",
         "issued_at": "2026-03-30T17:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://indiawris.gov.in/Dataset/River Water Level",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 1197,
-        "duration_ms": 484135,
+        "freshness_minutes": 1295,
+        "duration_ms": 557199,
         "notes": "India-WRIS river level queried for 12 Kerala districts",
         "auth": "none",
         "summary": {
@@ -2662,15 +2543,15 @@
         "name": "KSDMA Daily Dam Levels (KSEB)",
         "owner": "Kerala State Disaster Management Authority",
         "category": "reservoir-status",
-        "fetched_at": "2026-03-31T13:27:14.253Z",
+        "fetched_at": "2026-03-31T15:05:30.169Z",
         "issued_at": "2026-03-31T05:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sdma.kerala.gov.in/dam-water-level/",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
-        "status": "stale",
-        "freshness_minutes": 477,
-        "duration_ms": 4720,
+        "status": "offline",
+        "freshness_minutes": 575,
+        "duration_ms": 5227,
         "notes": "KSDMA KSEB daily dam PDF Water Levels of Major Reservoirs (KSEB)",
         "auth": "none",
         "summary": {
@@ -3417,15 +3298,15 @@
         "name": "KSDMA Daily Dam Levels (Irrigation)",
         "owner": "Kerala State Disaster Management Authority",
         "category": "dam-status",
-        "fetched_at": "2026-03-31T13:28:25.847Z",
+        "fetched_at": "2026-03-31T15:06:36.355Z",
         "issued_at": "2026-03-31T05:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sdma.kerala.gov.in/dam-water-level/",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
-        "status": "stale",
-        "freshness_minutes": 477,
-        "duration_ms": 4482,
+        "status": "offline",
+        "freshness_minutes": 575,
+        "duration_ms": 3115,
         "notes": "KSDMA IRRIGATION daily dam PDF Water Levels of Major Reservoirs (IRRIGATION",
         "auth": "none",
         "summary": {
@@ -4294,24 +4175,24 @@
         "name": "CWC FFS Live River Levels",
         "owner": "Central Water Commission",
         "category": "river-stage",
-        "fetched_at": "2026-03-31T13:31:13.815Z",
+        "fetched_at": "2026-03-31T15:11:07.581Z",
         "issued_at": "2026-03-30T07:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://ffs.india-water.gov.in/",
         "fetch_status": "ok",
         "parser_status": "ok",
-        "failure_stage": null,
+        "failure_stage": "partial",
         "status": "offline",
-        "freshness_minutes": 1797,
-        "duration_ms": 274054,
-        "notes": "CWC FFS live river levels queried for 45 Kerala stations",
+        "freshness_minutes": 1895,
+        "duration_ms": 258810,
+        "notes": "CWC FFS live river levels queried for 44/45 Kerala stations",
         "auth": "none",
         "summary": {
           "district_count": 13,
           "taluk_count": 0,
-          "station_count": 43,
+          "station_count": 42,
           "requested_station_count": 45,
-          "successful_station_count": 45,
-          "failed_station_count": 0,
+          "successful_station_count": 44,
+          "failed_station_count": 1,
           "above_warning_station_count": 0,
           "above_danger_station_count": 0
         }
@@ -4319,100 +4200,6 @@
       "parsed": {
         "issued_at": "2026-03-30T13:00:00+05:30",
         "districts": [
-          {
-            "district_id": "kasaragod",
-            "source": "cwc-ffs",
-            "severity": 0,
-            "station_count": 3,
-            "max_rise_m": 0,
-            "threshold_station_count": 3,
-            "above_warning_station_count": 0,
-            "above_danger_station_count": 0,
-            "max_threshold_ratio": -1,
-            "severity_basis": "threshold",
-            "summary_note": "CWC flood forecasting live river level available from 3 stations",
-            "stations": [
-              {
-                "station_code": "041cdbng",
-                "station_name": "ADKASTHALA",
-                "latest_level_m": 37.075,
-                "rise_m": 0,
-                "data_time": "2026-03-30T13:00:00+05:30",
-                "tehsil": null,
-                "station_lat": 12.674999999999999,
-                "station_lon": 75.115,
-                "district_id": "kasaragod",
-                "taluk_id": null,
-                "warning_level_m": 43.745,
-                "danger_level_m": 44.745,
-                "highest_flood_level_m": 46.745,
-                "threshold_confidence": "confirmed",
-                "threshold_ratio": -1,
-                "level_status": "below_warning",
-                "severity_basis": "threshold",
-                "severity": 0,
-                "forecast_peak_level_m": null,
-                "forecast_crossing_time": null,
-                "forecast_status": "forecast_unavailable",
-                "forecast_rows": 0,
-                "forecast_severity": 0
-              },
-              {
-                "station_code": "001-SWRDKOCHI",
-                "station_name": "ERINJIPUZHA",
-                "latest_level_m": 1.75,
-                "rise_m": -10.86,
-                "data_time": "2026-03-30T08:00:00+05:30",
-                "tehsil": null,
-                "station_lat": 12.495833333333332,
-                "station_lon": 75.15694444444445,
-                "district_id": "kasaragod",
-                "taluk_id": null,
-                "warning_level_m": 18.03,
-                "danger_level_m": 19.03,
-                "highest_flood_level_m": 19.08,
-                "threshold_confidence": "confirmed",
-                "threshold_ratio": -1,
-                "level_status": "below_warning",
-                "severity_basis": "threshold",
-                "severity": 0,
-                "forecast_peak_level_m": null,
-                "forecast_crossing_time": null,
-                "forecast_status": "forecast_unavailable",
-                "forecast_rows": 0,
-                "forecast_severity": 0
-              },
-              {
-                "station_code": "026-SWRDKOCHI",
-                "station_name": "POOKKAYAM",
-                "latest_level_m": 33.57,
-                "rise_m": 0,
-                "data_time": "2026-03-30T13:00:00+05:30",
-                "tehsil": null,
-                "station_lat": 12.458458333333333,
-                "station_lon": 75.27633888888889,
-                "district_id": "kasaragod",
-                "taluk_id": null,
-                "warning_level_m": 36.2,
-                "danger_level_m": 37.2,
-                "highest_flood_level_m": null,
-                "threshold_confidence": "confirmed",
-                "threshold_ratio": -1,
-                "level_status": "below_warning",
-                "severity_basis": "threshold",
-                "severity": 0,
-                "forecast_peak_level_m": null,
-                "forecast_crossing_time": null,
-                "forecast_status": "forecast_unavailable",
-                "forecast_rows": 0,
-                "forecast_severity": 0
-              }
-            ],
-            "forecast_warning_station_count": 0,
-            "forecast_danger_station_count": 0,
-            "forecast_station_count": 0,
-            "forecast_severity": 0
-          },
           {
             "district_id": "thrissur",
             "source": "cwc-ffs",
@@ -4847,6 +4634,75 @@
                 "warning_level_m": 26.5,
                 "danger_level_m": 27.5,
                 "highest_flood_level_m": 28.1,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              }
+            ],
+            "forecast_warning_station_count": 0,
+            "forecast_danger_station_count": 0,
+            "forecast_station_count": 0,
+            "forecast_severity": 0
+          },
+          {
+            "district_id": "kasaragod",
+            "source": "cwc-ffs",
+            "severity": 0,
+            "station_count": 2,
+            "max_rise_m": 0,
+            "threshold_station_count": 2,
+            "above_warning_station_count": 0,
+            "above_danger_station_count": 0,
+            "max_threshold_ratio": -1,
+            "severity_basis": "threshold",
+            "summary_note": "CWC flood forecasting live river level available from 2 stations",
+            "stations": [
+              {
+                "station_code": "001-SWRDKOCHI",
+                "station_name": "ERINJIPUZHA",
+                "latest_level_m": 1.75,
+                "rise_m": -10.86,
+                "data_time": "2026-03-30T08:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 12.495833333333332,
+                "station_lon": 75.15694444444445,
+                "district_id": "kasaragod",
+                "taluk_id": null,
+                "warning_level_m": 18.03,
+                "danger_level_m": 19.03,
+                "highest_flood_level_m": 19.08,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              },
+              {
+                "station_code": "026-SWRDKOCHI",
+                "station_name": "POOKKAYAM",
+                "latest_level_m": 33.57,
+                "rise_m": 0,
+                "data_time": "2026-03-30T13:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 12.458458333333333,
+                "station_lon": 75.27633888888889,
+                "district_id": "kasaragod",
+                "taluk_id": null,
+                "warning_level_m": 36.2,
+                "danger_level_m": 37.2,
+                "highest_flood_level_m": null,
                 "threshold_confidence": "confirmed",
                 "threshold_ratio": -1,
                 "level_status": "below_warning",
@@ -5642,11 +5498,19 @@
             "forecast_severity": 0
           }
         ],
-        "station_count": 43,
+        "station_count": 42,
         "requested_station_count": 45,
-        "successful_station_count": 45,
-        "failed_stations": [],
-        "partial_failure_count": 0,
+        "successful_station_count": 44,
+        "failed_stations": [
+          {
+            "station_code": "041cdbng",
+            "station_name": "ADKASTHALA",
+            "district_id": "kasaragod",
+            "status": 599,
+            "error": "https://ffs.india-water.gov.in/iam/api/new-entry-data/specification/sorted-page?sort-criteria=%7B%22sortOrderDtos%22%3A%5B%7B%22sortDirection%22%3A%22DESC%22%2C%22field%22%3A%22id.dataTime%22%7D%5D%7D&page-number=0&page-size=2&specification=%7B%22where%22%3A%7B%22where%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.stationCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22041cdbng%22%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.datatypeCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22HHS%22%7D%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22dataValue%22%2C%22operator%22%3A%22null%22%2C%22value%22%3A%22false%22%7D%7D%7D: fetch failed"
+          }
+        ],
+        "partial_failure_count": 1,
         "above_warning_station_count": 0,
         "above_danger_station_count": 0,
         "forecast_warning_station_count": 0,
