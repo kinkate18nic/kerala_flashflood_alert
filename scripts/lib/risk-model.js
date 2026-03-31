@@ -164,6 +164,10 @@ function hasOfficialSupport(cap, bulletin, districtWarning) {
   );
 }
 
+function hasDirectOfficialSupport(cap, bulletin) {
+  return effectiveSeverity(cap) > 0.2 || effectiveSeverity(bulletin) > 0.2;
+}
+
 function hasRainSupport(observation) {
   if (!observation) {
     return false;
@@ -317,8 +321,22 @@ function rainfallSourceWeights(observation, statusBySource) {
   };
 }
 
-function hasWatchSupport({ category, cap, bulletin, districtWarning, radar, cwc, reservoir, dam, runoffPotential }) {
-  const official = hasOfficialSupport(cap, bulletin, districtWarning);
+function hasWatchSupport({
+  category,
+  cap,
+  bulletin,
+  districtWarning,
+  radar,
+  cwc,
+  reservoir,
+  dam,
+  runoffPotential,
+  observation
+}) {
+  const directOfficial = hasDirectOfficialSupport(cap, bulletin);
+  const districtWarningBacked =
+    effectiveSeverity(districtWarning) > 0.2 &&
+    (hasRainSupport(observation) || hasRadarSupport(radar, { strongOnly: true }) || hasHydrologySupport(cwc));
   const hydro = hasHydrologySupport(cwc);
   const damOps = hasOperationalDamSupport(reservoir, dam);
   const runoffReady = (runoffPotential?.score ?? 0) >= runoffPotentialThreshold(category);
@@ -326,11 +344,11 @@ function hasWatchSupport({ category, cap, bulletin, districtWarning, radar, cwc,
   switch (category) {
     case "river_floodplain":
     case "river_confluence":
-      return official || hydro || damOps || runoffReady;
+      return directOfficial || districtWarningBacked || hydro || damOps || runoffReady;
     case "dam_downstream":
-      return official || hydro || damOps || runoffReady;
+      return directOfficial || districtWarningBacked || hydro || damOps || runoffReady;
     default:
-      return official || hydro || damOps || runoffReady;
+      return directOfficial || districtWarningBacked || hydro || damOps || runoffReady;
   }
 }
 
@@ -660,7 +678,8 @@ export function buildRiskOutputs(context) {
       cwc: districtModel?.cwc,
       reservoir: districtModel?.reservoir,
       dam: districtModel?.dam,
-      runoffPotential
+      runoffPotential,
+      observation: districtModel?.observation
     });
     const hotspotRawScore =
       (districtModel?.dynamicRawScore ?? Math.max(0, districtState.score - districtTerrain.value * 100 * thresholds.weights.terrain)) +
