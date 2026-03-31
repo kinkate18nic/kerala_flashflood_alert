@@ -35,6 +35,36 @@
     "legal_notes": "Guidance source used to corroborate risk levels."
   },
   {
+    "id": "imd-district-warning",
+    "name": "IMD District Warning (Kerala)",
+    "owner": "India Meteorological Department",
+    "category": "official-warning",
+    "url": "https://mausam.imd.gov.in/imd_latest/contents/districtwise-warning_mc.php?id=4",
+    "format": "html",
+    "cadence_minutes": 60,
+    "freshness_sla_minutes": 720,
+    "offline_after_minutes": 2880,
+    "parser": "imdDistrictWarning",
+    "auth": "none",
+    "enabled": true,
+    "legal_notes": "District-level IMD warning map for Kerala parsed from embedded page data. Use as official district warning support, not as a sole severe trigger."
+  },
+  {
+    "id": "imd-district-nowcast",
+    "name": "IMD District Nowcast (Kerala)",
+    "owner": "India Meteorological Department",
+    "category": "official-warning",
+    "url": "https://mausam.imd.gov.in/imd_latest/contents/districtwisewarnings_mc.php?id=4",
+    "format": "html",
+    "cadence_minutes": 20,
+    "freshness_sla_minutes": 120,
+    "offline_after_minutes": 360,
+    "parser": "imdDistrictNowcast",
+    "auth": "none",
+    "enabled": true,
+    "legal_notes": "District-level IMD nowcast parsed from embedded page data with issue and validity windows. Use as short-lead corroboration for current conditions."
+  },
+  {
     "id": "indiawris-rainfall",
     "name": "India-WRIS CWC Rainfall",
     "owner": "India-WRIS / CWC",

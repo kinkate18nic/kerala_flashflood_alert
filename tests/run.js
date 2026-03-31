@@ -8,6 +8,8 @@ import thresholds from "../config/risk-thresholds.json" with { type: "json" };
 import {
   parseImdCapRss,
   parseImdFlashFloodBulletin,
+  parseImdDistrictWarning,
+  parseImdDistrictNowcast,
   parseKsdmaDamManagement,
   parseKsdmaReservoirs,
   parseCwcFfs,
@@ -167,6 +169,32 @@ async function testParsers() {
   );
   const bulletin = parseImdFlashFloodBulletin(bulletinRaw);
   assert.ok(bulletin.kerala_district_ids.includes("ernakulam"));
+
+  const districtWarningRaw = await readFile(
+    path.join(repoRoot, "fixtures", "imd-district-warning.html"),
+    "utf8"
+  );
+  const districtWarning = parseImdDistrictWarning(districtWarningRaw);
+  assert.equal(districtWarning.active_district_count, 1);
+  assert.ok(districtWarning.districts.some((district) => district.district_id === "pathanamthitta"));
+  assert.equal(
+    districtWarning.districts.find((district) => district.district_id === "ernakulam")?.severity,
+    0
+  );
+
+  const districtNowcastRaw = await readFile(
+    path.join(repoRoot, "fixtures", "imd-district-nowcast.html"),
+    "utf8"
+  );
+  const districtNowcast = parseImdDistrictNowcast(districtNowcastRaw, {
+    reference_time: "2026-03-31T15:00:00+05:30"
+  });
+  assert.equal(districtNowcast.active_district_count, 1);
+  assert.ok(districtNowcast.districts.some((district) => district.district_id === "pathanamthitta"));
+  const expiredDistrictNowcast = parseImdDistrictNowcast(districtNowcastRaw, {
+    reference_time: "2026-03-31T16:30:00+05:30"
+  });
+  assert.equal(expiredDistrictNowcast.active_district_count, 0);
 
   const cwcRaw = await readFile(path.join(repoRoot, "fixtures", "cwc-ffs.json"), "utf8");
   const cwc = parseCwcFfs(cwcRaw);

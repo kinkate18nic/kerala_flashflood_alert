@@ -43,7 +43,7 @@ jobs:
           PPS_PASSWORD: ${{ secrets.PPS_PASSWORD }}
           NODE_OPTIONS: "--dns-result-order=ipv4first"
           ENABLE_CADENCE_REUSE: "true"
-          SOURCE_IDS: "imd-cap-rss,imd-flash-flood-bulletin,operator-observations"
+          SOURCE_IDS: "imd-cap-rss,imd-flash-flood-bulletin,imd-district-warning,imd-district-nowcast,operator-observations"
         run: node scripts/run-pipeline.js
 
       - name: Build static site

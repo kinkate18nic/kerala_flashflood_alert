@@ -15,6 +15,219 @@ function stripHtml(html) {
     .trim();
 }
 
+const districtNameLookup = new Map(
+  districts.map((district) => [district.name.trim().toUpperCase(), district.id])
+);
+
+function districtIdFromImdTitle(title) {
+  return districtNameLookup.get(String(title ?? "").trim().toUpperCase()) ?? null;
+}
+
+function decodeEmbeddedHtml(value) {
+  return String(value ?? "")
+    .replace(/<\s*(\d+(?:\.\d+)?)\s*mm\/hr/gi, "less than $1 mm/hr")
+    .replace(/\\\//g, "/")
+    .replace(/\\"/g, "\"")
+    .replace(/\\r/g, "\r")
+    .replace(/\\n/g, "\n")
+    .replace(/<\/?img[^>]*>/gi, " ")
+    .replace(/<\/?br\s*\/?>/gi, "\n")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, "\"")
+    .replace(/&#39;/gi, "'");
+}
+
+function parseImdLocalDateTime(dateText, timeText) {
+  const normalizedDate = String(dateText ?? "").trim();
+  const normalizedTime = String(timeText ?? "")
+    .trim()
+    .match(/(\d{1,2})(\d{2})/) ?? null;
+
+  if (!normalizedDate || !normalizedTime) {
+    return null;
+  }
+
+  const [, hourPart, minutePart] = normalizedTime;
+  return parseDate(`${normalizedDate}T${hourPart.padStart(2, "0")}:${minutePart}:00+05:30`)?.toISOString() ?? null;
+}
+
+function colorSeverity(color, fallback = 0) {
+  switch (String(color ?? "").trim().toUpperCase()) {
+    case "#008000":
+      return 0;
+    case "#FFFF00":
+      return Math.max(fallback, 0.22);
+    case "#FFA500":
+      return Math.max(fallback, 0.45);
+    case "#FF0000":
+      return Math.max(fallback, 0.7);
+    default:
+      return fallback;
+  }
+}
+
+function extractImdHazards(balloonText) {
+  return [...decodeEmbeddedHtml(balloonText).matchAll(/<p>(.*?)<\/p>/gi)]
+    .map((match) => stripHtml(match[1]))
+    .map((entry) => entry.replace(/^Updated on:\s*/i, "").trim())
+    .filter(
+      (entry) =>
+        entry &&
+        !/^Updated on:/i.test(entry) &&
+        !/^Time of issue:/i.test(entry) &&
+        !/^Valid upto:/i.test(entry)
+    );
+}
+
+function parseEmbeddedDistrictAreas(raw) {
+  return districts
+    .map((district) => {
+      const title = district.name.toUpperCase();
+      const pattern =
+        `\\"title\\":\\s*\\"${title}\\"[\\s\\S]*?\\"color\\":\\s*\\"(?<color>#[0-9A-Fa-f]{6})\\"[\\s\\S]*?\\"balloonText\\":\\s*\\"(?<balloon>[\\s\\S]*?)\\"\\s*\\}`;
+      const match = raw.match(new RegExp(pattern, "i"));
+      if (!match?.groups) {
+        return null;
+      }
+      return {
+        district_id: district.id,
+        district_name: district.name,
+        color: match.groups.color,
+        balloon_text: match.groups.balloon
+      };
+    })
+    .filter(Boolean);
+}
+
+function warningSeverityFromText(text) {
+  const normalized = String(text ?? "").toLowerCase();
+  if (!normalized || /no warning/.test(normalized)) {
+    return 0;
+  }
+  let severity = 0;
+  if (/very heavy rain|extremely heavy rain/.test(normalized)) {
+    severity = Math.max(severity, 0.6);
+  }
+  if (/heavy rain/.test(normalized)) {
+    severity = Math.max(severity, 0.35);
+  }
+  if (/thunderstorm|lightning|squall|strong surface winds|hailstorm/.test(normalized)) {
+    severity = Math.max(severity, 0.22);
+  }
+  return severity;
+}
+
+function nowcastSeverityFromText(text) {
+  const normalized = String(text ?? "").toLowerCase();
+  if (!normalized || /no warning/.test(normalized)) {
+    return 0;
+  }
+  let severity = 0;
+  if (/very heavy rain|extremely heavy rain/.test(normalized)) {
+    severity = Math.max(severity, 0.75);
+  }
+  if (/heavy rain/.test(normalized)) {
+    severity = Math.max(severity, 0.55);
+  }
+  if (/moderate rain/.test(normalized)) {
+    severity = Math.max(severity, 0.35);
+  }
+  if (/light rain/.test(normalized)) {
+    severity = Math.max(severity, 0.18);
+  }
+  if (/thunderstorm|lightning|squall/.test(normalized)) {
+    severity = Math.max(severity, 0.28);
+  }
+  return severity;
+}
+
+function parseImdDistrictWarningDate(raw) {
+  const checkedMatch = raw.match(/value="Day_1"\s+checked="true"\s*>([^<]+)/i);
+  if (!checkedMatch?.[1]) {
+    return null;
+  }
+  return parseDate(`${checkedMatch[1].trim()} 00:00:00 +05:30`)?.toISOString() ?? null;
+}
+
+function parseImdDistrictWarningPage(raw) {
+  const entries = parseEmbeddedDistrictAreas(raw).map((entry) => {
+    const cleanedBalloon = decodeEmbeddedHtml(entry.balloon_text);
+    const cleanedText = stripHtml(cleanedBalloon);
+    const hazards = extractImdHazards(entry.balloon_text);
+    const updatedMatch = cleanedText.match(/Updated on:\s*(\d{4}-\d{2}-\d{2})/i);
+    const updatedAt = updatedMatch?.[1]
+      ? parseDate(`${updatedMatch[1]}T00:00:00+05:30`)?.toISOString() ?? null
+      : null;
+    const severity = colorSeverity(entry.color, warningSeverityFromText(cleanedText));
+    return {
+      district_id: entry.district_id,
+      district_name: entry.district_name,
+      color: entry.color,
+      severity,
+      warning_text: cleanedText,
+      hazards,
+      updated_at: updatedAt
+    };
+  });
+
+  const issuedAt = entries
+    .map((entry) => parseDate(entry.updated_at))
+    .filter(Boolean)
+    .sort((left, right) => right.getTime() - left.getTime())[0]
+    ?.toISOString() ?? parseImdDistrictWarningDate(raw);
+
+  return {
+    issued_at: issuedAt,
+    forecast_date: parseImdDistrictWarningDate(raw),
+    district_count: entries.length,
+    active_district_count: entries.filter((entry) => entry.severity > 0).length,
+    districts: entries
+  };
+}
+
+function parseImdDistrictNowcastPage(raw, source = null) {
+  const referenceTime = parseDate(source?.reference_time) ?? new Date();
+  const entries = parseEmbeddedDistrictAreas(raw).map((entry) => {
+    const cleanedBalloon = decodeEmbeddedHtml(entry.balloon_text);
+    const cleanedText = stripHtml(cleanedBalloon);
+    const issueMatch = cleanedText.match(/Time of issue:\s*(\d{4}-\d{2}-\d{2})\s*(\d{3,4})\s*Hrs/i);
+    const validMatch = cleanedText.match(/Valid upto:\s*(\d{3,4})\s*Hrs/i);
+    const issuedAt = issueMatch ? parseImdLocalDateTime(issueMatch[1], issueMatch[2]) : null;
+    const validUntil = issueMatch && validMatch
+      ? parseImdLocalDateTime(issueMatch[1], validMatch[1])
+      : null;
+    const severity = colorSeverity(entry.color, nowcastSeverityFromText(cleanedText));
+    return {
+      district_id: entry.district_id,
+      district_name: entry.district_name,
+      color: entry.color,
+      severity,
+      nowcast_text: cleanedText,
+      issued_at: issuedAt,
+      valid_until: validUntil,
+      active: validUntil ? parseDate(validUntil)?.getTime() > referenceTime.getTime() : severity > 0
+    };
+  });
+
+  const activeEntries = entries.filter((entry) => entry.active);
+  const issuedAt = entries
+    .map((entry) => parseDate(entry.issued_at))
+    .filter(Boolean)
+    .sort((left, right) => right.getTime() - left.getTime())[0]
+    ?.toISOString() ?? null;
+
+  return {
+    issued_at: issuedAt,
+    district_count: entries.length,
+    active_district_count: activeEntries.filter((entry) => entry.severity > 0).length,
+    filtered_item_count: entries.length - activeEntries.length,
+    districts: activeEntries
+  };
+}
+
 function readTag(fragment, tagName) {
   const match = fragment.match(
     new RegExp(`<(?:(?:\\w+):)?${tagName}\\b[^>]*>([\\s\\S]*?)<\\/(?:(?:\\w+):)?${tagName}>`, "i")
@@ -376,6 +589,14 @@ export function parseImdFlashFloodBulletin(raw) {
   };
 }
 
+export function parseImdDistrictWarning(raw) {
+  return parseImdDistrictWarningPage(raw);
+}
+
+export function parseImdDistrictNowcast(raw, source = null) {
+  return parseImdDistrictNowcastPage(raw, source);
+}
+
 function keywordHit(text, patterns) {
   return patterns.some((pattern) => pattern.test(text));
 }
@@ -555,6 +776,8 @@ export async function parseOperatorObservations(repoRoot, source, raw = null) {
 export const parserRegistry = {
   imdCapRss: parseImdCapRss,
   imdFlashFloodBulletin: parseImdFlashFloodBulletin,
+  imdDistrictWarning: parseImdDistrictWarning,
+  imdDistrictNowcast: parseImdDistrictNowcast,
   ksdmaReservoirs: parseKsdmaReservoirs,
   ksdmaDamManagement: parseKsdmaDamManagement,
   cwcFfs: parseCwcFfs,

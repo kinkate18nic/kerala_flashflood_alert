@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <body>
+    <input type="radio" name="group" id="rb1" value="Day_1" checked="true" >March 31, 2026
+    <script>
+      jQuery.getJSON("district_shapefiles/mc_thiruvananthapuram.json", function(data) {
+        var map = AmCharts.makeChart("chartdiv1", {
+          "dataProvider": {
+            "areas": [
+              {
+                "title": "PATHANAMTHITTA",
+                "id": "999",
+                "color": "#FFFF00",
+                "balloonText": "PATHANAMTHITTA :<\/br><img src=warning_images\/03.png><p>Thunderstorm & Lightning, Squall etc<\/p><\/img><\/br><img src=warning_images\/07.png><p>Strong Surface Winds<\/p><\/img><p>Updated on:2026-03-31<\/p>"
+              },
+              {
+                "title": "ERNAKULAM",
+                "id": "998",
+                "color": "#008000",
+                "balloonText": "ERNAKULAM :<\/br>No warning<p>Updated on:2026-03-31<\/p>"
+              }
+            ]
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

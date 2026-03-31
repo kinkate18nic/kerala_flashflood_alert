@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <body>
+    <script>
+      jQuery.getJSON("district_shapefiles/mc_thiruvananthapuram.json", function(data) {
+        var map = AmCharts.makeChart("chartdiv1", {
+          "dataProvider": {
+            "areas": [
+              {
+                "title": "PATHANAMTHITTA",
+                "id": "999",
+                "color": "#FFFF00",
+                "balloonText": "PATHANAMTHITTA<p>Light rain: < 5 mm/hr</br> </br>Time of issue: 2026-03-31</br>1430 Hrs</br> Valid upto: 1600 Hrs </p>"
+              },
+              {
+                "title": "ERNAKULAM",
+                "id": "998",
+                "color": "#008000",
+                "balloonText": "ERNAKULAM<p>No Warning </br></br>Time of issue: 2026-03-31</br>1300 Hrs</br> Valid upto: 1600 Hrs </p>"
+              }
+            ]
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

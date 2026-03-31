@@ -491,6 +491,29 @@ function collapseSignals(parsedSources) {
     };
   }
 
+  const imdDistrictWarningByDistrict = {};
+  for (const district of parsedSources["imd-district-warning"]?.districts ?? []) {
+    imdDistrictWarningByDistrict[district.district_id] = {
+      severity: district.severity ?? 0,
+      color: district.color ?? null,
+      hazards: Array.isArray(district.hazards) ? district.hazards : [],
+      notes: district.warning_text ? [district.warning_text] : ["No IMD district warning text"],
+      source_ids: ["imd-district-warning"]
+    };
+  }
+
+  const imdNowcastByDistrict = {};
+  for (const district of parsedSources["imd-district-nowcast"]?.districts ?? []) {
+    imdNowcastByDistrict[district.district_id] = {
+      severity: district.severity ?? 0,
+      color: district.color ?? null,
+      issued_at: district.issued_at ?? null,
+      valid_until: district.valid_until ?? null,
+      notes: district.nowcast_text ? [district.nowcast_text] : ["No IMD district nowcast text"],
+      source_ids: ["imd-district-nowcast"]
+    };
+  }
+
   const reservoirByDistrict = {};
   const reservoirSource = parsedSources["ksdma-reservoirs"];
   if (Array.isArray(reservoirSource?.districts) && reservoirSource.districts[0] && typeof reservoirSource.districts[0] === "object") {
@@ -602,6 +625,8 @@ function collapseSignals(parsedSources) {
   return {
     capByDistrict,
     bulletinByDistrict,
+    imdDistrictWarningByDistrict,
+    imdNowcastByDistrict,
     reservoirByDistrict,
     damByDistrict,
     cwcByDistrict,
@@ -808,7 +833,7 @@ export async function runPipeline(repoRoot, options = {}) {
           parsed =
             source.path || source.id === "imd-cap-rss"
               ? await parser(repoRoot, source, raw)
-              : await parser(raw);
+              : await parser(raw, source);
           parserOk = true;
           issuedAt = parsed?.issued_at ?? parsed?.published_at ?? parsed?.items?.[0]?.published_at ?? null;
           if (options.useFixtures) {
