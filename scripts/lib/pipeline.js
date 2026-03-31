@@ -20,8 +20,46 @@ import { minutesBetween, nowIso, parseDate, toArchivePathParts } from "./time.js
 import { buildRiskOutputs } from "./risk-model.js";
 import { districts, hotspots } from "../../src/shared/areas.js";
 
-function statusFromFreshness(freshnessMinutes, source, fetchOk, parserOk) {
+function calendarDayAgeInIst(issuedAt, generatedAt) {
+  const issuedDate = parseDate(issuedAt);
+  const generatedDate = parseDate(generatedAt) ?? new Date();
+  if (!issuedDate) {
+    return null;
+  }
+
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Kolkata",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  });
+
+  const issuedDay = formatter.format(issuedDate);
+  const generatedDay = formatter.format(generatedDate);
+  const issuedMidnight = parseDate(`${issuedDay}T00:00:00+05:30`);
+  const generatedMidnight = parseDate(`${generatedDay}T00:00:00+05:30`);
+  if (!issuedMidnight || !generatedMidnight) {
+    return null;
+  }
+
+  return Math.round((generatedMidnight.getTime() - issuedMidnight.getTime()) / 86400000);
+}
+
+export function statusFromFreshness(freshnessMinutes, source, fetchOk, parserOk, issuedAt = null, generatedAt = null) {
   if (!fetchOk || !parserOk) {
+    return "offline";
+  }
+  if (source.freshness_mode === "calendar_day_ist") {
+    const ageDays = calendarDayAgeInIst(issuedAt, generatedAt);
+    if (ageDays === null) {
+      return "degraded";
+    }
+    if (ageDays <= 0) {
+      return "ok";
+    }
+    if (ageDays === 1) {
+      return "stale";
+    }
     return "offline";
   }
   if (freshnessMinutes === null) {
@@ -159,7 +197,7 @@ function sourceCachePath(repoRoot) {
 
 function sourceFreshnessFromSnapshot(snapshot, source, parsed, generatedAt) {
   const freshnessMinutes = minutesBetween(parseDate(snapshot?.issued_at), new Date(generatedAt));
-  const baseStatus = statusFromFreshness(freshnessMinutes, source, true, true);
+  const baseStatus = statusFromFreshness(freshnessMinutes, source, true, true, snapshot?.issued_at, generatedAt);
   return {
     freshnessMinutes,
     status: applyCoverageStatus(baseStatus, parsed)
@@ -872,7 +910,14 @@ export async function runPipeline(repoRoot, options = {}) {
 
       const issuedDate = parseDate(issuedAt);
       const freshnessMinutes = minutesBetween(issuedDate, new Date(generatedAt));
-      const baseStatus = statusFromFreshness(freshnessMinutes, source, fetchOk, parserOk);
+      const baseStatus = statusFromFreshness(
+        freshnessMinutes,
+        source,
+        fetchOk,
+        parserOk,
+        issuedDate?.toISOString() ?? null,
+        generatedAt
+      );
       const status = applyCoverageStatus(baseStatus, parsed);
       const fetchStatus = fetchOk ? "ok" : "failed";
       const parserStatus = parserStatusFromState(fetchOk, parserOk);

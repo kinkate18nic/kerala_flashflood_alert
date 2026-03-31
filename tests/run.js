@@ -36,7 +36,7 @@ import {
 import { summarizeRiverLevelSeries } from "../scripts/lib/indiawris.js";
 import { buildHotspotFootprint } from "../src/shared/hotspot-footprints.js";
 import { buildRiskOutputs } from "../scripts/lib/risk-model.js";
-import { runPipeline } from "../scripts/lib/pipeline.js";
+import { runPipeline, statusFromFreshness } from "../scripts/lib/pipeline.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -652,6 +652,27 @@ async function testPipelineFallsBackToLastSuccessfulPayloadOnFetchFailure() {
   assert.equal(rainfallSource?.reuse_reason, "source_selection");
 }
 
+function testCalendarDayDistrictWarningFreshness() {
+  const source = {
+    freshness_mode: "calendar_day_ist",
+    freshness_sla_minutes: 720,
+    offline_after_minutes: 2880
+  };
+
+  assert.equal(
+    statusFromFreshness(900, source, true, true, "2026-03-31T00:00:00.000Z", "2026-03-31T10:40:38.758Z"),
+    "ok"
+  );
+  assert.equal(
+    statusFromFreshness(1500, source, true, true, "2026-03-30T00:00:00.000Z", "2026-03-31T10:40:38.758Z"),
+    "stale"
+  );
+  assert.equal(
+    statusFromFreshness(3000, source, true, true, "2026-03-29T00:00:00.000Z", "2026-03-31T10:40:38.758Z"),
+    "offline"
+  );
+}
+
 async function testKsdmaIssuedAtExtractionPrefersCurrentLinkedDate() {
   const pageHtml = `
     <html>
@@ -922,6 +943,7 @@ const tests = [
   ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage],
   ["pipeline-cadence-reuse", testPipelineReusesSourcesWithinCadenceWindow],
   ["pipeline-fallback-cache", testPipelineFallsBackToLastSuccessfulPayloadOnFetchFailure],
+  ["calendar-day-freshness", testCalendarDayDistrictWarningFreshness],
   ["ksdma-issued-at", testKsdmaIssuedAtExtractionPrefersCurrentLinkedDate]
 ];
 

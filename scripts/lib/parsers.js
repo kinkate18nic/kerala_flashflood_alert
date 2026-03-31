@@ -76,6 +76,7 @@ function extractImdHazards(balloonText) {
     .filter(
       (entry) =>
         entry &&
+        !/^\d{4}-\d{2}-\d{2}$/.test(entry) &&
         !/^Updated on:/i.test(entry) &&
         !/^Time of issue:/i.test(entry) &&
         !/^Valid upto:/i.test(entry)
