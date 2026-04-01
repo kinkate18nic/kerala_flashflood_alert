@@ -832,7 +832,6 @@ function renderSources() {
             <button class="source-info-btn" title="View details" type="button">i</button>
             <div class="label">${source.owner}</div>
             <h3>${source.name}</h3>
-            <p class="source-desc">${meta.description ?? ""}</p>
             <div class="score status-${source.status}">${sourceHealthLabel(source)}</div>
             <div class="source-facts">
               <div class="source-fact-row">
@@ -852,7 +851,6 @@ function renderSources() {
                 <span class="source-fact-value">${sourceCurrentRunLabel(source)}</span>
               </div>
             </div>
-            <p class="source-status-note status-${source.status}">${sourceStatusMessage(source)}</p>
           </article>
         `;
       }

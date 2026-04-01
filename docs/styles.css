@@ -207,8 +207,8 @@ h1 {
 
 .source-facts {
   display: grid;
-  gap: 8px;
-  margin: 14px 0 12px;
+  gap: 6px;
+  margin: 10px 0 0;
 }
 
 .source-fact-row {
@@ -216,7 +216,7 @@ h1 {
   justify-content: space-between;
   gap: 12px;
   align-items: flex-start;
-  padding-bottom: 8px;
+  padding-bottom: 6px;
   border-bottom: 1px solid rgba(22, 38, 31, 0.08);
 }
 
@@ -227,12 +227,12 @@ h1 {
 
 .source-fact-label {
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 0.84rem;
 }
 
 .source-fact-value {
   text-align: right;
-  font-size: 0.92rem;
+  font-size: 0.86rem;
   font-weight: 600;
   color: var(--ink);
   max-width: 58%;
@@ -396,7 +396,7 @@ h1 {
 
 .risk-card .score,
 .source-card .score {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 800;
 }
 
@@ -543,6 +543,7 @@ h1 {
 /* Source card redesign */
 .source-card {
   position: relative;
+  padding: 16px;
 }
 
 .source-info-btn {
@@ -580,6 +581,17 @@ h1 {
   font-size: 0.88rem;
   line-height: 1.4;
   margin: 4px 0 8px;
+}
+
+.source-card h3 {
+  margin: 2px 28px 8px 0;
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.source-card .label {
+  margin-right: 28px;
+  font-size: 0.8rem;
 }
 
 /* Source detail popup */
