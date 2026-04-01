@@ -28,6 +28,19 @@ jobs:
       - name: Trust workspace for git
         run: git config --global --add safe.directory "$env:GITHUB_WORKSPACE"
 
+      - name: Reset leftover git operation state
+        run: |
+          git -C "$env:GITHUB_WORKSPACE" rebase --abort 2>$null
+          git -C "$env:GITHUB_WORKSPACE" merge --abort 2>$null
+          git -C "$env:GITHUB_WORKSPACE" am --abort 2>$null
+          git -C "$env:GITHUB_WORKSPACE" cherry-pick --abort 2>$null
+          if (Test-Path "$env:GITHUB_WORKSPACE\\.git\\rebase-merge") {
+            Remove-Item -Recurse -Force "$env:GITHUB_WORKSPACE\\.git\\rebase-merge"
+          }
+          if (Test-Path "$env:GITHUB_WORKSPACE\\.git\\rebase-apply") {
+            Remove-Item -Recurse -Force "$env:GITHUB_WORKSPACE\\.git\\rebase-apply"
+          }
+
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
