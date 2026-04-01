@@ -107,6 +107,73 @@ function sortByHorizon(items) {
   return [...items].sort((left, right) => horizonAdjustedScore(right) - horizonAdjustedScore(left));
 }
 
+function firstMatchingDriver(drivers = [], patterns = []) {
+  return drivers.find((driver) => patterns.some((pattern) => pattern.test(driver))) ?? null;
+}
+
+function cardSummary(item) {
+  const drivers = item.drivers ?? [];
+  const areaType = item.area_type ?? "";
+
+  if (areaType === "district") {
+    return (
+      firstMatchingDriver(drivers, [
+        /^Observed 24h rain/i,
+        /^India-WRIS official 24h rainfall/i,
+        /^RainViewer nowcast/i,
+        /^IMD district nowcast/i,
+        /^CWC river-stage/i,
+        /^Reservoir caution active/i,
+        /^Dam downstream caution active/i,
+        /^Runoff potential/i
+      ]) ??
+      firstMatchingDriver(drivers, [/^IMD district warning/i]) ??
+      "No active district drivers beyond baseline terrain and runoff context."
+    );
+  }
+
+  if (areaType === "taluk") {
+    return (
+      firstMatchingDriver(drivers, [
+        /^Observed taluk 24h rain/i,
+        /^[0-9]+ mapped hotspot/i,
+        /^Runoff potential/i,
+        /^Reservoir caution active/i,
+        /^Dam downstream caution active/i
+      ]) ??
+      firstMatchingDriver(drivers, [/^IMD district warning/i]) ??
+      "No active taluk drivers beyond baseline terrain and runoff context."
+    );
+  }
+
+  if (areaType === "hotspot") {
+    return (
+      firstMatchingDriver(drivers, [
+        /^Hotspot radar echo/i,
+        /^Hotspot runoff potential/i,
+        /^Observed 24h rain/i,
+        /^India-WRIS official 24h rainfall/i,
+        /^Peak India-WRIS station 24h rainfall/i,
+        /^Reservoir caution active/i,
+        /^Dam downstream caution active/i,
+        /^Terrain susceptibility/i,
+        /^Hotspot susceptibility/i
+      ]) ??
+      firstMatchingDriver(drivers, [/^IMD district warning/i]) ??
+      "No active hotspot drivers beyond baseline terrain and runoff context."
+    );
+  }
+
+  return drivers[0] ?? "No active drivers beyond baseline susceptibility.";
+}
+
+function cardScopeLabel(item, suffix = "") {
+  if (suffix) {
+    return suffix;
+  }
+  return item.region ?? item.district_name ?? item.district_id ?? "";
+}
+
 function openEvidence(title, body) {
   references.dialogContent.innerHTML = `<h2>${title}</h2>${body}`;
   references.dialog.showModal();
@@ -575,10 +642,9 @@ function renderRiskCards(target, items, suffix = "") {
           ${levelPill(item.level)}
           <h3>${item.name}</h3>
           <div class="score">${horizonAdjustedScore(item)}</div>
-          <p>${item.drivers[0] ?? "No active drivers beyond baseline susceptibility."}</p>
+          <p>${cardSummary(item)}</p>
           <div class="meta">
-            <span>Confidence ${(item.confidence * 100).toFixed(0)}%</span>
-            <span>${suffix ? suffix : item.region ?? item.district_name ?? item.district_id ?? ""}</span>
+            <span>${cardScopeLabel(item, suffix)}</span>
           </div>
         </article>
       `
