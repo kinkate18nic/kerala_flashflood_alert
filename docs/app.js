@@ -24,7 +24,6 @@ const references = {
   districtLayer: document.querySelector("#district-layer"),
   hotspotFootprintLayer: document.querySelector("#hotspot-footprint-layer"),
   districtLabelLayer: document.querySelector("#district-label-layer"),
-  mapOverlay: document.querySelector("#map-overlay"),
   alertsList: document.querySelector("#alerts-list"),
   districtGrid: document.querySelector("#district-grid"),
   talukGrid: document.querySelector("#taluk-grid"),
@@ -33,7 +32,6 @@ const references = {
   dialog: document.querySelector("#evidence-dialog"),
   dialogContent: document.querySelector("#dialog-content"),
   timeframeToggle: document.querySelector("#timeframe-toggle"),
-  mapScopeToggle: document.querySelector("#map-scope-toggle"),
   dialogClose: document.querySelector("#dialog-close"),
   archiveSelect: document.querySelector("#archive-select")
 };
@@ -375,11 +373,7 @@ function areaItemFromEvent(areaId, areaType) {
 
 function hotspotPosition(hotspot, projectedCentroids, districtAnchorsById, project) {
   if (hotspot.location?.lon && hotspot.location?.lat) {
-    const point = project(hotspot.location.lon, hotspot.location.lat);
-    return {
-      left: (point.x / mapViewBox.width) * 100,
-      top: (point.y / mapViewBox.height) * 100
-    };
+    return project(hotspot.location.lon, hotspot.location.lat);
   }
 
   const districtCentroid = projectedCentroids[hotspot.district_id];
@@ -387,8 +381,8 @@ function hotspotPosition(hotspot, projectedCentroids, districtAnchorsById, proje
   const dx = ((hotspot.anchor.x - districtAnchor.x) / 100) * mapViewBox.width * 0.42;
   const dy = ((hotspot.anchor.y - districtAnchor.y) / 100) * mapViewBox.height * 0.42;
   return {
-    left: ((districtCentroid.x + dx) / mapViewBox.width) * 100,
-    top: ((districtCentroid.y + dy) / mapViewBox.height) * 100
+    x: districtCentroid.x + dx,
+    y: districtCentroid.y + dy
   };
 }
 
@@ -501,31 +495,12 @@ function renderMap() {
       taluk.taluk_id
     ])
   );
-  const showTaluks =
-    state.mapScope === "taluk" &&
-    state.talukGeometry?.features?.length &&
-    talukRisk.taluks.length > 0;
+  const showTaluks = false;
 
   if (!state.districtGeometry?.features?.length) {
     references.districtLayer.innerHTML = "";
     references.hotspotFootprintLayer.innerHTML = "";
     references.districtLabelLayer.innerHTML = "";
-    references.mapOverlay.innerHTML = [
-      ...areas.districts.map((district) => {
-        const item = districtById[district.id];
-        const level = item?.level ?? "Normal";
-        return `
-          <button
-            class="map-point district"
-            data-area-id="${district.id}"
-            data-area-type="district"
-            style="left:${district.anchor.x}%; top:${district.anchor.y}%; background:${levelColors[level]}"
-            title="${district.name}"
-          ></button>
-          <span class="map-label" style="left:${district.anchor.x}%; top:${district.anchor.y}%">${district.name}</span>
-        `;
-      })
-    ].join("");
     bindMapInteractions();
     return;
   }
@@ -542,7 +517,6 @@ function renderMap() {
     references.districtLayer.innerHTML = "";
     references.districtLabelLayer.innerHTML = "";
     references.hotspotFootprintLayer.innerHTML = "";
-    references.mapOverlay.innerHTML = "";
     bindMapInteractions();
     return;
   }
@@ -610,39 +584,39 @@ function renderMap() {
     })
     .join("");
 
-  references.hotspotFootprintLayer.innerHTML = areas.hotspots
-    .filter((hotspot) => hotspot.footprint?.geometry)
-    .map((hotspot) => {
-      const item = hotspotById[hotspot.id];
-      const level = item?.level ?? "Normal";
-      return `
-        <path
-          class="hotspot-footprint"
-          data-area-id="${hotspot.id}"
-          data-area-type="hotspot"
-          d="${featureToPath(hotspot.footprint, project)}"
-          fill="${levelColors[level] ?? "var(--normal)"}"
-        ></path>
-      `;
-    })
-    .join("");
-
-  references.mapOverlay.innerHTML = areas.hotspots
-    .map((hotspot) => {
+  references.hotspotFootprintLayer.innerHTML = [
+    ...areas.hotspots
+      .filter((hotspot) => hotspot.footprint?.geometry)
+      .map((hotspot) => {
+        const item = hotspotById[hotspot.id];
+        const level = item?.level ?? "Normal";
+        return `
+          <path
+            class="hotspot-footprint"
+            data-area-id="${hotspot.id}"
+            data-area-type="hotspot"
+            d="${featureToPath(hotspot.footprint, project)}"
+            fill="${levelColors[level] ?? "var(--normal)"}"
+          ></path>
+        `;
+      }),
+    ...areas.hotspots.map((hotspot) => {
       const item = hotspotById[hotspot.id];
       const level = item?.level ?? "Normal";
       const position = hotspotPosition(hotspot, projectedCentroids, districtAnchorsById, project);
       return `
-        <button
-          class="map-point hotspot"
+        <circle
+          class="hotspot-marker"
           data-area-id="${hotspot.id}"
           data-area-type="hotspot"
-          style="left:${position.left}%; top:${position.top}%; background:${levelColors[level]}"
-          title="${hotspot.name}"
-        ></button>
+          cx="${position.x.toFixed(1)}"
+          cy="${position.y.toFixed(1)}"
+          r="6"
+          fill="${levelColors[level] ?? "var(--normal)"}"
+        ></circle>
       `;
     })
-    .join("");
+  ].join("");
 
   bindMapInteractions();
 }
@@ -1123,18 +1097,6 @@ references.timeframeToggle.addEventListener("click", (event) => {
     candidate.classList.toggle("active", candidate === button);
   });
   renderAll();
-});
-
-references.mapScopeToggle.addEventListener("click", (event) => {
-  const button = event.target.closest("button[data-scope]");
-  if (!button) {
-    return;
-  }
-  state.mapScope = button.dataset.scope;
-  references.mapScopeToggle.querySelectorAll("button").forEach((candidate) => {
-    candidate.classList.toggle("active", candidate === button);
-  });
-  renderMap();
 });
 
 references.dialogClose.addEventListener("click", () => references.dialog.close());

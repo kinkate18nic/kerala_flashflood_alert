@@ -327,50 +327,23 @@ h1 {
   stroke-width: 4px;
 }
 
-.map-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+.hotspot-marker,
+.district-shape,
+.hotspot-footprint {
+  transition: transform 180ms ease, opacity 180ms ease;
 }
 
-.map-point {
-  position: absolute;
-  border: 0;
-  border-radius: 999px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font: inherit;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
-  pointer-events: auto;
-}
-
-.map-point:hover,
+.hotspot-marker:hover,
 .risk-card:hover,
 .alert-row:hover {
   transform: translateY(-2px);
 }
 
-.map-point.district {
-  width: 22px;
-  height: 22px;
-  border: 2px solid rgba(255, 255, 255, 0.38);
-}
-
-.map-point.hotspot {
-  width: 12px;
-  height: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-}
-
-.map-label {
-  position: absolute;
-  color: rgba(255, 255, 255, 0.88);
-  font-size: 0.76rem;
-  transform: translate(14px, -6px);
-  pointer-events: none;
+.hotspot-marker {
+  stroke: rgba(255, 255, 255, 0.78);
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
 }
 
 .card-grid,
