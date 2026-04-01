@@ -30,15 +30,19 @@ jobs:
 
       - name: Reset leftover git operation state
         run: |
-          git -C "$env:GITHUB_WORKSPACE" rebase --abort 2>$null
-          git -C "$env:GITHUB_WORKSPACE" merge --abort 2>$null
-          git -C "$env:GITHUB_WORKSPACE" am --abort 2>$null
-          git -C "$env:GITHUB_WORKSPACE" cherry-pick --abort 2>$null
           if (Test-Path "$env:GITHUB_WORKSPACE\\.git\\rebase-merge") {
+            git -C "$env:GITHUB_WORKSPACE" rebase --abort
             Remove-Item -Recurse -Force "$env:GITHUB_WORKSPACE\\.git\\rebase-merge"
           }
           if (Test-Path "$env:GITHUB_WORKSPACE\\.git\\rebase-apply") {
+            git -C "$env:GITHUB_WORKSPACE" am --abort
             Remove-Item -Recurse -Force "$env:GITHUB_WORKSPACE\\.git\\rebase-apply"
+          }
+          if (Test-Path "$env:GITHUB_WORKSPACE\\.git\\MERGE_HEAD") {
+            git -C "$env:GITHUB_WORKSPACE" merge --abort
+          }
+          if (Test-Path "$env:GITHUB_WORKSPACE\\.git\\CHERRY_PICK_HEAD") {
+            git -C "$env:GITHUB_WORKSPACE" cherry-pick --abort
           }
 
       - name: Setup Node
