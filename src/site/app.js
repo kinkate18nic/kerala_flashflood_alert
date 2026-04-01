@@ -112,6 +112,31 @@ function openEvidence(title, body) {
   references.dialog.showModal();
 }
 
+function publicSourceUrl(rawUrl) {
+  if (!rawUrl || typeof rawUrl !== "string") {
+    return null;
+  }
+  if (!/^https?:/i.test(rawUrl)) {
+    return null;
+  }
+  try {
+    const parsed = new URL(rawUrl);
+    const proxiedUrl = parsed.searchParams.get("url");
+    return proxiedUrl || rawUrl;
+  } catch {
+    return rawUrl;
+  }
+}
+
+function sourceLinkMarkup(sourceId) {
+  const source = state.payload?.sources?.sources?.find((item) => item.source_id === sourceId);
+  const link = publicSourceUrl(source?.raw_url);
+  if (!link) {
+    return "";
+  }
+  return ` <a class="source-link" href="${link}" target="_blank" rel="noopener noreferrer">Open source</a>`;
+}
+
 function normalizeBoundaryName(value) {
   return String(value ?? "")
     .toLowerCase()
@@ -306,7 +331,7 @@ function bindMapInteractions() {
             ${item.source_refs
               .map(
                 (source) =>
-                  `<li><strong>${source.source_id}</strong>: ${source.detail} (${source.status}, freshness ${source.freshness_minutes ?? "n/a"} min)</li>`
+                  `<li><strong>${source.source_id}</strong>: ${source.detail} (${source.status}, freshness ${source.freshness_minutes ?? "n/a"} min)${sourceLinkMarkup(source.source_id)}</li>`
               )
               .join("")}
           </ul>
@@ -758,6 +783,7 @@ function openSourceDetails(source) {
   const freshLabel = formatFreshness(source.freshness_minutes);
   const cadenceLabel = meta.cadence ?? "Unknown";
   const fetchNote = source.notes || source.summary?.excerpt || "None";
+  const sourceLink = publicSourceUrl(source.raw_url);
   const fetchFailed = source.fetch_status === "failed";
   const fetchFallback = source.fetch_status === "failed_cached";
   const parserFailed = source.parser_status === "failed";
@@ -772,6 +798,11 @@ function openSourceDetails(source) {
     `
       <p class="source-detail-desc">${meta.description ?? source.name}</p>
       <p class="source-detail-desc"><strong>Data in use:</strong> ${dataUsageSummary(source)}</p>
+      ${
+        sourceLink
+          ? `<p class="source-detail-desc"><strong>Source link:</strong> <a class="source-link" href="${sourceLink}" target="_blank" rel="noopener noreferrer">Open original source</a></p>`
+          : ""
+      }
       <div class="source-detail-grid">
         <div class="source-detail-row">
           <span class="source-detail-label">Status</span>
