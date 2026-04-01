@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-01T05:49:27.796Z",
+  "generated_at": "2026-04-01T07:00:02.001Z",
   "sources": {
     "imd-cap-rss": {
       "snapshot": {
@@ -5454,28 +5454,28 @@
         "name": "RainViewer Radar Nowcast",
         "owner": "RainViewer / IMD radar aggregation",
         "category": "radar-nowcast",
-        "fetched_at": "2026-04-01T05:26:04.139Z",
-        "issued_at": "2026-04-01T05:20:00.000Z",
+        "fetched_at": "2026-04-01T07:00:02.149Z",
+        "issued_at": "2026-04-01T06:50:00.000Z",
         "raw_url": "https://api.rainviewer.com/public/weather-maps.json",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 6,
-        "duration_ms": 1003,
-        "notes": "RainViewer latest radar frame /v2/radar/c19b8781c153",
+        "freshness_minutes": 10,
+        "duration_ms": 933,
+        "notes": "RainViewer latest radar frame /v2/radar/fb0188ba200a",
         "auth": "none",
         "summary": {
           "district_count": 14,
           "hotspot_count": 20,
-          "latest_frame_time": "2026-04-01T05:20:00.000Z"
+          "latest_frame_time": "2026-04-01T06:50:00.000Z"
         }
       },
       "parsed": {
-        "issued_at": "2026-04-01T05:20:00.000Z",
-        "generated_at": "2026-04-01T05:25:26.000Z",
-        "frame_time": "2026-04-01T05:20:00.000Z",
-        "frame_path": "/v2/radar/c19b8781c153",
+        "issued_at": "2026-04-01T06:50:00.000Z",
+        "generated_at": "2026-04-01T06:55:27.000Z",
+        "frame_time": "2026-04-01T06:50:00.000Z",
+        "frame_path": "/v2/radar/fb0188ba200a",
         "color_scheme": "universal_blue",
         "districts": [
           {
@@ -5931,31 +5931,31 @@
         "name": "NASA IMERG Near-Real-Time",
         "owner": "NASA GPM",
         "category": "satellite-rainfall",
-        "fetched_at": "2026-04-01T05:26:04.142Z",
-        "issued_at": "2026-04-01T00:59:59.000Z",
+        "fetched_at": "2026-04-01T07:00:02.152Z",
+        "issued_at": "2026-04-01T01:59:59.000Z",
         "raw_url": "https://gpm.nasa.gov/imerg",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 266,
-        "duration_ms": 17189,
-        "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260401-S003000-E005959.0030.V07C.30min.zip",
+        "freshness_minutes": 300,
+        "duration_ms": 20113,
+        "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260401-S013000-E015959.0090.V07C.30min.zip",
         "auth": "pps-basic",
         "summary": {
           "district_count": 14,
           "taluk_count": 61,
-          "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260401-S003000-E005959.0030.V07C.30min.zip",
+          "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260401-S013000-E015959.0090.V07C.30min.zip",
           "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260331-S233000-E235959.1410.V07C.3hr.zip",
           "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260331-S233000-E235959.1410.V07C.1day.zip"
         }
       },
       "parsed": {
-        "issued_at": "2026-04-01T00:59:59.000Z",
+        "issued_at": "2026-04-01T01:59:59.000Z",
         "districts": [
           {
             "district_id": "kasaragod",
-            "rain_1h_mm": 0.2,
+            "rain_1h_mm": 0.1,
             "rain_3h_mm": 1.6,
             "rain_6h_mm": 2.6,
             "rain_24h_mm": 2.6,
@@ -5964,11 +5964,11 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 17,
-            "peak_30m_mm": 0.5
+            "peak_30m_mm": 0.3
           },
           {
             "district_id": "kannur",
-            "rain_1h_mm": 0.2,
+            "rain_1h_mm": 0.1,
             "rain_3h_mm": 2.9,
             "rain_6h_mm": 4.7,
             "rain_24h_mm": 4.8,
@@ -5977,7 +5977,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 25,
-            "peak_30m_mm": 0.4
+            "peak_30m_mm": 0.3
           },
           {
             "district_id": "wayanad",
@@ -6029,11 +6029,11 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 40,
-            "peak_30m_mm": 0.1
+            "peak_30m_mm": 0
           },
           {
             "district_id": "thrissur",
-            "rain_1h_mm": 0.2,
+            "rain_1h_mm": 0,
             "rain_3h_mm": 0.1,
             "rain_6h_mm": 0.1,
             "rain_24h_mm": 0.1,
@@ -6042,11 +6042,11 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 22,
-            "peak_30m_mm": 0.9
+            "peak_30m_mm": 0
           },
           {
             "district_id": "ernakulam",
-            "rain_1h_mm": 0.5,
+            "rain_1h_mm": 0,
             "rain_3h_mm": 0.6,
             "rain_6h_mm": 2,
             "rain_24h_mm": 2.8,
@@ -6055,7 +6055,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 21,
-            "peak_30m_mm": 0.7
+            "peak_30m_mm": 0.1
           },
           {
             "district_id": "idukki",
@@ -6085,7 +6085,7 @@
           },
           {
             "district_id": "alappuzha",
-            "rain_1h_mm": 0.5,
+            "rain_1h_mm": 0,
             "rain_3h_mm": 0.3,
             "rain_6h_mm": 1,
             "rain_24h_mm": 1.2,
@@ -6094,7 +6094,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 13,
-            "peak_30m_mm": 1.3
+            "peak_30m_mm": 0
           },
           {
             "district_id": "pathanamthitta",
@@ -6141,7 +6141,7 @@
             "taluk_id": "kasaragod--hosdurg",
             "district_id": "kasaragod",
             "name": "Hosdurg",
-            "rain_1h_mm": 1.4,
+            "rain_1h_mm": 1.3,
             "rain_3h_mm": 1.8,
             "rain_6h_mm": 1.8,
             "rain_24h_mm": 1.8,
@@ -6150,13 +6150,13 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.7
+            "peak_30m_mm": 0.6
           },
           {
             "taluk_id": "kannur--taliparamba",
             "district_id": "kannur",
             "name": "Taliparamba",
-            "rain_1h_mm": 0.3,
+            "rain_1h_mm": 0.1,
             "rain_3h_mm": 0.7,
             "rain_6h_mm": 0.9,
             "rain_24h_mm": 0.9,
@@ -6165,13 +6165,13 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.1
+            "peak_30m_mm": 0
           },
           {
             "taluk_id": "kannur--kannur",
             "district_id": "kannur",
             "name": "Kannur",
-            "rain_1h_mm": 0.3,
+            "rain_1h_mm": 0.1,
             "rain_3h_mm": 0.7,
             "rain_6h_mm": 0.9,
             "rain_24h_mm": 0.9,
@@ -6180,13 +6180,13 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.1
+            "peak_30m_mm": 0
           },
           {
             "taluk_id": "kannur--thalassery",
             "district_id": "kannur",
             "name": "Thalassery",
-            "rain_1h_mm": 0.3,
+            "rain_1h_mm": 0.1,
             "rain_3h_mm": 0.7,
             "rain_6h_mm": 0.9,
             "rain_24h_mm": 0.9,
@@ -6195,7 +6195,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.1
+            "peak_30m_mm": 0
           },
           {
             "taluk_id": "wayanad--mananthavady",
@@ -6246,7 +6246,7 @@
             "taluk_id": "ernakulam--aluva",
             "district_id": "ernakulam",
             "name": "Aluva",
-            "rain_1h_mm": 1,
+            "rain_1h_mm": 0.6,
             "rain_3h_mm": 3.6,
             "rain_6h_mm": 12.6,
             "rain_24h_mm": 13.9,
@@ -6255,7 +6255,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.5
+            "peak_30m_mm": 0.1
           },
           {
             "taluk_id": "wayanad--sulthanbathery",
@@ -6276,7 +6276,7 @@
             "taluk_id": "alappuzha--mavelikkara",
             "district_id": "alappuzha",
             "name": "Mavelikkara",
-            "rain_1h_mm": 2.3,
+            "rain_1h_mm": 0,
             "rain_3h_mm": 1.9,
             "rain_6h_mm": 2.3,
             "rain_24h_mm": 2.3,
@@ -6285,7 +6285,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 1.3
+            "peak_30m_mm": 0
           },
           {
             "taluk_id": "pathanamthitta--adoor",
@@ -6306,7 +6306,7 @@
             "taluk_id": "kasaragod--kasaragod",
             "district_id": "kasaragod",
             "name": "Kasaragod",
-            "rain_1h_mm": 1.4,
+            "rain_1h_mm": 1.3,
             "rain_3h_mm": 1.8,
             "rain_6h_mm": 1.8,
             "rain_24h_mm": 1.8,
@@ -6315,13 +6315,13 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.7
+            "peak_30m_mm": 0.6
           },
           {
             "taluk_id": "ernakulam--paravur",
             "district_id": "ernakulam",
             "name": "Paravur",
-            "rain_1h_mm": 1,
+            "rain_1h_mm": 0.6,
             "rain_3h_mm": 3.6,
             "rain_6h_mm": 12.6,
             "rain_24h_mm": 13.9,
@@ -6330,13 +6330,13 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.5
+            "peak_30m_mm": 0.1
           },
           {
             "taluk_id": "ernakulam--kochi",
             "district_id": "ernakulam",
             "name": "Kochi",
-            "rain_1h_mm": 1,
+            "rain_1h_mm": 0.6,
             "rain_3h_mm": 3.6,
             "rain_6h_mm": 12.6,
             "rain_24h_mm": 13.9,
@@ -6345,13 +6345,13 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.5
+            "peak_30m_mm": 0.1
           },
           {
             "taluk_id": "alappuzha--cherthala",
             "district_id": "alappuzha",
             "name": "Cherthala",
-            "rain_1h_mm": 2.3,
+            "rain_1h_mm": 0,
             "rain_3h_mm": 1.9,
             "rain_6h_mm": 2.3,
             "rain_24h_mm": 2.3,
@@ -6360,7 +6360,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 1.3
+            "peak_30m_mm": 0
           },
           {
             "taluk_id": "kottayam--meenachil",
@@ -6561,7 +6561,7 @@
             "taluk_id": "ernakulam--kothamangalam",
             "district_id": "ernakulam",
             "name": "Kothamangalam",
-            "rain_1h_mm": 1,
+            "rain_1h_mm": 0.6,
             "rain_3h_mm": 3.6,
             "rain_6h_mm": 12.6,
             "rain_24h_mm": 13.9,
@@ -6570,13 +6570,13 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.5
+            "peak_30m_mm": 0.1
           },
           {
             "taluk_id": "ernakulam--kanayannur",
             "district_id": "ernakulam",
             "name": "Kanayannur",
-            "rain_1h_mm": 1,
+            "rain_1h_mm": 0.6,
             "rain_3h_mm": 3.6,
             "rain_6h_mm": 12.6,
             "rain_24h_mm": 13.9,
@@ -6585,7 +6585,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.5
+            "peak_30m_mm": 0.1
           },
           {
             "taluk_id": "idukki--udumbanchola",
@@ -6786,7 +6786,7 @@
             "taluk_id": "ernakulam--muvattupuzha",
             "district_id": "ernakulam",
             "name": "Muvattupuzha",
-            "rain_1h_mm": 1,
+            "rain_1h_mm": 0.6,
             "rain_3h_mm": 3.6,
             "rain_6h_mm": 12.6,
             "rain_24h_mm": 13.9,
@@ -6795,7 +6795,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.5
+            "peak_30m_mm": 0.1
           },
           {
             "taluk_id": "idukki--thodupuzha",
@@ -6846,7 +6846,7 @@
             "taluk_id": "ernakulam--kunnathunad",
             "district_id": "ernakulam",
             "name": "Kunnathunad",
-            "rain_1h_mm": 1,
+            "rain_1h_mm": 0.6,
             "rain_3h_mm": 3.6,
             "rain_6h_mm": 12.6,
             "rain_24h_mm": 13.9,
@@ -6855,13 +6855,13 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 0.5
+            "peak_30m_mm": 0.1
           },
           {
             "taluk_id": "alappuzha--karthikappally",
             "district_id": "alappuzha",
             "name": "Karthikappally",
-            "rain_1h_mm": 2.3,
+            "rain_1h_mm": 0,
             "rain_3h_mm": 1.9,
             "rain_6h_mm": 2.3,
             "rain_24h_mm": 2.3,
@@ -6870,7 +6870,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 1.3
+            "peak_30m_mm": 0
           },
           {
             "taluk_id": "thiruvananthapuram--chirayinkeezhu",
@@ -6906,7 +6906,7 @@
             "taluk_id": "alappuzha--chengannur",
             "district_id": "alappuzha",
             "name": "Chengannur",
-            "rain_1h_mm": 2.3,
+            "rain_1h_mm": 0,
             "rain_3h_mm": 1.9,
             "rain_6h_mm": 2.3,
             "rain_24h_mm": 2.3,
@@ -6915,7 +6915,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 1.3
+            "peak_30m_mm": 0
           },
           {
             "taluk_id": "thrissur--talappilly",
@@ -6951,7 +6951,7 @@
             "taluk_id": "alappuzha--ambalappuzha",
             "district_id": "alappuzha",
             "name": "Ambalappuzha",
-            "rain_1h_mm": 2.3,
+            "rain_1h_mm": 0,
             "rain_3h_mm": 1.9,
             "rain_6h_mm": 2.3,
             "rain_24h_mm": 2.3,
@@ -6960,7 +6960,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 1.3
+            "peak_30m_mm": 0
           },
           {
             "taluk_id": "kottayam--changanassery",
@@ -6981,7 +6981,7 @@
             "taluk_id": "alappuzha--kuttanad",
             "district_id": "alappuzha",
             "name": "Kuttanad",
-            "rain_1h_mm": 2.3,
+            "rain_1h_mm": 0,
             "rain_3h_mm": 1.9,
             "rain_6h_mm": 2.3,
             "rain_24h_mm": 2.3,
@@ -6990,7 +6990,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "taluk_representative_point",
             "cell_count": 1,
-            "peak_30m_mm": 1.3
+            "peak_30m_mm": 0
           },
           {
             "taluk_id": "thiruvananthapuram--nedumangad",
@@ -7055,8 +7055,8 @@
         ],
         "source_files": {
           "half_hour": [
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260401-S003000-E005959.0030.V07C.30min.zip",
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260401-S000000-E002959.0000.V07C.30min.zip"
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260401-S013000-E015959.0090.V07C.30min.zip",
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260401-S010000-E012959.0060.V07C.30min.zip"
           ],
           "three_hour": [
             "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260331-S233000-E235959.1410.V07C.3hr.zip",
