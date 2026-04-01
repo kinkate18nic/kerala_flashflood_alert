@@ -130,7 +130,8 @@ function publicSourceUrl(rawUrl) {
 
 function sourceLinkMarkup(sourceId) {
   const source = state.payload?.sources?.sources?.find((item) => item.source_id === sourceId);
-  const link = publicSourceUrl(source?.raw_url);
+  const meta = SOURCE_META[sourceId] ?? {};
+  const link = meta.source_url ?? publicSourceUrl(source?.raw_url);
   if (!link) {
     return "";
   }
@@ -602,13 +603,15 @@ const SOURCE_META = {
     description: "Ground rain gauge readings across Kerala",
     method: "JSON API via Cloudflare Proxy → India-WRIS",
     cadence: "Every 3 hrs",
-    impact: "No ground-truth rainfall. Satellite-only estimates (NASA IMERG) used instead."
+    impact: "No ground-truth rainfall. Satellite-only estimates (NASA IMERG) used instead.",
+    source_url: "https://indiawris.gov.in/Dataset/RainFall"
   },
   "indiawris-river-level": {
     description: "River water level from CWC gauge stations",
     method: "JSON API via Cloudflare Proxy → India-WRIS",
     cadence: "Every 3 hrs",
-    impact: "No India-WRIS river level context. Live CWC FFS river-stage evidence may still be available."
+    impact: "No India-WRIS river level context. Live CWC FFS river-stage evidence may still be available.",
+    source_url: "https://indiawris.gov.in/Dataset/River%20Water%20Level"
   },
   "ksdma-reservoirs": {
     description: "KSEB daily major dam and reservoir levels from KSDMA PDF",
@@ -783,7 +786,7 @@ function openSourceDetails(source) {
   const freshLabel = formatFreshness(source.freshness_minutes);
   const cadenceLabel = meta.cadence ?? "Unknown";
   const fetchNote = source.notes || source.summary?.excerpt || "None";
-  const sourceLink = publicSourceUrl(source.raw_url);
+  const sourceLink = meta.source_url ?? publicSourceUrl(source.raw_url);
   const fetchFailed = source.fetch_status === "failed";
   const fetchFallback = source.fetch_status === "failed_cached";
   const parserFailed = source.parser_status === "failed";
