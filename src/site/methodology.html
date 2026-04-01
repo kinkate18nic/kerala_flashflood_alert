@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Methodology and transparency notes for Kerala Flash-Flood Watch."
+    />
+    <meta name="theme-color" content="#173126" />
+    <title>Methodology | Kerala Flash-Flood Watch</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./assets/icon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;700&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero prose-hero">
+        <div class="eyebrow">Kerala Monsoon Decision Support</div>
+        <nav class="page-nav" aria-label="Primary">
+          <a class="page-nav-link" href="./index.html">Dashboard</a>
+          <a class="page-nav-link active" href="./methodology.html" aria-current="page">Methodology</a>
+        </nav>
+        <div class="hero-copy">
+          <div>
+            <h1>How this dashboard works</h1>
+            <p class="hero-subheading">What we use, why we use it, and how scores and alerts are produced.</p>
+            <p>
+              This page is the public methodology and transparency note for Kerala Flash-Flood Watch.
+              It should be updated whenever the meaning of the dashboard changes.
+            </p>
+          </div>
+          <div class="hero-actions">
+            <a class="chip subtle link-chip" href="./index.html">Open dashboard</a>
+            <a class="chip subtle link-chip" href="https://github.com/kinkate18nic/kerala_flashflood_alert" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+      </header>
+
+      <main class="prose-layout">
+        <section class="panel prose-panel">
+          <h2>Purpose</h2>
+          <p>
+            Kerala Flash-Flood Watch is a public, static-first decision-support dashboard for Kerala monsoon and flood monitoring.
+            It combines official warnings, official hydrology, radar, satellite rainfall, reservoir and dam status, and a small set of curated local-risk corridors into one place.
+          </p>
+          <p>
+            The main question it tries to answer is:
+          </p>
+          <p class="callout">
+            Where in Kerala should we pay closer attention right now for flash-flood, runoff, river-rise, reservoir-release, or dam-related flood consequences?
+          </p>
+          <p>
+            It is not an official government warning system. It is meant to help people read many signals together more clearly.
+          </p>
+        </section>
+
+        <section class="panel prose-panel">
+          <h2>Who this is for</h2>
+          <ul>
+            <li>Disaster-management volunteers</li>
+            <li>Journalists and public-interest monitors</li>
+            <li>Local observers and community groups</li>
+            <li>Field teams who want one place to review multiple signals quickly</li>
+            <li>People who want evidence-linked alerts instead of a black-box score</li>
+          </ul>
+        </section>
+
+        <section class="panel prose-panel">
+          <h2>What the dashboard shows</h2>
+          <ul>
+            <li>A single operational headline at the top</li>
+            <li>Active alerts at <code>Watch</code> and above</li>
+            <li>District risk cards for all 14 Kerala districts</li>
+            <li>Taluk risk cards for 61 taluks</li>
+            <li>Hotspot risk cards for curated local corridors and low-lying pockets</li>
+            <li>Source-health cards showing whether each source is current, older than usual, or unavailable</li>
+          </ul>
+          <p>
+            The map is currently a district-only Kerala map with hotspot overlays. Taluks are still scored and shown in card form, but the taluk map toggle was removed because it was not reliable enough.
+          </p>
+        </section>
+
+        <section class="panel prose-panel">
+          <h2>Area types</h2>
+          <h3>Districts</h3>
+          <p>Districts are the main operational layer. They aggregate warnings, rainfall, radar, hydrology, reservoir context, and terrain sensitivity at district scale.</p>
+          <h3>Taluks</h3>
+          <p>Taluks are a finer summary layer. They use localized rainfall context and district or hotspot membership, but are currently shown as cards rather than map polygons.</p>
+          <h3>Hotspots</h3>
+          <p>Hotspots are curated named places where local geography or infrastructure makes flood consequences more likely. These include steep catchments, floodplains, dam-downstream pockets, confluences, low-lying basins, and urban drainage pockets.</p>
+        </section>
+
+        <section class="panel prose-panel">
+          <h2>Data sources used</h2>
+          <h3>IMD warning sources</h3>
+          <ul>
+            <li><strong>IMD CAP RSS</strong>: official severe weather CAP feed for Kerala. CAP items only contribute while unexpired.</li>
+            <li><strong>IMD District Warning (Kerala)</strong>: district-level warning map used as official district warning support.</li>
+            <li><strong>IMD District Nowcast (Kerala)</strong>: short-lead district nowcast support for current conditions.</li>
+            <li><strong>IMD Station Nowcast (Kerala)</strong>: station nowcast mapped cautiously to nearby hotspots only.</li>
+            <li><strong>IMD Flash Flood Bulletin</strong>: bulletin-style expert guidance used as corroboration, not as a sole severe trigger.</li>
+          </ul>
+          <h3>Official hydrology and reservoir sources</h3>
+          <ul>
+            <li><strong>India-WRIS CWC Rainfall</strong>: official station-based rainfall, treated as higher-trust daily rainfall evidence.</li>
+            <li><strong>India-WRIS CWC River Water Level</strong>: official river-level context.</li>
+            <li><strong>CWC FFS Live River Levels</strong>: live flood-forecasting and river-stage support.</li>
+            <li><strong>KSDMA Daily Dam Levels (KSEB)</strong>: reservoir status context.</li>
+            <li><strong>KSDMA Daily Dam Levels (Irrigation)</strong>: dam and controlled outflow context.</li>
+          </ul>
+          <h3>Environmental context</h3>
+          <ul>
+            <li><strong>RainViewer Radar Nowcast</strong>: short-lead radar support.</li>
+            <li><strong>NASA IMERG Near-Real-Time</strong>: satellite rainfall backbone for continuous spatial coverage.</li>
+          </ul>
+          <h3>Manual input</h3>
+          <ul>
+            <li><strong>Operator Observation Override</strong>: manual fallback or override path, not the normal primary workflow.</li>
+          </ul>
+        </section>
+
+        <section class="panel prose-panel">
+          <h2>Why multiple sources are needed</h2>
+          <p>No single source is enough.</p>
+          <ul>
+            <li>IMD may issue a broad warning while rainfall stays low in a specific district.</li>
+            <li>Radar may show active weather while formal warning products are still quiet.</li>
+            <li>A river or dam situation can raise risk even without extreme short-duration rainfall.</li>
+            <li>Terrain and wetness matter because the same rain does not create the same consequence everywhere.</li>
+          </ul>
+          <p>The dashboard exists because operational risk in Kerala depends on both hazard and local consequence context.</p>
+        </section>
+
+        <section class="panel prose-panel">
+          <h2>How scoring works</h2>
+          <p>The model produces a composite score from 0 to 100 for districts, taluks, and hotspots. It is a decision-support score, not a probability.</p>
+          <div class="table-wrap">
+            <table class="prose-table">
+              <thead>
+                <tr>
+                  <th>Score family</th>
+                  <th>Weight</th>
+                  <th>Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Official warning</td><td>24%</td><td>CAP and district warning support</td></tr>
+                <tr><td>Flash-flood bulletin</td><td>10%</td><td>Expert bulletin corroboration</td></tr>
+                <tr><td>Recent rainfall</td><td>24%</td><td>Short-duration and daily rain context</td></tr>
+                <tr><td>Antecedent wetness</td><td>9%</td><td>Multi-day catchment wetness</td></tr>
+                <tr><td>Terrain susceptibility</td><td>12%</td><td>How inherently flood- or runoff-sensitive the area is</td></tr>
+                <tr><td>Hydrology</td><td>8%</td><td>River-stage and flood-forecast support</td></tr>
+                <tr><td>Radar nowcast</td><td>8%</td><td>Current weather support</td></tr>
+                <tr><td>Reservoir / dam context</td><td>5%</td><td>Controlled storage and downstream caution</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>The model also adds a small agreement bonus when several independent signals point in the same direction.</p>
+          <h3>Alert thresholds</h3>
+          <div class="table-wrap">
+            <table class="prose-table">
+              <thead>
+                <tr>
+                  <th>Level</th>
+                  <th>Score range</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><code>Normal</code></td><td>below 35</td></tr>
+                <tr><td><code>Watch</code></td><td>35 to 57.9</td></tr>
+                <tr><td><code>Alert</code></td><td>58 to 77.9</td></tr>
+                <tr><td><code>Severe - review required</code></td><td>78 and above</td></tr>
+                <tr><td><code>Reviewed severe alert</code></td><td>78 and above, after manual approval</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="callout">A score of 58 does not mean “58% chance of flood.” It means the current combination of evidence crosses the dashboard’s <code>Alert</code> threshold.</p>
+        </section>
+
+        <section class="panel prose-panel">
+          <h2>How district, taluk, and hotspot logic differ</h2>
+          <h3>District logic</h3>
+          <p>Districts combine official warning products, district nowcast, official and satellite rainfall, radar, river-stage and dam context, and terrain susceptibility. Districts are the most balanced layer.</p>
+          <h3>Taluk logic</h3>
+          <p>Taluks use localized rainfall estimates, district background conditions, hotspot membership or context, and local runoff susceptibility. They are meant to be more local than districts, but still more cautious than hotspots.</p>
+          <h3>Hotspot logic</h3>
+          <p>Hotspots are the most consequence-focused layer. They combine nearby rainfall, nearby radar, nearby station nowcast when available, catchment wetness, hotspot category, terrain and runoff susceptibility, and river or dam context where relevant.</p>
+          <p>Hotspots are not allowed to escalate too easily from broad warning text alone. A generic district thunderstorm or wind warning should not create a hotspot <code>Watch</code> by itself.</p>
+        </section>
+
+        <section class="panel prose-panel">
+          <h2>Freshness, saved copies, and source status</h2>
+          <p>The dashboard separates three different ideas:</p>
+          <ul>
+            <li><strong>Data published</strong>: when the source data itself appears to have been issued</li>
+            <li><strong>Last checked by our system</strong>: when our system last fetched or confirmed that source</li>
+            <li><strong>This run</strong>: whether the current run refreshed it live or reused a saved copy</li>
+          </ul>
+          <p>Source status meanings:</p>
+          <ul>
+            <li><strong>Current / ok</strong>: within expected freshness window</li>
+            <li><strong>Degraded</strong>: available, but weaker than normal for scoring</li>
+            <li><strong>Older than usual / stale</strong>: older than expected</li>
+            <li><strong>Unavailable / offline</strong>: should not contribute to scoring</li>
+          </ul>
+          <p>Older data is not treated the same as fresh data. Current sources contribute fully. Degraded sources are down-weighted. Stale sources are heavily down-weighted. Offline sources do not contribute.</p>
+        </section>
+
+        <section class="panel prose-panel">
+          <h2>Important safeguards already implemented</h2>
+          <ul>
+            <li><strong>CAP expiry is respected</strong>: CAP alerts only contribute while their official <code>expires</code> window is still valid.</li>
+            <li><strong>Same-day district warning logic</strong>: the district warning page is treated like a same-day bulletin rather than a minute-precise feed.</li>
+            <li><strong>Stale-source down-weighting</strong>: old data does not keep behaving like fresh evidence.</li>
+            <li><strong>Manual review for highest severity</strong>: severe candidates require explicit approval before becoming public reviewed severe alerts.</li>
+          </ul>
+        </section>
+
+        <section class="panel prose-panel">
+          <h2>How the dashboard decides what to show first</h2>
+          <ul>
+            <li><strong>Operational headline</strong>: summary of the current picture, not the full alert list</li>
+            <li><strong>Active alerts</strong>: the full list of current alerts</li>
+            <li><strong>District, taluk, and hotspot cards</strong>: cards try to show the most local and most useful explanation first rather than raw internal driver strings</li>
+          </ul>
+        </section>
+
+        <section class="panel prose-panel">
+          <h2>Refresh and publication workflow</h2>
+          <p>The dashboard uses a multi-step workflow.</p>
+          <ol>
+            <li><strong>Data refresh</strong>: different workflows update different source groups</li>
+            <li><strong>Publish dashboard snapshot</strong>: a publish workflow rebuilds the public snapshot from the latest source cache</li>
+            <li><strong>GitHub Pages deployment</strong>: GitHub Pages serves the latest published snapshot</li>
+          </ol>
+          <p>This separation exists so refresh workflows do not fight each other and one workflow produces the final public snapshot.</p>
+        </section>
+
+        <section class="panel prose-panel">
+          <h2>How often sources are checked</h2>
+          <ul>
+            <li><strong>India fast sources</strong>: about every 20 minutes</li>
+            <li><strong>India hydrology sources</strong>: about every 60 minutes</li>
+            <li><strong>External sources</strong>: about every 30 minutes</li>
+          </ul>
+          <p>Important: a source card should be read as “what data is being used now,” not “this source definitely published new data in this run.”</p>
+        </section>
+
+        <section class="panel prose-panel">
+          <h2>Known limitations</h2>
+          <ul>
+            <li>It is not an official warning authority.</li>
+            <li>Government websites, PDFs, and embedded page data can change structure unexpectedly.</li>
+            <li>Some sources provide exact times; others only provide a date or a daily bulletin.</li>
+            <li>Hotspots cover selected known sensitive corridors, not every vulnerable place in Kerala.</li>
+            <li>Scores are heuristic and evidence-based, but still human-designed, not a trained probabilistic flood model.</li>
+          </ul>
+        </section>
+
+        <section class="panel prose-panel">
+          <h2>When this page should be updated</h2>
+          <p>This page should be updated whenever any of the following changes:</p>
+          <ul>
+            <li>source list</li>
+            <li>source role in scoring</li>
+            <li>weights</li>
+            <li>thresholds</li>
+            <li>manual review rules</li>
+            <li>stale-data treatment</li>
+            <li>CAP expiry handling</li>
+            <li>district, taluk, or hotspot logic</li>
+            <li>map behavior</li>
+            <li>publish workflow or operational architecture</li>
+            <li>interpretation guidance for users</li>
+          </ul>
+          <p class="callout">If the meaning of the dashboard changes, this page should change too.</p>
+        </section>
+
+        <section class="panel prose-panel">
+          <h2>Feedback we want</h2>
+          <p>We especially welcome feedback from IMD users, hydrologists, district disaster-management staff, dam and river monitoring teams, and field volunteers who can compare dashboard outputs with local reality.</p>
+          <p>Useful feedback looks like:</p>
+          <ul>
+            <li>“This alert is too aggressive for this kind of signal.”</li>
+            <li>“This source should be weighted less.”</li>
+            <li>“This district should rely more on river context than radar.”</li>
+            <li>“This hotspot is missing.”</li>
+            <li>“This official product should be treated as primary, not secondary.”</li>
+            <li>“This explanation is too technical or not understandable.”</li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

@@ -40,6 +40,31 @@ body {
   padding: 24px 0 10px;
 }
 
+.page-nav {
+  display: flex;
+  gap: 10px;
+  margin: 6px 0 18px;
+  flex-wrap: wrap;
+}
+
+.page-nav-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 700;
+  border: 1px solid rgba(22, 38, 31, 0.08);
+}
+
+.page-nav-link.active {
+  background: var(--accent);
+  color: #fff;
+}
+
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.24em;
@@ -112,9 +137,18 @@ h1 {
   color: var(--ink);
 }
 
+.link-chip {
+  text-decoration: none;
+}
+
 .layout {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.prose-layout {
+  display: grid;
   gap: 18px;
 }
 
@@ -125,6 +159,61 @@ h1 {
   box-shadow: var(--shadow);
   backdrop-filter: blur(16px);
   padding: 22px;
+}
+
+.prose-panel {
+  max-width: 920px;
+}
+
+.prose-panel h2 {
+  margin-bottom: 14px;
+}
+
+.prose-panel h3 {
+  margin: 18px 0 8px;
+  font-size: 1.04rem;
+}
+
+.prose-panel p,
+.prose-panel li {
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+.prose-panel ul,
+.prose-panel ol {
+  margin: 10px 0 0;
+  padding-left: 22px;
+}
+
+.callout {
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(33, 79, 63, 0.08);
+  border: 1px solid rgba(33, 79, 63, 0.12);
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin-top: 12px;
+}
+
+.prose-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.96rem;
+}
+
+.prose-table th,
+.prose-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(22, 38, 31, 0.1);
+}
+
+.prose-table th {
+  font-weight: 700;
+  color: var(--ink);
 }
 
 .headline-panel,
