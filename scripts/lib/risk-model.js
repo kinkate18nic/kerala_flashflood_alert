@@ -326,6 +326,7 @@ function hasWatchSupport({
   cap,
   bulletin,
   districtWarning,
+  stationNowcast,
   radar,
   cwc,
   reservoir,
@@ -334,9 +335,15 @@ function hasWatchSupport({
   observation
 }) {
   const directOfficial = hasDirectOfficialSupport(cap, bulletin);
+  const directLocalOfficial = effectiveSeverity(stationNowcast) >= 0.35;
   const districtWarningBacked =
     effectiveSeverity(districtWarning) > 0.2 &&
-    (hasRainSupport(observation) || hasRadarSupport(radar, { strongOnly: true }) || hasHydrologySupport(cwc));
+    (
+      hasRainSupport(observation) ||
+      hasRadarSupport(radar, { strongOnly: true }) ||
+      hasHydrologySupport(cwc) ||
+      effectiveSeverity(stationNowcast) >= 0.28
+    );
   const hydro = hasHydrologySupport(cwc);
   const damOps = hasOperationalDamSupport(reservoir, dam);
   const runoffReady = (runoffPotential?.score ?? 0) >= runoffPotentialThreshold(category);
@@ -344,11 +351,11 @@ function hasWatchSupport({
   switch (category) {
     case "river_floodplain":
     case "river_confluence":
-      return directOfficial || districtWarningBacked || hydro || damOps || runoffReady;
+      return directOfficial || directLocalOfficial || districtWarningBacked || hydro || damOps || runoffReady;
     case "dam_downstream":
-      return directOfficial || districtWarningBacked || hydro || damOps || runoffReady;
+      return directOfficial || directLocalOfficial || districtWarningBacked || hydro || damOps || runoffReady;
     default:
-      return directOfficial || districtWarningBacked || hydro || damOps || runoffReady;
+      return directOfficial || directLocalOfficial || districtWarningBacked || hydro || damOps || runoffReady;
   }
 }
 
@@ -361,6 +368,7 @@ export function buildRiskOutputs(context) {
     bulletinByDistrict,
     imdDistrictWarningByDistrict = {},
     imdNowcastByDistrict = {},
+    stationNowcastByHotspot = {},
     reservoirByDistrict,
     damByDistrict,
     cwcByDistrict,
@@ -640,6 +648,11 @@ export function buildRiskOutputs(context) {
     const districtState = districtStates.find((state) => state.area_id === hotspot.district_id);
     const districtModel = districtModelContextById[hotspot.district_id];
     const override = hotspotOverrideLookup[hotspot.id];
+    const stationNowcast = stationNowcastByHotspot[hotspot.id] ?? {
+      severity: 0,
+      notes: [],
+      source_ids: ["imd-station-nowcast"]
+    };
     const radar = radarByHotspot[hotspot.id] ?? {
       severity: radarByDistrict[hotspot.district_id]?.severity ?? 0,
       intensity: radarByDistrict[hotspot.district_id]?.intensity ?? "none",
@@ -651,16 +664,28 @@ export function buildRiskOutputs(context) {
       context.statusBySource,
       radar.source_ids ?? ["rainviewer-radar"]
     );
+    const stationNowcastWeight = maxSourceWeight(
+      context.statusBySource,
+      stationNowcast.source_ids ?? ["imd-station-nowcast"]
+    );
     const weightedRadar = {
       ...radar,
       source_weight: radarWeight,
       effective_severity: (radar.severity ?? 0) * radarWeight
     };
+    const weightedStationNowcast = {
+      ...stationNowcast,
+      source_weight: stationNowcastWeight,
+      effective_severity: (stationNowcast.severity ?? 0) * stationNowcastWeight
+    };
     const manualBoost = override?.score_boost ?? 0;
     const districtTerrain = terrainByDistrict[hotspot.district_id];
     const hotspotSusceptibility = clamp(hotspot.susceptibility * 0.7 + districtTerrain.value * 0.3);
     const categoryBoost = hotspotCategoryBoost(hotspot.category);
-    const hotspotShortLeadSignal = combineSignals(weightedRadar, districtModel?.nowcast);
+    const hotspotShortLeadSignal = combineSignals(
+      combineSignals(weightedRadar, districtModel?.nowcast),
+      weightedStationNowcast
+    );
     const runoffPotential = computeRunoffPotential({
       category: hotspot.category,
       observation: districtModel?.observation,
@@ -674,6 +699,7 @@ export function buildRiskOutputs(context) {
       cap: districtModel?.cap,
       bulletin: districtModel?.bulletin,
       districtWarning: districtModel?.districtWarning,
+      stationNowcast: weightedStationNowcast,
       radar: hotspotShortLeadSignal,
       cwc: districtModel?.cwc,
       reservoir: districtModel?.reservoir,
@@ -714,6 +740,9 @@ export function buildRiskOutputs(context) {
       buffer_km: hotspot.buffer_km ?? null,
       drivers: [
         ...districtState.drivers,
+        weightedStationNowcast.effective_severity > 0
+          ? `IMD station nowcast ${round(weightedStationNowcast.effective_severity * 100)}% near hotspot${weightedStationNowcast.station_name ? ` (${weightedStationNowcast.station_name}${weightedStationNowcast.distance_km != null ? `, ${weightedStationNowcast.distance_km} km` : ""})` : ""}`
+          : null,
         effectiveSeverity(weightedRadar) > 0
           ? `Hotspot radar echo ${weightedRadar.intensity.replaceAll("_", " ")} (${weightedRadar.max_dbz ?? "n/a"} dBZ)`
           : null,
@@ -723,14 +752,22 @@ export function buildRiskOutputs(context) {
         hotspot.category ? `Hotspot category ${hotspot.category.replaceAll("_", " ")}` : null,
         hotspot.buffer_km ? `Hotspot analysis radius ${hotspot.buffer_km} km` : null
       ].filter(Boolean),
-      source_refs: districtState.source_refs.map((sourceRefEntry) =>
-        sourceRefEntry.source_id === "rainviewer-radar"
-          ? {
-              ...sourceRefEntry,
-              detail: weightedRadar.notes?.[0] ?? sourceRefEntry.detail
-            }
-          : sourceRefEntry
-      ),
+      source_refs: [
+        ...districtState.source_refs.map((sourceRefEntry) =>
+          sourceRefEntry.source_id === "rainviewer-radar"
+            ? {
+                ...sourceRefEntry,
+                detail: weightedRadar.notes?.[0] ?? sourceRefEntry.detail
+              }
+            : sourceRefEntry
+        ),
+        sourceRef(
+          "imd-station-nowcast",
+          weightedStationNowcast.notes?.[0] ?? "No IMD station nowcast near hotspot",
+          context.freshnessBySource["imd-station-nowcast"],
+          context.statusBySource["imd-station-nowcast"]
+        )
+      ],
       review_state: level === "Severe - review required" ? "pending_review" : "auto_published",
       valid_from: districtState.valid_from,
       valid_to: districtState.valid_to
@@ -892,6 +929,7 @@ export function buildRiskOutputs(context) {
             cap: weightedCap,
             bulletin: weightedBulletin,
             districtWarning: weightedDistrictWarning,
+            stationNowcast: stationNowcastByHotspot[hotspot.area_id],
             radar: combinedShortLeadSignal,
             cwc: weightedCwc,
             reservoir: weightedReservoir,
@@ -899,11 +937,12 @@ export function buildRiskOutputs(context) {
             runoffPotential
           })
         )
-      : hasWatchSupport({
+        : hasWatchSupport({
           category: null,
           cap: weightedCap,
           bulletin: weightedBulletin,
           districtWarning: weightedDistrictWarning,
+          stationNowcast: null,
           radar: combinedShortLeadSignal,
           cwc: weightedCwc,
           reservoir: weightedReservoir,

@@ -1,0 +1,76 @@
+name: Publish dashboard snapshot
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "runtime/cache/source-results.json"
+      - "data/manual/review-approvals.json"
+      - "data/manual/hotspot-overrides.json"
+      - "data/manual/hotspot-footprints.geojson"
+      - "data/manual/observations.json"
+      - "src/site/**"
+      - "src/shared/**"
+      - "scripts/**"
+      - "config/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-dashboard-snapshot
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Rebuild published snapshot from latest source cache
+        env:
+          CACHE_ONLY: "true"
+          WRITE_PUBLIC_OUTPUTS: "true"
+          WRITE_ARCHIVE_OUTPUTS: "true"
+          WRITE_RUNTIME_DERIVED: "true"
+          WRITE_METRICS: "true"
+          WRITE_RAW_OUTPUTS: "false"
+        run: node scripts/run-pipeline.js
+
+      - name: Build static site
+        run: node scripts/build-site.js
+
+      - name: Send reviewed severe alerts
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node scripts/send-telegram.js
+
+      - name: Commit published snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs runtime/derived runtime/metrics data/manual/review-approvals.json
+          if git diff --cached --quiet; then
+            echo "No publish changes to commit"
+          else
+            git commit -m "chore: publish dashboard snapshot"
+            git pull --rebase --autostash origin main
+            git push
+          fi

@@ -1,6 +1,6 @@
 import path from "node:path";
 import { readJson } from "./fs.js";
-import { districts } from "../../src/shared/areas.js";
+import { districts, hotspots } from "../../src/shared/areas.js";
 import { parseDate } from "./time.js";
 import { severityKeywords } from "../../src/shared/risk.js";
 import { parseDistrictBoundaries, pointInGeometry } from "./boundaries.js";
@@ -52,6 +52,19 @@ function parseImdLocalDateTime(dateText, timeText) {
 
   const [, hourPart, minutePart] = normalizedTime;
   return parseDate(`${normalizedDate}T${hourPart.padStart(2, "0")}:${minutePart}:00+05:30`)?.toISOString() ?? null;
+}
+
+function haversineDistanceKm(left, right) {
+  const toRadians = (value) => (value * Math.PI) / 180;
+  const earthRadiusKm = 6371;
+  const dLat = toRadians(right.lat - left.lat);
+  const dLon = toRadians(right.lon - left.lon);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRadians(left.lat)) *
+      Math.cos(toRadians(right.lat)) *
+      Math.sin(dLon / 2) ** 2;
+  return earthRadiusKm * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
 function colorSeverity(color, fallback = 0) {
@@ -226,6 +239,109 @@ function parseImdDistrictNowcastPage(raw, source = null) {
     active_district_count: activeEntries.filter((entry) => entry.severity > 0).length,
     filtered_item_count: entries.length - activeEntries.length,
     districts: activeEntries
+  };
+}
+
+function parseEmbeddedStationMarkers(raw) {
+  const markers = [];
+  const markerPattern =
+    /(?:^|[,{])\s*title\s*:\s*"(?<title>[^"]+)"[\s\S]*?latitude\s*:\s*"?(?<latitude>-?\d+(?:\.\d+)?)"?[\s\S]*?longitude\s*:\s*"?(?<longitude>-?\d+(?:\.\d+)?)"?[\s\S]*?imageURL\s*:\s*"(?<imageURL>[^"]+)"[\s\S]*?description\s*:\s*"(?<description>[\s\S]*?)"\s*(?:[,}])/gi;
+
+  for (const match of raw.matchAll(markerPattern)) {
+    if (!match.groups) {
+      continue;
+    }
+    const latitude = Number.parseFloat(match.groups.latitude);
+    const longitude = Number.parseFloat(match.groups.longitude);
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+      continue;
+    }
+    markers.push({
+      title: decodeEmbeddedHtml(match.groups.title).trim(),
+      latitude,
+      longitude,
+      image_url: decodeEmbeddedHtml(match.groups.imageURL).trim(),
+      description: decodeEmbeddedHtml(match.groups.description).trim()
+    });
+  }
+
+  return markers;
+}
+
+function parseImdStationNowcastPage(raw, source = null) {
+  const referenceTime = parseDate(source?.reference_time) ?? new Date();
+  const stations = parseEmbeddedStationMarkers(raw).map((entry) => {
+    const cleanedText = stripHtml(entry.description);
+    const issueMatch = cleanedText.match(/Time of issue:\s*(\d{4}-\d{2}-\d{2})\s*(\d{3,4})\s*Hrs/i);
+    const validMatch = cleanedText.match(/Valid upto:\s*(\d{3,4})\s*Hrs/i);
+    const issuedAt = issueMatch ? parseImdLocalDateTime(issueMatch[1], issueMatch[2]) : null;
+    const validUntil =
+      issueMatch && validMatch ? parseImdLocalDateTime(issueMatch[1], validMatch[1]) : null;
+    const severity = nowcastSeverityFromText(cleanedText);
+    const active = validUntil ? parseDate(validUntil)?.getTime() > referenceTime.getTime() : severity > 0;
+    return {
+      station_name: entry.title,
+      latitude: entry.latitude,
+      longitude: entry.longitude,
+      image_url: entry.image_url,
+      nowcast_text: cleanedText,
+      severity,
+      issued_at: issuedAt,
+      valid_until: validUntil,
+      active
+    };
+  });
+
+  const activeStations = stations.filter((entry) => entry.active && entry.severity > 0);
+  const hotspotMatches = new Map();
+
+  for (const station of activeStations) {
+    for (const hotspot of hotspots) {
+      if (!hotspot.location) {
+        continue;
+      }
+      const distanceKm = haversineDistanceKm(
+        { lat: station.latitude, lon: station.longitude },
+        { lat: hotspot.location.lat, lon: hotspot.location.lon }
+      );
+      if (distanceKm > 20) {
+        continue;
+      }
+      const current = hotspotMatches.get(hotspot.id);
+      const candidate = {
+        hotspot_id: hotspot.id,
+        hotspot_name: hotspot.name,
+        district_id: hotspot.district_id,
+        station_name: station.station_name,
+        distance_km: Math.round(distanceKm * 10) / 10,
+        severity: station.severity,
+        issued_at: station.issued_at,
+        valid_until: station.valid_until,
+        nowcast_text: station.nowcast_text
+      };
+      if (
+        !current ||
+        candidate.severity > current.severity ||
+        (candidate.severity === current.severity && candidate.distance_km < current.distance_km)
+      ) {
+        hotspotMatches.set(hotspot.id, candidate);
+      }
+    }
+  }
+
+  const issuedAt = stations
+    .map((entry) => parseDate(entry.issued_at))
+    .filter(Boolean)
+    .sort((left, right) => right.getTime() - left.getTime())[0]
+    ?.toISOString() ?? null;
+
+  return {
+    issued_at: issuedAt,
+    station_count: stations.length,
+    active_station_count: activeStations.length,
+    hotspot_count: hotspotMatches.size,
+    stations: activeStations,
+    hotspots: [...hotspotMatches.values()]
   };
 }
 
@@ -598,6 +714,10 @@ export function parseImdDistrictNowcast(raw, source = null) {
   return parseImdDistrictNowcastPage(raw, source);
 }
 
+export function parseImdStationNowcast(raw, source = null) {
+  return parseImdStationNowcastPage(raw, source);
+}
+
 function keywordHit(text, patterns) {
   return patterns.some((pattern) => pattern.test(text));
 }
@@ -779,6 +899,7 @@ export const parserRegistry = {
   imdFlashFloodBulletin: parseImdFlashFloodBulletin,
   imdDistrictWarning: parseImdDistrictWarning,
   imdDistrictNowcast: parseImdDistrictNowcast,
+  imdStationNowcast: parseImdStationNowcast,
   ksdmaReservoirs: parseKsdmaReservoirs,
   ksdmaDamManagement: parseKsdmaDamManagement,
   cwcFfs: parseCwcFfs,

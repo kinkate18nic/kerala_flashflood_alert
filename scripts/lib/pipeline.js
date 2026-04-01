@@ -135,6 +135,13 @@ function summarizeSource(parsed) {
     }
     return summary;
   }
+  if ("stations" in parsed && Array.isArray(parsed.stations)) {
+    return {
+      station_count: parsed.station_count ?? parsed.stations.length,
+      active_station_count: parsed.active_station_count ?? parsed.stations.length,
+      hotspot_count: parsed.hotspot_count ?? parsed.hotspots?.length ?? 0
+    };
+  }
   if ("summary" in parsed) {
     return { excerpt: parsed.summary.slice(0, 160) };
   }
@@ -552,6 +559,21 @@ function collapseSignals(parsedSources) {
     };
   }
 
+  const stationNowcastByHotspot = {};
+  for (const hotspot of parsedSources["imd-station-nowcast"]?.hotspots ?? []) {
+    stationNowcastByHotspot[hotspot.hotspot_id] = {
+      severity: hotspot.severity ?? 0,
+      issued_at: hotspot.issued_at ?? null,
+      valid_until: hotspot.valid_until ?? null,
+      station_name: hotspot.station_name ?? null,
+      distance_km: hotspot.distance_km ?? null,
+      notes: hotspot.nowcast_text
+        ? [`${hotspot.station_name}: ${hotspot.nowcast_text}`]
+        : ["No IMD station nowcast near hotspot"],
+      source_ids: ["imd-station-nowcast"]
+    };
+  }
+
   const reservoirByDistrict = {};
   const reservoirSource = parsedSources["ksdma-reservoirs"];
   if (Array.isArray(reservoirSource?.districts) && reservoirSource.districts[0] && typeof reservoirSource.districts[0] === "object") {
@@ -665,6 +687,7 @@ function collapseSignals(parsedSources) {
     bulletinByDistrict,
     imdDistrictWarningByDistrict,
     imdNowcastByDistrict,
+    stationNowcastByHotspot,
     reservoirByDistrict,
     damByDistrict,
     cwcByDistrict,
@@ -729,6 +752,11 @@ async function loadTalukDefinitions(repoRoot, options) {
 
 export async function runPipeline(repoRoot, options = {}) {
   const generatedAt = nowIso();
+  const writePublicOutputs = options.writePublicOutputs !== false;
+  const writeArchiveOutputs = options.writeArchiveOutputs !== false;
+  const writeRuntimeDerived = options.writeRuntimeDerived !== false;
+  const writeMetrics = options.writeMetrics !== false;
+  const writeRawOutputs = options.writeRawOutputs !== false;
   const sources = await readJson(path.join(repoRoot, "config", "sources.json"));
   const thresholds = await readJson(path.join(repoRoot, "config", "risk-thresholds.json"));
   const terrainStats = await readJson(path.join(repoRoot, "config", "terrain-stats.json"), {
@@ -791,7 +819,9 @@ export async function runPipeline(repoRoot, options = {}) {
     `${archiveParts.year}${archiveParts.month}${archiveParts.day}`,
     archiveParts.stamp
   );
-  await ensureDir(rawDir);
+  if (writeRawOutputs) {
+    await ensureDir(rawDir);
+  }
 
   const parsedSources = {};
   const priorSourceCache = options.useFixtures
@@ -807,6 +837,32 @@ export async function runPipeline(repoRoot, options = {}) {
     async (source) => {
       const cacheEntry = priorSourceCache.sources?.[source.id];
       const sourceSelected = !selectedSourceIds || selectedSourceIds.has(source.id);
+      if (!options.useFixtures && options.cacheOnly === true) {
+        if (cacheEntryHasSuccessfulPayload(cacheEntry)) {
+          return {
+            sourceId: source.id,
+            parsed: cacheEntry.parsed,
+            snapshot: buildReusedSnapshot(source, cacheEntry, generatedAt, {
+              fetchStatus: "skipped_cached",
+              parserStatus: "ok",
+              failureStage: null,
+              reuseReason: "publish_from_cache",
+              reuseMessage: "Publish run reused the latest successful cached payload."
+            }),
+            cacheUpdate: null
+          };
+        }
+        return {
+          sourceId: source.id,
+          parsed: null,
+          snapshot: buildSkippedSnapshot(
+            source,
+            generatedAt,
+            "Publish run found no successful cached payload for this source."
+          ),
+          cacheUpdate: null
+        };
+      }
       if (!sourceSelected && !options.useFixtures) {
         if (cacheEntryHasSuccessfulPayload(cacheEntry)) {
           return {
@@ -923,7 +979,7 @@ export async function runPipeline(repoRoot, options = {}) {
       const parserStatus = parserStatusFromState(fetchOk, parserOk);
       const failureStage = failureStageFromState(fetchOk, parserOk, parsed);
 
-      if (raw) {
+      if (raw && writeRawOutputs) {
         const outputName = `${source.id}.${rawExtension(source.format)}`;
         await writeText(path.join(rawDir, outputName), raw);
       }
@@ -983,7 +1039,6 @@ export async function runPipeline(repoRoot, options = {}) {
     return result.snapshot;
   });
   const sourceCache = {
-    generated_at: generatedAt,
     sources: {
       ...(priorSourceCache.sources ?? {}),
       ...Object.fromEntries(
@@ -1058,9 +1113,15 @@ export async function runPipeline(repoRoot, options = {}) {
     archiveParts.stamp
   );
   const runtimeDerivedDir = path.join(repoRoot, "runtime", "derived", "latest");
-  await ensureDir(publicLatestDir);
-  await ensureDir(archiveDir);
-  await ensureDir(runtimeDerivedDir);
+  if (writePublicOutputs) {
+    await ensureDir(publicLatestDir);
+  }
+  if (writeArchiveOutputs) {
+    await ensureDir(archiveDir);
+  }
+  if (writeRuntimeDerived) {
+    await ensureDir(runtimeDerivedDir);
+  }
 
   const outputs = {
     "sources.json": {
@@ -1138,53 +1199,71 @@ export async function runPipeline(repoRoot, options = {}) {
       .slice(0, 2000);
   }
 
-  const archiveIndexPath = path.join(archiveRootDir, "index.json");
-  const archiveIndex = await readJson(archiveIndexPath, { runs: [] });
-  archiveIndex.runs = [
-    {
-      generated_at: generatedAt,
-      headline_level: outputs["dashboard.json"].headline_level,
-      headline_message: outputs["dashboard.json"].headline_message,
-      severe_pending_count: outputs["dashboard.json"].severe_pending_count,
-      path: `./data/archive/${archiveParts.year}/${archiveParts.month}/${archiveParts.day}/${archiveParts.stamp}`
-    },
-    ...(archiveIndex.runs ?? [])
-  ]
-    .filter(
-      (run, index, allRuns) => allRuns.findIndex((candidate) => candidate.generated_at === run.generated_at) === index
-    )
-    .slice(0, 120);
+  let archiveIndex = { runs: [] };
+  if (writePublicOutputs || writeArchiveOutputs || writeRuntimeDerived) {
+    const archiveIndexPath = path.join(archiveRootDir, "index.json");
+    archiveIndex = await readJson(archiveIndexPath, { runs: [] });
+    archiveIndex.runs = [
+      {
+        generated_at: generatedAt,
+        headline_level: outputs["dashboard.json"].headline_level,
+        headline_message: outputs["dashboard.json"].headline_message,
+        severe_pending_count: outputs["dashboard.json"].severe_pending_count,
+        path: `./data/archive/${archiveParts.year}/${archiveParts.month}/${archiveParts.day}/${archiveParts.stamp}`
+      },
+      ...(archiveIndex.runs ?? [])
+    ]
+      .filter(
+        (run, index, allRuns) =>
+          allRuns.findIndex((candidate) => candidate.generated_at === run.generated_at) === index
+      )
+      .slice(0, 120);
 
-  for (const [fileName, data] of Object.entries(outputs)) {
-    await writeJson(path.join(publicLatestDir, fileName), data);
-    await writeJson(path.join(archiveDir, fileName), data);
-    await writeJson(path.join(runtimeDerivedDir, fileName), data);
+    for (const [fileName, data] of Object.entries(outputs)) {
+      if (writePublicOutputs) {
+        await writeJson(path.join(publicLatestDir, fileName), data);
+      }
+      if (writeArchiveOutputs) {
+        await writeJson(path.join(archiveDir, fileName), data);
+      }
+      if (writeRuntimeDerived) {
+        await writeJson(path.join(runtimeDerivedDir, fileName), data);
+      }
+    }
+
+    if (writeArchiveOutputs) {
+      await writeJson(path.join(archiveRootDir, "index.json"), archiveIndex);
+    }
+    if (writePublicOutputs) {
+      await writeJson(path.join(publicLatestDir, "archive-index.json"), archiveIndex);
+      await writeJson(path.join(publicLatestDir, "nasa-imerg-history.json"), nasaHistory);
+    }
+    if (writeRuntimeDerived) {
+      await writeJson(path.join(runtimeDerivedDir, "archive-index.json"), archiveIndex);
+      await writeJson(path.join(runtimeDerivedDir, "nasa-imerg-history.json"), nasaHistory);
+    }
   }
 
-  await writeJson(archiveIndexPath, archiveIndex);
-  await writeJson(path.join(publicLatestDir, "archive-index.json"), archiveIndex);
-  await writeJson(path.join(publicLatestDir, "nasa-imerg-history.json"), nasaHistory);
-  await writeJson(path.join(runtimeDerivedDir, "archive-index.json"), archiveIndex);
-  await writeJson(path.join(runtimeDerivedDir, "nasa-imerg-history.json"), nasaHistory);
-  await writeJson(nasaHistoryRuntimePath, nasaHistory);
-
-  await writeJson(path.join(repoRoot, "runtime", "metrics", "latest-run.json"), {
-    generated_at: generatedAt,
-    source_count: snapshots.length,
-    online_sources: snapshots.filter((source) => source.status === "ok").length,
-    severe_pending_count: outputs["dashboard.json"].severe_pending_count,
-    total_source_duration_ms: snapshots.reduce((sum, source) => sum + (source.duration_ms ?? 0), 0),
-    slowest_sources: [...snapshots]
-      .sort((left, right) => (right.duration_ms ?? 0) - (left.duration_ms ?? 0))
-      .slice(0, 5)
-      .map((source) => ({
-        source_id: source.source_id,
-        duration_ms: source.duration_ms ?? 0,
-        status: source.status,
-        fetch_status: source.fetch_status,
-        parser_status: source.parser_status
-      }))
-  });
+  if (writeMetrics) {
+    await writeJson(nasaHistoryRuntimePath, nasaHistory);
+    await writeJson(path.join(repoRoot, "runtime", "metrics", "latest-run.json"), {
+      generated_at: generatedAt,
+      source_count: snapshots.length,
+      online_sources: snapshots.filter((source) => source.status === "ok").length,
+      severe_pending_count: outputs["dashboard.json"].severe_pending_count,
+      total_source_duration_ms: snapshots.reduce((sum, source) => sum + (source.duration_ms ?? 0), 0),
+      slowest_sources: [...snapshots]
+        .sort((left, right) => (right.duration_ms ?? 0) - (left.duration_ms ?? 0))
+        .slice(0, 5)
+        .map((source) => ({
+          source_id: source.source_id,
+          duration_ms: source.duration_ms ?? 0,
+          status: source.status,
+          fetch_status: source.fetch_status,
+          parser_status: source.parser_status
+        }))
+    });
+  }
   await writeJson(sourceCachePath(repoRoot), sourceCache);
 
   return outputs;

@@ -10,6 +10,7 @@ import {
   parseImdFlashFloodBulletin,
   parseImdDistrictWarning,
   parseImdDistrictNowcast,
+  parseImdStationNowcast,
   parseKsdmaDamManagement,
   parseKsdmaReservoirs,
   parseCwcFfs,
@@ -195,6 +196,20 @@ async function testParsers() {
     reference_time: "2026-03-31T16:30:00+05:30"
   });
   assert.equal(expiredDistrictNowcast.active_district_count, 0);
+
+  const stationNowcastRaw = await readFile(
+    path.join(repoRoot, "fixtures", "imd-station-nowcast.html"),
+    "utf8"
+  );
+  const stationNowcast = parseImdStationNowcast(stationNowcastRaw, {
+    reference_time: "2026-04-01T15:00:00+05:30"
+  });
+  assert.equal(stationNowcast.active_station_count, 1);
+  assert.ok(stationNowcast.hotspots.some((entry) => entry.hotspot_id === "h-munnar-devikulam"));
+  const expiredStationNowcast = parseImdStationNowcast(stationNowcastRaw, {
+    reference_time: "2026-04-01T16:30:00+05:30"
+  });
+  assert.equal(expiredStationNowcast.active_station_count, 0);
 
   const cwcRaw = await readFile(path.join(repoRoot, "fixtures", "cwc-ffs.json"), "utf8");
   const cwc = parseCwcFfs(cwcRaw);

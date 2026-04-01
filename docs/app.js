@@ -111,12 +111,52 @@ function firstMatchingDriver(drivers = [], patterns = []) {
   return drivers.find((driver) => patterns.some((pattern) => pattern.test(driver))) ?? null;
 }
 
+function humanizeCardSummary(item, summary) {
+  if (!summary) {
+    return "No current local drivers beyond baseline terrain and runoff context.";
+  }
+
+  if (item.area_type === "district") {
+    return summary
+      .replace(/^Observed 24h rain /i, "District-average rain in the last 24h: ")
+      .replace(/ and 1h rain /i, "; last 1h: ")
+      .replace(/^India-WRIS official 24h rainfall /i, "Official district rain gauges recorded ")
+      .replace(/^IMD district nowcast /i, "District nowcast signal ")
+      .replace(/^IMD district warning /i, "District warning in force ")
+      .replace(/^RainViewer nowcast /i, "Radar nowcast signal ")
+      .replace(/^Runoff potential /i, "Runoff context ");
+  }
+
+  if (item.area_type === "taluk") {
+    return summary
+      .replace(/^Observed taluk 24h rain /i, "Local taluk rain estimate in the last 24h: ")
+      .replace(/ and 1h rain /i, "; last 1h: ")
+      .replace(/^[0-9]+ mapped hotspot/i, (match) => `Mapped hotspot context: ${match.toLowerCase()}`)
+      .replace(/^Runoff potential /i, "Runoff context ")
+      .replace(/^IMD district warning /i, "District warning context ");
+  }
+
+  if (item.area_type === "hotspot") {
+    return summary
+      .replace(/^Hotspot radar echo /i, "Nearby radar echo ")
+      .replace(/^Hotspot runoff potential /i, "Hotspot runoff context ")
+      .replace(/^IMD station nowcast /i, "Nearby station nowcast ")
+      .replace(/^Observed 24h rain /i, "Nearby rain context in the last 24h: ")
+      .replace(/ and 1h rain /i, "; last 1h: ")
+      .replace(/^Terrain susceptibility /i, "Terrain susceptibility ")
+      .replace(/^Hotspot susceptibility /i, "Hotspot susceptibility ")
+      .replace(/^IMD district warning /i, "District warning context ");
+  }
+
+  return summary;
+}
+
 function cardSummary(item) {
   const drivers = item.drivers ?? [];
   const areaType = item.area_type ?? "";
 
   if (areaType === "district") {
-    return (
+    return humanizeCardSummary(item, (
       firstMatchingDriver(drivers, [
         /^Observed 24h rain/i,
         /^India-WRIS official 24h rainfall/i,
@@ -129,11 +169,11 @@ function cardSummary(item) {
       ]) ??
       firstMatchingDriver(drivers, [/^IMD district warning/i]) ??
       "No active district drivers beyond baseline terrain and runoff context."
-    );
+    ));
   }
 
   if (areaType === "taluk") {
-    return (
+    return humanizeCardSummary(item, (
       firstMatchingDriver(drivers, [
         /^Observed taluk 24h rain/i,
         /^[0-9]+ mapped hotspot/i,
@@ -143,12 +183,13 @@ function cardSummary(item) {
       ]) ??
       firstMatchingDriver(drivers, [/^IMD district warning/i]) ??
       "No active taluk drivers beyond baseline terrain and runoff context."
-    );
+    ));
   }
 
   if (areaType === "hotspot") {
-    return (
+    return humanizeCardSummary(item, (
       firstMatchingDriver(drivers, [
+        /^IMD station nowcast/i,
         /^Hotspot radar echo/i,
         /^Hotspot runoff potential/i,
         /^Observed 24h rain/i,
@@ -161,10 +202,13 @@ function cardSummary(item) {
       ]) ??
       firstMatchingDriver(drivers, [/^IMD district warning/i]) ??
       "No active hotspot drivers beyond baseline terrain and runoff context."
-    );
+    ));
   }
 
-  return drivers[0] ?? "No active drivers beyond baseline susceptibility.";
+  return humanizeCardSummary(
+    item,
+    drivers[0] ?? "No active drivers beyond baseline susceptibility."
+  );
 }
 
 function cardScopeLabel(item, suffix = "") {
@@ -411,7 +455,15 @@ function bindMapInteractions() {
 
 function renderHeadline() {
   const topAlert = state.payload.alerts.alerts[0];
-  references.headlineText.textContent = state.payload.dashboard.headline_message;
+  const alerts = state.payload.alerts.alerts;
+  const affectedDistricts = new Set(
+    alerts
+      .map((alert) => alert.district_id ?? (alert.area_type === "district" ? alert.area_id : null))
+      .filter(Boolean)
+  );
+  references.headlineText.textContent = topAlert
+    ? `${alerts.length} active alert${alerts.length === 1 ? "" : "s"} across ${affectedDistricts.size || 1} district${affectedDistricts.size === 1 ? "" : "s"}`
+    : "No active Watch-or-higher alerts";
   references.generatedChip.textContent = `Updated ${formatTime(state.payload.dashboard.generated_at)}`;
   references.modeChip.textContent = `${state.payload.dashboard.mode} mode`;
   references.reviewCount.textContent = String(state.payload.dashboard.severe_pending_count);
@@ -419,21 +471,21 @@ function renderHeadline() {
   references.headlineCard.innerHTML = topAlert
     ? `
       ${levelPill(topAlert.level)}
-      <h3>${topAlert.name}</h3>
-      <p>${topAlert.message_en}</p>
+      <h3>Top concern: ${topAlert.name}</h3>
+      <p>${alerts.length === 1 ? "Current top alert" : `${alerts.length} active alerts are listed below`}. Highest current concern: ${topAlert.message_en}</p>
       <div class="meta">
         <span>${horizonLabel()}</span>
-        <span>Confidence ${(topAlert.confidence * 100).toFixed(0)}%</span>
+        <span>${affectedDistricts.size || 1} district${affectedDistricts.size === 1 ? "" : "s"} affected</span>
         <span>${topAlert.review_state.replaceAll("_", " ")}</span>
       </div>
     `
     : `
       ${levelPill("Normal")}
       <h3>Routine monitoring</h3>
-      <p>No active Watch-or-higher alerts. Continue observation and source-health checks.</p>
+      <p>No active Watch-or-higher alerts. Continue routine observation and source-health checks.</p>
       <div class="meta">
         <span>${horizonLabel()}</span>
-        <span>Confidence ${(state.payload.sources.sources.length ? 0.7 * 100 : 0).toFixed(0)}%</span>
+        <span>${state.payload.sources.sources.filter((source) => source.status === "ok").length} sources currently healthy</span>
       </div>
     `;
 }
@@ -664,6 +716,27 @@ const SOURCE_META = {
     method: "HTML scraper from mausam.imd.gov.in",
     cadence: "Every 3 hrs",
     impact: "No expert meteorological guidance. Automated data sources still active."
+  },
+  "imd-district-warning": {
+    description: "Official district-level warning map for Kerala.",
+    method: "HTML page parser from mausam.imd.gov.in",
+    cadence: "About every 60 min",
+    impact: "No district-level IMD warning support. Scores rely more on CAP, nowcast, radar, and rainfall context.",
+    source_url: "https://mausam.imd.gov.in/imd_latest/contents/districtwise-warning_mc.php?id=4"
+  },
+  "imd-district-nowcast": {
+    description: "Official district-level nowcast map for Kerala.",
+    method: "HTML page parser from mausam.imd.gov.in",
+    cadence: "About every 20 min",
+    impact: "No district-level IMD nowcast support. Short-lead weather context relies more on radar and rainfall.",
+    source_url: "https://mausam.imd.gov.in/imd_latest/contents/districtwisewarnings_mc.php?id=4"
+  },
+  "imd-station-nowcast": {
+    description: "Station-level IMD nowcast mapped cautiously to nearby curated hotspots.",
+    method: "HTML page parser from mausam.imd.gov.in",
+    cadence: "About every 20 min",
+    impact: "No station-level IMD nowcast support. Hotspots rely more on district warnings, radar, rainfall, and hydrology context.",
+    source_url: "https://mausam.imd.gov.in/imd_latest/contents/stationwise-nowcast-warning_mc.php?id=4"
   },
   "indiawris-rainfall": {
     description: "Ground rain gauge readings across Kerala",

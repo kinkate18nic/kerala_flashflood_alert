@@ -33,29 +33,25 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Build live data (external sources)
+      - name: Refresh source cache (external sources)
         env:
           PPS_EMAIL: ${{ secrets.PPS_EMAIL }}
           PPS_PASSWORD: ${{ secrets.PPS_PASSWORD }}
           NODE_OPTIONS: "--dns-result-order=ipv4first"
           ENABLE_CADENCE_REUSE: "true"
+          WRITE_PUBLIC_OUTPUTS: "false"
+          WRITE_ARCHIVE_OUTPUTS: "false"
+          WRITE_RUNTIME_DERIVED: "false"
+          WRITE_METRICS: "false"
+          WRITE_RAW_OUTPUTS: "false"
           SOURCE_IDS: "rainviewer-radar,nasa-imerg-nrt"
         run: node scripts/run-pipeline.js
-
-      - name: Build static site
-        run: node scripts/build-site.js
-
-      - name: Send reviewed severe alerts
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: node scripts/send-telegram.js
 
       - name: Commit refreshed data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs runtime data/manual/review-approvals.json
+          git add runtime/cache/source-results.json data/manual/review-approvals.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
