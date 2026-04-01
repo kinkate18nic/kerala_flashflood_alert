@@ -5481,28 +5481,28 @@
         "name": "RainViewer Radar Nowcast",
         "owner": "RainViewer / IMD radar aggregation",
         "category": "radar-nowcast",
-        "fetched_at": "2026-04-01T21:08:14.580Z",
-        "issued_at": "2026-04-01T20:50:00.000Z",
+        "fetched_at": "2026-04-01T22:03:33.541Z",
+        "issued_at": "2026-04-01T21:20:00.000Z",
         "raw_url": "https://api.rainviewer.com/public/weather-maps.json",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
-        "status": "ok",
-        "freshness_minutes": 18,
-        "duration_ms": 1175,
-        "notes": "RainViewer latest radar frame /v2/radar/07e15a9a030d",
+        "status": "stale",
+        "freshness_minutes": 44,
+        "duration_ms": 947,
+        "notes": "RainViewer latest radar frame /v2/radar/336b9ca471ee",
         "auth": "none",
         "summary": {
           "district_count": 14,
           "hotspot_count": 20,
-          "latest_frame_time": "2026-04-01T20:50:00.000Z"
+          "latest_frame_time": "2026-04-01T21:20:00.000Z"
         }
       },
       "parsed": {
-        "issued_at": "2026-04-01T20:50:00.000Z",
-        "generated_at": "2026-04-01T20:55:38.000Z",
-        "frame_time": "2026-04-01T20:50:00.000Z",
-        "frame_path": "/v2/radar/07e15a9a030d",
+        "issued_at": "2026-04-01T21:20:00.000Z",
+        "generated_at": "2026-04-01T21:33:39.000Z",
+        "frame_time": "2026-04-01T21:20:00.000Z",
+        "frame_path": "/v2/radar/336b9ca471ee",
         "color_scheme": "universal_blue",
         "districts": [
           {
@@ -5645,8 +5645,8 @@
               "lat": 9.4981,
               "lon": 76.3388
             },
-            "active_pixels": 0,
-            "hotspot_detection_count": 2
+            "active_pixels": 94,
+            "hotspot_detection_count": 3
           },
           {
             "district_id": "pathanamthitta",
@@ -5823,10 +5823,10 @@
             "hotspot_id": "h-thottappally-thanneermukkom",
             "district_id": "alappuzha",
             "name": "Thottappally - Thanneermukkom control zone",
-            "intensity": "none",
-            "severity": 0,
-            "max_dbz": -11,
-            "active_pixels": 0,
+            "intensity": "light",
+            "severity": 0.25,
+            "max_dbz": 18,
+            "active_pixels": 17,
             "location": {
               "lat": 9.481,
               "lon": 76.372
@@ -5958,15 +5958,15 @@
         "name": "NASA IMERG Near-Real-Time",
         "owner": "NASA GPM",
         "category": "satellite-rainfall",
-        "fetched_at": "2026-04-01T21:08:14.582Z",
+        "fetched_at": "2026-04-01T22:03:33.543Z",
         "issued_at": "2026-04-01T16:59:59.000Z",
         "raw_url": "https://gpm.nasa.gov/imerg",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 248,
-        "duration_ms": 32164,
+        "freshness_minutes": 304,
+        "duration_ms": 16764,
         "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260401-S163000-E165959.0990.V07C.30min.zip",
         "auth": "pps-basic",
         "summary": {
