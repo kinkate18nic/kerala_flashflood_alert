@@ -657,29 +657,53 @@ function sourceStatusMessage(source) {
   return "This source is current for this run.";
 }
 
-function sourceStateLabel(source) {
+function sourceHealthLabel(source) {
+  switch (source.status) {
+    case "ok":
+      return "Current";
+    case "stale":
+      return "Older than usual";
+    case "offline":
+      return "Unavailable";
+    case "degraded":
+      return "Partly available";
+    default:
+      return source.status;
+  }
+}
+
+function sourceDataPublishedLabel(source) {
+  return source.issued_at ? formatTime(source.issued_at) : "Not provided by source";
+}
+
+function sourceLastCheckedLabel(source) {
+  const checkedAt = source.last_successful_fetched_at ?? source.fetched_at;
+  return checkedAt ? formatTime(checkedAt) : "Unknown";
+}
+
+function sourceCurrentRunLabel(source) {
+  if (source.fetch_status === "ok" && source.parser_status === "ok") {
+    return "Live refresh succeeded";
+  }
   if (source.fetch_status === "failed_cached") {
-    return "Saved copy reused";
-  }
-  if (source.fetch_status === "skipped_cached") {
-    return "Saved copy reused";
-  }
-  if (source.fetch_status === "skipped") {
-    return "Not checked";
-  }
-  if (source.fetch_status === "failed") {
-    return "Refresh failed";
+    return "Live refresh failed; saved copy reused";
   }
   if (source.parser_status === "failed_cached") {
-    return "Saved copy reused";
+    return "New file could not be read; saved copy reused";
+  }
+  if (source.fetch_status === "skipped_cached") {
+    return "Not checked in this run; saved copy reused";
+  }
+  if (source.fetch_status === "skipped") {
+    return "Not checked in this run";
+  }
+  if (source.fetch_status === "failed") {
+    return "Live refresh failed";
   }
   if (source.parser_status === "failed") {
-    return "Could not read file";
+    return "New file arrived but could not be read";
   }
-  if (source.status === "degraded") {
-    return "Partly available";
-  }
-  return "Current in this run";
+  return "Checked in this run";
 }
 
 function formatFreshness(minutes) {
@@ -751,7 +775,7 @@ function openSourceDetails(source) {
       <div class="source-detail-grid">
         <div class="source-detail-row">
           <span class="source-detail-label">Status</span>
-          <span class="status-${source.status} source-detail-value">${source.status.toUpperCase()}</span>
+          <span class="status-${source.status} source-detail-value">${sourceHealthLabel(source)}</span>
         </div>
         <div class="source-detail-row">
           <span class="source-detail-label">Data age</span>
@@ -759,16 +783,16 @@ function openSourceDetails(source) {
         </div>
         <div class="source-detail-row">
           <span class="source-detail-label">Data published</span>
-          <span class="source-detail-value">${source.issued_at ? formatTime(source.issued_at) : "Unknown"}</span>
+          <span class="source-detail-value">${sourceDataPublishedLabel(source)}</span>
         </div>
-        ${
-          source.reused_in_run
-            ? `<div class="source-detail-row">
-          <span class="source-detail-label">Last successful refresh</span>
-          <span class="source-detail-value">${source.last_successful_fetched_at ? formatTime(source.last_successful_fetched_at) : "Unknown"}</span>
-        </div>`
-            : ""
-        }
+        <div class="source-detail-row">
+          <span class="source-detail-label">Last checked by our system</span>
+          <span class="source-detail-value">${sourceLastCheckedLabel(source)}</span>
+        </div>
+        <div class="source-detail-row">
+          <span class="source-detail-label">This run</span>
+          <span class="source-detail-value">${sourceCurrentRunLabel(source)}</span>
+        </div>
         <div class="source-detail-row">
           <span class="source-detail-label">Expected cadence</span>
           <span class="source-detail-value">${cadenceLabel}</span>
@@ -803,19 +827,31 @@ function renderSources() {
     .map(
       (source) => {
         const meta = SOURCE_META[source.source_id] ?? {};
-        const freshLabel = formatFreshness(source.freshness_minutes);
         return `
           <article class="source-card" data-source-id="${source.source_id}">
             <button class="source-info-btn" title="View details" type="button">i</button>
             <div class="label">${source.owner}</div>
             <h3>${source.name}</h3>
             <p class="source-desc">${meta.description ?? ""}</p>
-            <div class="score status-${source.status}">${source.status}</div>
-            <div class="meta">
-              <span>Data age ${freshLabel}</span>
-              <span>${sourceStateLabel(source)}</span>
+            <div class="score status-${source.status}">${sourceHealthLabel(source)}</div>
+            <div class="source-facts">
+              <div class="source-fact-row">
+                <span class="source-fact-label">Data age</span>
+                <span class="source-fact-value">${formatFreshness(source.freshness_minutes)}</span>
+              </div>
+              <div class="source-fact-row">
+                <span class="source-fact-label">Data published</span>
+                <span class="source-fact-value">${sourceDataPublishedLabel(source)}</span>
+              </div>
+              <div class="source-fact-row">
+                <span class="source-fact-label">Last checked by our system</span>
+                <span class="source-fact-value">${sourceLastCheckedLabel(source)}</span>
+              </div>
+              <div class="source-fact-row">
+                <span class="source-fact-label">This run</span>
+                <span class="source-fact-value">${sourceCurrentRunLabel(source)}</span>
+              </div>
             </div>
-            <p class="source-desc">${dataUsageSummary(source)}</p>
             <p class="source-status-note status-${source.status}">${sourceStatusMessage(source)}</p>
           </article>
         `;

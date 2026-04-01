@@ -205,6 +205,39 @@ h1 {
   min-height: 180px;
 }
 
+.source-facts {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 12px;
+}
+
+.source-fact-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(22, 38, 31, 0.08);
+}
+
+.source-fact-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.source-fact-label {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.source-fact-value {
+  text-align: right;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ink);
+  max-width: 58%;
+}
+
 .headline-card .level-pill,
 .risk-card .level-pill,
 .alert-row .level-pill {
