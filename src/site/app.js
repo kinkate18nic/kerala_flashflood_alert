@@ -625,61 +625,61 @@ const SOURCE_META = {
 
 function sourceStatusMessage(source) {
   if (source.fetch_status === "failed_cached") {
-    return "Fetch failed in this run, but the last successful payload is still being used.";
+    return "This source could not be refreshed just now, so the last saved copy is still in use.";
   }
   if (source.fetch_status === "skipped_cached") {
-    return "Not refreshed in this run. Last successful cached data remains active.";
+    return "This source was not checked in this run. The last saved copy is still in use.";
   }
   if (source.fetch_status === "skipped") {
-    return "Not refreshed in this run and no cached payload was available.";
+    return "This source was not checked in this run, and no saved copy was available.";
   }
   if (source.fetch_status === "failed") {
-    return "Fetch failed in this run. Current scores are being generated without this source.";
+    return "This source could not be reached in this run, so current scoring is proceeding without it.";
   }
   if (source.parser_status === "failed_cached") {
-    return "Raw data arrived, but parsing failed in this run. The last successful cached payload is being used.";
+    return "A new file arrived, but it could not be read safely. The last saved copy is still in use.";
   }
   if (source.parser_status === "failed") {
-    return "Raw data arrived, but this source could not be parsed in this run.";
+    return "A new file arrived, but it could not be understood safely in this run.";
   }
   if (source.status === "offline") {
-    return "Unavailable in this run. Current scores are being generated without this source.";
+    return "This source is currently unavailable, so current scoring is proceeding without it.";
   }
   if (source.status === "stale") {
     if (source.category === "official-warning") {
-      return "Older event-driven alert data. It may describe the last valid warning, not a fresh new one.";
+      return "This warning source is older than usual. It may describe the last valid warning rather than a brand-new one.";
     }
-    return "Older than the normal freshness window. Use with caution.";
+    return "This source data is older than the normal freshness window, so it is being treated cautiously.";
   }
   if (source.status === "degraded") {
-    return "Partially usable. Some fields or mappings may be incomplete in this run.";
+    return "This source is only partly usable right now. Some fields or mappings may be incomplete.";
   }
-  return "Current for this run.";
+  return "This source is current for this run.";
 }
 
 function sourceStateLabel(source) {
   if (source.fetch_status === "failed_cached") {
-    return "Fetch fallback";
+    return "Saved copy reused";
   }
   if (source.fetch_status === "skipped_cached") {
-    return "Cached reuse";
+    return "Saved copy reused";
   }
   if (source.fetch_status === "skipped") {
-    return "Skipped";
+    return "Not checked";
   }
   if (source.fetch_status === "failed") {
-    return "Fetch failed";
+    return "Refresh failed";
   }
   if (source.parser_status === "failed_cached") {
-    return "Parser fallback";
+    return "Saved copy reused";
   }
   if (source.parser_status === "failed") {
-    return "Parser failed";
+    return "Could not read file";
   }
   if (source.status === "degraded") {
-    return "Partial data";
+    return "Partly available";
   }
-  return "Parser ok";
+  return "Current in this run";
 }
 
 function formatFreshness(minutes) {
@@ -701,21 +701,21 @@ function formatCadence(minutes) {
 }
 
 function dataUsageSummary(source) {
-  const currentDataLabel = source.issued_at ? formatTime(source.issued_at) : "the latest available update";
-  const cachedFetchLabel = source.last_successful_fetched_at
+  const dataPublishedLabel = source.issued_at ? formatTime(source.issued_at) : "an unknown publication time";
+  const refreshLabel = source.last_successful_fetched_at
     ? formatTime(source.last_successful_fetched_at)
     : source.fetched_at
       ? formatTime(source.fetched_at)
-      : "an earlier successful run";
+      : "an earlier successful refresh";
 
   if (source.fetch_status === "failed_cached") {
-    return `Using the previous successful update from ${cachedFetchLabel} because this source could not be refreshed in the current run.`;
+    return `Showing data published at ${dataPublishedLabel}. The live refresh failed, so the last successful refresh from ${refreshLabel} is still being used.`;
   }
   if (source.parser_status === "failed_cached") {
-    return `Using the previous successful update from ${cachedFetchLabel} because the latest downloaded file could not be read safely.`;
+    return `Showing data published at ${dataPublishedLabel}. A newer file was downloaded but could not be read safely, so the last successful refresh from ${refreshLabel} is still being used.`;
   }
   if (source.fetch_status === "skipped_cached") {
-    return `Using the last successful update from ${cachedFetchLabel}. This source was intentionally not refreshed in the current run.`;
+    return `Showing data published at ${dataPublishedLabel}. This source was not checked in this run, so the last successful refresh from ${refreshLabel} is still being used.`;
   }
   if (source.fetch_status === "skipped") {
     return "No usable data was available for this source in the current run.";
@@ -726,7 +726,7 @@ function dataUsageSummary(source) {
   if (source.parser_status === "failed") {
     return "A new file was downloaded, but it could not be interpreted safely, so this source is not contributing new data.";
   }
-  return `Using data published at ${currentDataLabel}.`;
+  return `Showing data published at ${dataPublishedLabel}.`;
 }
 
 function openSourceDetails(source) {
@@ -754,17 +754,17 @@ function openSourceDetails(source) {
           <span class="status-${source.status} source-detail-value">${source.status.toUpperCase()}</span>
         </div>
         <div class="source-detail-row">
-          <span class="source-detail-label">Last updated</span>
+          <span class="source-detail-label">Data age</span>
           <span class="source-detail-value">${freshLabel}</span>
         </div>
         <div class="source-detail-row">
-          <span class="source-detail-label">Data being used</span>
+          <span class="source-detail-label">Data published</span>
           <span class="source-detail-value">${source.issued_at ? formatTime(source.issued_at) : "Unknown"}</span>
         </div>
         ${
           source.reused_in_run
             ? `<div class="source-detail-row">
-          <span class="source-detail-label">Previous successful refresh</span>
+          <span class="source-detail-label">Last successful refresh</span>
           <span class="source-detail-value">${source.last_successful_fetched_at ? formatTime(source.last_successful_fetched_at) : "Unknown"}</span>
         </div>`
             : ""
@@ -812,7 +812,7 @@ function renderSources() {
             <p class="source-desc">${meta.description ?? ""}</p>
             <div class="score status-${source.status}">${source.status}</div>
             <div class="meta">
-              <span>Updated ${freshLabel}</span>
+              <span>Data age ${freshLabel}</span>
               <span>${sourceStateLabel(source)}</span>
             </div>
             <p class="source-desc">${dataUsageSummary(source)}</p>
