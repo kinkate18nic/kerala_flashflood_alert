@@ -604,14 +604,14 @@ const SOURCE_META = {
     method: "JSON API via Cloudflare Proxy → India-WRIS",
     cadence: "Every 3 hrs",
     impact: "No ground-truth rainfall. Satellite-only estimates (NASA IMERG) used instead.",
-    source_url: "https://indiawris.gov.in/Dataset/RainFall"
+    source_url: "https://indiawris.gov.in/swagger-ui/index.html"
   },
   "indiawris-river-level": {
     description: "River water level from CWC gauge stations",
     method: "JSON API via Cloudflare Proxy → India-WRIS",
     cadence: "Every 3 hrs",
     impact: "No India-WRIS river level context. Live CWC FFS river-stage evidence may still be available.",
-    source_url: "https://indiawris.gov.in/Dataset/River%20Water%20Level"
+    source_url: "https://indiawris.gov.in/swagger-ui/index.html"
   },
   "ksdma-reservoirs": {
     description: "KSEB daily major dam and reservoir levels from KSDMA PDF",
