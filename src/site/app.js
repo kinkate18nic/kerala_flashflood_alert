@@ -271,7 +271,7 @@ function collectCoordinates(coordinates, visitor) {
   }
 
   if (
-    coordinates.length === 2 &&
+    coordinates.length >= 2 &&
     Number.isFinite(coordinates[0]) &&
     Number.isFinite(coordinates[1])
   ) {
