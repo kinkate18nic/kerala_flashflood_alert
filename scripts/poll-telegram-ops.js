@@ -44,7 +44,16 @@ const telegramState = await readJson(telegramStatePath, {
 });
 
 const allowedChatId = String(commandChatId);
-console.log(`Telegram ops listener active. Allowed command chat: ${allowedChatId}`);
+
+function maskChatId(value) {
+  const text = String(value ?? "");
+  if (text.length <= 4) {
+    return text || "none";
+  }
+  return `${"*".repeat(text.length - 4)}${text.slice(-4)}`;
+}
+
+console.log(`Telegram ops listener active. Allowed command chat: ${maskChatId(allowedChatId)}`);
 
 function commandHelp() {
   return [
@@ -77,7 +86,7 @@ function buildStatusText(state) {
 }
 
 async function sendMessage(text, targetChatId = commandChatId) {
-  console.log(`Sending Telegram reply to chat ${String(targetChatId)}: ${text.split("\n")[0]}`);
+  console.log(`Sending Telegram reply to chat ${maskChatId(targetChatId)}: ${text.split("\n")[0]}`);
   const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -92,7 +101,7 @@ async function sendMessage(text, targetChatId = commandChatId) {
     throw new Error(`Telegram send failed: ${response.status} ${body}`);
   }
 
-  console.log(`Telegram reply sent to chat ${String(targetChatId)}.`);
+  console.log(`Telegram reply sent to chat ${maskChatId(targetChatId)}.`);
 }
 
 const params = new URLSearchParams({
@@ -125,7 +134,7 @@ for (const update of updates) {
   const normalizedCommand = text.split(/\s+/)[0]?.split("@")[0] ?? "";
 
   console.log(
-    `Telegram update ${update.update_id}: chat=${incomingChatId ?? "none"} text=${JSON.stringify(text)} normalized=${JSON.stringify(normalizedCommand)}`
+    `Telegram update ${update.update_id}: chat=${maskChatId(incomingChatId)} text=${JSON.stringify(text)} normalized=${JSON.stringify(normalizedCommand)}`
   );
 
   if (!incomingChatId) {
@@ -134,7 +143,9 @@ for (const update of updates) {
   }
 
   if (incomingChatId !== allowedChatId) {
-    console.log(`Skipping update ${update.update_id}: chat ${incomingChatId} does not match allowed chat ${allowedChatId}.`);
+    console.log(
+      `Skipping update ${update.update_id}: chat ${maskChatId(incomingChatId)} does not match allowed chat ${maskChatId(allowedChatId)}.`
+    );
     continue;
   }
 
