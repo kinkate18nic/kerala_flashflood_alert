@@ -38,7 +38,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/manual/ops-state.json runtime/cache/telegram-command-state.json
+          git add data/manual/ops-state.json data/manual/review-approvals.json data/manual/review-rejections.json runtime/cache/telegram-command-state.json
           if git diff --cached --quiet; then
             echo "No Telegram control changes to commit"
           else

@@ -6,6 +6,7 @@ on:
     paths:
       - "runtime/cache/source-results.json"
       - "data/manual/review-approvals.json"
+      - "data/manual/review-rejections.json"
       - "data/manual/hotspot-overrides.json"
       - "data/manual/hotspot-footprints.geojson"
       - "data/manual/observations.json"
@@ -74,13 +75,14 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_COMMAND_CHAT_ID: ${{ secrets.TELEGRAM_COMMAND_CHAT_ID }}
         run: node scripts/send-telegram.js
 
       - name: Commit published snapshot
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs runtime/derived runtime/metrics data/manual/review-approvals.json
+          git add docs runtime/derived runtime/metrics data/manual/review-approvals.json data/manual/review-rejections.json
           if git diff --cached --quiet; then
             echo "No publish changes to commit"
           else

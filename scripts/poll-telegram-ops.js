@@ -30,6 +30,9 @@ if (!botToken || !chatId) {
 
 const opsStatePath = path.join(repoRoot, "data", "manual", "ops-state.json");
 const telegramStatePath = path.join(repoRoot, "runtime", "cache", "telegram-command-state.json");
+const approvalsPath = path.join(repoRoot, "data", "manual", "review-approvals.json");
+const rejectionsPath = path.join(repoRoot, "data", "manual", "review-rejections.json");
+const alertsPath = path.join(repoRoot, "docs", "data", "latest", "alerts.json");
 
 const opsState = await readJson(opsStatePath, {
   refresh_paused: false,
@@ -42,6 +45,9 @@ const opsState = await readJson(opsStatePath, {
 const telegramState = await readJson(telegramStatePath, {
   last_update_id: 0
 });
+const approvalsDocument = await readJson(approvalsPath, { approvals: [] });
+const rejectionsDocument = await readJson(rejectionsPath, { rejections: [] });
+const alertsDocument = await readJson(alertsPath, { alerts: [] });
 
 const allowedChatId = String(commandChatId);
 console.log(
@@ -63,14 +69,19 @@ function commandHelp() {
     "Kerala Flash-Flood Watch bot commands:",
     "/pause_refresh - pause all scheduled refresh work",
     "/resume_refresh - resume all scheduled refresh work",
-    "/status - show current refresh pause status"
+    "/status - show current refresh pause status",
+    "/pending_alerts - list severe alerts awaiting review",
+    "/approve <alert_id> - approve a pending severe alert for group delivery",
+    "/reject <alert_id> - mark a pending severe alert as rejected"
   ].join("\n");
 }
 
 function buildStatusText(state) {
+  const pendingCount = getPendingAlerts().length;
   if (state.refresh_paused) {
     return [
       "Refresh status: paused",
+      `Pending severe reviews: ${pendingCount}`,
       state.changed_at ? `Changed: ${state.changed_at}` : null,
       state.changed_by ? `By: ${state.changed_by}` : null,
       state.note ? `Note: ${state.note}` : null
@@ -81,8 +92,37 @@ function buildStatusText(state) {
 
   return [
     "Refresh status: active",
+    `Pending severe reviews: ${pendingCount}`,
     state.changed_at ? `Last change: ${state.changed_at}` : null,
     state.changed_by ? `By: ${state.changed_by}` : null
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+function getPendingAlerts() {
+  const rejectedIds = new Set((rejectionsDocument.rejections ?? []).map((entry) => entry.alert_id));
+  return alertsDocument.alerts.filter(
+    (alert) => alert.review_state === "pending_review" && !rejectedIds.has(alert.alert_id)
+  );
+}
+
+function buildPendingAlertsText() {
+  const pending = getPendingAlerts();
+  if (!pending.length) {
+    return "No severe alerts are currently waiting for review.";
+  }
+
+  return [
+    `Pending severe alerts: ${pending.length}`,
+    ...pending.slice(0, 10).map(
+      (alert, index) =>
+        `${index + 1}. ${alert.name} | score ${alert.score.toFixed(1)} | ${alert.alert_id}`
+    ),
+    pending.length > 10 ? `...and ${pending.length - 10} more` : null,
+    "",
+    "Approve one: /approve <alert_id>",
+    "Reject one: /reject <alert_id>"
   ]
     .filter(Boolean)
     .join("\n");
@@ -162,6 +202,8 @@ for (const update of updates) {
     message.from?.username ||
     "Telegram user";
   const now = new Date().toISOString();
+  const commandParts = text.split(/\s+/).filter(Boolean);
+  const commandArg = commandParts[1] ?? null;
 
   if (normalizedCommand === "/pause_refresh") {
     opsState.refresh_paused = true;
@@ -190,6 +232,82 @@ for (const update of updates) {
     continue;
   }
 
+  if (normalizedCommand === "/pending_alerts") {
+    await sendMessage(buildPendingAlertsText(), incomingChatId);
+    continue;
+  }
+
+  if (normalizedCommand === "/approve") {
+    if (!commandArg) {
+      await sendMessage("Usage: /approve <alert_id>", incomingChatId);
+      continue;
+    }
+
+    const pendingAlert = getPendingAlerts().find((alert) => alert.alert_id === commandArg);
+    if (!pendingAlert) {
+      await sendMessage(`No pending severe alert found for ${commandArg}.`, incomingChatId);
+      continue;
+    }
+
+    if (!approvalsDocument.approvals.some((entry) => entry.alert_id === commandArg)) {
+      approvalsDocument.approvals.push({
+        alert_id: commandArg,
+        approved_at: now,
+        approved_by: actor
+      });
+      changed = true;
+    }
+
+    const rejectionCountBefore = (rejectionsDocument.rejections ?? []).length;
+    rejectionsDocument.rejections = (rejectionsDocument.rejections ?? []).filter(
+      (entry) => entry.alert_id !== commandArg
+    );
+    if (rejectionsDocument.rejections.length !== rejectionCountBefore) {
+      changed = true;
+    }
+    await sendMessage(
+      `Approved ${pendingAlert.name}.\nThe next publish run will mark it as Reviewed severe alert and send it to the alert group.`,
+      incomingChatId
+    );
+    continue;
+  }
+
+  if (normalizedCommand === "/reject") {
+    if (!commandArg) {
+      await sendMessage("Usage: /reject <alert_id>", incomingChatId);
+      continue;
+    }
+
+    const pendingAlert = getPendingAlerts().find((alert) => alert.alert_id === commandArg);
+    if (!pendingAlert) {
+      await sendMessage(`No pending severe alert found for ${commandArg}.`, incomingChatId);
+      continue;
+    }
+
+    const approvalCountBefore = (approvalsDocument.approvals ?? []).length;
+    approvalsDocument.approvals = (approvalsDocument.approvals ?? []).filter(
+      (entry) => entry.alert_id !== commandArg
+    );
+    if (approvalsDocument.approvals.length !== approvalCountBefore) {
+      changed = true;
+    }
+
+    if (!rejectionsDocument.rejections.some((entry) => entry.alert_id === commandArg)) {
+      rejectionsDocument.rejections.push({
+        alert_id: commandArg,
+        rejected_at: now,
+        rejected_by: actor
+      });
+      changed = true;
+    }
+
+    await sendMessage(
+      `Rejected ${pendingAlert.name}.\nIt will not be sent to the public alert group unless you later approve it.`,
+      incomingChatId
+    );
+    continue;
+  }
+
   await sendMessage(commandHelp(), incomingChatId);
 }
 
@@ -198,6 +316,8 @@ telegramState.last_update_id = latestUpdateId;
 await writeJson(telegramStatePath, telegramState);
 if (changed) {
   await writeJson(opsStatePath, opsState);
+  await writeJson(approvalsPath, approvalsDocument);
+  await writeJson(rejectionsPath, rejectionsDocument);
 }
 
 console.log(`Processed ${updates.length} Telegram update(s).`);
