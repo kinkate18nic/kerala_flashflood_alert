@@ -714,33 +714,33 @@ const SOURCE_META = {
   },
   "indiawris-rainfall": {
     description: "Ground rain gauge readings across Kerala",
-    method: "JSON API via Cloudflare Proxy → India-WRIS",
+    method: "JSON API from India-WRIS",
     cadence: "Every 3 hrs",
     impact: "No ground-truth rainfall. Satellite-only estimates (NASA IMERG) used instead.",
     source_url: "https://indiawris.gov.in/swagger-ui/index.html"
   },
   "indiawris-river-level": {
     description: "River water level from CWC gauge stations",
-    method: "JSON API via Cloudflare Proxy → India-WRIS",
+    method: "JSON API from India-WRIS",
     cadence: "Every 3 hrs",
     impact: "No India-WRIS river level context. Live CWC FFS river-stage evidence may still be available.",
     source_url: "https://indiawris.gov.in/swagger-ui/index.html"
   },
   "ksdma-reservoirs": {
     description: "KSEB daily major dam and reservoir levels from KSDMA PDF",
-    method: "Page scraper + PDF parser via Cloudflare Proxy → KSDMA",
+    method: "Page scraper + PDF parser from KSDMA",
     cadence: "Every 1 hr",
     impact: "No KSEB daily dam-level context. Reservoir-related modifiers inactive."
   },
   "ksdma-dam-management": {
     description: "Irrigation daily dam levels and outflow remarks from KSDMA PDF",
-    method: "Page scraper + PDF parser via Cloudflare Proxy → KSDMA",
+    method: "Page scraper + PDF parser from KSDMA",
     cadence: "Every 1 hr",
     impact: "No irrigation daily dam context. Downstream consequence modifiers inactive."
   },
   "cwc-ffs": {
     description: "Live river levels from CWC Flood Forecasting Service stations",
-    method: "JSON API via Cloudflare Proxy → CWC FFS",
+    method: "JSON API from CWC FFS",
     cadence: "Every 1 hr",
     impact: "No live CWC FFS river-stage data. River flood scoring falls back to India-WRIS water level where available."
   },
