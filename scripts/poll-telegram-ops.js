@@ -75,12 +75,12 @@ function buildStatusText(state) {
     .join("\n");
 }
 
-async function sendMessage(text) {
+async function sendMessage(text, targetChatId = commandChatId) {
   const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({
-      chat_id: chatId,
+      chat_id: targetChatId,
       text
     })
   });
@@ -136,7 +136,7 @@ for (const update of updates) {
     opsState.source = "telegram";
     opsState.note = "Paused from Telegram";
     changed = true;
-    await sendMessage("All scheduled refresh workflows are now paused.");
+    await sendMessage("All scheduled refresh workflows are now paused.", incomingChatId);
     continue;
   }
 
@@ -147,16 +147,16 @@ for (const update of updates) {
     opsState.source = "telegram";
     opsState.note = "Resumed from Telegram";
     changed = true;
-    await sendMessage("All scheduled refresh workflows are now active again.");
+    await sendMessage("All scheduled refresh workflows are now active again.", incomingChatId);
     continue;
   }
 
   if (text === "/status") {
-    await sendMessage(buildStatusText(opsState));
+    await sendMessage(buildStatusText(opsState), incomingChatId);
     continue;
   }
 
-  await sendMessage(commandHelp());
+  await sendMessage(commandHelp(), incomingChatId);
 }
 
 telegramState.last_update_id = latestUpdateId;
