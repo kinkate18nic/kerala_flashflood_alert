@@ -44,6 +44,7 @@ const telegramState = await readJson(telegramStatePath, {
 });
 
 const allowedChatId = String(commandChatId);
+console.log(`Telegram ops listener active. Allowed command chat: ${allowedChatId}`);
 
 function commandHelp() {
   return [
@@ -76,6 +77,7 @@ function buildStatusText(state) {
 }
 
 async function sendMessage(text, targetChatId = commandChatId) {
+  console.log(`Sending Telegram reply to chat ${String(targetChatId)}: ${text.split("\n")[0]}`);
   const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -89,6 +91,8 @@ async function sendMessage(text, targetChatId = commandChatId) {
     const body = await response.text();
     throw new Error(`Telegram send failed: ${response.status} ${body}`);
   }
+
+  console.log(`Telegram reply sent to chat ${String(targetChatId)}.`);
 }
 
 const params = new URLSearchParams({
@@ -118,8 +122,24 @@ for (const update of updates) {
   const message = update.message;
   const incomingChatId = message?.chat?.id != null ? String(message.chat.id) : null;
   const text = String(message?.text ?? "").trim();
+  const normalizedCommand = text.split(/\s+/)[0]?.split("@")[0] ?? "";
 
-  if (!incomingChatId || incomingChatId !== allowedChatId || !text.startsWith("/")) {
+  console.log(
+    `Telegram update ${update.update_id}: chat=${incomingChatId ?? "none"} text=${JSON.stringify(text)} normalized=${JSON.stringify(normalizedCommand)}`
+  );
+
+  if (!incomingChatId) {
+    console.log(`Skipping update ${update.update_id}: no incoming chat id.`);
+    continue;
+  }
+
+  if (incomingChatId !== allowedChatId) {
+    console.log(`Skipping update ${update.update_id}: chat ${incomingChatId} does not match allowed chat ${allowedChatId}.`);
+    continue;
+  }
+
+  if (!normalizedCommand.startsWith("/")) {
+    console.log(`Skipping update ${update.update_id}: not a slash command.`);
     continue;
   }
 
@@ -129,7 +149,7 @@ for (const update of updates) {
     "Telegram user";
   const now = new Date().toISOString();
 
-  if (text === "/pause_refresh") {
+  if (normalizedCommand === "/pause_refresh") {
     opsState.refresh_paused = true;
     opsState.changed_at = now;
     opsState.changed_by = actor;
@@ -140,7 +160,7 @@ for (const update of updates) {
     continue;
   }
 
-  if (text === "/resume_refresh") {
+  if (normalizedCommand === "/resume_refresh") {
     opsState.refresh_paused = false;
     opsState.changed_at = now;
     opsState.changed_by = actor;
@@ -151,7 +171,7 @@ for (const update of updates) {
     continue;
   }
 
-  if (text === "/status") {
+  if (normalizedCommand === "/status") {
     await sendMessage(buildStatusText(opsState), incomingChatId);
     continue;
   }
