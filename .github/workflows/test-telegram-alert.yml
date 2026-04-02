@@ -16,10 +16,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
       - name: Send Telegram test message
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           EXTRA_MESSAGE: ${{ inputs.message }}
-        run: |
-          node -e "const botToken=process.env.TELEGRAM_BOT_TOKEN; const chatId=process.env.TELEGRAM_CHAT_ID; const extra=process.env.EXTRA_MESSAGE?.trim(); if(!botToken||!chatId){console.error('Telegram credentials not configured.'); process.exit(1);} const lines=['Kerala Flash-Flood Watch','Telegram test message','If you can read this, group delivery is working.', `Sent at: ${new Date().toISOString()}`]; if(extra){lines.push(`Note: ${extra}`);} fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({chat_id: chatId, text: lines.join('\n')})}).then(async (response)=>{ if(!response.ok){ const body=await response.text(); throw new Error(`Telegram send failed: ${response.status} ${body}`);} console.log('Telegram test message sent successfully.'); }).catch((error)=>{ console.error(error); process.exit(1); });"
+        run: node scripts/send-telegram-test.js
