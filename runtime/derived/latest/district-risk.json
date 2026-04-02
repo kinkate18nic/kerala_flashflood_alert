@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-04-02T09:29:41.311Z",
+  "generated_at": "2026-04-02T09:38:37.144Z",
   "districts": [
     {
       "area_id": "kasaragod",
       "area_type": "district",
       "name": "Kasaragod",
       "level": "Normal",
-      "score": 9.5,
-      "confidence": 0.6,
+      "score": 9.4,
+      "confidence": 0.5,
       "region": "north",
       "susceptibility": 0.3453774237735794,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
         "score": 11.5,
         "wetness_index": 0.1,
-        "trigger_index": 0.2,
+        "trigger_index": 0.1,
         "susceptibility_index": 34.5,
         "label": "low"
       },
@@ -25,34 +25,35 @@
         "roughness_mean": 7.092902,
         "dem_normalized": 0.3
       },
-      "valid_from": "2026-04-02T09:29:41.311Z",
-      "valid_to": "2026-04-02T15:29:41.311Z",
+      "valid_from": "2026-04-02T09:38:37.144Z",
+      "valid_to": "2026-04-02T15:38:37.144Z",
       "drivers": [
         "IMD district warning 22% (Thunderstorm & Lightning, Squall etc)",
-        "Observed 24h rain 0 mm and 1h rain 0.2 mm",
+        "Observed 24h rain 0 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 0 mm from 1 station",
+        "Peak recent 30 min rain 0.1 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "Runoff potential low (wetness 0.1, trigger 0.2)",
+        "Runoff potential low (wetness 0.1, trigger 0.1)",
         "Terrain susceptibility 35% from NASADEM + local baseline"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4117,
+          "freshness_minutes": 4126,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "KASARAGOD : Thunderstorm & Lightning, Squall etc Updated on:2026-04-02",
-          "freshness_minutes": 900,
+          "freshness_minutes": 909,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "KASARAGOD No Warning Time of issue: 2026-04-02 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 120,
-          "status": "ok"
+          "freshness_minutes": 129,
+          "status": "stale"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -63,30 +64,30 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 1830,
+          "freshness_minutes": 1839,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 90,
-          "status": "offline"
+          "freshness_minutes": 9,
+          "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1560,
+          "freshness_minutes": 1569,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.03 m across 3 stations",
-          "freshness_minutes": 120,
+          "freshness_minutes": 129,
           "status": "ok"
         }
       ],
       "rainfall": {
-        "rain_1h_mm": 0.2,
+        "rain_1h_mm": 0,
         "rain_3h_mm": 0.1,
         "rain_6h_mm": 0.1,
         "rain_24h_mm": 0,
@@ -108,7 +109,7 @@
         ],
         "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 17,
-        "peak_30m_mm": 0,
+        "peak_30m_mm": 0.1,
         "official_rain_24h_mm": 0,
         "official_rain_3d_mm": 2.9,
         "official_rain_7d_mm": 2.9,
@@ -122,15 +123,15 @@
       "area_type": "district",
       "name": "Kannur",
       "level": "Normal",
-      "score": 18.9,
-      "confidence": 0.6,
+      "score": 21.8,
+      "confidence": 0.5,
       "region": "north",
       "susceptibility": 0.4514881833946861,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 16.5,
+        "score": 17.6,
         "wetness_index": 0,
-        "trigger_index": 5,
+        "trigger_index": 8.3,
         "susceptibility_index": 45.1,
         "label": "low"
       },
@@ -141,14 +142,15 @@
         "roughness_mean": 7.417914,
         "dem_normalized": 0.4
       },
-      "valid_from": "2026-04-02T09:29:41.311Z",
-      "valid_to": "2026-04-02T15:29:41.311Z",
+      "valid_from": "2026-04-02T09:38:37.144Z",
+      "valid_to": "2026-04-02T15:38:37.144Z",
       "drivers": [
         "IMD district warning 22% (Thunderstorm & Lightning, Squall etc)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 0 mm from 1 station",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "Runoff potential low (wetness 0, trigger 5)",
+        "RainViewer nowcast light (15 dBZ)",
+        "Runoff potential low (wetness 0, trigger 8.3)",
         "Terrain susceptibility 45% from NASADEM + local baseline",
         "Dam downstream caution active"
       ],
@@ -156,20 +158,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4117,
+          "freshness_minutes": 4126,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "KANNUR : Thunderstorm & Lightning, Squall etc Updated on:2026-04-02",
-          "freshness_minutes": 900,
+          "freshness_minutes": 909,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "KANNUR No Warning Time of issue: 2026-04-02 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 120,
-          "status": "ok"
+          "freshness_minutes": 129,
+          "status": "stale"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -180,25 +182,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 1830,
+          "freshness_minutes": 1839,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near district",
-          "freshness_minutes": 90,
-          "status": "offline"
+          "freshness_minutes": 9,
+          "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1560,
+          "freshness_minutes": 1569,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 1 station",
-          "freshness_minutes": 120,
+          "freshness_minutes": 129,
           "status": "ok"
         }
       ],
@@ -239,8 +241,8 @@
       "area_type": "district",
       "name": "Wayanad",
       "level": "Normal",
-      "score": 20.2,
-      "confidence": 0.6,
+      "score": 17,
+      "confidence": 0.5,
       "region": "north-hills",
       "susceptibility": 0.5329780836855869,
       "terrain_model": "nasadem_blended",
@@ -258,8 +260,8 @@
         "roughness_mean": 8.218636,
         "dem_normalized": 0.4
       },
-      "valid_from": "2026-04-02T09:29:41.311Z",
-      "valid_to": "2026-04-02T15:29:41.311Z",
+      "valid_from": "2026-04-02T09:38:37.144Z",
+      "valid_to": "2026-04-02T15:38:37.144Z",
       "drivers": [
         "IMD district warning 22% (Thunderstorm & Lightning, Squall etc)",
         "Observed 24h rain 0.3 mm and 1h rain 0 mm",
@@ -273,20 +275,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4117,
+          "freshness_minutes": 4126,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "WAYANAD : Thunderstorm & Lightning, Squall etc Updated on:2026-04-02",
-          "freshness_minutes": 900,
+          "freshness_minutes": 909,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "WAYANAD No Warning Time of issue: 2026-04-02 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 120,
-          "status": "ok"
+          "freshness_minutes": 129,
+          "status": "stale"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -297,25 +299,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 1830,
+          "freshness_minutes": 1839,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 90,
-          "status": "offline"
+          "freshness_minutes": 9,
+          "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1560,
+          "freshness_minutes": 1569,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 1 station",
-          "freshness_minutes": 120,
+          "freshness_minutes": 129,
           "status": "ok"
         }
       ],
@@ -350,15 +352,15 @@
       "area_type": "district",
       "name": "Kozhikode",
       "level": "Normal",
-      "score": 20.7,
-      "confidence": 0.6,
+      "score": 23.5,
+      "confidence": 0.5,
       "region": "north",
       "susceptibility": 0.5989515325184362,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 21.4,
+        "score": 22.5,
         "wetness_index": 0.1,
-        "trigger_index": 5,
+        "trigger_index": 8.3,
         "susceptibility_index": 59.9,
         "label": "guarded"
       },
@@ -369,14 +371,15 @@
         "roughness_mean": 8.165773,
         "dem_normalized": 0.6
       },
-      "valid_from": "2026-04-02T09:29:41.311Z",
-      "valid_to": "2026-04-02T15:29:41.311Z",
+      "valid_from": "2026-04-02T09:38:37.144Z",
+      "valid_to": "2026-04-02T15:38:37.144Z",
       "drivers": [
         "IMD district warning 22% (Thunderstorm & Lightning, Squall etc)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 0 mm from 1 station",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "Runoff potential guarded (wetness 0.1, trigger 5)",
+        "RainViewer nowcast light (15 dBZ)",
+        "Runoff potential guarded (wetness 0.1, trigger 8.3)",
         "Terrain susceptibility 60% from NASADEM + local baseline",
         "Reservoir caution active",
         "Dam downstream caution active"
@@ -385,20 +388,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4117,
+          "freshness_minutes": 4126,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "KOZHIKODE : Thunderstorm & Lightning, Squall etc Updated on:2026-04-02",
-          "freshness_minutes": 900,
+          "freshness_minutes": 909,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "KOZHIKODE No Warning Time of issue: 2026-04-02 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 120,
-          "status": "ok"
+          "freshness_minutes": 129,
+          "status": "stale"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -409,25 +412,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 1830,
+          "freshness_minutes": 1839,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near district",
-          "freshness_minutes": 90,
-          "status": "offline"
+          "freshness_minutes": 9,
+          "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1560,
+          "freshness_minutes": 1569,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 2 stations",
-          "freshness_minutes": 120,
+          "freshness_minutes": 129,
           "status": "ok"
         }
       ],
@@ -468,15 +471,15 @@
       "area_type": "district",
       "name": "Malappuram",
       "level": "Normal",
-      "score": 13.5,
-      "confidence": 0.6,
+      "score": 13.6,
+      "confidence": 0.5,
       "region": "north-central",
       "susceptibility": 0.6742140418587734,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 22.6,
+        "score": 23.4,
         "wetness_index": 0.6,
-        "trigger_index": 0.5,
+        "trigger_index": 3,
         "susceptibility_index": 67.4,
         "label": "guarded"
       },
@@ -487,34 +490,35 @@
         "roughness_mean": 8.008132,
         "dem_normalized": 0.7
       },
-      "valid_from": "2026-04-02T09:29:41.311Z",
-      "valid_to": "2026-04-02T15:29:41.311Z",
+      "valid_from": "2026-04-02T09:38:37.144Z",
+      "valid_to": "2026-04-02T15:38:37.144Z",
       "drivers": [
         "IMD district warning 22% (Thunderstorm & Lightning, Squall etc)",
-        "Observed 24h rain 0 mm and 1h rain 0 mm",
+        "Observed 24h rain 0 mm and 1h rain 0.6 mm",
         "India-WRIS official 24h rainfall 0 mm from 5 stations",
+        "Peak recent 30 min rain 2.2 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "Runoff potential guarded (wetness 0.6, trigger 0.5)",
+        "Runoff potential guarded (wetness 0.6, trigger 3)",
         "Terrain susceptibility 67% from NASADEM + local baseline"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4117,
+          "freshness_minutes": 4126,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "MALAPPURAM : Thunderstorm & Lightning, Squall etc Updated on:2026-04-02",
-          "freshness_minutes": 900,
+          "freshness_minutes": 909,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "MALAPPURAM No Warning Time of issue: 2026-04-02 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 120,
-          "status": "ok"
+          "freshness_minutes": 129,
+          "status": "stale"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -525,30 +529,30 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 5 stations",
-          "freshness_minutes": 1830,
+          "freshness_minutes": 1839,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 90,
-          "status": "offline"
+          "freshness_minutes": 9,
+          "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1560,
+          "freshness_minutes": 1569,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.01 m across 5 stations",
-          "freshness_minutes": 120,
+          "freshness_minutes": 129,
           "status": "ok"
         }
       ],
       "rainfall": {
-        "rain_1h_mm": 0,
+        "rain_1h_mm": 0.6,
         "rain_3h_mm": 1.4,
         "rain_6h_mm": 1.5,
         "rain_24h_mm": 0,
@@ -570,7 +574,7 @@
         ],
         "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 28,
-        "peak_30m_mm": 0,
+        "peak_30m_mm": 2.2,
         "official_rain_24h_mm": 0,
         "official_rain_3d_mm": 16.8,
         "official_rain_7d_mm": 16.8,
@@ -584,15 +588,15 @@
       "area_type": "district",
       "name": "Palakkad",
       "level": "Normal",
-      "score": 21.8,
-      "confidence": 0.6,
+      "score": 18.7,
+      "confidence": 0.5,
       "region": "ghat-gap",
       "susceptibility": 0.6881768722702085,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 22.8,
+        "score": 22.9,
         "wetness_index": 0.1,
-        "trigger_index": 0.2,
+        "trigger_index": 0.4,
         "susceptibility_index": 68.8,
         "label": "guarded"
       },
@@ -603,15 +607,16 @@
         "roughness_mean": 8.603137,
         "dem_normalized": 0.8
       },
-      "valid_from": "2026-04-02T09:29:41.311Z",
-      "valid_to": "2026-04-02T15:29:41.311Z",
+      "valid_from": "2026-04-02T09:38:37.144Z",
+      "valid_to": "2026-04-02T15:38:37.144Z",
       "drivers": [
         "IMD district warning 22% (Thunderstorm & Lightning, Squall etc)",
-        "Observed 24h rain 2 mm and 1h rain 0 mm",
+        "Observed 24h rain 2 mm and 1h rain 0.1 mm",
         "India-WRIS official 24h rainfall 2 mm from 1 station",
         "Peak India-WRIS station 24h rainfall 2 mm",
+        "Peak recent 30 min rain 0.2 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "Runoff potential guarded (wetness 0.1, trigger 0.2)",
+        "Runoff potential guarded (wetness 0.1, trigger 0.4)",
         "Terrain susceptibility 69% from NASADEM + local baseline",
         "Dam downstream caution active"
       ],
@@ -619,20 +624,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4117,
+          "freshness_minutes": 4126,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "PALAKKAD : Thunderstorm & Lightning, Squall etc Updated on:2026-04-02",
-          "freshness_minutes": 900,
+          "freshness_minutes": 909,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "PALAKKAD No Warning Time of issue: 2026-04-02 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 120,
-          "status": "ok"
+          "freshness_minutes": 129,
+          "status": "stale"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -643,30 +648,30 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 1830,
+          "freshness_minutes": 1839,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 90,
-          "status": "offline"
+          "freshness_minutes": 9,
+          "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1560,
+          "freshness_minutes": 1569,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.01 m across 4 stations",
-          "freshness_minutes": 120,
+          "freshness_minutes": 129,
           "status": "ok"
         }
       ],
       "rainfall": {
-        "rain_1h_mm": 0,
+        "rain_1h_mm": 0.1,
         "rain_3h_mm": 0.4,
         "rain_6h_mm": 0.7,
         "rain_24h_mm": 2,
@@ -688,7 +693,7 @@
         ],
         "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 40,
-        "peak_30m_mm": 0,
+        "peak_30m_mm": 0.2,
         "official_rain_24h_mm": 2,
         "official_rain_3d_mm": 2,
         "official_rain_7d_mm": 2,
@@ -702,8 +707,8 @@
       "area_type": "district",
       "name": "Thrissur",
       "level": "Normal",
-      "score": 19.8,
-      "confidence": 0.6,
+      "score": 16.6,
+      "confidence": 0.5,
       "region": "central",
       "susceptibility": 0.5123293858356701,
       "terrain_model": "nasadem_blended",
@@ -721,8 +726,8 @@
         "roughness_mean": 6.105978,
         "dem_normalized": 0.5
       },
-      "valid_from": "2026-04-02T09:29:41.311Z",
-      "valid_to": "2026-04-02T15:29:41.311Z",
+      "valid_from": "2026-04-02T09:38:37.144Z",
+      "valid_to": "2026-04-02T15:38:37.144Z",
       "drivers": [
         "IMD district warning 22% (Thunderstorm & Lightning, Squall etc)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
@@ -737,20 +742,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4117,
+          "freshness_minutes": 4126,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "THRISSUR : Thunderstorm & Lightning, Squall etc Updated on:2026-04-02",
-          "freshness_minutes": 900,
+          "freshness_minutes": 909,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "THRISSUR No Warning Time of issue: 2026-04-02 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 120,
-          "status": "ok"
+          "freshness_minutes": 129,
+          "status": "stale"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -761,25 +766,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 1830,
+          "freshness_minutes": 1839,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 90,
-          "status": "offline"
+          "freshness_minutes": 9,
+          "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1560,
+          "freshness_minutes": 1569,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 4 stations",
-          "freshness_minutes": 120,
+          "freshness_minutes": 129,
           "status": "ok"
         }
       ],
@@ -820,8 +825,8 @@
       "area_type": "district",
       "name": "Ernakulam",
       "level": "Normal",
-      "score": 18.6,
-      "confidence": 0.6,
+      "score": 15.4,
+      "confidence": 0.5,
       "region": "central-coastal",
       "susceptibility": 0.4167676405333245,
       "terrain_model": "nasadem_blended",
@@ -839,8 +844,8 @@
         "roughness_mean": 4.42897,
         "dem_normalized": 0.2
       },
-      "valid_from": "2026-04-02T09:29:41.311Z",
-      "valid_to": "2026-04-02T15:29:41.311Z",
+      "valid_from": "2026-04-02T09:38:37.144Z",
+      "valid_to": "2026-04-02T15:38:37.144Z",
       "drivers": [
         "IMD district warning 22% (Thunderstorm & Lightning, Squall etc)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
@@ -855,20 +860,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4117,
+          "freshness_minutes": 4126,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "ERNAKULAM : Thunderstorm & Lightning, Squall etc Updated on:2026-04-02",
-          "freshness_minutes": 900,
+          "freshness_minutes": 909,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "ERNAKULAM No Warning Time of issue: 2026-04-02 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 120,
-          "status": "ok"
+          "freshness_minutes": 129,
+          "status": "stale"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -879,25 +884,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 1830,
+          "freshness_minutes": 1839,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 90,
-          "status": "offline"
+          "freshness_minutes": 9,
+          "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1560,
+          "freshness_minutes": 1569,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.01 m across 5 stations",
-          "freshness_minutes": 120,
+          "freshness_minutes": 129,
           "status": "ok"
         }
       ],
@@ -938,8 +943,8 @@
       "area_type": "district",
       "name": "Idukki",
       "level": "Normal",
-      "score": 25.2,
-      "confidence": 0.6,
+      "score": 22,
+      "confidence": 0.5,
       "region": "high-range",
       "susceptibility": 0.964,
       "terrain_model": "nasadem_blended",
@@ -957,8 +962,8 @@
         "roughness_mean": 13.95467,
         "dem_normalized": 1
       },
-      "valid_from": "2026-04-02T09:29:41.311Z",
-      "valid_to": "2026-04-02T15:29:41.311Z",
+      "valid_from": "2026-04-02T09:38:37.144Z",
+      "valid_to": "2026-04-02T15:38:37.144Z",
       "drivers": [
         "IMD district warning 22% (Thunderstorm & Lightning, Squall etc)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
@@ -973,20 +978,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4117,
+          "freshness_minutes": 4126,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "IDUKKI : Thunderstorm & Lightning, Squall etc Updated on:2026-04-02",
-          "freshness_minutes": 900,
+          "freshness_minutes": 909,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "IDUKKI No Warning Time of issue: 2026-04-02 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 120,
-          "status": "ok"
+          "freshness_minutes": 129,
+          "status": "stale"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -997,25 +1002,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 1830,
+          "freshness_minutes": 1839,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 90,
-          "status": "offline"
+          "freshness_minutes": 9,
+          "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1560,
+          "freshness_minutes": 1569,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 4 stations",
-          "freshness_minutes": 120,
+          "freshness_minutes": 129,
           "status": "ok"
         }
       ],
@@ -1057,7 +1062,7 @@
       "name": "Kottayam",
       "level": "Normal",
       "score": 11.3,
-      "confidence": 0.6,
+      "confidence": 0.5,
       "region": "central",
       "susceptibility": 0.4992972512402114,
       "terrain_model": "nasadem_blended",
@@ -1075,8 +1080,8 @@
         "roughness_mean": 6.439277,
         "dem_normalized": 0.4
       },
-      "valid_from": "2026-04-02T09:29:41.311Z",
-      "valid_to": "2026-04-02T15:29:41.311Z",
+      "valid_from": "2026-04-02T09:38:37.144Z",
+      "valid_to": "2026-04-02T15:38:37.144Z",
       "drivers": [
         "IMD district warning 22% (Thunderstorm & Lightning, Squall etc)",
         "Observed 24h rain 0.1 mm and 1h rain 0 mm",
@@ -1090,20 +1095,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4117,
+          "freshness_minutes": 4126,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "KOTTAYAM : Thunderstorm & Lightning, Squall etc Updated on:2026-04-02",
-          "freshness_minutes": 900,
+          "freshness_minutes": 909,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "KOTTAYAM No Warning Time of issue: 2026-04-02 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 120,
-          "status": "ok"
+          "freshness_minutes": 129,
+          "status": "stale"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -1114,25 +1119,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 1830,
+          "freshness_minutes": 1839,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 90,
-          "status": "offline"
+          "freshness_minutes": 9,
+          "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1560,
+          "freshness_minutes": 1569,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.01 m across 4 stations",
-          "freshness_minutes": 120,
+          "freshness_minutes": 129,
           "status": "ok"
         }
       ],
@@ -1174,14 +1179,14 @@
       "name": "Alappuzha",
       "level": "Normal",
       "score": 9.3,
-      "confidence": 0.6,
+      "confidence": 0.5,
       "region": "coastal-lowland",
       "susceptibility": 0.3161867262061899,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 13.6,
+        "score": 11,
         "wetness_index": 1.7,
-        "trigger_index": 7.8,
+        "trigger_index": 0,
         "susceptibility_index": 31.6,
         "label": "low"
       },
@@ -1192,33 +1197,33 @@
         "roughness_mean": 1.791728,
         "dem_normalized": 0.1
       },
-      "valid_from": "2026-04-02T09:29:41.311Z",
-      "valid_to": "2026-04-02T15:29:41.311Z",
+      "valid_from": "2026-04-02T09:38:37.144Z",
+      "valid_to": "2026-04-02T15:38:37.144Z",
       "drivers": [
         "IMD district warning 22% (Thunderstorm & Lightning, Squall etc)",
         "Observed 24h rain 1.5 mm and 1h rain 0 mm",
         "Rainfall aggregation district_polygon_mean",
-        "Runoff potential low (wetness 1.7, trigger 7.8)",
+        "Runoff potential low (wetness 1.7, trigger 0)",
         "Terrain susceptibility 32% from NASADEM + local baseline"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4117,
+          "freshness_minutes": 4126,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "ALAPPUZHA : Thunderstorm & Lightning, Squall etc Updated on:2026-04-02",
-          "freshness_minutes": 900,
+          "freshness_minutes": 909,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "ALAPPUZHA No Warning Time of issue: 2026-04-02 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 120,
-          "status": "ok"
+          "freshness_minutes": 129,
+          "status": "stale"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -1229,25 +1234,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 1830,
+          "freshness_minutes": 1839,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer light cell near district",
-          "freshness_minutes": 90,
-          "status": "offline"
+          "detail": "No meaningful RainViewer radar echo near district",
+          "freshness_minutes": 9,
+          "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1560,
+          "freshness_minutes": 1569,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": 120,
+          "freshness_minutes": 129,
           "status": "ok"
         }
       ],
@@ -1282,15 +1287,15 @@
       "area_type": "district",
       "name": "Pathanamthitta",
       "level": "Normal",
-      "score": 31.4,
-      "confidence": 0.6,
+      "score": 28.3,
+      "confidence": 0.5,
       "region": "ghat-to-river",
       "susceptibility": 0.8256959994272752,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 29.8,
+        "score": 27.3,
         "wetness_index": 0,
-        "trigger_index": 7.8,
+        "trigger_index": 0,
         "susceptibility_index": 82.6,
         "label": "guarded"
       },
@@ -1301,14 +1306,14 @@
         "roughness_mean": 11.31176,
         "dem_normalized": 0.8
       },
-      "valid_from": "2026-04-02T09:29:41.311Z",
-      "valid_to": "2026-04-02T15:29:41.311Z",
+      "valid_from": "2026-04-02T09:38:37.144Z",
+      "valid_to": "2026-04-02T15:38:37.144Z",
       "drivers": [
         "IMD district warning 22% (Thunderstorm & Lightning, Squall etc)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 0 mm from 4 stations",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "Runoff potential guarded (wetness 0, trigger 7.8)",
+        "Runoff potential guarded (wetness 0, trigger 0)",
         "Terrain susceptibility 83% from NASADEM + local baseline",
         "CWC river-stage warning/watch active",
         "Reservoir caution active",
@@ -1318,20 +1323,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4117,
+          "freshness_minutes": 4126,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "PATHANAMTHITTA : Thunderstorm & Lightning, Squall etc Updated on:2026-04-02",
-          "freshness_minutes": 900,
+          "freshness_minutes": 909,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "PATHANAMTHITTA No Warning Time of issue: 2026-04-02 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 120,
-          "status": "ok"
+          "freshness_minutes": 129,
+          "status": "stale"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -1342,25 +1347,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 1830,
+          "freshness_minutes": 1839,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer light cell near district",
-          "freshness_minutes": 90,
-          "status": "offline"
+          "detail": "No meaningful RainViewer radar echo near district",
+          "freshness_minutes": 9,
+          "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "India-WRIS river level above danger at MALAKKARA",
-          "freshness_minutes": 1560,
+          "freshness_minutes": 1569,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.03 m across 4 stations",
-          "freshness_minutes": 120,
+          "freshness_minutes": 129,
           "status": "ok"
         }
       ],
@@ -1401,17 +1406,17 @@
       "area_type": "district",
       "name": "Kollam",
       "level": "Normal",
-      "score": 20.1,
-      "confidence": 0.6,
+      "score": 16.9,
+      "confidence": 0.5,
       "region": "south",
       "susceptibility": 0.546144448116304,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 20.6,
+        "score": 18,
         "wetness_index": 0,
-        "trigger_index": 7.8,
+        "trigger_index": 0,
         "susceptibility_index": 54.6,
-        "label": "guarded"
+        "label": "low"
       },
       "terrain_metrics": {
         "terrain_score_raw": 77.73873,
@@ -1420,14 +1425,14 @@
         "roughness_mean": 7.522414,
         "dem_normalized": 0.5
       },
-      "valid_from": "2026-04-02T09:29:41.311Z",
-      "valid_to": "2026-04-02T15:29:41.311Z",
+      "valid_from": "2026-04-02T09:38:37.144Z",
+      "valid_to": "2026-04-02T15:38:37.144Z",
       "drivers": [
         "IMD district warning 22% (Thunderstorm & Lightning, Squall etc)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 0 mm from 2 stations",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "Runoff potential guarded (wetness 0, trigger 7.8)",
+        "Runoff potential low (wetness 0, trigger 0)",
         "Terrain susceptibility 55% from NASADEM + local baseline",
         "Dam downstream caution active"
       ],
@@ -1435,20 +1440,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4117,
+          "freshness_minutes": 4126,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "KOLLAM : Thunderstorm & Lightning, Squall etc Updated on:2026-04-02",
-          "freshness_minutes": 900,
+          "freshness_minutes": 909,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "KOLLAM No Warning Time of issue: 2026-04-02 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 120,
-          "status": "ok"
+          "freshness_minutes": 129,
+          "status": "stale"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -1459,25 +1464,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 1830,
+          "freshness_minutes": 1839,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer light cell near district",
-          "freshness_minutes": 90,
-          "status": "offline"
+          "detail": "No meaningful RainViewer radar echo near district",
+          "freshness_minutes": 9,
+          "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1560,
+          "freshness_minutes": 1569,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 3 stations",
-          "freshness_minutes": 120,
+          "freshness_minutes": 129,
           "status": "ok"
         }
       ],
@@ -1518,15 +1523,15 @@
       "area_type": "district",
       "name": "Thiruvananthapuram",
       "level": "Normal",
-      "score": 19.9,
-      "confidence": 0.6,
+      "score": 16.7,
+      "confidence": 0.5,
       "region": "south-coastal",
       "susceptibility": 0.5228924574818898,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 20,
+        "score": 17.4,
         "wetness_index": 0.4,
-        "trigger_index": 7.8,
+        "trigger_index": 0,
         "susceptibility_index": 52.3,
         "label": "low"
       },
@@ -1537,15 +1542,15 @@
         "roughness_mean": 6.988385,
         "dem_normalized": 0.5
       },
-      "valid_from": "2026-04-02T09:29:41.311Z",
-      "valid_to": "2026-04-02T15:29:41.311Z",
+      "valid_from": "2026-04-02T09:38:37.144Z",
+      "valid_to": "2026-04-02T15:38:37.144Z",
       "drivers": [
         "IMD district warning 22% (Thunderstorm & Lightning, Squall etc)",
         "Observed 24h rain 5.9 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 5.9 mm from 3 stations",
         "Peak India-WRIS station 24h rainfall 13.6 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "Runoff potential low (wetness 0.4, trigger 7.8)",
+        "Runoff potential low (wetness 0.4, trigger 0)",
         "Terrain susceptibility 52% from NASADEM + local baseline",
         "Dam downstream caution active"
       ],
@@ -1553,20 +1558,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4117,
+          "freshness_minutes": 4126,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "THIRUVANANTHAPURAM : Thunderstorm & Lightning, Squall etc Updated on:2026-04-02",
-          "freshness_minutes": 900,
+          "freshness_minutes": 909,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "THIRUVANANTHAPURAM No Warning Time of issue: 2026-04-02 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 120,
-          "status": "ok"
+          "freshness_minutes": 129,
+          "status": "stale"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -1577,25 +1582,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 1830,
+          "freshness_minutes": 1839,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer light cell near district",
-          "freshness_minutes": 90,
-          "status": "offline"
+          "detail": "No meaningful RainViewer radar echo near district",
+          "freshness_minutes": 9,
+          "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1560,
+          "freshness_minutes": 1569,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 3 stations",
-          "freshness_minutes": 120,
+          "freshness_minutes": 129,
           "status": "ok"
         }
       ],
