@@ -1,0 +1,48 @@
+name: Test Telegram review flow
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prepare synthetic pending severe alert
+        run: node scripts/test-telegram-review-flow.js
+
+      - name: Send Telegram review notice
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_COMMAND_CHAT_ID: ${{ secrets.TELEGRAM_COMMAND_CHAT_ID }}
+        run: node scripts/send-telegram.js
+
+      - name: Commit test review state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data/latest/alerts.json data/manual/review-approvals.json data/manual/review-rejections.json runtime/metrics/telegram-dispatch-log.json
+          if git diff --cached --quiet; then
+            echo "No Telegram review-flow test changes to commit"
+          else
+            git commit -m "chore: prepare telegram review flow test"
+            git pull --rebase --autostash origin main
+            git push
+          fi
