@@ -637,6 +637,81 @@ function testDistrictWarningAloneDoesNotPromoteHotspotWatch() {
   );
 }
 
+function testLocalNowcastTimingOverridesSourceFreshness() {
+  const generatedAt = "2026-04-02T09:30:00.000Z";
+  const result = buildRiskOutputs({
+    generatedAt,
+    thresholds,
+    sourceSnapshots: [
+      { source_id: "imd-district-nowcast", status: "stale" },
+      { source_id: "imd-station-nowcast", status: "stale" },
+      { source_id: "rainviewer-radar", status: "offline" },
+      { source_id: "imd-district-warning", status: "ok" }
+    ],
+    capByDistrict: {},
+    bulletinByDistrict: {},
+    imdDistrictWarningByDistrict: {
+      idukki: {
+        severity: 0,
+        notes: ["No IMD district warning"],
+        source_ids: ["imd-district-warning"]
+      }
+    },
+    imdNowcastByDistrict: {
+      idukki: {
+        severity: 0.35,
+        issued_at: "2026-04-02T14:00:00+05:30",
+        valid_until: "2026-04-02T16:00:00+05:30",
+        notes: ["IDUKKI : Moderate rain. Time of issue: 2026-04-02 1400 Hrs Valid upto: 1600 Hrs"],
+        source_ids: ["imd-district-nowcast"]
+      }
+    },
+    stationNowcastByHotspot: {
+      "h-munnar-devikulam": {
+        severity: 0.28,
+        issued_at: "2026-04-02T14:00:00+05:30",
+        valid_until: "2026-04-02T16:00:00+05:30",
+        station_name: "Munnar",
+        distance_km: 4.2,
+        notes: ["Munnar: Light rain. Time of issue: 2026-04-02 1400 Hrs Valid upto: 1600 Hrs"],
+        source_ids: ["imd-station-nowcast"]
+      }
+    },
+    reservoirByDistrict: {},
+    damByDistrict: {},
+    cwcByDistrict: {},
+    radarByDistrict: {},
+    radarByHotspot: {},
+    rainfallByDistrict: {},
+    rainfallByTaluk: {},
+    taluks: [],
+    approvals: [],
+    hotspotOverrides: [],
+    freshnessBySource: {
+      "imd-district-nowcast": 240,
+      "imd-station-nowcast": 240,
+      "imd-district-warning": 60,
+      "rainviewer-radar": 240
+    },
+    statusBySource: {
+      "imd-district-nowcast": "stale",
+      "imd-station-nowcast": "stale",
+      "imd-district-warning": "ok",
+      "rainviewer-radar": "offline"
+    }
+  });
+
+  const district = result.districtStates.find((entry) => entry.area_id === "idukki");
+  const districtNowcastRef = district.source_refs.find((entry) => entry.source_id === "imd-district-nowcast");
+  assert.equal(districtNowcastRef?.status, "ok");
+  assert.equal(districtNowcastRef?.freshness_minutes, 60);
+
+  const hotspot = result.hotspotStates.find((entry) => entry.area_id === "h-munnar-devikulam");
+  const stationNowcastRef = hotspot.source_refs.find((entry) => entry.source_id === "imd-station-nowcast");
+  assert.equal(stationNowcastRef?.status, "ok");
+  assert.equal(stationNowcastRef?.freshness_minutes, 60);
+}
+
 async function testPipeline() {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), "kerala-flood-watch-"));
   await cp(path.join(repoRoot, "config"), path.join(tempRoot, "config"), { recursive: true });
@@ -1090,6 +1165,7 @@ const tests = [
   ["risk-model-stale-weighting", testRiskModelDownweightsStaleSignals],
   ["risk-model-hotspot-gating", testHotspotWatchNeedsDynamicTrigger],
   ["risk-model-district-warning-hotspot-gating", testDistrictWarningAloneDoesNotPromoteHotspotWatch],
+  ["risk-model-local-nowcast-timing", testLocalNowcastTimingOverridesSourceFreshness],
   ["pipeline", testPipeline],
   ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage],
   ["pipeline-cadence-reuse", testPipelineReusesSourcesWithinCadenceWindow],

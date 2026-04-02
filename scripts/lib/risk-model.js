@@ -1,6 +1,7 @@
 import { districts, hotspots } from "../../src/shared/areas.js";
 import { scoreToLevel } from "../../src/shared/risk.js";
 import { buildDistrictTerrainLookup, clamp } from "../../src/shared/terrain.js";
+import { minutesBetween, parseDate } from "./time.js";
 
 function round(value) {
   return Math.round(value * 10) / 10;
@@ -28,6 +29,43 @@ function maxSourceWeight(statusBySource, sourceIds = []) {
     return 1;
   }
   return Math.max(...ids.map((sourceId) => sourceStatusWeight(statusBySource?.[sourceId])));
+}
+
+function signalFreshnessMinutes(signal, generatedAt, fallbackFreshness = null) {
+  const issuedAt = parseDate(signal?.issued_at);
+  if (!issuedAt) {
+    return fallbackFreshness;
+  }
+  return minutesBetween(issuedAt, parseDate(generatedAt) ?? new Date());
+}
+
+function timeAwareNowcastStatus(signal, generatedAt, fallbackStatus = "degraded") {
+  const referenceTime = parseDate(generatedAt) ?? new Date();
+  const validUntil = parseDate(signal?.valid_until);
+  if (validUntil) {
+    return validUntil.getTime() > referenceTime.getTime() ? "ok" : "offline";
+  }
+
+  const freshnessMinutes = signalFreshnessMinutes(signal, generatedAt, null);
+  if (freshnessMinutes === null) {
+    return fallbackStatus;
+  }
+  if (freshnessMinutes <= 180) {
+    return "ok";
+  }
+  if (freshnessMinutes <= 360) {
+    return "stale";
+  }
+  return "offline";
+}
+
+function nowcastSignalState(signal, sourceId, context) {
+  const fallbackFreshness = context.freshnessBySource?.[sourceId] ?? null;
+  const fallbackStatus = context.statusBySource?.[sourceId] ?? "degraded";
+  return {
+    freshness_minutes: signalFreshnessMinutes(signal, context.generatedAt, fallbackFreshness),
+    status: timeAwareNowcastStatus(signal, context.generatedAt, fallbackStatus)
+  };
 }
 
 function effectiveSeverity(signal) {
@@ -402,6 +440,7 @@ export function buildRiskOutputs(context) {
     const radar = radarByDistrict[district.id] ?? { severity: 0, intensity: "none", max_dbz: null, notes: [] };
     const observation = rainfallByDistrict[district.id] ?? null;
     const terrain = terrainByDistrict[district.id];
+    const districtNowcastState = nowcastSignalState(nowcast, "imd-district-nowcast", context);
     const capWeight = maxSourceWeight(context.statusBySource, cap.source_ids ?? ["imd-cap-rss"]);
     const bulletinWeight = maxSourceWeight(
       context.statusBySource,
@@ -411,10 +450,7 @@ export function buildRiskOutputs(context) {
       context.statusBySource,
       districtWarning.source_ids ?? ["imd-district-warning"]
     );
-    const nowcastWeight = maxSourceWeight(
-      context.statusBySource,
-      nowcast.source_ids ?? ["imd-district-nowcast"]
-    );
+    const nowcastWeight = sourceStatusWeight(districtNowcastState.status);
     const reservoirWeight = maxSourceWeight(
       context.statusBySource,
       reservoir.source_ids ?? ["ksdma-reservoirs"]
@@ -603,8 +639,8 @@ export function buildRiskOutputs(context) {
         sourceRef(
           "imd-district-nowcast",
           nowcast.notes?.[0] ?? "No IMD district nowcast for district",
-          context.freshnessBySource["imd-district-nowcast"],
-          context.statusBySource["imd-district-nowcast"]
+          districtNowcastState.freshness_minutes,
+          districtNowcastState.status
         ),
         sourceRef(
           "imd-flash-flood-bulletin",
@@ -660,14 +696,12 @@ export function buildRiskOutputs(context) {
       notes: radarByDistrict[hotspot.district_id]?.notes ?? [],
       source_ids: radarByDistrict[hotspot.district_id]?.source_ids ?? ["rainviewer-radar"]
     };
+    const stationNowcastState = nowcastSignalState(stationNowcast, "imd-station-nowcast", context);
     const radarWeight = maxSourceWeight(
       context.statusBySource,
       radar.source_ids ?? ["rainviewer-radar"]
     );
-    const stationNowcastWeight = maxSourceWeight(
-      context.statusBySource,
-      stationNowcast.source_ids ?? ["imd-station-nowcast"]
-    );
+    const stationNowcastWeight = sourceStatusWeight(stationNowcastState.status);
     const weightedRadar = {
       ...radar,
       source_weight: radarWeight,
@@ -764,8 +798,8 @@ export function buildRiskOutputs(context) {
         sourceRef(
           "imd-station-nowcast",
           weightedStationNowcast.notes?.[0] ?? "No IMD station nowcast near hotspot",
-          context.freshnessBySource["imd-station-nowcast"],
-          context.statusBySource["imd-station-nowcast"]
+          stationNowcastState.freshness_minutes,
+          stationNowcastState.status
         )
       ],
       review_state: level === "Severe - review required" ? "pending_review" : "auto_published",
@@ -797,6 +831,7 @@ export function buildRiskOutputs(context) {
         )
       : radarByDistrict[taluk.district_id] ?? { severity: 0, intensity: "none", max_dbz: null, notes: [] };
     const observation = rainfallByTaluk[taluk.taluk_id] ?? rainfallByDistrict[taluk.district_id] ?? null;
+    const districtNowcastState = nowcastSignalState(nowcast, "imd-district-nowcast", context);
     const capWeight = maxSourceWeight(context.statusBySource, cap.source_ids ?? ["imd-cap-rss"]);
     const bulletinWeight = maxSourceWeight(
       context.statusBySource,
@@ -806,10 +841,7 @@ export function buildRiskOutputs(context) {
       context.statusBySource,
       districtWarning.source_ids ?? ["imd-district-warning"]
     );
-    const nowcastWeight = maxSourceWeight(
-      context.statusBySource,
-      nowcast.source_ids ?? ["imd-district-nowcast"]
-    );
+    const nowcastWeight = sourceStatusWeight(districtNowcastState.status);
     const reservoirWeight = maxSourceWeight(
       context.statusBySource,
       reservoir.source_ids ?? ["ksdma-reservoirs"]
