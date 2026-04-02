@@ -6,6 +6,7 @@ on:
       - telegram_refresh_command
 
 permissions:
+  actions: write
   contents: write
 
 concurrency:
@@ -35,6 +36,12 @@ jobs:
           TELEGRAM_COMMAND_AT: ${{ github.event.client_payload.command_at }}
           TELEGRAM_REPLY_CHAT_ID: ${{ github.event.client_payload.reply_chat_id }}
         run: node scripts/telegram-command-dispatch.js
+
+      - name: Apply workflow pause state
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: node scripts/set-refresh-workflow-state.js
 
       - name: Commit Telegram refresh state
         run: |

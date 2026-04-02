@@ -384,6 +384,22 @@ The preferred control path is now:
 
 The older 5-minute polling workflow is kept only as a fallback path. If the Telegram bot is switched to webhook mode, polling now exits cleanly instead of failing.
 
+### What pause means now
+
+`/pause_refresh` now performs a **hard pause** for the three refresh workflows:
+
+- `Refresh India fast sources (local)`
+- `Refresh India hydrology (local)`
+- `Refresh external sources`
+
+They are disabled through the GitHub Actions API, which means:
+
+- scheduled runs stop being created
+- your local runner does not queue them overnight
+- the dashboard should not get a newer refresh timestamp from a no-op run
+
+`/resume_refresh` enables those same workflows again.
+
 ### Cloudflare Worker environment
 
 The Worker should have these environment variables:
