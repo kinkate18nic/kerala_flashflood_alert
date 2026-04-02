@@ -352,6 +352,72 @@ This separation exists so that:
 - one workflow produces the final public snapshot
 - the site is more internally consistent
 
+## Telegram Operations And Review
+
+Telegram is split into two different roles:
+
+- **Private command chat**
+  - used for operational controls and severe-alert review
+  - commands include:
+    - `/status`
+    - `/pause_refresh`
+    - `/resume_refresh`
+    - `/pending_alerts`
+    - `/approve <alert_id>`
+    - `/reject <alert_id>`
+
+- **Public alert group**
+  - used only for reviewed severe alerts
+  - normal command replies do not go here
+
+### How the Telegram control path works now
+
+The preferred control path is now:
+
+1. Telegram sends a command to a Cloudflare Worker webhook
+2. The Worker validates the command chat and webhook secret
+3. The Worker either:
+   - replies directly for simple read-only commands like `/status` and `/pending_alerts`, or
+   - triggers a GitHub workflow for state-changing commands like pause, resume, approve, and reject
+4. GitHub updates the repo state files
+5. For alert-review commands, the normal publish workflow then picks up the change and, if approved, can send the severe alert to the public Telegram group
+
+The older 5-minute polling workflow is kept only as a fallback path. If the Telegram bot is switched to webhook mode, polling now exits cleanly instead of failing.
+
+### Cloudflare Worker environment
+
+The Worker should have these environment variables:
+
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_COMMAND_CHAT_ID`
+- `TELEGRAM_WEBHOOK_SECRET`
+- `GITHUB_OWNER`
+- `GITHUB_REPO`
+- `GITHUB_REF`
+  - usually `main`
+- `GITHUB_DISPATCH_TOKEN`
+
+`GITHUB_DISPATCH_TOKEN` should be a GitHub token that is allowed to trigger repository dispatch events for this repo.
+
+### GitHub secrets used by the repo
+
+- `TELEGRAM_COMMAND_CHAT_ID`
+  - private command/review chat
+- `TELEGRAM_CHAT_ID`
+  - public alert group chat
+- `TELEGRAM_BOT_TOKEN`
+  - bot token used for both commands and alerts
+
+### Telegram webhook setup
+
+Once the Worker is deployed, the bot should be pointed to:
+
+`https://<your-worker-domain>/telegram-webhook`
+
+with the same `TELEGRAM_WEBHOOK_SECRET` set as Telegram’s webhook secret token.
+
+This gives much faster command handling than the old poll-based approach and avoids waiting for the next 5-minute schedule.
+
 ## How Often Sources Are Checked
 
 The system’s own check schedule is roughly:

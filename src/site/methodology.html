@@ -244,6 +244,17 @@
         </section>
 
         <section class="panel prose-panel">
+          <h2>Telegram controls and alert review</h2>
+          <p>Telegram is split into two different roles.</p>
+          <ul>
+            <li><strong>Private command chat</strong>: used for <code>/status</code>, <code>/pause_refresh</code>, <code>/resume_refresh</code>, <code>/pending_alerts</code>, <code>/approve</code>, and <code>/reject</code></li>
+            <li><strong>Public alert group</strong>: used only for reviewed severe alerts</li>
+          </ul>
+          <p>The preferred control path uses a Cloudflare Worker webhook. Telegram sends the command to the Worker, the Worker validates the private command chat, and GitHub applies state-changing commands like pause, resume, approve, and reject.</p>
+          <p>Read-only commands such as <code>/status</code> and <code>/pending_alerts</code> can be answered directly from the webhook. The older poll-based Telegram workflow is kept only as a fallback path.</p>
+        </section>
+
+        <section class="panel prose-panel">
           <h2>How often sources are checked</h2>
           <ul>
             <li><strong>India fast sources</strong>: about every 20 minutes</li>

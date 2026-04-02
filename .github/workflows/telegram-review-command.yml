@@ -1,0 +1,50 @@
+name: Telegram review commands
+
+on:
+  repository_dispatch:
+    types:
+      - telegram_review_command
+
+permissions:
+  contents: write
+
+concurrency:
+  group: telegram-review-command
+  cancel-in-progress: false
+
+jobs:
+  command:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Apply Telegram review command
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_COMMAND_TEXT: ${{ github.event.client_payload.command_text }}
+          TELEGRAM_COMMAND_ACTOR: ${{ github.event.client_payload.actor }}
+          TELEGRAM_COMMAND_AT: ${{ github.event.client_payload.command_at }}
+          TELEGRAM_REPLY_CHAT_ID: ${{ github.event.client_payload.reply_chat_id }}
+        run: node scripts/telegram-command-dispatch.js
+
+      - name: Commit Telegram review state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/manual/review-approvals.json data/manual/review-rejections.json data/manual/ops-state.json
+          if git diff --cached --quiet; then
+            echo "No Telegram review changes to commit"
+          else
+            git commit -m "chore: apply telegram review command"
+            git pull --rebase --autostash origin main
+            git push
+          fi

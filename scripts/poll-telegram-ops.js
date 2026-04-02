@@ -159,6 +159,10 @@ if (telegramState.last_update_id) {
 const updatesResponse = await fetch(`https://api.telegram.org/bot${botToken}/getUpdates?${params.toString()}`);
 if (!updatesResponse.ok) {
   const body = await updatesResponse.text();
+  if (updatesResponse.status === 409) {
+    console.log("Telegram webhook is active; polling fallback skipped.");
+    process.exit(0);
+  }
   throw new Error(`Telegram getUpdates failed: ${updatesResponse.status} ${body}`);
 }
 
