@@ -50,13 +50,34 @@ jobs:
         with:
           node-version: 22
 
+      - name: Check refresh control state
+        id: refresh_control
+        run: |
+          $opsPath = Join-Path $env:GITHUB_WORKSPACE "data/manual/ops-state.json"
+          if (-not (Test-Path $opsPath)) {
+            "should_run=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+            "status_message=No ops-state file found; refresh will proceed." | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+            exit 0
+          }
+          $ops = Get-Content $opsPath -Raw | ConvertFrom-Json
+          if ($ops.refresh_paused) {
+            "should_run=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+            "status_message=Refresh paused via Telegram; this run will exit without updating sources." | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          } else {
+            "should_run=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+            "status_message=Refresh is active." | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          }
+
       - name: Install dependencies
+        if: steps.refresh_control.outputs.should_run == 'true'
         run: npm ci
 
       - name: Run tests
+        if: steps.refresh_control.outputs.should_run == 'true'
         run: npm test
 
       - name: Refresh source cache (India hydrology)
+        if: steps.refresh_control.outputs.should_run == 'true'
         env:
           PPS_EMAIL: ${{ secrets.PPS_EMAIL }}
           PPS_PASSWORD: ${{ secrets.PPS_PASSWORD }}
@@ -71,6 +92,7 @@ jobs:
         run: node scripts/run-pipeline.js
 
       - name: Commit refreshed data
+        if: steps.refresh_control.outputs.should_run == 'true'
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -82,3 +104,7 @@ jobs:
             git -C "$env:GITHUB_WORKSPACE" pull --rebase --autostash origin main
             git -C "$env:GITHUB_WORKSPACE" push
           }
+
+      - name: Report paused refresh
+        if: steps.refresh_control.outputs.should_run != 'true'
+        run: Write-Output "${{ steps.refresh_control.outputs.status_message }}"

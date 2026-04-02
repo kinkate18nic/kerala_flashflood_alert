@@ -27,13 +27,21 @@ jobs:
         with:
           node-version: 22
 
+      - name: Check refresh control state
+        id: refresh_control
+        run: |
+          node -e "const fs=require('fs'); const path='data/manual/ops-state.json'; if(!fs.existsSync(path)){console.log('should_run=true'); console.log('status_message=No ops-state file found; refresh will proceed.'); process.exit(0);} const ops=JSON.parse(fs.readFileSync(path,'utf8')); if(ops.refresh_paused){console.log('should_run=false'); console.log('status_message=Refresh paused via Telegram; this run will exit without updating sources.');} else {console.log('should_run=true'); console.log('status_message=Refresh is active.');}" >> $GITHUB_OUTPUT
+
       - name: Install dependencies
+        if: steps.refresh_control.outputs.should_run == 'true'
         run: npm ci
 
       - name: Run tests
+        if: steps.refresh_control.outputs.should_run == 'true'
         run: npm test
 
       - name: Refresh source cache (external sources)
+        if: steps.refresh_control.outputs.should_run == 'true'
         env:
           PPS_EMAIL: ${{ secrets.PPS_EMAIL }}
           PPS_PASSWORD: ${{ secrets.PPS_PASSWORD }}
@@ -48,6 +56,7 @@ jobs:
         run: node scripts/run-pipeline.js
 
       - name: Commit refreshed data
+        if: steps.refresh_control.outputs.should_run == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -59,3 +68,7 @@ jobs:
             git pull --rebase --autostash origin main
             git push
           fi
+
+      - name: Report paused refresh
+        if: steps.refresh_control.outputs.should_run != 'true'
+        run: echo "${{ steps.refresh_control.outputs.status_message }}"

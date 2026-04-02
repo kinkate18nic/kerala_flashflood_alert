@@ -1,0 +1,47 @@
+name: Telegram refresh controls
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: telegram-refresh-controls
+  cancel-in-progress: true
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Poll Telegram commands
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node scripts/poll-telegram-ops.js
+
+      - name: Commit Telegram control state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/manual/ops-state.json runtime/cache/telegram-command-state.json
+          if git diff --cached --quiet; then
+            echo "No Telegram control changes to commit"
+          else
+            git commit -m "chore: sync telegram refresh controls"
+            git pull --rebase --autostash origin main
+            git push
+          fi
