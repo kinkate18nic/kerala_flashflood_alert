@@ -9,7 +9,8 @@ const repoRoot = path.resolve(__dirname, "..");
 const telegramConfig = await readJson(path.join(repoRoot, "config", "telegram.json"), {
   enabled: false,
   bot_token_env: "TELEGRAM_BOT_TOKEN",
-  chat_id_env: "TELEGRAM_CHAT_ID"
+  chat_id_env: "TELEGRAM_CHAT_ID",
+  command_chat_id_env: "TELEGRAM_COMMAND_CHAT_ID"
 });
 
 if (!telegramConfig.enabled) {
@@ -19,6 +20,8 @@ if (!telegramConfig.enabled) {
 
 const botToken = process.env[telegramConfig.bot_token_env];
 const chatId = process.env[telegramConfig.chat_id_env];
+const commandChatId =
+  process.env[telegramConfig.command_chat_id_env ?? "TELEGRAM_COMMAND_CHAT_ID"] || chatId;
 
 if (!botToken || !chatId) {
   console.log("Telegram credentials not configured.");
@@ -40,7 +43,7 @@ const telegramState = await readJson(telegramStatePath, {
   last_update_id: 0
 });
 
-const allowedChatId = String(chatId);
+const allowedChatId = String(commandChatId);
 
 function commandHelp() {
   return [
