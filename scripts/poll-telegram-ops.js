@@ -44,6 +44,9 @@ const telegramState = await readJson(telegramStatePath, {
 });
 
 const allowedChatId = String(commandChatId);
+console.log(
+  `Telegram ops env: alert chat=${maskChatId(chatId)} command chat env=${maskChatId(process.env[telegramConfig.command_chat_id_env ?? "TELEGRAM_COMMAND_CHAT_ID"] || "unset")} effective command chat=${maskChatId(allowedChatId)}`
+);
 
 function maskChatId(value) {
   const text = String(value ?? "");
