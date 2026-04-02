@@ -769,6 +769,9 @@ function sourceStatusMessage(source) {
     return "This source could not be refreshed just now, so the last saved copy is still in use.";
   }
   if (source.fetch_status === "skipped_cached") {
+    if (source.reuse_reason === "publish_from_cache") {
+      return "This page was rebuilt from the latest saved fetch for this source.";
+    }
     return "This source was not checked in this run. The last saved copy is still in use.";
   }
   if (source.fetch_status === "skipped") {
@@ -833,6 +836,9 @@ function sourceCurrentRunLabel(source) {
     return "New file could not be read; saved copy reused";
   }
   if (source.fetch_status === "skipped_cached") {
+    if (source.reuse_reason === "publish_from_cache") {
+      return "Published from latest saved fetch";
+    }
     return "Not checked in this run; saved copy reused";
   }
   if (source.fetch_status === "skipped") {
@@ -880,6 +886,9 @@ function dataUsageSummary(source) {
     return `Showing data published at ${dataPublishedLabel}. A newer file was downloaded but could not be read safely, so the last successful refresh from ${refreshLabel} is still being used.`;
   }
   if (source.fetch_status === "skipped_cached") {
+    if (source.reuse_reason === "publish_from_cache") {
+      return `Showing data published at ${dataPublishedLabel}. This page was rebuilt from the latest saved fetch, last checked by our system at ${refreshLabel}.`;
+    }
     return `Showing data published at ${dataPublishedLabel}. This source was not checked in this run, so the last successful refresh from ${refreshLabel} is still being used.`;
   }
   if (source.fetch_status === "skipped") {
