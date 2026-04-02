@@ -87,21 +87,21 @@
         "name": "India-WRIS CWC Rainfall",
         "owner": "India-WRIS / CWC",
         "category": "ground-rainfall",
-        "fetched_at": "2026-04-01T14:09:58.607Z",
+        "fetched_at": "2026-04-02T03:41:34.677Z",
         "issued_at": "2026-04-01T03:00:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://indiawris.gov.in/Dataset/RainFall",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
-        "status": "ok",
-        "freshness_minutes": 670,
-        "duration_ms": 359652,
+        "status": "stale",
+        "freshness_minutes": 1482,
+        "duration_ms": 442761,
         "notes": "India-WRIS rainfall queried for 12 Kerala districts",
         "auth": "none",
         "summary": {
           "district_count": 12,
-          "taluk_count": 24,
-          "station_count": 30,
+          "taluk_count": 25,
+          "station_count": 29,
           "requested_district_count": 14,
           "successful_district_count": 14,
           "failed_district_count": 0
@@ -114,12 +114,18 @@
             "district_id": "kasaragod",
             "district_name": "Kasaragod",
             "source": "indiawris-cwc",
-            "station_count": 2,
+            "station_count": 1,
             "max_station_24h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 2.9,
             "rain_7d_mm": 2.9,
             "daily_series": [
+              {
+                "date": "2026-04-01",
+                "mean": 0,
+                "max": 0,
+                "station_count": 1
+              },
               {
                 "date": "2026-03-30",
                 "mean": 0,
@@ -137,12 +143,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 2
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 2
               }
             ]
           },
@@ -156,6 +156,12 @@
             "rain_3d_mm": 0,
             "rain_7d_mm": 0,
             "daily_series": [
+              {
+                "date": "2026-04-01",
+                "mean": 0,
+                "max": 0,
+                "station_count": 1
+              },
               {
                 "date": "2026-03-30",
                 "mean": 0,
@@ -173,12 +179,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
               }
             ]
           },
@@ -186,12 +186,18 @@
             "district_id": "kozhikode",
             "district_name": "Kozhikode",
             "source": "indiawris-cwc",
-            "station_count": 2,
-            "max_station_24h_mm": 4.2,
-            "rain_24h_mm": 2.1,
+            "station_count": 1,
+            "max_station_24h_mm": 0,
+            "rain_24h_mm": 0,
             "rain_3d_mm": 2.1,
             "rain_7d_mm": 2.1,
             "daily_series": [
+              {
+                "date": "2026-04-01",
+                "mean": 0,
+                "max": 0,
+                "station_count": 1
+              },
               {
                 "date": "2026-03-30",
                 "mean": 2.1,
@@ -209,12 +215,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 2
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 2
               }
             ]
           },
@@ -222,12 +222,18 @@
             "district_id": "malappuram",
             "district_name": "Malappuram",
             "source": "indiawris-cwc",
-            "station_count": 6,
-            "max_station_24h_mm": 38.2,
-            "rain_24h_mm": 16.8,
+            "station_count": 5,
+            "max_station_24h_mm": 0,
+            "rain_24h_mm": 0,
             "rain_3d_mm": 16.8,
             "rain_7d_mm": 16.8,
             "daily_series": [
+              {
+                "date": "2026-04-01",
+                "mean": 0,
+                "max": 0,
+                "station_count": 5
+              },
               {
                 "date": "2026-03-30",
                 "mean": 16.833333333333332,
@@ -242,12 +248,6 @@
               },
               {
                 "date": "2026-03-27",
-                "mean": 0,
-                "max": 0,
-                "station_count": 6
-              },
-              {
-                "date": "2026-03-26",
                 "mean": 0,
                 "max": 0,
                 "station_count": 6
@@ -323,24 +323,18 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 3
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 2
               }
             ]
           },
           {
-            "district_id": "ernakulam",
-            "district_name": "Ernakulam",
+            "district_id": "idukki",
+            "district_name": "Idukki",
             "source": "indiawris-cwc",
             "station_count": 3,
             "max_station_24h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 5.2,
-            "rain_7d_mm": 10.5,
+            "rain_3d_mm": 8.1,
+            "rain_7d_mm": 33.2,
             "daily_series": [
               {
                 "date": "2026-04-01",
@@ -350,19 +344,67 @@
               },
               {
                 "date": "2026-03-31",
+                "mean": 6.4,
+                "max": 12.8,
+                "station_count": 2
+              },
+              {
+                "date": "2026-03-30",
+                "mean": 1.65,
+                "max": 5.2,
+                "station_count": 4
+              },
+              {
+                "date": "2026-03-29",
+                "mean": 25.1,
+                "max": 32.6,
+                "station_count": 2
+              },
+              {
+                "date": "2026-03-28",
+                "mean": 0,
+                "max": 0,
+                "station_count": 3
+              },
+              {
+                "date": "2026-03-27",
+                "mean": 0,
+                "max": 0,
+                "station_count": 4
+              }
+            ]
+          },
+          {
+            "district_id": "ernakulam",
+            "district_name": "Ernakulam",
+            "source": "indiawris-cwc",
+            "station_count": 4,
+            "max_station_24h_mm": 0,
+            "rain_24h_mm": 0,
+            "rain_3d_mm": 5.9,
+            "rain_7d_mm": 11,
+            "daily_series": [
+              {
+                "date": "2026-04-01",
+                "mean": 0,
+                "max": 0,
+                "station_count": 4
+              },
+              {
+                "date": "2026-03-31",
                 "mean": 0.5526315789473685,
                 "max": 3,
                 "station_count": 1
               },
               {
                 "date": "2026-03-30",
-                "mean": 4.642857142857143,
+                "mean": 5.357142857142857,
                 "max": 23,
                 "station_count": 6
               },
               {
                 "date": "2026-03-29",
-                "mean": 4.869565217391305,
+                "mean": 4.660377358490566,
                 "max": 23,
                 "station_count": 1
               },
@@ -377,66 +419,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 5
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 5
-              }
-            ]
-          },
-          {
-            "district_id": "idukki",
-            "district_name": "Idukki",
-            "source": "indiawris-cwc",
-            "station_count": 2,
-            "max_station_24h_mm": 0,
-            "rain_24h_mm": 0,
-            "rain_3d_mm": 0.5,
-            "rain_7d_mm": 18.1,
-            "daily_series": [
-              {
-                "date": "2026-04-01",
-                "mean": 0,
-                "max": 0,
-                "station_count": 2
-              },
-              {
-                "date": "2026-03-31",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              },
-              {
-                "date": "2026-03-30",
-                "mean": 0.4666666666666666,
-                "max": 1.4,
-                "station_count": 3
-              },
-              {
-                "date": "2026-03-29",
-                "mean": 17.6,
-                "max": 17.6,
-                "station_count": 1
-              },
-              {
-                "date": "2026-03-28",
-                "mean": 0,
-                "max": 0,
-                "station_count": 2
-              },
-              {
-                "date": "2026-03-27",
-                "mean": 0,
-                "max": 0,
-                "station_count": 3
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 3
               }
             ]
           },
@@ -473,12 +455,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 2
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 3
               }
             ]
           },
@@ -490,7 +466,7 @@
             "max_station_24h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0.6,
-            "rain_7d_mm": 2.5,
+            "rain_7d_mm": 2.6,
             "daily_series": [
               {
                 "date": "2026-04-01",
@@ -506,13 +482,13 @@
               },
               {
                 "date": "2026-03-30",
-                "mean": 0.5106382978723404,
+                "mean": 0.5510204081632653,
                 "max": 7.2,
                 "station_count": 4
               },
               {
                 "date": "2026-03-29",
-                "mean": 1.428846153846154,
+                "mean": 1.4500000000000002,
                 "max": 18.6,
                 "station_count": 4
               },
@@ -524,12 +500,6 @@
               },
               {
                 "date": "2026-03-27",
-                "mean": 0,
-                "max": 0,
-                "station_count": 4
-              },
-              {
-                "date": "2026-03-26",
                 "mean": 0,
                 "max": 0,
                 "station_count": 4
@@ -581,12 +551,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 3
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 3
               }
             ]
           },
@@ -635,12 +599,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 3
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 3
               }
             ]
           }
@@ -673,12 +631,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
               }
             ]
           },
@@ -692,6 +644,12 @@
             "rain_3d_mm": 5.8,
             "rain_7d_mm": 5.8,
             "daily_series": [
+              {
+                "date": "2026-04-01",
+                "mean": 0,
+                "max": 0,
+                "station_count": 1
+              },
               {
                 "date": "2026-03-30",
                 "mean": 0,
@@ -709,12 +667,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
               }
             ]
           },
@@ -729,6 +681,12 @@
             "rain_7d_mm": 0,
             "daily_series": [
               {
+                "date": "2026-04-01",
+                "mean": 0,
+                "max": 0,
+                "station_count": 1
+              },
+              {
                 "date": "2026-03-30",
                 "mean": 0,
                 "max": 0,
@@ -742,12 +700,6 @@
               },
               {
                 "date": "2026-03-27",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
@@ -775,12 +727,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
               }
             ]
           },
@@ -794,6 +740,12 @@
             "rain_3d_mm": 0,
             "rain_7d_mm": 0,
             "daily_series": [
+              {
+                "date": "2026-04-01",
+                "mean": 0,
+                "max": 0,
+                "station_count": 1
+              },
               {
                 "date": "2026-03-30",
                 "mean": 0,
@@ -811,12 +763,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
               }
             ]
           },
@@ -825,11 +771,17 @@
             "district_id": "malappuram",
             "source": "indiawris-cwc",
             "station_count": 1,
-            "max_station_24h_mm": 29,
-            "rain_24h_mm": 29,
+            "max_station_24h_mm": 0,
+            "rain_24h_mm": 0,
             "rain_3d_mm": 29,
             "rain_7d_mm": 29,
             "daily_series": [
+              {
+                "date": "2026-04-01",
+                "mean": 0,
+                "max": 0,
+                "station_count": 1
+              },
               {
                 "date": "2026-03-30",
                 "mean": 29,
@@ -847,12 +799,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
               }
             ]
           },
@@ -860,12 +806,18 @@
             "taluk_id": "malappuram--ernad",
             "district_id": "malappuram",
             "source": "indiawris-cwc",
-            "station_count": 4,
-            "max_station_24h_mm": 29,
-            "rain_24h_mm": 8.4,
+            "station_count": 3,
+            "max_station_24h_mm": 0,
+            "rain_24h_mm": 0,
             "rain_3d_mm": 8.4,
             "rain_7d_mm": 8.4,
             "daily_series": [
+              {
+                "date": "2026-04-01",
+                "mean": 0,
+                "max": 0,
+                "station_count": 3
+              },
               {
                 "date": "2026-03-30",
                 "mean": 8.45,
@@ -880,12 +832,6 @@
               },
               {
                 "date": "2026-03-27",
-                "mean": 0,
-                "max": 0,
-                "station_count": 4
-              },
-              {
-                "date": "2026-03-26",
                 "mean": 0,
                 "max": 0,
                 "station_count": 4
@@ -933,11 +879,17 @@
             "district_id": "palakkad",
             "source": "indiawris-cwc",
             "station_count": 1,
-            "max_station_24h_mm": 38.2,
-            "rain_24h_mm": 38.2,
+            "max_station_24h_mm": 0,
+            "rain_24h_mm": 0,
             "rain_3d_mm": 38.2,
             "rain_7d_mm": 38.2,
             "daily_series": [
+              {
+                "date": "2026-04-01",
+                "mean": 0,
+                "max": 0,
+                "station_count": 1
+              },
               {
                 "date": "2026-03-30",
                 "mean": 38.2,
@@ -952,12 +904,6 @@
               },
               {
                 "date": "2026-03-27",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
@@ -997,12 +943,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 2
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 2
               }
             ]
           },
@@ -1037,14 +977,14 @@
             ]
           },
           {
-            "taluk_id": "ernakulam--kunnathunad",
-            "district_id": "ernakulam",
+            "taluk_id": "idukki--devikulam",
+            "district_id": "idukki",
             "source": "indiawris-cwc",
             "station_count": 1,
             "max_station_24h_mm": 0,
             "rain_24h_mm": 0,
-            "rain_3d_mm": 5.6,
-            "rain_7d_mm": 10.8,
+            "rain_3d_mm": 18,
+            "rain_7d_mm": 50.6,
             "daily_series": [
               {
                 "date": "2026-04-01",
@@ -1054,19 +994,67 @@
               },
               {
                 "date": "2026-03-31",
+                "mean": 12.8,
+                "max": 12.8,
+                "station_count": 1
+              },
+              {
+                "date": "2026-03-30",
+                "mean": 5.2,
+                "max": 5.2,
+                "station_count": 1
+              },
+              {
+                "date": "2026-03-29",
+                "mean": 32.6,
+                "max": 32.6,
+                "station_count": 1
+              },
+              {
+                "date": "2026-03-28",
+                "mean": 0,
+                "max": 0,
+                "station_count": 1
+              },
+              {
+                "date": "2026-03-27",
+                "mean": 0,
+                "max": 0,
+                "station_count": 1
+              }
+            ]
+          },
+          {
+            "taluk_id": "ernakulam--kunnathunad",
+            "district_id": "ernakulam",
+            "source": "indiawris-cwc",
+            "station_count": 2,
+            "max_station_24h_mm": 0,
+            "rain_24h_mm": 0,
+            "rain_3d_mm": 6.5,
+            "rain_7d_mm": 11.5,
+            "daily_series": [
+              {
+                "date": "2026-04-01",
+                "mean": 0,
+                "max": 0,
+                "station_count": 2
+              },
+              {
+                "date": "2026-03-31",
                 "mean": 0.5526315789473685,
                 "max": 3,
                 "station_count": 1
               },
               {
                 "date": "2026-03-30",
-                "mean": 5.055555555555555,
+                "mean": 5.921052631578948,
                 "max": 23,
                 "station_count": 2
               },
               {
                 "date": "2026-03-29",
-                "mean": 4.869565217391305,
+                "mean": 4.660377358490566,
                 "max": 23,
                 "station_count": 1
               },
@@ -1078,12 +1066,6 @@
               },
               {
                 "date": "2026-03-27",
-                "mean": 0,
-                "max": 0,
-                "station_count": 2
-              },
-              {
-                "date": "2026-03-26",
                 "mean": 0,
                 "max": 0,
                 "station_count": 2
@@ -1123,12 +1105,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 2
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 2
               }
             ]
           },
@@ -1156,12 +1132,6 @@
               },
               {
                 "date": "2026-03-27",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
@@ -1213,12 +1183,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
               }
             ]
           },
@@ -1252,12 +1216,6 @@
               },
               {
                 "date": "2026-03-27",
-                "mean": 0,
-                "max": 0,
-                "station_count": 3
-              },
-              {
-                "date": "2026-03-26",
                 "mean": 0,
                 "max": 0,
                 "station_count": 3
@@ -1297,12 +1255,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 2
               }
             ]
           },
@@ -1348,12 +1300,6 @@
               },
               {
                 "date": "2026-03-27",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
@@ -1405,12 +1351,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
               }
             ]
           },
@@ -1422,7 +1362,7 @@
             "max_station_24h_mm": 0,
             "rain_24h_mm": 0,
             "rain_3d_mm": 0.6,
-            "rain_7d_mm": 2.1,
+            "rain_7d_mm": 2.2,
             "daily_series": [
               {
                 "date": "2026-04-01",
@@ -1438,13 +1378,13 @@
               },
               {
                 "date": "2026-03-30",
-                "mean": 0.5581395348837209,
+                "mean": 0.6,
                 "max": 7.2,
                 "station_count": 2
               },
               {
                 "date": "2026-03-29",
-                "mean": 1.1604166666666667,
+                "mean": 1.194,
                 "max": 4,
                 "station_count": 2
               },
@@ -1456,12 +1396,6 @@
               },
               {
                 "date": "2026-03-27",
-                "mean": 0,
-                "max": 0,
-                "station_count": 2
-              },
-              {
-                "date": "2026-03-26",
                 "mean": 0,
                 "max": 0,
                 "station_count": 2
@@ -1513,12 +1447,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
               }
             ]
           },
@@ -1564,12 +1492,6 @@
               },
               {
                 "date": "2026-03-27",
-                "mean": 0,
-                "max": 0,
-                "station_count": 2
-              },
-              {
-                "date": "2026-03-26",
                 "mean": 0,
                 "max": 0,
                 "station_count": 2
@@ -1621,12 +1543,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 2
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 2
               }
             ]
           },
@@ -1675,17 +1591,11 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 1
-              },
-              {
-                "date": "2026-03-26",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
               }
             ]
           }
         ],
-        "station_count": 30,
+        "station_count": 29,
         "requested_district_count": 14,
         "successful_district_count": 14,
         "failed_districts": [],
@@ -1698,15 +1608,15 @@
         "name": "India-WRIS CWC River Water Level",
         "owner": "India-WRIS / CWC",
         "category": "river-stage",
-        "fetched_at": "2026-04-01T14:09:58.608Z",
+        "fetched_at": "2026-04-02T03:41:34.678Z",
         "issued_at": "2026-04-01T07:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://indiawris.gov.in/Dataset/River Water Level",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 400,
-        "duration_ms": 481259,
+        "freshness_minutes": 1212,
+        "duration_ms": 574393,
         "notes": "India-WRIS river level queried for 12 Kerala districts",
         "auth": "none",
         "summary": {
@@ -1726,7 +1636,7 @@
             "source": "indiawris-cwc",
             "severity": 0,
             "station_count": 3,
-            "max_rise_m": 0,
+            "max_rise_m": 0.01,
             "threshold_station_count": 3,
             "above_warning_station_count": 0,
             "above_danger_station_count": 0,
@@ -1758,8 +1668,8 @@
                 "station_code": "001-SWRDKOCHI",
                 "station_name": "ERINJIPUZHA",
                 "latest_level_m": 3.48,
-                "rise_m": -9.1,
-                "data_time": "2026-04-01T08:00:00",
+                "rise_m": 0.01,
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "KASARAGOD",
                 "station_lat": 12.4958,
                 "station_lon": 75.1569,
@@ -1779,7 +1689,7 @@
                 "station_name": "POOKKAYAM",
                 "latest_level_m": 4.57,
                 "rise_m": -29,
-                "data_time": "2026-04-01T08:00:00",
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "KASARAGOD",
                 "station_lat": 12.4585,
                 "station_lon": 75.2763,
@@ -1815,7 +1725,7 @@
                 "station_name": "PERUMANNU",
                 "latest_level_m": 2.76,
                 "rise_m": -3.47,
-                "data_time": "2026-04-01T08:00:00",
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "KANNUR",
                 "station_lat": 11.9823,
                 "station_lon": 75.5842,
@@ -1838,7 +1748,7 @@
             "source": "indiawris-cwc",
             "severity": 0,
             "station_count": 2,
-            "max_rise_m": 0.01,
+            "max_rise_m": 0,
             "threshold_station_count": 2,
             "above_warning_station_count": 0,
             "above_danger_station_count": 0,
@@ -1851,7 +1761,7 @@
                 "station_name": "KUTTYADI",
                 "latest_level_m": 0.58,
                 "rise_m": 0,
-                "data_time": "2026-04-01T08:00:00",
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "Vadakara",
                 "station_lat": 11.6508,
                 "station_lon": 75.7583,
@@ -1870,8 +1780,8 @@
                 "station_code": "027-SWRDKOCHI",
                 "station_name": "THOTTATHINKADAVU",
                 "latest_level_m": 1.95,
-                "rise_m": 0.01,
-                "data_time": "2026-03-31T18:00:00",
+                "rise_m": -1.99,
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "KOZHIKODE",
                 "station_lat": 11.3619,
                 "station_lon": 76.0019,
@@ -1926,7 +1836,7 @@
                 "station_code": "006-SWRDKOCHI",
                 "station_name": "KARATHODU",
                 "latest_level_m": 0.5,
-                "rise_m": -2.01,
+                "rise_m": 0,
                 "data_time": "2026-03-30T18:00:00",
                 "tehsil": "Ernad",
                 "station_lat": 11.0569,
@@ -1946,8 +1856,8 @@
                 "station_code": "005-SWRDKOCHI",
                 "station_name": "KUNIYIL",
                 "latest_level_m": 2.25,
-                "rise_m": -0.11,
-                "data_time": "2026-04-01T08:00:00",
+                "rise_m": -0.12,
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "Ernad",
                 "station_lat": 11.2394,
                 "station_lon": 76.0233,
@@ -1967,7 +1877,7 @@
                 "station_name": "PERUVAMPADAM",
                 "latest_level_m": 2.175,
                 "rise_m": -18,
-                "data_time": "2026-03-31T18:00:00",
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "NILAMBUR",
                 "station_lat": 11.3153,
                 "station_lon": 76.1964,
@@ -1986,8 +1896,8 @@
                 "station_code": "007-SWRDKOCHI",
                 "station_name": "PULAMANTHOLE",
                 "latest_level_m": 0.87,
-                "rise_m": -10.31,
-                "data_time": "2026-04-01T08:00:00",
+                "rise_m": -10.27,
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "OTTAPPALAM",
                 "station_lat": 10.8981,
                 "station_lon": 76.1919,
@@ -2022,8 +1932,8 @@
                 "station_code": "010-SWRDKOCHI",
                 "station_name": "MANKARA",
                 "latest_level_m": 2.02,
-                "rise_m": -0.07,
-                "data_time": "2026-04-01T08:00:00",
+                "rise_m": -45.05,
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "PALAKKAD",
                 "station_lat": 10.7611,
                 "station_lon": 76.4861,
@@ -2042,8 +1952,8 @@
                 "station_code": "009-SWRDKOCHI",
                 "station_name": "PUDUR",
                 "latest_level_m": 1.85,
-                "rise_m": -58.1,
-                "data_time": "2026-04-01T08:00:00",
+                "rise_m": -0.09,
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "PALAKKAD",
                 "station_lat": 10.7775,
                 "station_lon": 76.5122,
@@ -2066,20 +1976,20 @@
             "source": "indiawris-cwc",
             "severity": 0,
             "station_count": 3,
-            "max_rise_m": 2.04,
+            "max_rise_m": 1.41,
             "threshold_station_count": 3,
             "above_warning_station_count": 0,
             "above_danger_station_count": 0,
-            "max_threshold_ratio": -0.67,
+            "max_threshold_ratio": -0.68,
             "severity_basis": "threshold",
             "summary_note": "India-WRIS threshold-tracked river level available from 3 stations",
             "stations": [
               {
                 "station_code": "011-SWRDKOCHI",
                 "station_name": "ARANGALI",
-                "latest_level_m": 3.49,
-                "rise_m": 2.04,
-                "data_time": "2026-04-01T08:00:00",
+                "latest_level_m": 3.48,
+                "rise_m": -0.03,
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "KODUNGALLUR",
                 "station_lat": 10.2861,
                 "station_lon": 76.3222,
@@ -2098,7 +2008,7 @@
                 "station_code": "030-SWRDKOCHI",
                 "station_name": "KOTTAPURAM",
                 "latest_level_m": 1.98,
-                "rise_m": -13.52,
+                "rise_m": -13.51,
                 "data_time": "2026-03-30T13:00:00",
                 "tehsil": "Thrissur",
                 "station_lat": 10.6778,
@@ -2117,9 +2027,9 @@
               {
                 "station_code": "033-SWRDKOCHI",
                 "station_name": "PALAKADAVU",
-                "latest_level_m": 3.47,
-                "rise_m": 1.52,
-                "data_time": "2026-04-01T08:00:00",
+                "latest_level_m": 3.46,
+                "rise_m": 1.41,
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "Mukundapuram",
                 "station_lat": 10.425,
                 "station_lon": 76.2378,
@@ -2129,7 +2039,7 @@
                 "danger_level_m": 5.14,
                 "highest_flood_level_m": 6.08,
                 "threshold_confidence": "confirmed",
-                "threshold_ratio": -0.67,
+                "threshold_ratio": -0.68,
                 "level_status": "below_warning",
                 "severity_basis": "threshold",
                 "severity": 0
@@ -2142,7 +2052,7 @@
             "source": "indiawris-cwc",
             "severity": 0,
             "station_count": 5,
-            "max_rise_m": 0,
+            "max_rise_m": 0.13,
             "threshold_station_count": 4,
             "above_warning_station_count": 0,
             "above_danger_station_count": 0,
@@ -2155,7 +2065,7 @@
                 "station_name": "KALAMPUR",
                 "latest_level_m": 3.2,
                 "rise_m": -4.96,
-                "data_time": "2026-04-01T08:00:00",
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "MUVATTUPUZHA",
                 "station_lat": 9.9906,
                 "station_lon": 76.6322,
@@ -2174,7 +2084,7 @@
                 "station_code": "012-SWRDKOCHI",
                 "station_name": "NEELEESWARAM",
                 "latest_level_m": 3.64,
-                "rise_m": -0.2,
+                "rise_m": -0.15,
                 "data_time": "2026-04-01T08:00:00",
                 "tehsil": "Kunnathunad",
                 "station_lat": 10.1836,
@@ -2193,9 +2103,9 @@
               {
                 "station_code": "73DAD3CC",
                 "station_name": "Neeleshwaram EE, SWRD, Kochi",
-                "latest_level_m": 1.384,
-                "rise_m": -0.09,
-                "data_time": "2026-03-31T23:00:00",
+                "latest_level_m": 1.427,
+                "rise_m": 0.13,
+                "data_time": "2026-04-01T08:00:00",
                 "tehsil": "-",
                 "station_lat": 10.1822,
                 "station_lon": 76.5047,
@@ -2213,9 +2123,9 @@
               {
                 "station_code": "034-SWRDKOCHI",
                 "station_name": "PALLIPPADY",
-                "latest_level_m": 4.305,
-                "rise_m": -14.96,
-                "data_time": "2026-03-30T13:00:00",
+                "latest_level_m": 4.39,
+                "rise_m": -14.88,
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "KOTHAMANGALAM",
                 "station_lat": 10.0394,
                 "station_lon": 76.6164,
@@ -2233,9 +2143,9 @@
               {
                 "station_code": "014-SWRDKOCHI",
                 "station_name": "RAMAMANGALAM",
-                "latest_level_m": 2.21,
-                "rise_m": 0,
-                "data_time": "2026-04-01T08:00:00",
+                "latest_level_m": 2.22,
+                "rise_m": -0.07,
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "Kanayannur",
                 "station_lat": 9.9436,
                 "station_lon": 76.4783,
@@ -2258,7 +2168,7 @@
             "source": "indiawris-cwc",
             "severity": 0,
             "station_count": 2,
-            "max_rise_m": 0,
+            "max_rise_m": 0.02,
             "threshold_station_count": 2,
             "above_warning_station_count": 0,
             "above_danger_station_count": 0,
@@ -2270,7 +2180,7 @@
                 "station_code": "016-SWRDKOCHI",
                 "station_name": "VANDIPERIYAR",
                 "latest_level_m": 2.04,
-                "rise_m": -788.98,
+                "rise_m": 0.02,
                 "data_time": "2026-04-01T08:00:00",
                 "tehsil": "Peerumade",
                 "station_lat": 9.5733,
@@ -2290,7 +2200,7 @@
                 "station_code": "032-SWRDKOCHI",
                 "station_name": "MANIKAL",
                 "latest_level_m": 0.355,
-                "rise_m": -75.01,
+                "rise_m": -75,
                 "data_time": "2026-03-30T13:00:00",
                 "tehsil": "KANJIRAPPALLY",
                 "station_lat": 9.5311,
@@ -2314,7 +2224,7 @@
             "source": "indiawris-cwc",
             "severity": 0,
             "station_count": 3,
-            "max_rise_m": 0,
+            "max_rise_m": 1.2,
             "threshold_station_count": 3,
             "above_warning_station_count": 0,
             "above_danger_station_count": 0,
@@ -2346,8 +2256,8 @@
                 "station_code": "015-SWRDKOCHI",
                 "station_name": "KIDANGOOR",
                 "latest_level_m": 1.32,
-                "rise_m": 0,
-                "data_time": "2026-04-01T08:00:00",
+                "rise_m": 1.2,
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "Meenachil",
                 "station_lat": 9.675,
                 "station_lon": 76.6028,
@@ -2366,8 +2276,8 @@
                 "station_code": "035-SWRDKOCHI",
                 "station_name": "PULLAKKAYAR",
                 "latest_level_m": 0.38,
-                "rise_m": -93.49,
-                "data_time": "2026-04-01T08:00:00",
+                "rise_m": -93.48,
+                "data_time": "2026-04-01T13:00:00",
                 "tehsil": "KANJIRAPPALLY",
                 "station_lat": 9.5744,
                 "station_lon": 76.8861,
@@ -2390,7 +2300,7 @@
             "source": "indiawris-cwc",
             "severity": 0,
             "station_count": 3,
-            "max_rise_m": 0.01,
+            "max_rise_m": 0.06,
             "threshold_station_count": 3,
             "above_warning_station_count": 0,
             "above_danger_station_count": 0,
@@ -2402,7 +2312,7 @@
                 "station_code": "017-SWRDKOCHI",
                 "station_name": "KALLOOPPARA",
                 "latest_level_m": 1.37,
-                "rise_m": -0.11,
+                "rise_m": -0.09,
                 "data_time": "2026-04-01T08:00:00",
                 "tehsil": "Malappalli",
                 "station_lat": 9.4036,
@@ -2422,7 +2332,7 @@
                 "station_code": "038-SWRDKOCHI",
                 "station_name": "MADAMON",
                 "latest_level_m": 7.2,
-                "rise_m": -89.78,
+                "rise_m": -89.6,
                 "data_time": "2026-04-01T13:00:00",
                 "tehsil": "RANNI",
                 "station_lat": 9.3639,
@@ -2441,9 +2351,9 @@
               {
                 "station_code": "018-SWRDKOCHI",
                 "station_name": "MALAKKARA",
-                "latest_level_m": 0.129,
-                "rise_m": 0.01,
-                "data_time": "2026-03-31T23:00:00",
+                "latest_level_m": 0.188,
+                "rise_m": 0.06,
+                "data_time": "2026-04-01T08:00:00",
                 "tehsil": "ADOOR",
                 "station_lat": 9.3292,
                 "station_lon": 76.6639,
@@ -2478,7 +2388,7 @@
                 "station_code": "036-SWRDKOCHI",
                 "station_name": "ARKKANNUR",
                 "latest_level_m": 3.1,
-                "rise_m": -0.05,
+                "rise_m": -0.04,
                 "data_time": "2026-04-01T13:00:00",
                 "tehsil": "KOTTARAKKARA",
                 "station_lat": 8.8725,
@@ -2554,7 +2464,7 @@
                 "station_code": "037-SWRDKOCHI",
                 "station_name": "ARUVIPURAM",
                 "latest_level_m": 3.37,
-                "rise_m": -0.95,
+                "rise_m": -0.87,
                 "data_time": "2026-04-01T08:00:00",
                 "tehsil": "THIRUVANANTHAPURAM  RURAL",
                 "station_lat": 8.42,
@@ -2574,7 +2484,7 @@
                 "station_code": "021-SWRDKOCHI",
                 "station_name": "AYILAM ",
                 "latest_level_m": 0.04,
-                "rise_m": -0.38,
+                "rise_m": -0.34,
                 "data_time": "2026-04-01T13:00:00",
                 "tehsil": "CHIRAYINKEEZHU",
                 "station_lat": 8.7153,
@@ -2625,15 +2535,15 @@
         "name": "KSDMA Daily Dam Levels (KSEB)",
         "owner": "Kerala State Disaster Management Authority",
         "category": "reservoir-status",
-        "fetched_at": "2026-04-01T14:09:58.608Z",
+        "fetched_at": "2026-04-02T03:41:34.678Z",
         "issued_at": "2026-04-01T05:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sdma.kerala.gov.in/dam-water-level/",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "offline",
-        "freshness_minutes": 520,
-        "duration_ms": 6112,
+        "freshness_minutes": 1332,
+        "duration_ms": 6085,
         "notes": "KSDMA KSEB daily dam PDF Water Levels of Major Reservoirs (KSEB)",
         "auth": "none",
         "summary": {
@@ -3380,15 +3290,15 @@
         "name": "KSDMA Daily Dam Levels (Irrigation)",
         "owner": "Kerala State Disaster Management Authority",
         "category": "dam-status",
-        "fetched_at": "2026-04-01T14:10:04.720Z",
+        "fetched_at": "2026-04-02T03:41:40.763Z",
         "issued_at": "2026-04-01T05:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://sdma.kerala.gov.in/dam-water-level/",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "offline",
-        "freshness_minutes": 520,
-        "duration_ms": 2678,
+        "freshness_minutes": 1332,
+        "duration_ms": 5649,
         "notes": "KSDMA IRRIGATION daily dam PDF Water Levels of Major Reservoirs (IRRIGATION",
         "auth": "none",
         "summary": {
@@ -4257,24 +4167,24 @@
         "name": "CWC FFS Live River Levels",
         "owner": "Central Water Commission",
         "category": "river-stage",
-        "fetched_at": "2026-04-01T14:10:07.398Z",
+        "fetched_at": "2026-04-02T03:41:46.412Z",
         "issued_at": "2026-04-01T07:30:00.000Z",
         "raw_url": "https://india-wris-proxy.kinkate18nic.workers.dev/?url=https://ffs.india-water.gov.in/",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": "partial",
-        "status": "stale",
-        "freshness_minutes": 400,
-        "duration_ms": 499962,
-        "notes": "CWC FFS live river levels queried for 37/45 Kerala stations",
+        "status": "offline",
+        "freshness_minutes": 1212,
+        "duration_ms": 592213,
+        "notes": "CWC FFS live river levels queried for 35/45 Kerala stations",
         "auth": "none",
         "summary": {
           "district_count": 13,
           "taluk_count": 0,
-          "station_count": 35,
+          "station_count": 33,
           "requested_station_count": 45,
-          "successful_station_count": 37,
-          "failed_station_count": 8,
+          "successful_station_count": 35,
+          "failed_station_count": 10,
           "above_warning_station_count": 0,
           "above_danger_station_count": 0
         }
@@ -4282,244 +4192,6 @@
       "parsed": {
         "issued_at": "2026-04-01T13:00:00+05:30",
         "districts": [
-          {
-            "district_id": "idukki",
-            "source": "cwc-ffs",
-            "severity": 0,
-            "station_count": 4,
-            "max_rise_m": 0,
-            "threshold_station_count": 3,
-            "above_warning_station_count": 0,
-            "above_danger_station_count": 0,
-            "max_threshold_ratio": -1,
-            "severity_basis": "threshold",
-            "summary_note": "CWC flood forecasting live river level available from 4 stations",
-            "stations": [
-              {
-                "station_code": "0024-SWRDKOCHI",
-                "station_name": "Idukki (Eb)/Idukki Arch Reservoir",
-                "latest_level_m": 724.814,
-                "rise_m": -0.09,
-                "data_time": "2026-01-02T07:00:00+05:30",
-                "tehsil": null,
-                "station_lat": 9.84,
-                "station_lon": 76.97,
-                "district_id": "idukki",
-                "taluk_id": null,
-                "warning_level_m": null,
-                "danger_level_m": null,
-                "highest_flood_level_m": null,
-                "threshold_confidence": null,
-                "threshold_ratio": null,
-                "level_status": "unclassified",
-                "severity_basis": "none",
-                "severity": 0,
-                "forecast_peak_level_m": null,
-                "forecast_crossing_time": null,
-                "forecast_status": "forecast_unavailable",
-                "forecast_rows": 0,
-                "forecast_severity": 0
-              },
-              {
-                "station_code": "031-SWRDKOCHI",
-                "station_name": "MANAKKAD",
-                "latest_level_m": 0,
-                "rise_m": -1.02,
-                "data_time": "2026-03-04T08:00:00+05:30",
-                "tehsil": null,
-                "station_lat": 9.908888888888889,
-                "station_lon": 76.69611111111111,
-                "district_id": "idukki",
-                "taluk_id": null,
-                "warning_level_m": 36.5,
-                "danger_level_m": 37.5,
-                "highest_flood_level_m": 38.18,
-                "threshold_confidence": "confirmed",
-                "threshold_ratio": -1,
-                "level_status": "below_warning",
-                "severity_basis": "threshold",
-                "severity": 0,
-                "forecast_peak_level_m": null,
-                "forecast_crossing_time": null,
-                "forecast_status": "forecast_unavailable",
-                "forecast_rows": 0,
-                "forecast_severity": 0
-              },
-              {
-                "station_code": "CW1PAR000963",
-                "station_name": "OLAMATTOM",
-                "latest_level_m": 53.745,
-                "rise_m": -0.52,
-                "data_time": "2026-04-01T13:00:00+05:30",
-                "tehsil": null,
-                "station_lat": 9.88861111111111,
-                "station_lon": 76.71722222222222,
-                "district_id": "idukki",
-                "taluk_id": null,
-                "warning_level_m": 57.03,
-                "danger_level_m": 58.03,
-                "highest_flood_level_m": null,
-                "threshold_confidence": "confirmed",
-                "threshold_ratio": -1,
-                "level_status": "below_warning",
-                "severity_basis": "threshold",
-                "severity": 0,
-                "forecast_peak_level_m": null,
-                "forecast_crossing_time": null,
-                "forecast_status": "forecast_unavailable",
-                "forecast_rows": 0,
-                "forecast_severity": 0
-              },
-              {
-                "station_code": "016-SWRDKOCHI",
-                "station_name": "VANDIPERIYAR",
-                "latest_level_m": 791.04,
-                "rise_m": 0,
-                "data_time": "2026-04-01T08:00:00+05:30",
-                "tehsil": null,
-                "station_lat": 9.573333333333332,
-                "station_lon": 77.09055555555555,
-                "district_id": "idukki",
-                "taluk_id": "idukki--peerumade",
-                "warning_level_m": 794.2,
-                "danger_level_m": 795.2,
-                "highest_flood_level_m": 797.13,
-                "threshold_confidence": "confirmed",
-                "threshold_ratio": -1,
-                "level_status": "below_warning",
-                "severity_basis": "threshold",
-                "severity": 0,
-                "forecast_peak_level_m": null,
-                "forecast_crossing_time": null,
-                "forecast_status": "forecast_unavailable",
-                "forecast_rows": 0,
-                "forecast_severity": 0
-              }
-            ],
-            "forecast_warning_station_count": 0,
-            "forecast_danger_station_count": 0,
-            "forecast_station_count": 0,
-            "forecast_severity": 0
-          },
-          {
-            "district_id": "ernakulam",
-            "source": "cwc-ffs",
-            "severity": 0,
-            "station_count": 4,
-            "max_rise_m": 0.01,
-            "threshold_station_count": 4,
-            "above_warning_station_count": 0,
-            "above_danger_station_count": 0,
-            "max_threshold_ratio": -1,
-            "severity_basis": "threshold",
-            "summary_note": "CWC flood forecasting observed river rise 0.01 m across 4 stations",
-            "stations": [
-              {
-                "station_code": "013-SWRDKOCHI",
-                "station_name": "KALAMPUR",
-                "latest_level_m": 8.2,
-                "rise_m": 0,
-                "data_time": "2026-04-01T13:00:00+05:30",
-                "tehsil": null,
-                "station_lat": 9.990555555555554,
-                "station_lon": 76.63222222222221,
-                "district_id": "ernakulam",
-                "taluk_id": "ernakulam--muvattupuzha",
-                "warning_level_m": 12.64,
-                "danger_level_m": 13.64,
-                "highest_flood_level_m": 17.47,
-                "threshold_confidence": "confirmed",
-                "threshold_ratio": -1,
-                "level_status": "below_warning",
-                "severity_basis": "threshold",
-                "severity": 0,
-                "forecast_peak_level_m": null,
-                "forecast_crossing_time": null,
-                "forecast_status": "forecast_unavailable",
-                "forecast_rows": 0,
-                "forecast_severity": 0
-              },
-              {
-                "station_code": "012-SWRDKOCHI",
-                "station_name": "NEELEESWARAM",
-                "latest_level_m": 0.64,
-                "rise_m": -0.2,
-                "data_time": "2026-04-01T08:00:00+05:30",
-                "tehsil": null,
-                "station_lat": 10.18361111111111,
-                "station_lon": 76.49555555555555,
-                "district_id": "ernakulam",
-                "taluk_id": null,
-                "warning_level_m": 9,
-                "danger_level_m": 10,
-                "highest_flood_level_m": 12.4,
-                "threshold_confidence": "confirmed",
-                "threshold_ratio": -1,
-                "level_status": "below_warning",
-                "severity_basis": "threshold",
-                "severity": 0,
-                "forecast_peak_level_m": null,
-                "forecast_crossing_time": null,
-                "forecast_status": "forecast_unavailable",
-                "forecast_rows": 0,
-                "forecast_severity": 0
-              },
-              {
-                "station_code": "034-SWRDKOCHI",
-                "station_name": "PALLIPPADY",
-                "latest_level_m": 19.39,
-                "rise_m": 0.01,
-                "data_time": "2026-04-01T13:00:00+05:30",
-                "tehsil": null,
-                "station_lat": 10.039444444444444,
-                "station_lon": 76.61638888888888,
-                "district_id": "ernakulam",
-                "taluk_id": null,
-                "warning_level_m": 23.8,
-                "danger_level_m": 24.8,
-                "highest_flood_level_m": 25.5,
-                "threshold_confidence": "confirmed",
-                "threshold_ratio": -1,
-                "level_status": "below_warning",
-                "severity_basis": "threshold",
-                "severity": 0,
-                "forecast_peak_level_m": null,
-                "forecast_crossing_time": null,
-                "forecast_status": "forecast_unavailable",
-                "forecast_rows": 0,
-                "forecast_severity": 0
-              },
-              {
-                "station_code": "014-SWRDKOCHI",
-                "station_name": "RAMAMANGALAM",
-                "latest_level_m": 2.22,
-                "rise_m": 0.01,
-                "data_time": "2026-04-01T13:00:00+05:30",
-                "tehsil": null,
-                "station_lat": 9.943611111111112,
-                "station_lon": 76.47833333333334,
-                "district_id": "ernakulam",
-                "taluk_id": null,
-                "warning_level_m": 8,
-                "danger_level_m": 9,
-                "highest_flood_level_m": 9.8,
-                "threshold_confidence": "confirmed",
-                "threshold_ratio": -1,
-                "level_status": "below_warning",
-                "severity_basis": "threshold",
-                "severity": 0,
-                "forecast_peak_level_m": null,
-                "forecast_crossing_time": null,
-                "forecast_status": "forecast_unavailable",
-                "forecast_rows": 0,
-                "forecast_severity": 0
-              }
-            ],
-            "forecast_warning_station_count": 0,
-            "forecast_danger_station_count": 0,
-            "forecast_station_count": 0,
-            "forecast_severity": 0
-          },
           {
             "district_id": "kottayam",
             "source": "cwc-ffs",
@@ -5160,6 +4832,100 @@
             "forecast_severity": 0
           },
           {
+            "district_id": "idukki",
+            "source": "cwc-ffs",
+            "severity": 0,
+            "station_count": 3,
+            "max_rise_m": 0,
+            "threshold_station_count": 3,
+            "above_warning_station_count": 0,
+            "above_danger_station_count": 0,
+            "max_threshold_ratio": -1,
+            "severity_basis": "threshold",
+            "summary_note": "CWC flood forecasting live river level available from 3 stations",
+            "stations": [
+              {
+                "station_code": "031-SWRDKOCHI",
+                "station_name": "MANAKKAD",
+                "latest_level_m": 0,
+                "rise_m": -1.02,
+                "data_time": "2026-03-04T08:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 9.908888888888889,
+                "station_lon": 76.69611111111111,
+                "district_id": "idukki",
+                "taluk_id": null,
+                "warning_level_m": 36.5,
+                "danger_level_m": 37.5,
+                "highest_flood_level_m": 38.18,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              },
+              {
+                "station_code": "CW1PAR000963",
+                "station_name": "OLAMATTOM",
+                "latest_level_m": 53.745,
+                "rise_m": -0.52,
+                "data_time": "2026-04-01T13:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 9.88861111111111,
+                "station_lon": 76.71722222222222,
+                "district_id": "idukki",
+                "taluk_id": null,
+                "warning_level_m": 57.03,
+                "danger_level_m": 58.03,
+                "highest_flood_level_m": null,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              },
+              {
+                "station_code": "016-SWRDKOCHI",
+                "station_name": "VANDIPERIYAR",
+                "latest_level_m": 791.04,
+                "rise_m": 0,
+                "data_time": "2026-04-01T08:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 9.573333333333332,
+                "station_lon": 77.09055555555555,
+                "district_id": "idukki",
+                "taluk_id": "idukki--peerumade",
+                "warning_level_m": 794.2,
+                "danger_level_m": 795.2,
+                "highest_flood_level_m": 797.13,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              }
+            ],
+            "forecast_warning_station_count": 0,
+            "forecast_danger_station_count": 0,
+            "forecast_station_count": 0,
+            "forecast_severity": 0
+          },
+          {
             "district_id": "wayanad",
             "source": "cwc-ffs",
             "severity": 0,
@@ -5186,6 +4952,100 @@
                 "warning_level_m": 710.3,
                 "danger_level_m": 711.25,
                 "highest_flood_level_m": 713.89,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              }
+            ],
+            "forecast_warning_station_count": 0,
+            "forecast_danger_station_count": 0,
+            "forecast_station_count": 0,
+            "forecast_severity": 0
+          },
+          {
+            "district_id": "ernakulam",
+            "source": "cwc-ffs",
+            "severity": 0,
+            "station_count": 3,
+            "max_rise_m": 0.01,
+            "threshold_station_count": 3,
+            "above_warning_station_count": 0,
+            "above_danger_station_count": 0,
+            "max_threshold_ratio": -1,
+            "severity_basis": "threshold",
+            "summary_note": "CWC flood forecasting observed river rise 0.01 m across 3 stations",
+            "stations": [
+              {
+                "station_code": "012-SWRDKOCHI",
+                "station_name": "NEELEESWARAM",
+                "latest_level_m": 0.64,
+                "rise_m": -0.2,
+                "data_time": "2026-04-01T08:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 10.18361111111111,
+                "station_lon": 76.49555555555555,
+                "district_id": "ernakulam",
+                "taluk_id": null,
+                "warning_level_m": 9,
+                "danger_level_m": 10,
+                "highest_flood_level_m": 12.4,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              },
+              {
+                "station_code": "034-SWRDKOCHI",
+                "station_name": "PALLIPPADY",
+                "latest_level_m": 19.39,
+                "rise_m": 0.01,
+                "data_time": "2026-04-01T13:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 10.039444444444444,
+                "station_lon": 76.61638888888888,
+                "district_id": "ernakulam",
+                "taluk_id": null,
+                "warning_level_m": 23.8,
+                "danger_level_m": 24.8,
+                "highest_flood_level_m": 25.5,
+                "threshold_confidence": "confirmed",
+                "threshold_ratio": -1,
+                "level_status": "below_warning",
+                "severity_basis": "threshold",
+                "severity": 0,
+                "forecast_peak_level_m": null,
+                "forecast_crossing_time": null,
+                "forecast_status": "forecast_unavailable",
+                "forecast_rows": 0,
+                "forecast_severity": 0
+              },
+              {
+                "station_code": "014-SWRDKOCHI",
+                "station_name": "RAMAMANGALAM",
+                "latest_level_m": 2.22,
+                "rise_m": 0.01,
+                "data_time": "2026-04-01T13:00:00+05:30",
+                "tehsil": null,
+                "station_lat": 9.943611111111112,
+                "station_lon": 76.47833333333334,
+                "district_id": "ernakulam",
+                "taluk_id": null,
+                "warning_level_m": 8,
+                "danger_level_m": 9,
+                "highest_flood_level_m": 9.8,
                 "threshold_confidence": "confirmed",
                 "threshold_ratio": -1,
                 "level_status": "below_warning",
@@ -5405,9 +5265,9 @@
             "forecast_severity": 0
           }
         ],
-        "station_count": 35,
+        "station_count": 33,
         "requested_station_count": 45,
-        "successful_station_count": 37,
+        "successful_station_count": 35,
         "failed_stations": [
           {
             "station_code": "041cdbng",
@@ -5428,7 +5288,7 @@
             "station_name": "ARKKANNUR",
             "district_id": "kollam",
             "status": 599,
-            "error": "https://ffs.india-water.gov.in/iam/api/new-entry-data/specification/sorted-page?sort-criteria=%7B%22sortOrderDtos%22%3A%5B%7B%22sortDirection%22%3A%22DESC%22%2C%22field%22%3A%22id.dataTime%22%7D%5D%7D&page-number=0&page-size=2&specification=%7B%22where%22%3A%7B%22where%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.stationCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22036-SWRDKOCHI%22%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.datatypeCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22HHS%22%7D%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22dataValue%22%2C%22operator%22%3A%22null%22%2C%22value%22%3A%22false%22%7D%7D%7D: This operation was aborted"
+            "error": "https://ffs.india-water.gov.in/iam/api/new-entry-data/specification/sorted-page?sort-criteria=%7B%22sortOrderDtos%22%3A%5B%7B%22sortDirection%22%3A%22DESC%22%2C%22field%22%3A%22id.dataTime%22%7D%5D%7D&page-number=0&page-size=2&specification=%7B%22where%22%3A%7B%22where%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.stationCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22036-SWRDKOCHI%22%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.datatypeCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22HHS%22%7D%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22dataValue%22%2C%22operator%22%3A%22null%22%2C%22value%22%3A%22false%22%7D%7D%7D: fetch failed"
           },
           {
             "station_code": "037-SWRDKOCHI",
@@ -5449,14 +5309,14 @@
             "station_name": "CHAKKALAKUTH",
             "district_id": "malappuram",
             "status": 599,
-            "error": "https://ffs.india-water.gov.in/iam/api/new-entry-data/specification/sorted-page?sort-criteria=%7B%22sortOrderDtos%22%3A%5B%7B%22sortDirection%22%3A%22DESC%22%2C%22field%22%3A%22id.dataTime%22%7D%5D%7D&page-number=0&page-size=2&specification=%7B%22where%22%3A%7B%22where%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.stationCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22024-SWRDKOCHI%22%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.datatypeCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22HHS%22%7D%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22dataValue%22%2C%22operator%22%3A%22null%22%2C%22value%22%3A%22false%22%7D%7D%7D: This operation was aborted"
+            "error": "https://ffs.india-water.gov.in/iam/api/new-entry-data/specification/sorted-page?sort-criteria=%7B%22sortOrderDtos%22%3A%5B%7B%22sortDirection%22%3A%22DESC%22%2C%22field%22%3A%22id.dataTime%22%7D%5D%7D&page-number=0&page-size=2&specification=%7B%22where%22%3A%7B%22where%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.stationCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22024-SWRDKOCHI%22%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.datatypeCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22HHS%22%7D%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22dataValue%22%2C%22operator%22%3A%22null%22%2C%22value%22%3A%22false%22%7D%7D%7D: fetch failed"
           },
           {
             "station_code": "001-SWRDKOCHI",
             "station_name": "ERINJIPUZHA",
             "district_id": "kasaragod",
             "status": 599,
-            "error": "https://ffs.india-water.gov.in/iam/api/new-entry-data/specification/sorted-page?sort-criteria=%7B%22sortOrderDtos%22%3A%5B%7B%22sortDirection%22%3A%22DESC%22%2C%22field%22%3A%22id.dataTime%22%7D%5D%7D&page-number=0&page-size=2&specification=%7B%22where%22%3A%7B%22where%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.stationCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22001-SWRDKOCHI%22%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.datatypeCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22HHS%22%7D%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22dataValue%22%2C%22operator%22%3A%22null%22%2C%22value%22%3A%22false%22%7D%7D%7D: fetch failed"
+            "error": "https://ffs.india-water.gov.in/iam/api/new-entry-data/specification/sorted-page?sort-criteria=%7B%22sortOrderDtos%22%3A%5B%7B%22sortDirection%22%3A%22DESC%22%2C%22field%22%3A%22id.dataTime%22%7D%5D%7D&page-number=0&page-size=2&specification=%7B%22where%22%3A%7B%22where%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.stationCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22001-SWRDKOCHI%22%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.datatypeCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22HHS%22%7D%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22dataValue%22%2C%22operator%22%3A%22null%22%2C%22value%22%3A%22false%22%7D%7D%7D: This operation was aborted"
           },
           {
             "station_code": "0025-SWRDKOCHI",
@@ -5464,9 +5324,23 @@
             "district_id": "ernakulam",
             "status": 599,
             "error": "https://ffs.india-water.gov.in/iam/api/new-entry-data/specification/sorted-page?sort-criteria=%7B%22sortOrderDtos%22%3A%5B%7B%22sortDirection%22%3A%22DESC%22%2C%22field%22%3A%22id.dataTime%22%7D%5D%7D&page-number=0&page-size=2&specification=%7B%22where%22%3A%7B%22where%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.stationCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%220025-SWRDKOCHI%22%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.datatypeCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22HHS%22%7D%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22dataValue%22%2C%22operator%22%3A%22null%22%2C%22value%22%3A%22false%22%7D%7D%7D: fetch failed"
+          },
+          {
+            "station_code": "0024-SWRDKOCHI",
+            "station_name": "Idukki (Eb)/Idukki Arch Reservoir",
+            "district_id": "idukki",
+            "status": 599,
+            "error": "https://ffs.india-water.gov.in/iam/api/new-entry-data/specification/sorted-page?sort-criteria=%7B%22sortOrderDtos%22%3A%5B%7B%22sortDirection%22%3A%22DESC%22%2C%22field%22%3A%22id.dataTime%22%7D%5D%7D&page-number=0&page-size=2&specification=%7B%22where%22%3A%7B%22where%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.stationCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%220024-SWRDKOCHI%22%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.datatypeCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22HHS%22%7D%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22dataValue%22%2C%22operator%22%3A%22null%22%2C%22value%22%3A%22false%22%7D%7D%7D: This operation was aborted"
+          },
+          {
+            "station_code": "013-SWRDKOCHI",
+            "station_name": "KALAMPUR",
+            "district_id": "ernakulam",
+            "status": 599,
+            "error": "https://ffs.india-water.gov.in/iam/api/new-entry-data/specification/sorted-page?sort-criteria=%7B%22sortOrderDtos%22%3A%5B%7B%22sortDirection%22%3A%22DESC%22%2C%22field%22%3A%22id.dataTime%22%7D%5D%7D&page-number=0&page-size=2&specification=%7B%22where%22%3A%7B%22where%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.stationCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22013-SWRDKOCHI%22%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22id.datatypeCode%22%2C%22operator%22%3A%22eq%22%2C%22value%22%3A%22HHS%22%7D%7D%7D%2C%22and%22%3A%7B%22expression%22%3A%7B%22valueIsRelationField%22%3Afalse%2C%22fieldName%22%3A%22dataValue%22%2C%22operator%22%3A%22null%22%2C%22value%22%3A%22false%22%7D%7D%7D: fetch failed"
           }
         ],
-        "partial_failure_count": 8,
+        "partial_failure_count": 10,
         "above_warning_station_count": 0,
         "above_danger_station_count": 0,
         "forecast_warning_station_count": 0,
