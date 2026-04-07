@@ -7,7 +7,6 @@ const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, "..");
 const useFixtures = process.argv.includes("--fixtures");
 const sourceArg = process.argv.find((argument) => argument.startsWith("--sources="));
-const cadenceReuseArg = process.argv.find((argument) => argument.startsWith("--enable-cadence-reuse="));
 const cacheOnlyArg = process.argv.find((argument) => argument.startsWith("--cache-only="));
 const writePublicArg = process.argv.find((argument) => argument.startsWith("--write-public-outputs="));
 const writeArchiveArg = process.argv.find((argument) => argument.startsWith("--write-archive-outputs="));
@@ -27,7 +26,6 @@ function readBooleanFlag(cliArg, envValue, fallback = false) {
   return ["1", "true", "yes", "on"].includes(String(rawValue).trim().toLowerCase());
 }
 
-const enableCadenceReuse = readBooleanFlag(cadenceReuseArg, process.env.ENABLE_CADENCE_REUSE, false);
 const cacheOnly = readBooleanFlag(cacheOnlyArg, process.env.CACHE_ONLY, false);
 const writePublicOutputs = readBooleanFlag(writePublicArg, process.env.WRITE_PUBLIC_OUTPUTS, true);
 const writeArchiveOutputs = readBooleanFlag(writeArchiveArg, process.env.WRITE_ARCHIVE_OUTPUTS, true);
@@ -42,7 +40,6 @@ const writeRawOutputs = readBooleanFlag(writeRawArg, process.env.WRITE_RAW_OUTPU
 await runPipeline(repoRoot, {
   useFixtures,
   sourceIds: sourceIds.length ? sourceIds : null,
-  enableCadenceReuse,
   cacheOnly,
   writePublicOutputs,
   writeArchiveOutputs,

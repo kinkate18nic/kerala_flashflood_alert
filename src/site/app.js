@@ -765,26 +765,11 @@ const SOURCE_META = {
 };
 
 function sourceStatusMessage(source) {
-  if (source.fetch_status === "failed_cached") {
-    return "This source could not be refreshed just now, so the last saved copy is still in use.";
-  }
-  if (source.fetch_status === "skipped_cached") {
-    if (source.reuse_reason === "publish_from_cache") {
-      return "This page was rebuilt from the latest saved fetch for this source.";
-    }
-    return "This source was not checked in this run. The last saved copy is still in use.";
-  }
   if (source.fetch_status === "skipped") {
-    return "This source was not checked in this run, and no saved copy was available.";
+    return "This source has no usable refresh snapshot yet, so it is not contributing to scoring right now.";
   }
-  if (source.fetch_status === "failed") {
-    return "This source could not be reached in this run, so current scoring is proceeding without it.";
-  }
-  if (source.parser_status === "failed_cached") {
-    return "A new file arrived, but it could not be read safely. The last saved copy is still in use.";
-  }
-  if (source.parser_status === "failed") {
-    return "A new file arrived, but it could not be understood safely in this run.";
+  if (source.fetch_status === "failed" || source.parser_status === "failed") {
+    return "The latest refresh could not produce usable data from this source, so scoring is proceeding without it for now.";
   }
   if (source.status === "offline") {
     return "This source is currently unavailable, so current scoring is proceeding without it.";
@@ -821,34 +806,27 @@ function sourceDataPublishedLabel(source) {
 }
 
 function sourceLastCheckedLabel(source) {
-  const checkedAt = source.last_successful_fetched_at ?? source.fetched_at;
-  return checkedAt ? formatTime(checkedAt) : "Unknown";
+  return source.fetched_at ? formatTime(source.fetched_at) : "Unknown";
 }
 
 function sourceCurrentRunLabel(source) {
+  if (source.reuse_reason === "publish_from_cache") {
+    if (source.fetch_status === "failed" || source.parser_status === "failed") {
+      return "Published from latest unavailable refresh snapshot";
+    }
+    return "Published from latest refresh snapshot";
+  }
+  if (source.reuse_reason === "source_selection") {
+    return "Not refreshed in this workflow";
+  }
   if (source.fetch_status === "ok" && source.parser_status === "ok") {
     return "Live refresh succeeded";
   }
-  if (source.fetch_status === "failed_cached") {
-    return "Live refresh failed; saved copy reused";
-  }
-  if (source.parser_status === "failed_cached") {
-    return "New file could not be read; saved copy reused";
-  }
-  if (source.fetch_status === "skipped_cached") {
-    if (source.reuse_reason === "publish_from_cache") {
-      return "Published from latest saved fetch";
-    }
-    return "Not checked in this run; saved copy reused";
-  }
   if (source.fetch_status === "skipped") {
-    return "Not checked in this run";
+    return "No refresh snapshot available yet";
   }
-  if (source.fetch_status === "failed") {
-    return "Live refresh failed";
-  }
-  if (source.parser_status === "failed") {
-    return "New file arrived but could not be read";
+  if (source.fetch_status === "failed" || source.parser_status === "failed") {
+    return "Latest refresh unavailable";
   }
   return "Checked in this run";
 }
@@ -873,50 +851,26 @@ function formatCadence(minutes) {
 
 function dataUsageSummary(source) {
   const dataPublishedLabel = source.issued_at ? formatTime(source.issued_at) : "an unknown publication time";
-  const refreshLabel = source.last_successful_fetched_at
-    ? formatTime(source.last_successful_fetched_at)
-    : source.fetched_at
-      ? formatTime(source.fetched_at)
-      : "an earlier successful refresh";
+  const refreshLabel = source.fetched_at ? formatTime(source.fetched_at) : "an unknown check time";
 
-  if (source.fetch_status === "failed_cached") {
-    return `Showing data published at ${dataPublishedLabel}. The live refresh failed, so the last successful refresh from ${refreshLabel} is still being used.`;
-  }
-  if (source.parser_status === "failed_cached") {
-    return `Showing data published at ${dataPublishedLabel}. A newer file was downloaded but could not be read safely, so the last successful refresh from ${refreshLabel} is still being used.`;
-  }
-  if (source.fetch_status === "skipped_cached") {
-    if (source.reuse_reason === "publish_from_cache") {
-      return `Showing data published at ${dataPublishedLabel}. This page was rebuilt from the latest saved fetch, last checked by our system at ${refreshLabel}.`;
-    }
-    return `Showing data published at ${dataPublishedLabel}. This source was not checked in this run, so the last successful refresh from ${refreshLabel} is still being used.`;
-  }
   if (source.fetch_status === "skipped") {
-    return "No usable data was available for this source in the current run.";
+    return "No usable data is available for this source yet, so it is not contributing to scoring right now.";
   }
-  if (source.fetch_status === "failed") {
-    return "This source could not be reached in the current run, so it is not contributing new data.";
+  if (source.fetch_status === "failed" || source.parser_status === "failed") {
+    return `The latest refresh checked this source at ${refreshLabel}, but no usable data was available, so it is not contributing to scoring right now.`;
   }
-  if (source.parser_status === "failed") {
-    return "A new file was downloaded, but it could not be interpreted safely, so this source is not contributing new data.";
+  if (source.reuse_reason === "publish_from_cache") {
+    return `Showing data published at ${dataPublishedLabel}. This page was rebuilt from the latest refresh snapshot, last checked by our system at ${refreshLabel}.`;
   }
-  return `Showing data published at ${dataPublishedLabel}.`;
+  return `Showing data published at ${dataPublishedLabel}. Last checked by our system at ${refreshLabel}.`;
 }
 
 function openSourceDetails(source) {
   const meta = SOURCE_META[source.source_id] ?? {};
   const freshLabel = formatFreshness(source.freshness_minutes);
-  const cadenceLabel = meta.cadence ?? "Unknown";
   const fetchNote = source.notes || source.summary?.excerpt || "None";
   const sourceLink = meta.source_url ?? publicSourceUrl(source.raw_url);
-  const fetchFailed = source.fetch_status === "failed";
-  const fetchFallback = source.fetch_status === "failed_cached";
-  const parserFailed = source.parser_status === "failed";
-  const parserFallback = source.parser_status === "failed_cached";
-  const parserStateClass =
-    parserFailed ? "status-offline" : parserFallback ? "status-degraded" : source.parser_status === "ok" ? "status-ok" : "status-degraded";
-  const fetchStateClass =
-    fetchFailed ? "status-offline" : fetchFallback ? "status-degraded" : source.fetch_status === "ok" ? "status-ok" : "status-degraded";
+  const hasUsableSnapshot = source.fetch_status === "ok" && source.parser_status === "ok";
 
   openEvidence(
     source.name,
@@ -950,24 +904,16 @@ function openSourceDetails(source) {
           <span class="source-detail-value">${sourceCurrentRunLabel(source)}</span>
         </div>
         <div class="source-detail-row">
-          <span class="source-detail-label">Expected cadence</span>
-          <span class="source-detail-value">${cadenceLabel}</span>
+          <span class="source-detail-label">Typical refresh schedule</span>
+          <span class="source-detail-value">${meta.cadence ?? "Unknown"}</span>
         </div>
         <div class="source-detail-row">
           <span class="source-detail-label">Collection method</span>
           <span class="source-detail-value">${meta.method ?? "Unknown"}</span>
         </div>
-        <div class="source-detail-row">
-          <span class="source-detail-label">Fetch</span>
-          <span class="source-detail-value ${fetchStateClass}">${source.fetch_status ?? "unknown"}</span>
-        </div>
-        <div class="source-detail-row">
-          <span class="source-detail-label">Parser</span>
-          <span class="source-detail-value ${parserStateClass}">${source.parser_status}</span>
-        </div>
       </div>
-      ${fetchNote !== "None" ? `
-        <h3>${fetchFailed || fetchFallback ? "Fetch Notes" : parserFailed || parserFallback ? "Parser Notes" : "Notes"}</h3>
+      ${hasUsableSnapshot && fetchNote !== "None" ? `
+        <h3>Notes</h3>
         <p class="source-detail-fetch-note">${fetchNote}</p>
       ` : ""}
       ${source.status === "offline" || source.status === "degraded" ? `

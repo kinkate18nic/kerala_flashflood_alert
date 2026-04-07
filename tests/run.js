@@ -811,7 +811,7 @@ async function testPipelineDegradesPartialIndiaWrisCoverage() {
   assert.equal(indiaWrisSource?.summary.successful_district_count, 13);
 }
 
-async function testPipelineReusesSourcesWithinCadenceWindow() {
+async function testPipelinePublishesLatestRefreshSnapshotFromCache() {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), "kerala-flood-watch-cache-"));
   await cp(path.join(repoRoot, "config"), path.join(tempRoot, "config"), { recursive: true });
   await cp(path.join(repoRoot, "data"), path.join(tempRoot, "data"), { recursive: true });
@@ -819,7 +819,7 @@ async function testPipelineReusesSourcesWithinCadenceWindow() {
   await cp(path.join(repoRoot, "src"), path.join(tempRoot, "src"), { recursive: true });
 
   await runPipeline(tempRoot, { useFixtures: true });
-  await runPipeline(tempRoot, { useFixtures: false, enableCadenceReuse: true });
+  await runPipeline(tempRoot, { useFixtures: false, cacheOnly: true });
 
   const sourcesRaw = await readFile(path.join(tempRoot, "docs", "data", "latest", "sources.json"), "utf8");
   const latestRunRaw = await readFile(
@@ -829,17 +829,16 @@ async function testPipelineReusesSourcesWithinCadenceWindow() {
   const sources = JSON.parse(sourcesRaw);
   const latestRun = JSON.parse(latestRunRaw);
 
-  const reusedSourceCount = sources.sources.filter((source) => source.reused_in_run === true).length;
+  const reusedSourceCount = sources.sources.filter(
+    (source) => source.reused_in_run === true && source.reuse_reason === "publish_from_cache"
+  ).length;
   assert.equal(reusedSourceCount, sources.sources.length);
-  assert.ok(
-    sources.sources.every((source) =>
-      String(source.notes ?? "").includes("Reused last successful fetch within")
-    )
-  );
+  assert.ok(sources.sources.every((source) => source.fetch_status === "ok"));
   assert.equal(Array.isArray(latestRun.slowest_sources), true);
+  await rm(tempRoot, { recursive: true, force: true });
 }
 
-async function testPipelineFallsBackToLastSuccessfulPayloadOnFetchFailure() {
+async function testPipelineUsesLatestFailureSnapshotInsteadOfFallbackCache() {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), "kerala-flood-watch-fallback-"));
   await cp(path.join(repoRoot, "config"), path.join(tempRoot, "config"), { recursive: true });
   await cp(path.join(repoRoot, "data"), path.join(tempRoot, "data"), { recursive: true });
@@ -866,15 +865,25 @@ async function testPipelineFallsBackToLastSuccessfulPayloadOnFetchFailure() {
   const operatorSource = sources.sources.find((source) => source.source_id === "operator-observations");
   const rainfallSource = sources.sources.find((source) => source.source_id === "indiawris-rainfall");
 
-  assert.equal(operatorSource?.fetch_status, "failed_cached");
-  assert.equal(operatorSource?.parser_status, "ok");
-  assert.equal(operatorSource?.reused_in_run, true);
-  assert.equal(operatorSource?.reuse_reason, "fetch_failure");
-  assert.ok(String(operatorSource?.notes ?? "").includes("Reused last successful cached payload"));
-  assert.equal(cache.sources["operator-observations"]?.snapshot.fetch_status, "ok");
-  assert.equal(rainfallSource?.fetch_status, "skipped_cached");
+  assert.equal(operatorSource?.fetch_status, "failed");
+  assert.equal(operatorSource?.parser_status, "skipped");
+  assert.equal(operatorSource?.reused_in_run, false);
+  assert.equal(cache.sources["operator-observations"]?.snapshot.fetch_status, "failed");
+  assert.equal(cache.sources["operator-observations"]?.parsed, null);
+  assert.equal(rainfallSource?.fetch_status, "ok");
   assert.equal(rainfallSource?.reused_in_run, true);
   assert.equal(rainfallSource?.reuse_reason, "source_selection");
+
+  await runPipeline(tempRoot, { useFixtures: false, cacheOnly: true });
+  const publishedSourcesRaw = await readFile(path.join(tempRoot, "docs", "data", "latest", "sources.json"), "utf8");
+  const publishedSources = JSON.parse(publishedSourcesRaw);
+  const publishedOperatorSource = publishedSources.sources.find(
+    (source) => source.source_id === "operator-observations"
+  );
+  assert.equal(publishedOperatorSource?.fetch_status, "failed");
+  assert.equal(publishedOperatorSource?.parser_status, "skipped");
+  assert.equal(publishedOperatorSource?.reuse_reason, "publish_from_cache");
+  await rm(tempRoot, { recursive: true, force: true });
 }
 
 function testCalendarDayDistrictWarningFreshness() {
@@ -1168,8 +1177,8 @@ const tests = [
   ["risk-model-local-nowcast-timing", testLocalNowcastTimingOverridesSourceFreshness],
   ["pipeline", testPipeline],
   ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage],
-  ["pipeline-cadence-reuse", testPipelineReusesSourcesWithinCadenceWindow],
-  ["pipeline-fallback-cache", testPipelineFallsBackToLastSuccessfulPayloadOnFetchFailure],
+  ["pipeline-publish-cache", testPipelinePublishesLatestRefreshSnapshotFromCache],
+  ["pipeline-latest-failure", testPipelineUsesLatestFailureSnapshotInsteadOfFallbackCache],
   ["calendar-day-freshness", testCalendarDayDistrictWarningFreshness],
   ["ksdma-issued-at", testKsdmaIssuedAtExtractionPrefersCurrentLinkedDate]
 ];

@@ -4,12 +4,6 @@ on:
   schedule:
     - cron: "5 * * * *"
   workflow_dispatch:
-    inputs:
-      force_live_fetch:
-        description: Force a live fetch for selected sources instead of reusing cadence cache
-        required: false
-        default: false
-        type: boolean
 
 permissions:
   actions: write
@@ -89,7 +83,6 @@ jobs:
           PPS_EMAIL: ${{ secrets.PPS_EMAIL }}
           PPS_PASSWORD: ${{ secrets.PPS_PASSWORD }}
           NODE_OPTIONS: "--dns-result-order=ipv4first"
-          ENABLE_CADENCE_REUSE: ${{ github.event_name == 'workflow_dispatch' && inputs.force_live_fetch && 'false' || 'true' }}
           WRITE_PUBLIC_OUTPUTS: "false"
           WRITE_ARCHIVE_OUTPUTS: "false"
           WRITE_RUNTIME_DERIVED: "false"

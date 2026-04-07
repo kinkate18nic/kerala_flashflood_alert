@@ -204,59 +204,69 @@ function sourceCachePath(repoRoot) {
 
 function sourceFreshnessFromSnapshot(snapshot, source, parsed, generatedAt) {
   const freshnessMinutes = minutesBetween(parseDate(snapshot?.issued_at), new Date(generatedAt));
-  const baseStatus = statusFromFreshness(freshnessMinutes, source, true, true, snapshot?.issued_at, generatedAt);
+  const fetchOk = snapshot?.fetch_status === "ok";
+  const parserOk = snapshot?.parser_status === "ok";
+  const baseStatus = statusFromFreshness(
+    freshnessMinutes,
+    source,
+    fetchOk,
+    parserOk,
+    snapshot?.issued_at ?? null,
+    generatedAt
+  );
   return {
     freshnessMinutes,
     status: applyCoverageStatus(baseStatus, parsed)
   };
 }
 
-function cacheEntryHasSuccessfulPayload(cacheEntry) {
-  return Boolean(
-    cacheEntry?.snapshot &&
-      cacheEntry?.parsed !== undefined &&
-      cacheEntry.snapshot.fetch_status === "ok" &&
-      cacheEntry.snapshot.parser_status === "ok"
-  );
+function cacheEntryHasSnapshot(cacheEntry) {
+  return Boolean(cacheEntry?.snapshot);
 }
 
-function canReuseSource(source, cacheEntry, generatedAt) {
-  if (source.cadence_minutes === 0) {
-    return false;
-  }
-  if (!cacheEntryHasSuccessfulPayload(cacheEntry) || source.cadence_minutes === undefined) {
-    return false;
-  }
-
-  const fetchedDate = parseDate(cacheEntry.snapshot.fetched_at);
-  const ageMinutes = minutesBetween(fetchedDate, new Date(generatedAt));
-  if (ageMinutes === null) {
-    return false;
-  }
-
-  return ageMinutes < source.cadence_minutes;
+function combineNotes(...parts) {
+  return parts
+    .map((part) => String(part ?? "").trim())
+    .filter(Boolean)
+    .join(". ");
 }
 
-function buildReusedSnapshot(source, cacheEntry, generatedAt, options = {}) {
+function buildCachedSnapshot(source, cacheEntry, generatedAt, options = {}) {
   const previousSnapshot = cacheEntry.snapshot;
   const reusedAgeMinutes = minutesBetween(parseDate(previousSnapshot.fetched_at), new Date(generatedAt));
   const freshness = sourceFreshnessFromSnapshot(previousSnapshot, source, cacheEntry.parsed, generatedAt);
-  const priorNote = previousSnapshot.notes ? `${previousSnapshot.notes}. ` : "";
-  const notePrefix = options.notePrefix ? `${options.notePrefix} ` : "";
   return {
     ...previousSnapshot,
-    fetch_status: options.fetchStatus ?? "ok",
-    parser_status: options.parserStatus ?? previousSnapshot.parser_status ?? "ok",
-    failure_stage: options.failureStage ?? null,
     status: freshness.status,
     freshness_minutes: freshness.freshnessMinutes,
-    notes: `${notePrefix}${priorNote}${options.reuseMessage}`.trim(),
-    reused_in_run: true,
-    reuse_reason: options.reuseReason ?? "cadence_window",
-    reused_age_minutes: reusedAgeMinutes,
-    duration_ms: options.durationMs ?? 0,
-    raw_url: options.rawUrl ?? previousSnapshot.raw_url,
-    last_successful_fetched_at: previousSnapshot.fetched_at
+    notes: combineNotes(previousSnapshot.notes, options.note),
+    reused_in_run: options.reusedInRun ?? true,
+    reuse_reason: options.reuseReason ?? previousSnapshot.reuse_reason ?? null,
+    reused_age_minutes: reusedAgeMinutes
+  };
+}
+
+function buildSourceSnapshot(source, snapshotOptions) {
+  return {
+    source_id: source.id,
+    name: source.name,
+    owner: source.owner,
+    category: source.category,
+    fetched_at: snapshotOptions.fetchedAt,
+    issued_at: snapshotOptions.issuedAt,
+    raw_url: snapshotOptions.rawUrl,
+    fetch_status: snapshotOptions.fetchStatus,
+    parser_status: snapshotOptions.parserStatus,
+    failure_stage: snapshotOptions.failureStage,
+    status: snapshotOptions.status,
+    freshness_minutes: snapshotOptions.freshnessMinutes,
+    duration_ms: snapshotOptions.durationMs,
+    notes: snapshotOptions.note ?? "",
+    auth: source.auth,
+    summary: summarizeSource(snapshotOptions.parsed),
+    last_successful_fetched_at: snapshotOptions.lastSuccessfulFetchedAt ?? null,
+    reused_in_run: snapshotOptions.reusedInRun ?? false,
+    reuse_reason: snapshotOptions.reuseReason ?? null
   };
 }
 
@@ -838,16 +848,13 @@ export async function runPipeline(repoRoot, options = {}) {
       const cacheEntry = priorSourceCache.sources?.[source.id];
       const sourceSelected = !selectedSourceIds || selectedSourceIds.has(source.id);
       if (!options.useFixtures && options.cacheOnly === true) {
-        if (cacheEntryHasSuccessfulPayload(cacheEntry)) {
+        if (cacheEntryHasSnapshot(cacheEntry)) {
           return {
             sourceId: source.id,
-            parsed: cacheEntry.parsed,
-            snapshot: buildReusedSnapshot(source, cacheEntry, generatedAt, {
-              fetchStatus: "skipped_cached",
-              parserStatus: "ok",
-              failureStage: null,
+            parsed: cacheEntry.parsed ?? null,
+            snapshot: buildCachedSnapshot(source, cacheEntry, generatedAt, {
               reuseReason: "publish_from_cache",
-              reuseMessage: "Publish run reused the latest successful cached payload."
+              note: "Publish run rebuilt the page from the latest refresh snapshot."
             }),
             cacheUpdate: null
           };
@@ -858,22 +865,19 @@ export async function runPipeline(repoRoot, options = {}) {
           snapshot: buildSkippedSnapshot(
             source,
             generatedAt,
-            "Publish run found no successful cached payload for this source."
+            "No refresh snapshot is available for this source yet."
           ),
           cacheUpdate: null
         };
       }
       if (!sourceSelected && !options.useFixtures) {
-        if (cacheEntryHasSuccessfulPayload(cacheEntry)) {
+        if (cacheEntryHasSnapshot(cacheEntry)) {
           return {
             sourceId: source.id,
-            parsed: cacheEntry.parsed,
-            snapshot: buildReusedSnapshot(source, cacheEntry, generatedAt, {
-              fetchStatus: "skipped_cached",
-              parserStatus: "ok",
-              failureStage: null,
+            parsed: cacheEntry.parsed ?? null,
+            snapshot: buildCachedSnapshot(source, cacheEntry, generatedAt, {
               reuseReason: "source_selection",
-              reuseMessage: "Source was not selected for this run. Reused last successful cached payload."
+              note: "This source was not part of this refresh group. Latest refresh snapshot retained."
             }),
             cacheUpdate: null
           };
@@ -884,19 +888,8 @@ export async function runPipeline(repoRoot, options = {}) {
           snapshot: buildSkippedSnapshot(
             source,
             generatedAt,
-            "Source was not selected for this run and no successful cached payload was available."
+            "This source was not part of this refresh group and no refresh snapshot is available yet."
           ),
-          cacheUpdate: null
-        };
-      }
-
-      if (!options.useFixtures && options.enableCadenceReuse === true && canReuseSource(source, cacheEntry, generatedAt)) {
-        return {
-          sourceId: source.id,
-          parsed: cacheEntry.parsed,
-          snapshot: buildReusedSnapshot(source, cacheEntry, generatedAt, {
-            reuseMessage: `Reused last successful fetch within ${source.cadence_minutes}-minute cadence window.`
-          }),
           cacheUpdate: null
         };
       }
@@ -942,28 +935,6 @@ export async function runPipeline(repoRoot, options = {}) {
 
       const durationMs = Date.now() - startedAtMs;
 
-      if ((!fetchOk || !parserOk) && cacheEntryHasSuccessfulPayload(cacheEntry)) {
-        const reuseReason = fetchOk ? "parse_failure" : "fetch_failure";
-        const reuseMessage = fetchOk
-          ? "Parser failed in this run. Reused last successful cached payload."
-          : "Fetch failed in this run. Reused last successful cached payload.";
-        return {
-          sourceId: source.id,
-          parsed: cacheEntry.parsed,
-          snapshot: buildReusedSnapshot(source, cacheEntry, generatedAt, {
-            fetchStatus: fetchOk ? "ok" : "failed_cached",
-            parserStatus: fetchOk ? "failed_cached" : "ok",
-            failureStage: fetchOk ? "parse" : "fetch",
-            reuseReason,
-            reuseMessage,
-            notePrefix: note,
-            durationMs,
-            rawUrl: resolvedUrl ?? source.url ?? source.path
-          }),
-          cacheUpdate: null
-        };
-      }
-
       const issuedDate = parseDate(issuedAt);
       const freshnessMinutes = minutesBetween(issuedDate, new Date(generatedAt));
       const baseStatus = statusFromFreshness(
@@ -984,51 +955,37 @@ export async function runPipeline(repoRoot, options = {}) {
         await writeText(path.join(rawDir, outputName), raw);
       }
 
+      const lastSuccessfulFetchedAt =
+        fetchOk && parserOk
+          ? fetchedAt
+          : cacheEntry?.snapshot?.last_successful_fetched_at ??
+            (cacheEntry?.snapshot?.fetch_status === "ok" && cacheEntry?.snapshot?.parser_status === "ok"
+              ? cacheEntry.snapshot.fetched_at
+              : null);
+
+      const snapshot = buildSourceSnapshot(source, {
+        fetchedAt,
+        issuedAt: issuedDate?.toISOString() ?? null,
+        rawUrl: resolvedUrl ?? source.url ?? source.path,
+        fetchStatus,
+        parserStatus,
+        failureStage,
+        status,
+        freshnessMinutes,
+        durationMs,
+        note,
+        parsed,
+        lastSuccessfulFetchedAt
+      });
+
       return {
         sourceId: source.id,
-        parsed,
-        snapshot: {
-          source_id: source.id,
-          name: source.name,
-          owner: source.owner,
-          category: source.category,
-          fetched_at: fetchedAt,
-          issued_at: issuedDate?.toISOString() ?? null,
-          raw_url: resolvedUrl ?? source.url ?? source.path,
-          fetch_status: fetchStatus,
-          parser_status: parserStatus,
-          failure_stage: failureStage,
-          status,
-          freshness_minutes: freshnessMinutes,
-          duration_ms: durationMs,
-          notes: note,
-          auth: source.auth,
-          summary: summarizeSource(parsed)
-        },
-        cacheUpdate:
-          fetchOk && parserOk
-            ? {
-                snapshot: {
-                  source_id: source.id,
-                  name: source.name,
-                  owner: source.owner,
-                  category: source.category,
-                  fetched_at: fetchedAt,
-                  issued_at: issuedDate?.toISOString() ?? null,
-                  raw_url: resolvedUrl ?? source.url ?? source.path,
-                  fetch_status: fetchStatus,
-                  parser_status: parserStatus,
-                  failure_stage: failureStage,
-                  status,
-                  freshness_minutes: freshnessMinutes,
-                  duration_ms: durationMs,
-                  notes: note,
-                  auth: source.auth,
-                  summary: summarizeSource(parsed)
-                },
-                parsed
-              }
-            : null
+        parsed: fetchOk && parserOk ? parsed : null,
+        snapshot,
+        cacheUpdate: {
+          snapshot,
+          parsed: fetchOk && parserOk ? parsed : null
+        }
       };
     },
     sourceFetchConcurrency
