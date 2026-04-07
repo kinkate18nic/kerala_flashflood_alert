@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-07T09:58:05.258Z",
+  "generated_at": "2026-04-07T10:52:08.352Z",
   "districts": [
     {
       "area_id": "kasaragod",
@@ -25,8 +25,8 @@
         "roughness_mean": 7.092902,
         "dem_normalized": 0.3
       },
-      "valid_from": "2026-04-07T09:58:05.258Z",
-      "valid_to": "2026-04-07T15:58:05.258Z",
+      "valid_from": "2026-04-07T10:52:08.352Z",
+      "valid_to": "2026-04-07T16:52:08.352Z",
       "drivers": [
         "IMD district warning 22% (Hot Day)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
@@ -39,20 +39,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4207,
+          "freshness_minutes": 4262,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "KASARAGOD : Hot Day Updated on:2026-04-07",
-          "freshness_minutes": 928,
+          "freshness_minutes": 982,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "KASARAGOD No Warning Time of issue: 2026-04-07 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 148,
-          "status": "ok"
+          "freshness_minutes": 202,
+          "status": "offline"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -63,25 +63,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 1858,
+          "freshness_minutes": 1912,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 8,
+          "freshness_minutes": 2,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1888,
+          "freshness_minutes": 1942,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 1 station",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "degraded"
         }
       ],
@@ -122,15 +122,15 @@
       "area_type": "district",
       "name": "Kannur",
       "level": "Normal",
-      "score": 15.8,
+      "score": 21.8,
       "confidence": 0.4,
       "region": "north",
       "susceptibility": 0.4514881833946861,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 14.9,
+        "score": 18.2,
         "wetness_index": 0,
-        "trigger_index": 0,
+        "trigger_index": 10,
         "susceptibility_index": 45.1,
         "label": "low"
       },
@@ -141,14 +141,15 @@
         "roughness_mean": 7.417914,
         "dem_normalized": 0.4
       },
-      "valid_from": "2026-04-07T09:58:05.258Z",
-      "valid_to": "2026-04-07T15:58:05.258Z",
+      "valid_from": "2026-04-07T10:52:08.352Z",
+      "valid_to": "2026-04-07T16:52:08.352Z",
       "drivers": [
         "IMD district warning 22% (Hot Day)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
         "India-WRIS official 24h rainfall 0 mm from 1 station",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "Runoff potential low (wetness 0, trigger 0)",
+        "RainViewer nowcast light (18 dBZ)",
+        "Runoff potential low (wetness 0, trigger 10)",
         "Terrain susceptibility 45% from NASADEM + local baseline",
         "Dam downstream caution active"
       ],
@@ -156,20 +157,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4207,
+          "freshness_minutes": 4262,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "KANNUR : Hot Day Updated on:2026-04-07",
-          "freshness_minutes": 928,
+          "freshness_minutes": 982,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "KANNUR No Warning Time of issue: 2026-04-07 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 148,
-          "status": "ok"
+          "freshness_minutes": 202,
+          "status": "offline"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -180,25 +181,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 1858,
+          "freshness_minutes": 1912,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 8,
+          "detail": "RainViewer light cell near district",
+          "freshness_minutes": 2,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1888,
+          "freshness_minutes": 1942,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "degraded"
         }
       ],
@@ -258,8 +259,8 @@
         "roughness_mean": 8.218636,
         "dem_normalized": 0.4
       },
-      "valid_from": "2026-04-07T09:58:05.258Z",
-      "valid_to": "2026-04-07T15:58:05.258Z",
+      "valid_from": "2026-04-07T10:52:08.352Z",
+      "valid_to": "2026-04-07T16:52:08.352Z",
       "drivers": [
         "IMD district warning 22% (Hot Day)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
@@ -273,20 +274,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4207,
+          "freshness_minutes": 4262,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "WAYANAD : Hot Day Updated on:2026-04-07",
-          "freshness_minutes": 928,
+          "freshness_minutes": 982,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "WAYANAD No Warning Time of issue: 2026-04-07 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 148,
-          "status": "ok"
+          "freshness_minutes": 202,
+          "status": "offline"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -297,25 +298,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 1858,
+          "freshness_minutes": 1912,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 8,
+          "freshness_minutes": 2,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1888,
+          "freshness_minutes": 1942,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 1 station",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "degraded"
         }
       ],
@@ -324,8 +325,8 @@
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0,
-        "rain_3d_mm": 9.4,
-        "rain_7d_mm": 27.8,
+        "rain_3d_mm": 8.5,
+        "rain_7d_mm": 29.8,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -369,8 +370,8 @@
         "roughness_mean": 8.165773,
         "dem_normalized": 0.6
       },
-      "valid_from": "2026-04-07T09:58:05.258Z",
-      "valid_to": "2026-04-07T15:58:05.258Z",
+      "valid_from": "2026-04-07T10:52:08.352Z",
+      "valid_to": "2026-04-07T16:52:08.352Z",
       "drivers": [
         "IMD district warning 22% (Hot Day)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
@@ -385,20 +386,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4207,
+          "freshness_minutes": 4262,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "KOZHIKODE : Hot Day Updated on:2026-04-07",
-          "freshness_minutes": 928,
+          "freshness_minutes": 982,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "KOZHIKODE No Warning Time of issue: 2026-04-07 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 148,
-          "status": "ok"
+          "freshness_minutes": 202,
+          "status": "offline"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -409,25 +410,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 1858,
+          "freshness_minutes": 1912,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 8,
+          "freshness_minutes": 2,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1888,
+          "freshness_minutes": 1942,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.01 m across 1 station",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "degraded"
         }
       ],
@@ -487,8 +488,8 @@
         "roughness_mean": 8.008132,
         "dem_normalized": 0.7
       },
-      "valid_from": "2026-04-07T09:58:05.258Z",
-      "valid_to": "2026-04-07T15:58:05.258Z",
+      "valid_from": "2026-04-07T10:52:08.352Z",
+      "valid_to": "2026-04-07T16:52:08.352Z",
       "drivers": [
         "IMD district warning 22% (Hot Day)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
@@ -501,20 +502,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4207,
+          "freshness_minutes": 4262,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "MALAPPURAM : Hot Day Updated on:2026-04-07",
-          "freshness_minutes": 928,
+          "freshness_minutes": 982,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "MALAPPURAM No Warning Time of issue: 2026-04-07 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 148,
-          "status": "ok"
+          "freshness_minutes": 202,
+          "status": "offline"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -525,25 +526,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 1858,
+          "freshness_minutes": 1912,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 8,
+          "freshness_minutes": 2,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1888,
+          "freshness_minutes": 1942,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.04 m across 2 stations",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "degraded"
         }
       ],
@@ -603,8 +604,8 @@
         "roughness_mean": 8.603137,
         "dem_normalized": 0.8
       },
-      "valid_from": "2026-04-07T09:58:05.258Z",
-      "valid_to": "2026-04-07T15:58:05.258Z",
+      "valid_from": "2026-04-07T10:52:08.352Z",
+      "valid_to": "2026-04-07T16:52:08.352Z",
       "drivers": [
         "IMD district warning 22% (Hot Day)",
         "Observed 24h rain 2 mm and 1h rain 0 mm",
@@ -619,20 +620,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4207,
+          "freshness_minutes": 4262,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "PALAKKAD : Hot Day Updated on:2026-04-07",
-          "freshness_minutes": 928,
+          "freshness_minutes": 982,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "PALAKKAD No Warning Time of issue: 2026-04-07 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 148,
-          "status": "ok"
+          "freshness_minutes": 202,
+          "status": "offline"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -643,25 +644,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 1858,
+          "freshness_minutes": 1912,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 8,
+          "freshness_minutes": 2,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1888,
+          "freshness_minutes": 1942,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 2 stations",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "degraded"
         }
       ],
@@ -721,8 +722,8 @@
         "roughness_mean": 6.105978,
         "dem_normalized": 0.5
       },
-      "valid_from": "2026-04-07T09:58:05.258Z",
-      "valid_to": "2026-04-07T15:58:05.258Z",
+      "valid_from": "2026-04-07T10:52:08.352Z",
+      "valid_to": "2026-04-07T16:52:08.352Z",
       "drivers": [
         "IMD district warning 22% (Hot Day)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
@@ -737,20 +738,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4207,
+          "freshness_minutes": 4262,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "THRISSUR : Hot Day Updated on:2026-04-07",
-          "freshness_minutes": 928,
+          "freshness_minutes": 982,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "THRISSUR No Warning Time of issue: 2026-04-07 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 148,
-          "status": "ok"
+          "freshness_minutes": 202,
+          "status": "offline"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -761,25 +762,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 1858,
+          "freshness_minutes": 1912,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 8,
+          "freshness_minutes": 2,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1888,
+          "freshness_minutes": 1942,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "degraded"
         }
       ],
@@ -839,8 +840,8 @@
         "roughness_mean": 4.42897,
         "dem_normalized": 0.2
       },
-      "valid_from": "2026-04-07T09:58:05.258Z",
-      "valid_to": "2026-04-07T15:58:05.258Z",
+      "valid_from": "2026-04-07T10:52:08.352Z",
+      "valid_to": "2026-04-07T16:52:08.352Z",
       "drivers": [
         "IMD district warning 22% (Hot Day)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
@@ -855,20 +856,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4207,
+          "freshness_minutes": 4262,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "ERNAKULAM : Hot Day Updated on:2026-04-07",
-          "freshness_minutes": 928,
+          "freshness_minutes": 982,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "ERNAKULAM No Warning Time of issue: 2026-04-07 1300 Hrs Valid upto: 1600 Hrs",
-          "freshness_minutes": 148,
-          "status": "ok"
+          "freshness_minutes": 202,
+          "status": "offline"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -879,25 +880,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 1858,
+          "freshness_minutes": 1912,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 8,
+          "freshness_minutes": 2,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1888,
+          "freshness_minutes": 1942,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "degraded"
         }
       ],
@@ -957,8 +958,8 @@
         "roughness_mean": 13.95467,
         "dem_normalized": 1
       },
-      "valid_from": "2026-04-07T09:58:05.258Z",
-      "valid_to": "2026-04-07T15:58:05.258Z",
+      "valid_from": "2026-04-07T10:52:08.352Z",
+      "valid_to": "2026-04-07T16:52:08.352Z",
       "drivers": [
         "IMD district warning 22% (Hot Day)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
@@ -975,19 +976,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4207,
+          "freshness_minutes": 4262,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "IDUKKI : Hot Day Updated on:2026-04-07",
-          "freshness_minutes": 928,
+          "freshness_minutes": 982,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "IDUKKI Light rain:",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "stale"
         },
         {
@@ -999,25 +1000,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 1858,
+          "freshness_minutes": 1912,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 8,
+          "freshness_minutes": 2,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1888,
+          "freshness_minutes": 1942,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 2 stations",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "degraded"
         }
       ],
@@ -1077,8 +1078,8 @@
         "roughness_mean": 6.439277,
         "dem_normalized": 0.4
       },
-      "valid_from": "2026-04-07T09:58:05.258Z",
-      "valid_to": "2026-04-07T15:58:05.258Z",
+      "valid_from": "2026-04-07T10:52:08.352Z",
+      "valid_to": "2026-04-07T16:52:08.352Z",
       "drivers": [
         "IMD district warning 22% (Hot Day)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
@@ -1092,19 +1093,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4207,
+          "freshness_minutes": 4262,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "KOTTAYAM : Hot Day Updated on:2026-04-07",
-          "freshness_minutes": 928,
+          "freshness_minutes": 982,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "KOTTAYAM Light rain:",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "stale"
         },
         {
@@ -1116,25 +1117,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 1858,
+          "freshness_minutes": 1912,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 8,
+          "freshness_minutes": 2,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1888,
+          "freshness_minutes": 1942,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 1 station",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "degraded"
         }
       ],
@@ -1175,14 +1176,14 @@
       "area_type": "district",
       "name": "Alappuzha",
       "level": "Normal",
-      "score": 15.3,
+      "score": 15.2,
       "confidence": 0.4,
       "region": "coastal-lowland",
       "susceptibility": 0.3161867262061899,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 13,
-        "wetness_index": 1.4,
+        "score": 12.9,
+        "wetness_index": 1.2,
         "trigger_index": 6.3,
         "susceptibility_index": 31.6,
         "label": "low"
@@ -1194,34 +1195,34 @@
         "roughness_mean": 1.791728,
         "dem_normalized": 0.1
       },
-      "valid_from": "2026-04-07T09:58:05.258Z",
-      "valid_to": "2026-04-07T15:58:05.258Z",
+      "valid_from": "2026-04-07T10:52:08.352Z",
+      "valid_to": "2026-04-07T16:52:08.352Z",
       "drivers": [
         "IMD district warning 22% (Hot Day)",
-        "Observed 24h rain 2.4 mm and 1h rain 0 mm",
+        "Observed 24h rain 1.4 mm and 1h rain 0 mm",
         "Rainfall aggregation district_polygon_mean",
         "IMD district nowcast 5.5%",
         "RainViewer nowcast light (9 dBZ)",
-        "Runoff potential low (wetness 1.4, trigger 6.3)",
+        "Runoff potential low (wetness 1.2, trigger 6.3)",
         "Terrain susceptibility 32% from NASADEM + local baseline"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4207,
+          "freshness_minutes": 4262,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "ALAPPUZHA : Hot Day Updated on:2026-04-07",
-          "freshness_minutes": 928,
+          "freshness_minutes": 982,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "ALAPPUZHA Light rain:",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "stale"
         },
         {
@@ -1233,25 +1234,25 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 1858,
+          "freshness_minutes": 1912,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near district",
-          "freshness_minutes": 8,
+          "freshness_minutes": 2,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1888,
+          "freshness_minutes": 1942,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "degraded"
         }
       ],
@@ -1259,9 +1260,9 @@
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 2.4,
-        "rain_3d_mm": 6.5,
-        "rain_7d_mm": 15.9,
+        "rain_24h_mm": 1.4,
+        "rain_3d_mm": 5.1,
+        "rain_7d_mm": 15.5,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1292,9 +1293,9 @@
       "susceptibility": 0.8256959994272752,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 31.5,
+        "score": 30.6,
         "wetness_index": 0,
-        "trigger_index": 13,
+        "trigger_index": 10.2,
         "susceptibility_index": 82.6,
         "label": "guarded"
       },
@@ -1305,18 +1306,18 @@
         "roughness_mean": 11.31176,
         "dem_normalized": 0.8
       },
-      "valid_from": "2026-04-07T09:58:05.258Z",
-      "valid_to": "2026-04-07T15:58:05.258Z",
+      "valid_from": "2026-04-07T10:52:08.352Z",
+      "valid_to": "2026-04-07T16:52:08.352Z",
       "drivers": [
         "IMD district warning 22% (Hot Day)",
-        "Observed 24h rain 0.1 mm and 1h rain 0.8 mm",
+        "Observed 24h rain 0.1 mm and 1h rain 0.6 mm",
         "India-WRIS official 24h rainfall 0.1 mm from 4 stations",
         "Peak India-WRIS station 24h rainfall 0.6 mm",
-        "Peak recent 30 min rain 2.4 mm",
+        "Peak recent 30 min rain 1.4 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "IMD district nowcast 5.5%",
-        "RainViewer nowcast light (18 dBZ)",
-        "Runoff potential guarded (wetness 0, trigger 13)",
+        "RainViewer nowcast light (14 dBZ)",
+        "Runoff potential guarded (wetness 0, trigger 10.2)",
         "Terrain susceptibility 83% from NASADEM + local baseline",
         "Reservoir caution active",
         "Dam downstream caution active"
@@ -1325,19 +1326,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4207,
+          "freshness_minutes": 4262,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "PATHANAMTHITTA : Hot Day Updated on:2026-04-07",
-          "freshness_minutes": 928,
+          "freshness_minutes": 982,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "PATHANAMTHITTA Light rain:",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "stale"
         },
         {
@@ -1349,32 +1350,32 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 1858,
+          "freshness_minutes": 1912,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near district",
-          "freshness_minutes": 8,
+          "freshness_minutes": 2,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1888,
+          "freshness_minutes": 1942,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.1 m across 2 stations",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "degraded"
         }
       ],
       "rainfall": {
-        "rain_1h_mm": 0.8,
-        "rain_3h_mm": 0.5,
-        "rain_6h_mm": 0.5,
+        "rain_1h_mm": 0.6,
+        "rain_3h_mm": 1.7,
+        "rain_6h_mm": 2.3,
         "rain_24h_mm": 0.1,
         "rain_3d_mm": 1.2,
         "rain_7d_mm": 1.2,
@@ -1394,7 +1395,7 @@
         ],
         "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 22,
-        "peak_30m_mm": 2.4,
+        "peak_30m_mm": 1.4,
         "official_rain_24h_mm": 0.1,
         "official_rain_3d_mm": 1.2,
         "official_rain_7d_mm": 1.2,
@@ -1414,9 +1415,9 @@
       "susceptibility": 0.546144448116304,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 22.1,
+        "score": 21.3,
         "wetness_index": 0,
-        "trigger_index": 12.4,
+        "trigger_index": 9.8,
         "susceptibility_index": 54.6,
         "label": "guarded"
       },
@@ -1427,17 +1428,17 @@
         "roughness_mean": 7.522414,
         "dem_normalized": 0.5
       },
-      "valid_from": "2026-04-07T09:58:05.258Z",
-      "valid_to": "2026-04-07T15:58:05.258Z",
+      "valid_from": "2026-04-07T10:52:08.352Z",
+      "valid_to": "2026-04-07T16:52:08.352Z",
       "drivers": [
         "IMD district warning 22% (Hot Day)",
-        "Observed 24h rain 0 mm and 1h rain 0.4 mm",
+        "Observed 24h rain 0 mm and 1h rain 0.5 mm",
         "India-WRIS official 24h rainfall 0 mm from 3 stations",
-        "Peak recent 30 min rain 1.9 mm",
+        "Peak recent 30 min rain 1.4 mm",
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "IMD district nowcast 5.5%",
-        "RainViewer nowcast light (18 dBZ)",
-        "Runoff potential guarded (wetness 0, trigger 12.4)",
+        "RainViewer nowcast light (14 dBZ)",
+        "Runoff potential guarded (wetness 0, trigger 9.8)",
         "Terrain susceptibility 55% from NASADEM + local baseline",
         "Dam downstream caution active"
       ],
@@ -1445,19 +1446,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4207,
+          "freshness_minutes": 4262,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "KOLLAM : Hot Day Updated on:2026-04-07",
-          "freshness_minutes": 928,
+          "freshness_minutes": 982,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "KOLLAM Light rain:",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "stale"
         },
         {
@@ -1469,32 +1470,32 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 1858,
+          "freshness_minutes": 1912,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near district",
-          "freshness_minutes": 8,
+          "freshness_minutes": 2,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1888,
+          "freshness_minutes": 1942,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "degraded"
         }
       ],
       "rainfall": {
-        "rain_1h_mm": 0.4,
+        "rain_1h_mm": 0.5,
         "rain_3h_mm": 0.9,
-        "rain_6h_mm": 0.9,
+        "rain_6h_mm": 1.8,
         "rain_24h_mm": 0,
         "rain_3d_mm": 0,
         "rain_7d_mm": 0,
@@ -1514,7 +1515,7 @@
         ],
         "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 22,
-        "peak_30m_mm": 1.9,
+        "peak_30m_mm": 1.4,
         "official_rain_24h_mm": 0,
         "official_rain_3d_mm": 0,
         "official_rain_7d_mm": 0,
@@ -1534,9 +1535,9 @@
       "susceptibility": 0.5228924574818898,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 19.5,
+        "score": 19.4,
         "wetness_index": 0,
-        "trigger_index": 6.7,
+        "trigger_index": 6.4,
         "susceptibility_index": 52.3,
         "label": "low"
       },
@@ -1547,8 +1548,8 @@
         "roughness_mean": 6.988385,
         "dem_normalized": 0.5
       },
-      "valid_from": "2026-04-07T09:58:05.258Z",
-      "valid_to": "2026-04-07T15:58:05.258Z",
+      "valid_from": "2026-04-07T10:52:08.352Z",
+      "valid_to": "2026-04-07T16:52:08.352Z",
       "drivers": [
         "IMD district warning 22% (Hot Day)",
         "Observed 24h rain 0 mm and 1h rain 0 mm",
@@ -1556,7 +1557,7 @@
         "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "IMD district nowcast 5.5%",
         "RainViewer nowcast light (9 dBZ)",
-        "Runoff potential low (wetness 0, trigger 6.7)",
+        "Runoff potential low (wetness 0, trigger 6.4)",
         "Terrain susceptibility 52% from NASADEM + local baseline",
         "Dam downstream caution active"
       ],
@@ -1564,19 +1565,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 4207,
+          "freshness_minutes": 4262,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "THIRUVANANTHAPURAM : Hot Day Updated on:2026-04-07",
-          "freshness_minutes": 928,
+          "freshness_minutes": 982,
           "status": "ok"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "THIRUVANANTHAPURAM Light rain:",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "stale"
         },
         {
@@ -1588,31 +1589,31 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 1858,
+          "freshness_minutes": 1912,
           "status": "stale"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near district",
-          "freshness_minutes": 8,
+          "freshness_minutes": 2,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 1888,
+          "freshness_minutes": 1942,
           "status": "stale"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": 148,
+          "freshness_minutes": 202,
           "status": "degraded"
         }
       ],
       "rainfall": {
         "rain_1h_mm": 0,
-        "rain_3h_mm": 1.1,
+        "rain_3h_mm": 0,
         "rain_6h_mm": 1.1,
         "rain_24h_mm": 0,
         "rain_3d_mm": 0.2,
