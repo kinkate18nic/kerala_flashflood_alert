@@ -12,6 +12,7 @@ on:
         type: boolean
 
 permissions:
+  actions: write
   contents: write
 
 concurrency:
@@ -98,6 +99,7 @@ jobs:
         run: node scripts/run-pipeline.js
 
       - name: Commit refreshed data
+        id: commit_refresh
         if: steps.refresh_control.outputs.should_run == 'true'
         run: |
           git config --global user.name "github-actions[bot]"
@@ -105,11 +107,21 @@ jobs:
           git -C "$env:GITHUB_WORKSPACE" add runtime/cache/source-results.json data/manual/review-approvals.json
           if (git -C "$env:GITHUB_WORKSPACE" diff --cached --quiet) {
             Write-Output "No changes to commit"
+            "publish_required=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
           } else {
             git -C "$env:GITHUB_WORKSPACE" commit -m "chore: refresh india fast sources"
             git -C "$env:GITHUB_WORKSPACE" pull --rebase --autostash origin main
             git -C "$env:GITHUB_WORKSPACE" push
+            "publish_required=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
           }
+
+      - name: Dispatch publish workflow
+        if: steps.refresh_control.outputs.should_run == 'true' && steps.commit_refresh.outputs.publish_required == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PUBLISH_TRIGGER_SOURCE: refresh-fast-data
+        run: node scripts/dispatch-publish-workflow.js
 
       - name: Report paused refresh
         if: steps.refresh_control.outputs.should_run != 'true'

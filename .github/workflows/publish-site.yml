@@ -14,15 +14,13 @@ on:
       - "src/shared/**"
       - "scripts/**"
       - "config/**"
-  workflow_run:
-    workflows:
-      - "Refresh India fast sources (local)"
-      - "Refresh India hydrology (local)"
-      - "Refresh external sources"
-      - "Telegram review commands"
-    types:
-      - completed
   workflow_dispatch:
+    inputs:
+      trigger_source:
+        description: Optional note about what triggered this publish
+        required: false
+        default: manual
+        type: string
 
 permissions:
   contents: write
@@ -33,9 +31,6 @@ concurrency:
 
 jobs:
   publish:
-    if: |
-      github.event_name != 'workflow_run' ||
-      github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
 
     steps:

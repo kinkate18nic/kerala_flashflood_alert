@@ -6,6 +6,7 @@ on:
       - telegram_review_command
 
 permissions:
+  actions: write
   contents: write
 
 concurrency:
@@ -37,14 +38,25 @@ jobs:
         run: node scripts/telegram-command-dispatch.js
 
       - name: Commit Telegram review state
+        id: commit_review
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/manual/review-approvals.json data/manual/review-rejections.json data/manual/ops-state.json
           if git diff --cached --quiet; then
             echo "No Telegram review changes to commit"
+            echo "publish_required=false" >> $GITHUB_OUTPUT
           else
             git commit -m "chore: apply telegram review command"
             git pull --rebase --autostash origin main
             git push
+            echo "publish_required=true" >> $GITHUB_OUTPUT
           fi
+
+      - name: Dispatch publish workflow
+        if: steps.commit_review.outputs.publish_required == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PUBLISH_TRIGGER_SOURCE: telegram-review-command
+        run: node scripts/dispatch-publish-workflow.js

@@ -12,6 +12,7 @@ on:
         type: boolean
 
 permissions:
+  actions: write
   contents: write
 
 concurrency:
@@ -62,6 +63,7 @@ jobs:
         run: node scripts/run-pipeline.js
 
       - name: Commit refreshed data
+        id: commit_refresh
         if: steps.refresh_control.outputs.should_run == 'true'
         run: |
           git config user.name "github-actions[bot]"
@@ -69,11 +71,21 @@ jobs:
           git add runtime/cache/source-results.json data/manual/review-approvals.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
+            echo "publish_required=false" >> $GITHUB_OUTPUT
           else
             git commit -m "chore: refresh external sources"
             git pull --rebase --autostash origin main
             git push
+            echo "publish_required=true" >> $GITHUB_OUTPUT
           fi
+
+      - name: Dispatch publish workflow
+        if: steps.refresh_control.outputs.should_run == 'true' && steps.commit_refresh.outputs.publish_required == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PUBLISH_TRIGGER_SOURCE: refresh-data
+        run: node scripts/dispatch-publish-workflow.js
 
       - name: Report paused refresh
         if: steps.refresh_control.outputs.should_run != 'true'
