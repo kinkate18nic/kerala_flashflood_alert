@@ -5239,31 +5239,31 @@
         "name": "RainViewer Radar Nowcast",
         "owner": "RainViewer / IMD radar aggregation",
         "category": "radar-nowcast",
-        "fetched_at": "2026-04-08T07:57:26.465Z",
-        "issued_at": "2026-04-08T07:50:00.000Z",
+        "fetched_at": "2026-04-08T08:58:44.398Z",
+        "issued_at": "2026-04-08T08:50:00.000Z",
         "raw_url": "https://api.rainviewer.com/public/weather-maps.json",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 7,
-        "duration_ms": 842,
-        "notes": "RainViewer latest radar frame /v2/radar/325abfdc5094",
+        "freshness_minutes": 9,
+        "duration_ms": 1535,
+        "notes": "RainViewer latest radar frame /v2/radar/a6919592c691",
         "auth": "none",
         "summary": {
           "district_count": 14,
           "hotspot_count": 20,
-          "latest_frame_time": "2026-04-08T07:50:00.000Z"
+          "latest_frame_time": "2026-04-08T08:50:00.000Z"
         },
-        "last_successful_fetched_at": "2026-04-08T07:57:26.465Z",
+        "last_successful_fetched_at": "2026-04-08T08:58:44.398Z",
         "reused_in_run": false,
         "reuse_reason": null
       },
       "parsed": {
-        "issued_at": "2026-04-08T07:50:00.000Z",
-        "generated_at": "2026-04-08T07:55:24.000Z",
-        "frame_time": "2026-04-08T07:50:00.000Z",
-        "frame_path": "/v2/radar/325abfdc5094",
+        "issued_at": "2026-04-08T08:50:00.000Z",
+        "generated_at": "2026-04-08T08:55:32.000Z",
+        "frame_time": "2026-04-08T08:50:00.000Z",
+        "frame_path": "/v2/radar/a6919592c691",
         "color_scheme": "universal_blue",
         "districts": [
           {
@@ -5295,14 +5295,14 @@
           {
             "district_id": "wayanad",
             "name": "Wayanad",
-            "intensity": "none",
-            "severity": 0,
-            "max_dbz": -11,
+            "intensity": "light",
+            "severity": 0.25,
+            "max_dbz": 18,
             "sample_location": {
               "lat": 11.6854,
               "lon": 76.132
             },
-            "active_pixels": 0,
+            "active_pixels": 20,
             "hotspot_detection_count": 0
           },
           {
@@ -5321,40 +5321,40 @@
           {
             "district_id": "malappuram",
             "name": "Malappuram",
-            "intensity": "none",
-            "severity": 0,
-            "max_dbz": -11,
+            "intensity": "heavy",
+            "severity": 0.75,
+            "max_dbz": 36,
             "sample_location": {
               "lat": 11.073,
               "lon": 76.074
             },
-            "active_pixels": 0,
-            "hotspot_detection_count": 0
+            "active_pixels": 50,
+            "hotspot_detection_count": 1
           },
           {
             "district_id": "palakkad",
             "name": "Palakkad",
-            "intensity": "none",
-            "severity": 0,
-            "max_dbz": -11,
+            "intensity": "heavy",
+            "severity": 0.75,
+            "max_dbz": 36,
             "sample_location": {
               "lat": 10.7867,
               "lon": 76.6548
             },
-            "active_pixels": 0,
+            "active_pixels": 65,
             "hotspot_detection_count": 0
           },
           {
             "district_id": "thrissur",
             "name": "Thrissur",
-            "intensity": "none",
-            "severity": 0,
-            "max_dbz": -11,
+            "intensity": "heavy",
+            "severity": 0.75,
+            "max_dbz": 36,
             "sample_location": {
               "lat": 10.5276,
               "lon": 76.2144
             },
-            "active_pixels": 0,
+            "active_pixels": 51,
             "hotspot_detection_count": 0
           },
           {
@@ -5401,12 +5401,12 @@
             "name": "Alappuzha",
             "intensity": "light",
             "severity": 0.25,
-            "max_dbz": 9,
+            "max_dbz": 14,
             "sample_location": {
               "lat": 9.4981,
               "lon": 76.3388
             },
-            "active_pixels": 11,
+            "active_pixels": 10,
             "hotspot_detection_count": 2
           },
           {
@@ -5414,12 +5414,12 @@
             "name": "Pathanamthitta",
             "intensity": "light",
             "severity": 0.25,
-            "max_dbz": 9,
+            "max_dbz": 14,
             "sample_location": {
               "lat": 9.2648,
               "lon": 76.787
             },
-            "active_pixels": 13,
+            "active_pixels": 16,
             "hotspot_detection_count": 1
           },
           {
@@ -5427,12 +5427,12 @@
             "name": "Kollam",
             "intensity": "light",
             "severity": 0.25,
-            "max_dbz": 9,
+            "max_dbz": 14,
             "sample_location": {
               "lat": 8.8932,
               "lon": 76.6141
             },
-            "active_pixels": 14,
+            "active_pixels": 16,
             "hotspot_detection_count": 0
           },
           {
@@ -5445,7 +5445,7 @@
               "lat": 8.5241,
               "lon": 76.9366
             },
-            "active_pixels": 7,
+            "active_pixels": 9,
             "hotspot_detection_count": 0
           }
         ],
@@ -5545,10 +5545,10 @@
             "hotspot_id": "h-nilambur-chaliyar",
             "district_id": "malappuram",
             "name": "Nilambur - Chaliyar surge corridor",
-            "intensity": "none",
-            "severity": 0,
-            "max_dbz": -11,
-            "active_pixels": 0,
+            "intensity": "heavy",
+            "severity": 0.75,
+            "max_dbz": 36,
+            "active_pixels": 18,
             "location": {
               "lat": 11.276,
               "lon": 76.226
@@ -5573,8 +5573,8 @@
             "name": "Chengannur - Pandanad floodplain",
             "intensity": "light",
             "severity": 0.25,
-            "max_dbz": 9,
-            "active_pixels": 10,
+            "max_dbz": 14,
+            "active_pixels": 11,
             "location": {
               "lat": 9.323,
               "lon": 76.612
@@ -5719,30 +5719,30 @@
         "name": "NASA IMERG Near-Real-Time",
         "owner": "NASA GPM",
         "category": "satellite-rainfall",
-        "fetched_at": "2026-04-08T07:57:26.467Z",
-        "issued_at": "2026-04-08T02:59:59.000Z",
+        "fetched_at": "2026-04-08T08:58:44.401Z",
+        "issued_at": "2026-04-08T03:59:59.000Z",
         "raw_url": "https://gpm.nasa.gov/imerg",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 297,
-        "duration_ms": 16643,
-        "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260408-S023000-E025959.0150.V07C.30min.zip",
+        "freshness_minutes": 299,
+        "duration_ms": 11168,
+        "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260408-S033000-E035959.0210.V07C.30min.zip",
         "auth": "pps-basic",
         "summary": {
           "district_count": 14,
           "taluk_count": 61,
-          "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260408-S023000-E025959.0150.V07C.30min.zip",
+          "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260408-S033000-E035959.0210.V07C.30min.zip",
           "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260408-S023000-E025959.0150.V07C.3hr.zip",
           "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260408-S023000-E025959.0150.V07C.1day.zip"
         },
-        "last_successful_fetched_at": "2026-04-08T07:57:26.467Z",
+        "last_successful_fetched_at": "2026-04-08T08:58:44.401Z",
         "reused_in_run": false,
         "reuse_reason": null
       },
       "parsed": {
-        "issued_at": "2026-04-08T02:59:59.000Z",
+        "issued_at": "2026-04-08T03:59:59.000Z",
         "districts": [
           {
             "district_id": "kasaragod",
@@ -6846,8 +6846,8 @@
         ],
         "source_files": {
           "half_hour": [
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260408-S023000-E025959.0150.V07C.30min.zip",
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260408-S020000-E022959.0120.V07C.30min.zip"
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260408-S033000-E035959.0210.V07C.30min.zip",
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260408-S030000-E032959.0180.V07C.30min.zip"
           ],
           "three_hour": [
             "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260408-S023000-E025959.0150.V07C.3hr.zip",
