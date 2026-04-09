@@ -251,6 +251,7 @@
             <li><strong>Public alert group</strong>: used only for reviewed severe alerts</li>
           </ul>
           <p>The preferred control path uses a Cloudflare Worker webhook. Telegram sends the command to the Worker, the Worker validates the private command chat, and GitHub applies state-changing commands like pause, resume, approve, and reject.</p>
+          <p>The Worker is intentionally narrow in scope: it serves the Telegram webhook, exposes a simple health check, and is no longer used as a general source-fetch proxy.</p>
           <p><code>/pause_refresh</code> now hard-disables the three refresh workflows, so scheduled refresh runs stop being created until <code>/resume_refresh</code> turns them back on.</p>
           <p>Read-only commands such as <code>/status</code> and <code>/pending_alerts</code> can be answered directly from the webhook. The older poll-based Telegram workflow is kept only as a fallback path.</p>
         </section>

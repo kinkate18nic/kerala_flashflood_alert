@@ -10,7 +10,7 @@ export default {
       return new Response("ok", { status: 200 });
     }
 
-    return handleProxyRequest(request);
+    return jsonResponse({ ok: false, error: "not_found" }, 404);
   }
 };
 
@@ -269,52 +269,6 @@ async function sendTelegramMessage(botToken, chatId, text) {
 
   if (!response.ok) {
     throw new Error(`Telegram send failed: ${response.status} ${await response.text()}`);
-  }
-}
-
-async function handleProxyRequest(request) {
-  const targetUrl = new URL(request.url);
-  const explicitTarget = targetUrl.searchParams.get("url");
-  const upstreamUrl = explicitTarget
-    ? new URL(explicitTarget)
-    : new URL("https://indiawris.gov.in" + targetUrl.pathname + targetUrl.search);
-
-  const headers = new Headers(request.headers);
-  if (upstreamUrl.hostname.includes("indiawris.gov.in")) {
-    headers.set("Origin", "https://indiawris.gov.in");
-    headers.set("Referer", "https://indiawris.gov.in/swagger-ui/index.html");
-  } else if (upstreamUrl.hostname.includes("ffs.india-water.gov.in")) {
-    headers.set("Origin", "https://ffs.india-water.gov.in");
-    headers.set("Referer", "https://ffs.india-water.gov.in/#/main/site");
-  } else if (upstreamUrl.hostname.includes("mausam.imd.gov.in")) {
-    headers.set("Origin", "https://mausam.imd.gov.in");
-    headers.set("Referer", "https://mausam.imd.gov.in/responsive/flashFloodBulletin.php");
-  } else if (upstreamUrl.hostname.includes("sachet.ndma.gov.in")) {
-    headers.set("Origin", "https://sachet.ndma.gov.in");
-    headers.set("Referer", "https://sachet.ndma.gov.in/cap_public_website/rss/rss_kerala.xml");
-  } else if (upstreamUrl.hostname.includes("cap-sources.s3.amazonaws.com")) {
-    headers.set("Origin", "https://cap-sources.s3.amazonaws.com");
-    headers.set("Referer", "https://cap-sources.s3.amazonaws.com/in-imd-en/rss.xml");
-  }
-  headers.set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
-
-  try {
-    const response = await fetch(upstreamUrl, {
-      method: request.method,
-      headers,
-      body: request.method === "GET" || request.method === "HEAD" ? undefined : request.body
-    });
-
-    const responseHeaders = new Headers(response.headers);
-    responseHeaders.set("Access-Control-Allow-Origin", "*");
-
-    return new Response(response.body, {
-      status: response.status,
-      statusText: response.statusText,
-      headers: responseHeaders
-    });
-  } catch (error) {
-    return new Response("Proxy Error: " + error.message, { status: 502 });
   }
 }
 

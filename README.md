@@ -383,6 +383,12 @@ The preferred control path is now:
 4. GitHub updates the repo state files
 5. For alert-review commands, the normal publish workflow then picks up the change and, if approved, can send the severe alert to the public Telegram group
 
+The Worker is now intentionally narrow in scope:
+
+- it serves only the Telegram webhook path
+- it exposes a simple `/healthz` check
+- it is no longer used as a general fetch proxy for source collection
+
 The older 5-minute polling workflow is kept only as a fallback path. If the Telegram bot is switched to webhook mode, polling now exits cleanly instead of failing.
 
 ### What pause means now
