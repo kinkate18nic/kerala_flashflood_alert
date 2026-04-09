@@ -32,7 +32,7 @@ const writeArchiveOutputs = readBooleanFlag(writeArchiveArg, process.env.WRITE_A
 const writeRuntimeDerived = readBooleanFlag(
   writeRuntimeDerivedArg,
   process.env.WRITE_RUNTIME_DERIVED,
-  true
+  false
 );
 const writeMetrics = readBooleanFlag(writeMetricsArg, process.env.WRITE_METRICS, true);
 const writeRawOutputs = readBooleanFlag(writeRawArg, process.env.WRITE_RAW_OUTPUTS, true);

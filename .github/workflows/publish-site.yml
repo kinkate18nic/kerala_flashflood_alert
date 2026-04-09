@@ -56,7 +56,7 @@ jobs:
           CACHE_ONLY: "true"
           WRITE_PUBLIC_OUTPUTS: "true"
           WRITE_ARCHIVE_OUTPUTS: "true"
-          WRITE_RUNTIME_DERIVED: "true"
+          WRITE_RUNTIME_DERIVED: "false"
           WRITE_METRICS: "true"
           WRITE_RAW_OUTPUTS: "false"
         run: node scripts/run-pipeline.js
@@ -75,7 +75,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs runtime/derived runtime/metrics data/manual/review-approvals.json data/manual/review-rejections.json
+          git add docs runtime/metrics data/manual/review-approvals.json data/manual/review-rejections.json
           if git diff --cached --quiet; then
             echo "No publish changes to commit"
           else

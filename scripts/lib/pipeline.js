@@ -740,7 +740,7 @@ export async function runPipeline(repoRoot, options = {}) {
   const generatedAt = nowIso();
   const writePublicOutputs = options.writePublicOutputs !== false;
   const writeArchiveOutputs = options.writeArchiveOutputs !== false;
-  const writeRuntimeDerived = options.writeRuntimeDerived !== false;
+  const writeRuntimeDerived = options.writeRuntimeDerived === true;
   const writeMetrics = options.writeMetrics !== false;
   const writeRawOutputs = options.writeRawOutputs !== false;
   const sources = await readJson(path.join(repoRoot, "config", "sources.json"));

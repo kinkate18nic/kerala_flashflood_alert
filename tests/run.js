@@ -67,7 +67,6 @@ async function testTrackedOutputsHaveNoMergeMarkersOrBrokenJson() {
     path.join("docs", "data", "archive", "index.json"),
     path.join("docs", "data", "latest"),
     path.join("docs", "data", "static"),
-    path.join("runtime", "derived", "latest"),
     path.join("runtime", "metrics", "latest-run.json"),
     path.join("runtime", "metrics", "nasa-imerg-history.json"),
     path.join("scripts", "lib", "pipeline.js"),
