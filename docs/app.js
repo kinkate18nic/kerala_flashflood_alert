@@ -3,8 +3,7 @@ const state = {
   mapScope: "district",
   payload: null,
   archiveIndex: null,
-  districtGeometry: null,
-  talukGeometry: null
+  districtGeometry: null
 };
 
 const levelColors = {
@@ -55,8 +54,39 @@ const districtNameLookup = {
   wayanad: "wayanad"
 };
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function escapeAttr(value) {
+  return escapeHtml(value);
+}
+
+function safeStatusClass(status) {
+  switch (status) {
+    case "ok":
+    case "stale":
+    case "offline":
+    case "degraded":
+      return status;
+    default:
+      return "degraded";
+  }
+}
+
+function renderTextList(items = [], className = "evidence-list") {
+  return `<ul class="${escapeAttr(className)}">${items
+    .map((item) => `<li>${escapeHtml(item)}</li>`)
+    .join("")}</ul>`;
+}
+
 function levelPill(level) {
-  return `<span class="level-pill" style="background:${levelColors[level] ?? "var(--accent)"}">${level}</span>`;
+  return `<span class="level-pill" style="background:${escapeAttr(levelColors[level] ?? "var(--accent)")}">${escapeHtml(level)}</span>`;
 }
 
 async function fetchJson(url, fallback) {
@@ -217,7 +247,7 @@ function cardScopeLabel(item, suffix = "") {
 }
 
 function openEvidence(title, body) {
-  references.dialogContent.innerHTML = `<h2>${title}</h2>${body}`;
+  references.dialogContent.innerHTML = `<h2>${escapeHtml(title)}</h2>${body}`;
   references.dialog.showModal();
 }
 
@@ -244,7 +274,7 @@ function sourceLinkMarkup(sourceId) {
   if (!link) {
     return "";
   }
-  return ` <a class="source-link" href="${link}" target="_blank" rel="noopener noreferrer">Open source</a>`;
+  return ` <a class="source-link" href="${escapeAttr(link)}" target="_blank" rel="noopener noreferrer">Open source</a>`;
 }
 
 function normalizeBoundaryName(value) {
@@ -386,37 +416,6 @@ function hotspotPosition(hotspot, projectedCentroids, districtAnchorsById, proje
   };
 }
 
-function getTalukIdFromFeature(feature, talukLookup) {
-  const districtName =
-    feature?.properties?.DISTRICT ??
-    feature?.properties?.district ??
-    feature?.properties?.DIST_NAME ??
-    "";
-  const talukName =
-    feature?.properties?.TALUK ??
-    feature?.properties?.taluk ??
-    feature?.properties?.name ??
-    "";
-  const districtId = districtNameLookup[normalizeBoundaryName(districtName)] ?? null;
-  if (!districtId) {
-    return null;
-  }
-  return talukLookup[`${districtId}--${normalizeBoundaryName(talukName)}`] ?? null;
-}
-
-function shouldRenderTalukLabel(item) {
-  if (!item) {
-    return false;
-  }
-  if (item.level && item.level !== "Normal") {
-    return true;
-  }
-  if ((item.hotspot_count ?? 0) > 0) {
-    return true;
-  }
-  return (item.score ?? 0) >= 18;
-}
-
 function bindMapInteractions() {
   document.querySelectorAll("[data-area-id][data-area-type]").forEach((element) => {
     element.addEventListener("click", () => {
@@ -431,13 +430,13 @@ function bindMapInteractions() {
           <p><strong>Composite score:</strong> ${horizonAdjustedScore(item).toFixed(0)} / 100</p>
           <p><strong>Confidence:</strong> ${(item.confidence * 100).toFixed(0)}%</p>
           <h3>Drivers</h3>
-          <ul class="evidence-list">${item.drivers.map((driver) => `<li>${driver}</li>`).join("")}</ul>
+          ${renderTextList(item.drivers)}
           <h3>Source evidence</h3>
           <ul class="evidence-list">
             ${item.source_refs
               .map(
                 (source) =>
-                  `<li><strong>${source.source_id}</strong>: ${source.detail} (${source.status}, freshness ${source.freshness_minutes ?? "n/a"} min)${sourceLinkMarkup(source.source_id)}</li>`
+                  `<li><strong>${escapeHtml(source.source_id)}</strong>: ${escapeHtml(source.detail)} (${escapeHtml(source.status)}, freshness ${escapeHtml(source.freshness_minutes ?? "n/a")} min)${sourceLinkMarkup(source.source_id)}</li>`
               )
               .join("")}
           </ul>
@@ -465,12 +464,12 @@ function renderHeadline() {
   references.headlineCard.innerHTML = topAlert
     ? `
       ${levelPill(topAlert.level)}
-      <h3>Top concern: ${topAlert.name}</h3>
-      <p>${alerts.length === 1 ? "Current top alert" : `${alerts.length} active alerts are listed below`}. Highest current concern: ${topAlert.message_en}</p>
+      <h3>Top concern: ${escapeHtml(topAlert.name)}</h3>
+      <p>${alerts.length === 1 ? "Current top alert" : `${alerts.length} active alerts are listed below`}. Highest current concern: ${escapeHtml(topAlert.message_en)}</p>
       <div class="meta">
         <span>${horizonLabel()}</span>
         <span>${affectedDistricts.size || 1} district${affectedDistricts.size === 1 ? "" : "s"} affected</span>
-        <span>${topAlert.review_state.replaceAll("_", " ")}</span>
+        <span>${escapeHtml(topAlert.review_state.replaceAll("_", " "))}</span>
       </div>
     `
     : `
@@ -485,17 +484,9 @@ function renderHeadline() {
 }
 
 function renderMap() {
-  const { areas, districtRisk, talukRisk, hotspotRisk } = state.payload;
+  const { areas, districtRisk, hotspotRisk } = state.payload;
   const districtById = Object.fromEntries(districtRisk.districts.map((item) => [item.area_id, item]));
-  const talukById = Object.fromEntries(talukRisk.taluks.map((item) => [item.area_id, item]));
   const hotspotById = Object.fromEntries(hotspotRisk.hotspots.map((item) => [item.area_id, item]));
-  const talukLookup = Object.fromEntries(
-    (areas.taluks ?? []).map((taluk) => [
-      `${taluk.district_id}--${normalizeBoundaryName(taluk.name)}`,
-      taluk.taluk_id
-    ])
-  );
-  const showTaluks = false;
 
   if (!state.districtGeometry?.features?.length) {
     references.districtLayer.innerHTML = "";
@@ -505,13 +496,9 @@ function renderMap() {
     return;
   }
 
-  const visibleFeatures = showTaluks
-    ? state.talukGeometry.features
-        .map((feature) => ({ ...feature, taluk_id: getTalukIdFromFeature(feature, talukLookup) }))
-        .filter((feature) => feature.taluk_id && talukById[feature.taluk_id])
-    : state.districtGeometry.features
-        .map((feature) => ({ ...feature, district_id: getDistrictIdFromFeature(feature) }))
-        .filter((feature) => feature.district_id && districtById[feature.district_id]);
+  const visibleFeatures = state.districtGeometry.features
+    .map((feature) => ({ ...feature, district_id: getDistrictIdFromFeature(feature) }))
+    .filter((feature) => feature.district_id && districtById[feature.district_id]);
 
   if (!visibleFeatures.length) {
     references.districtLayer.innerHTML = "";
@@ -525,60 +512,36 @@ function renderMap() {
   const project = buildProjector(bounds);
   const districtAnchorsById = Object.fromEntries(areas.districts.map((district) => [district.id, district.anchor]));
   const projectedCentroids = {};
-  const districtContextFeatures = showTaluks
-    ? state.districtGeometry.features
-        .map((feature) => ({ ...feature, district_id: getDistrictIdFromFeature(feature) }))
-        .filter((feature) => feature.district_id && districtById[feature.district_id])
-    : [];
 
   references.districtLayer.innerHTML = visibleFeatures
     .map((feature) => {
-      const areaId = showTaluks ? feature.taluk_id : feature.district_id;
-      const item = showTaluks ? talukById[feature.taluk_id] : districtById[feature.district_id];
+      const areaId = feature.district_id;
+      const item = districtById[feature.district_id];
       const pathData = geometryToPath(feature.geometry, project);
       const level = item?.level ?? "Normal";
       const centroid = centroidFromBounds(geometryBounds(feature.geometry), project);
       projectedCentroids[areaId] = centroid;
       return `
         <path
-          class="district-shape${showTaluks ? " taluk-shape" : ""}"
-          data-area-id="${areaId}"
-          data-area-type="${showTaluks ? "taluk" : "district"}"
+          class="district-shape"
+          data-area-id="${escapeAttr(areaId)}"
+          data-area-type="district"
           d="${pathData}"
-          fill="${levelColors[level] ?? "var(--normal)"}"
-          title="${item?.name ?? areaId}"
+          fill="${escapeAttr(levelColors[level] ?? "var(--normal)")}"
+          title="${escapeAttr(item?.name ?? areaId)}"
         ></path>
       `;
     })
     .join("");
 
-  if (showTaluks && districtContextFeatures.length) {
-    references.districtLayer.innerHTML =
-      districtContextFeatures
-        .map((feature) => `
-          <path
-            class="district-shape district-context"
-            d="${geometryToPath(feature.geometry, project)}"
-            fill="none"
-          ></path>
-        `)
-        .join("") + references.districtLayer.innerHTML;
-  }
-
   references.districtLabelLayer.innerHTML = visibleFeatures
-    .filter((feature) => {
-      if (!showTaluks) {
-        return true;
-      }
-      return shouldRenderTalukLabel(talukById[feature.taluk_id]);
-    })
     .map((feature) => {
-      const areaId = showTaluks ? feature.taluk_id : feature.district_id;
+      const areaId = feature.district_id;
       const centroid = projectedCentroids[areaId];
-      const item = showTaluks ? talukById[feature.taluk_id] : districtById[feature.district_id];
+      const item = districtById[feature.district_id];
       return `
-        <text class="district-label${showTaluks ? " taluk-label" : ""}" x="${centroid.x.toFixed(1)}" y="${(centroid.y + 4).toFixed(1)}">
-          ${item?.name ?? feature.district_id}
+        <text class="district-label" x="${centroid.x.toFixed(1)}" y="${(centroid.y + 4).toFixed(1)}">
+          ${escapeHtml(item?.name ?? feature.district_id)}
         </text>
       `;
     })
@@ -593,10 +556,10 @@ function renderMap() {
         return `
           <path
             class="hotspot-footprint"
-            data-area-id="${hotspot.id}"
+            data-area-id="${escapeAttr(hotspot.id)}"
             data-area-type="hotspot"
             d="${featureToPath(hotspot.footprint, project)}"
-            fill="${levelColors[level] ?? "var(--normal)"}"
+            fill="${escapeAttr(levelColors[level] ?? "var(--normal)")}"
           ></path>
         `;
       }),
@@ -607,12 +570,12 @@ function renderMap() {
       return `
         <circle
           class="hotspot-marker"
-          data-area-id="${hotspot.id}"
+          data-area-id="${escapeAttr(hotspot.id)}"
           data-area-type="hotspot"
           cx="${position.x.toFixed(1)}"
           cy="${position.y.toFixed(1)}"
           r="6"
-          fill="${levelColors[level] ?? "var(--normal)"}"
+          fill="${escapeAttr(levelColors[level] ?? "var(--normal)")}"
         ></circle>
       `;
     })
@@ -625,16 +588,16 @@ function renderAlerts() {
   references.alertsList.innerHTML = sortByHorizon(state.payload.alerts.alerts)
     .map(
       (alert) => `
-        <article class="alert-row" data-alert-id="${alert.alert_id}">
+        <article class="alert-row" data-alert-id="${escapeAttr(alert.alert_id)}">
           <div>
             ${levelPill(alert.level)}
-            <h3>${alert.name}</h3>
-            <p>${alert.message_en}</p>
+            <h3>${escapeHtml(alert.name)}</h3>
+            <p>${escapeHtml(alert.message_en)}</p>
           </div>
           <div class="meta">
             <span>${horizonLabel()}</span>
             <span>Score ${horizonAdjustedScore(alert)}</span>
-            <span>${alert.review_state.replaceAll("_", " ")}</span>
+            <span>${escapeHtml(alert.review_state.replaceAll("_", " "))}</span>
           </div>
           <button class="chip subtle" type="button">Evidence</button>
         </article>
@@ -649,11 +612,11 @@ function renderAlerts() {
         `${alert.name} alert`,
         `
           ${levelPill(alert.level)}
-          <p>${alert.message_en}</p>
+          <p>${escapeHtml(alert.message_en)}</p>
           <h3>Drivers</h3>
-          <ul class="evidence-list">${alert.drivers.map((driver) => `<li>${driver}</li>`).join("")}</ul>
+          ${renderTextList(alert.drivers)}
           <h3>Recommended actions</h3>
-          <ul class="actions-list">${alert.recommended_actions.map((action) => `<li>${action}</li>`).join("")}</ul>
+          ${renderTextList(alert.recommended_actions, "actions-list")}
         `
       );
     });
@@ -664,13 +627,13 @@ function renderRiskCards(target, items, suffix = "") {
   target.innerHTML = sortByHorizon(items)
     .map(
       (item) => `
-        <article class="risk-card" data-id="${item.area_id}">
+        <article class="risk-card" data-id="${escapeAttr(item.area_id)}">
           ${levelPill(item.level)}
-          <h3>${item.name}</h3>
+          <h3>${escapeHtml(item.name)}</h3>
           <div class="score">${horizonAdjustedScore(item)}</div>
-          <p>${cardSummary(item)}</p>
+          <p>${escapeHtml(cardSummary(item))}</p>
           <div class="meta">
-            <span>${cardScopeLabel(item, suffix)}</span>
+            <span>${escapeHtml(cardScopeLabel(item, suffix))}</span>
           </div>
         </article>
       `
@@ -765,11 +728,25 @@ const SOURCE_META = {
 };
 
 function sourceStatusMessage(source) {
-  if (source.fetch_status === "skipped") {
-    return "This source has no usable refresh snapshot yet, so it is not contributing to scoring right now.";
+  if (source.published_from_cache) {
+    return source.status === "offline"
+      ? "This published snapshot reflects the latest refresh state, and this source is currently unavailable."
+      : "This published snapshot was rebuilt from the latest refresh state for this source.";
   }
-  if (source.fetch_status === "failed" || source.parser_status === "failed") {
-    return "The latest refresh could not produce usable data from this source, so scoring is proceeding without it for now.";
+  if (source.fetch_status === "failed_cached") {
+    return "This source is unavailable in the latest refresh state.";
+  }
+  if (source.fetch_status === "skipped_cached") {
+    return "This source was not part of the latest refresh flow.";
+  }
+  if (source.fetch_status === "skipped") {
+    return "This source was not part of the latest refresh flow.";
+  }
+  if (source.fetch_status === "failed") {
+    return "This source was unavailable in the latest refresh state, so current scoring is proceeding without it.";
+  }
+  if (source.parser_status === "failed") {
+    return "This source is unavailable in the latest refresh state, so current scoring is proceeding without it.";
   }
   if (source.status === "offline") {
     return "This source is currently unavailable, so current scoring is proceeding without it.";
@@ -806,27 +783,33 @@ function sourceDataPublishedLabel(source) {
 }
 
 function sourceLastCheckedLabel(source) {
-  return source.fetched_at ? formatTime(source.fetched_at) : "Unknown";
+  const checkedAt = source.fetched_at;
+  return checkedAt ? formatTime(checkedAt) : "Unknown";
 }
 
 function sourceCurrentRunLabel(source) {
-  if (source.reuse_reason === "publish_from_cache") {
-    if (source.fetch_status === "failed" || source.parser_status === "failed") {
-      return "Published from latest unavailable refresh snapshot";
-    }
-    return "Published from latest refresh snapshot";
-  }
-  if (source.reuse_reason === "source_selection") {
-    return "Not refreshed in this workflow";
+  if (source.published_from_cache) {
+    return source.status === "offline"
+      ? "Published as unavailable from latest refresh state"
+      : "Published from latest refresh state";
   }
   if (source.fetch_status === "ok" && source.parser_status === "ok") {
     return "Live refresh succeeded";
   }
-  if (source.fetch_status === "skipped") {
-    return "No refresh snapshot available yet";
+  if (source.fetch_status === "failed_cached") {
+    return "Unavailable in latest refresh state";
   }
-  if (source.fetch_status === "failed" || source.parser_status === "failed") {
-    return "Latest refresh unavailable";
+  if (source.fetch_status === "skipped_cached") {
+    return "Not part of this refresh flow";
+  }
+  if (source.fetch_status === "skipped") {
+    return "Not part of this refresh flow";
+  }
+  if (source.fetch_status === "failed") {
+    return "Unavailable in latest refresh state";
+  }
+  if (source.parser_status === "failed") {
+    return "Unavailable in latest refresh state";
   }
   return "Checked in this run";
 }
@@ -851,74 +834,106 @@ function formatCadence(minutes) {
 
 function dataUsageSummary(source) {
   const dataPublishedLabel = source.issued_at ? formatTime(source.issued_at) : "an unknown publication time";
-  const refreshLabel = source.fetched_at ? formatTime(source.fetched_at) : "an unknown check time";
+  const refreshLabel = source.fetched_at
+    ? formatTime(source.fetched_at)
+    : "the latest refresh attempt";
 
+  if (source.published_from_cache) {
+    if (source.status === "offline") {
+      return `This page was rebuilt from the latest refresh state. This source was last checked at ${refreshLabel} and is currently unavailable, so it is not contributing to scoring.`;
+    }
+    return `Showing data published at ${dataPublishedLabel}. This page was rebuilt from the latest refresh state, last checked by our system at ${refreshLabel}.`;
+  }
+
+  if (source.fetch_status === "failed_cached") {
+    return `Showing data published at ${dataPublishedLabel}. This source is unavailable in the latest refresh state and was last checked at ${refreshLabel}.`;
+  }
+  if (source.fetch_status === "skipped_cached") {
+    return `Showing data published at ${dataPublishedLabel}. This source was not part of the latest refresh flow.`;
+  }
   if (source.fetch_status === "skipped") {
-    return "No usable data is available for this source yet, so it is not contributing to scoring right now.";
+    return "No usable data was available for this source in the current run.";
   }
-  if (source.fetch_status === "failed" || source.parser_status === "failed") {
-    return `The latest refresh checked this source at ${refreshLabel}, but no usable data was available, so it is not contributing to scoring right now.`;
+  if (source.fetch_status === "failed") {
+    return `This source was last checked at ${refreshLabel} and is unavailable in the latest refresh state, so it is not contributing right now.`;
   }
-  if (source.reuse_reason === "publish_from_cache") {
-    return `Showing data published at ${dataPublishedLabel}. This page was rebuilt from the latest refresh snapshot, last checked by our system at ${refreshLabel}.`;
+  if (source.parser_status === "failed") {
+    return `This source was last checked at ${refreshLabel} and is unavailable in the latest refresh state, so it is not contributing right now.`;
   }
-  return `Showing data published at ${dataPublishedLabel}. Last checked by our system at ${refreshLabel}.`;
+  return `Showing data published at ${dataPublishedLabel}.`;
 }
 
 function openSourceDetails(source) {
   const meta = SOURCE_META[source.source_id] ?? {};
   const freshLabel = formatFreshness(source.freshness_minutes);
+  const cadenceLabel = meta.cadence ?? "Unknown";
   const fetchNote = source.notes || source.summary?.excerpt || "None";
   const sourceLink = meta.source_url ?? publicSourceUrl(source.raw_url);
-  const hasUsableSnapshot = source.fetch_status === "ok" && source.parser_status === "ok";
+  const fetchFailed = source.fetch_status === "failed";
+  const fetchFallback = source.fetch_status === "failed_cached";
+  const parserFailed = source.parser_status === "failed";
+  const parserFallback = source.parser_status === "failed_cached";
+  const parserStateClass =
+    parserFailed ? "status-offline" : parserFallback ? "status-degraded" : source.parser_status === "ok" ? "status-ok" : "status-degraded";
+  const fetchStateClass =
+    fetchFailed ? "status-offline" : fetchFallback ? "status-degraded" : source.fetch_status === "ok" ? "status-ok" : "status-degraded";
+  const sourceStatusClass = safeStatusClass(source.status);
 
   openEvidence(
     source.name,
     `
-      <p class="source-detail-desc">${meta.description ?? source.name}</p>
-      <p class="source-detail-desc"><strong>Data in use:</strong> ${dataUsageSummary(source)}</p>
+      <p class="source-detail-desc">${escapeHtml(meta.description ?? source.name)}</p>
+      <p class="source-detail-desc"><strong>Data in use:</strong> ${escapeHtml(dataUsageSummary(source))}</p>
       ${
         sourceLink
-          ? `<p class="source-detail-desc"><strong>Source link:</strong> <a class="source-link" href="${sourceLink}" target="_blank" rel="noopener noreferrer">Open original source</a></p>`
+          ? `<p class="source-detail-desc"><strong>Source link:</strong> <a class="source-link" href="${escapeAttr(sourceLink)}" target="_blank" rel="noopener noreferrer">Open original source</a></p>`
           : ""
       }
       <div class="source-detail-grid">
         <div class="source-detail-row">
           <span class="source-detail-label">Status</span>
-          <span class="status-${source.status} source-detail-value">${sourceHealthLabel(source)}</span>
+          <span class="status-${sourceStatusClass} source-detail-value">${escapeHtml(sourceHealthLabel(source))}</span>
         </div>
         <div class="source-detail-row">
           <span class="source-detail-label">Data age</span>
-          <span class="source-detail-value">${freshLabel}</span>
+          <span class="source-detail-value">${escapeHtml(freshLabel)}</span>
         </div>
         <div class="source-detail-row">
           <span class="source-detail-label">Data published</span>
-          <span class="source-detail-value">${sourceDataPublishedLabel(source)}</span>
+          <span class="source-detail-value">${escapeHtml(sourceDataPublishedLabel(source))}</span>
         </div>
         <div class="source-detail-row">
           <span class="source-detail-label">Last checked by our system</span>
-          <span class="source-detail-value">${sourceLastCheckedLabel(source)}</span>
+          <span class="source-detail-value">${escapeHtml(sourceLastCheckedLabel(source))}</span>
         </div>
         <div class="source-detail-row">
           <span class="source-detail-label">This run</span>
-          <span class="source-detail-value">${sourceCurrentRunLabel(source)}</span>
+          <span class="source-detail-value">${escapeHtml(sourceCurrentRunLabel(source))}</span>
         </div>
         <div class="source-detail-row">
-          <span class="source-detail-label">Typical refresh schedule</span>
-          <span class="source-detail-value">${meta.cadence ?? "Unknown"}</span>
+          <span class="source-detail-label">Expected cadence</span>
+          <span class="source-detail-value">${escapeHtml(cadenceLabel)}</span>
         </div>
         <div class="source-detail-row">
           <span class="source-detail-label">Collection method</span>
-          <span class="source-detail-value">${meta.method ?? "Unknown"}</span>
+          <span class="source-detail-value">${escapeHtml(meta.method ?? "Unknown")}</span>
+        </div>
+        <div class="source-detail-row">
+          <span class="source-detail-label">Fetch</span>
+          <span class="source-detail-value ${fetchStateClass}">${escapeHtml(source.fetch_status ?? "unknown")}</span>
+        </div>
+        <div class="source-detail-row">
+          <span class="source-detail-label">Parser</span>
+          <span class="source-detail-value ${parserStateClass}">${escapeHtml(source.parser_status)}</span>
         </div>
       </div>
-      ${hasUsableSnapshot && fetchNote !== "None" ? `
-        <h3>Notes</h3>
-        <p class="source-detail-fetch-note">${fetchNote}</p>
+      ${fetchNote !== "None" ? `
+        <h3>${fetchFailed || fetchFallback ? "Fetch Notes" : parserFailed || parserFallback ? "Parser Notes" : "Notes"}</h3>
+        <p class="source-detail-fetch-note">${escapeHtml(fetchNote)}</p>
       ` : ""}
       ${source.status === "offline" || source.status === "degraded" ? `
         <h3>Impact</h3>
-        <p class="source-detail-impact">${meta.impact ?? sourceStatusMessage(source)}</p>
+        <p class="source-detail-impact">${escapeHtml(meta.impact ?? sourceStatusMessage(source))}</p>
       ` : ""}
     `
   );
@@ -928,29 +943,29 @@ function renderSources() {
   references.sourceGrid.innerHTML = state.payload.sources.sources
     .map(
       (source) => {
-        const meta = SOURCE_META[source.source_id] ?? {};
+        const statusClass = safeStatusClass(source.status);
         return `
-          <article class="source-card" data-source-id="${source.source_id}">
+          <article class="source-card" data-source-id="${escapeAttr(source.source_id)}">
             <button class="source-info-btn" title="View details" type="button">i</button>
-            <div class="label">${source.owner}</div>
-            <h3>${source.name}</h3>
-            <div class="score status-${source.status}">${sourceHealthLabel(source)}</div>
+            <div class="label">${escapeHtml(source.owner)}</div>
+            <h3>${escapeHtml(source.name)}</h3>
+            <div class="score status-${statusClass}">${escapeHtml(sourceHealthLabel(source))}</div>
             <div class="source-facts">
               <div class="source-fact-row">
                 <span class="source-fact-label">Data age</span>
-                <span class="source-fact-value">${formatFreshness(source.freshness_minutes)}</span>
+                <span class="source-fact-value">${escapeHtml(formatFreshness(source.freshness_minutes))}</span>
               </div>
               <div class="source-fact-row">
                 <span class="source-fact-label">Data published</span>
-                <span class="source-fact-value">${sourceDataPublishedLabel(source)}</span>
+                <span class="source-fact-value">${escapeHtml(sourceDataPublishedLabel(source))}</span>
               </div>
               <div class="source-fact-row">
                 <span class="source-fact-label">Last checked by our system</span>
-                <span class="source-fact-value">${sourceLastCheckedLabel(source)}</span>
+                <span class="source-fact-value">${escapeHtml(sourceLastCheckedLabel(source))}</span>
               </div>
               <div class="source-fact-row">
                 <span class="source-fact-label">This run</span>
-                <span class="source-fact-value">${sourceCurrentRunLabel(source)}</span>
+                <span class="source-fact-value">${escapeHtml(sourceCurrentRunLabel(source))}</span>
               </div>
             </div>
           </article>
@@ -983,7 +998,7 @@ function renderAll() {
 
 async function loadPayload() {
   const fresh = `t=${Date.now()}`;
-  const [areas, dashboard, sources, districtRisk, talukRisk, hotspotRisk, alerts, archiveIndex, districtGeometry, talukGeometry] = await Promise.all([
+  const [areas, dashboard, sources, districtRisk, talukRisk, hotspotRisk, alerts, archiveIndex, districtGeometry] = await Promise.all([
     fetchJson("./data/static/areas.json"),
     fetchJson(`./data/latest/dashboard.json?${fresh}`),
     fetchJson(`./data/latest/sources.json?${fresh}`),
@@ -992,13 +1007,11 @@ async function loadPayload() {
     fetchJson(`./data/latest/hotspot-risk.json?${fresh}`),
     fetchJson(`./data/latest/alerts.json?${fresh}`),
     fetchJson(`./data/latest/archive-index.json?${fresh}`),
-    fetchJson("./assets/kerala-districts.geojson"),
-    fetchJson("./assets/kerala-taluks.geojson")
+    fetchJson("./assets/kerala-districts.geojson")
   ]);
 
   state.archiveIndex = archiveIndex;
   state.districtGeometry = districtGeometry;
-  state.talukGeometry = talukGeometry;
   state.payload = { areas, dashboard, sources, districtRisk, talukRisk, hotspotRisk, alerts };
   references.archiveSelect.innerHTML = [
     `<option value="latest">Latest run</option>`,
@@ -1006,11 +1019,13 @@ async function loadPayload() {
       .slice(0, 20)
       .map(
         (run) =>
-          `<option value="${run.path}">${new Date(run.generated_at).toLocaleString("en-IN", {
-            dateStyle: "medium",
-            timeStyle: "short",
-            timeZone: "Asia/Kolkata"
-          })} - ${run.headline_level}</option>`
+          `<option value="${escapeAttr(run.path)}">${escapeHtml(
+            `${new Date(run.generated_at).toLocaleString("en-IN", {
+              dateStyle: "medium",
+              timeStyle: "short",
+              timeZone: "Asia/Kolkata"
+            })} - ${run.headline_level}`
+          )}</option>`
       )
   ].join("");
   renderAll();

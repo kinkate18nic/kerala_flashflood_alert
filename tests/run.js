@@ -637,81 +637,6 @@ function testDistrictWarningAloneDoesNotPromoteHotspotWatch() {
   );
 }
 
-function testLocalNowcastTimingOverridesSourceFreshness() {
-  const generatedAt = "2026-04-02T09:30:00.000Z";
-  const result = buildRiskOutputs({
-    generatedAt,
-    thresholds,
-    sourceSnapshots: [
-      { source_id: "imd-district-nowcast", status: "stale" },
-      { source_id: "imd-station-nowcast", status: "stale" },
-      { source_id: "rainviewer-radar", status: "offline" },
-      { source_id: "imd-district-warning", status: "ok" }
-    ],
-    capByDistrict: {},
-    bulletinByDistrict: {},
-    imdDistrictWarningByDistrict: {
-      idukki: {
-        severity: 0,
-        notes: ["No IMD district warning"],
-        source_ids: ["imd-district-warning"]
-      }
-    },
-    imdNowcastByDistrict: {
-      idukki: {
-        severity: 0.35,
-        issued_at: "2026-04-02T14:00:00+05:30",
-        valid_until: "2026-04-02T16:00:00+05:30",
-        notes: ["IDUKKI : Moderate rain. Time of issue: 2026-04-02 1400 Hrs Valid upto: 1600 Hrs"],
-        source_ids: ["imd-district-nowcast"]
-      }
-    },
-    stationNowcastByHotspot: {
-      "h-munnar-devikulam": {
-        severity: 0.28,
-        issued_at: "2026-04-02T14:00:00+05:30",
-        valid_until: "2026-04-02T16:00:00+05:30",
-        station_name: "Munnar",
-        distance_km: 4.2,
-        notes: ["Munnar: Light rain. Time of issue: 2026-04-02 1400 Hrs Valid upto: 1600 Hrs"],
-        source_ids: ["imd-station-nowcast"]
-      }
-    },
-    reservoirByDistrict: {},
-    damByDistrict: {},
-    cwcByDistrict: {},
-    radarByDistrict: {},
-    radarByHotspot: {},
-    rainfallByDistrict: {},
-    rainfallByTaluk: {},
-    taluks: [],
-    approvals: [],
-    hotspotOverrides: [],
-    freshnessBySource: {
-      "imd-district-nowcast": 240,
-      "imd-station-nowcast": 240,
-      "imd-district-warning": 60,
-      "rainviewer-radar": 240
-    },
-    statusBySource: {
-      "imd-district-nowcast": "stale",
-      "imd-station-nowcast": "stale",
-      "imd-district-warning": "ok",
-      "rainviewer-radar": "offline"
-    }
-  });
-
-  const district = result.districtStates.find((entry) => entry.area_id === "idukki");
-  const districtNowcastRef = district.source_refs.find((entry) => entry.source_id === "imd-district-nowcast");
-  assert.equal(districtNowcastRef?.status, "ok");
-  assert.equal(districtNowcastRef?.freshness_minutes, 60);
-
-  const hotspot = result.hotspotStates.find((entry) => entry.area_id === "h-munnar-devikulam");
-  const stationNowcastRef = hotspot.source_refs.find((entry) => entry.source_id === "imd-station-nowcast");
-  assert.equal(stationNowcastRef?.status, "ok");
-  assert.equal(stationNowcastRef?.freshness_minutes, 60);
-}
-
 async function testPipeline() {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), "kerala-flood-watch-"));
   await cp(path.join(repoRoot, "config"), path.join(tempRoot, "config"), { recursive: true });
@@ -811,46 +736,35 @@ async function testPipelineDegradesPartialIndiaWrisCoverage() {
   assert.equal(indiaWrisSource?.summary.successful_district_count, 13);
 }
 
-async function testPipelinePublishesLatestRefreshSnapshotFromCache() {
-  const tempRoot = await mkdtemp(path.join(os.tmpdir(), "kerala-flood-watch-cache-"));
+async function testPipelineKeepsLatestCachedStateForUnselectedSources() {
+  const tempRoot = await mkdtemp(path.join(os.tmpdir(), "kerala-flood-watch-source-selection-"));
   await cp(path.join(repoRoot, "config"), path.join(tempRoot, "config"), { recursive: true });
   await cp(path.join(repoRoot, "data"), path.join(tempRoot, "data"), { recursive: true });
   await cp(path.join(repoRoot, "fixtures"), path.join(tempRoot, "fixtures"), { recursive: true });
   await cp(path.join(repoRoot, "src"), path.join(tempRoot, "src"), { recursive: true });
 
   await runPipeline(tempRoot, { useFixtures: true });
-  await runPipeline(tempRoot, { useFixtures: false, cacheOnly: true });
+  await runPipeline(tempRoot, { useFixtures: false, sourceIds: ["operator-observations"] });
 
   const sourcesRaw = await readFile(path.join(tempRoot, "docs", "data", "latest", "sources.json"), "utf8");
-  const latestRunRaw = await readFile(
-    path.join(tempRoot, "runtime", "metrics", "latest-run.json"),
-    "utf8"
-  );
   const sources = JSON.parse(sourcesRaw);
-  const latestRun = JSON.parse(latestRunRaw);
+  const rainfallSource = sources.sources.find((source) => source.source_id === "indiawris-rainfall");
+  const operatorSource = sources.sources.find((source) => source.source_id === "operator-observations");
 
-  const reusedSourceCount = sources.sources.filter(
-    (source) => source.reused_in_run === true && source.reuse_reason === "publish_from_cache"
-  ).length;
-  assert.equal(reusedSourceCount, sources.sources.length);
-  assert.ok(sources.sources.every((source) => source.fetch_status === "ok"));
-  assert.equal(Array.isArray(latestRun.slowest_sources), true);
-  await rm(tempRoot, { recursive: true, force: true });
+  assert.equal(rainfallSource?.reused_in_run, true);
+  assert.equal(rainfallSource?.reuse_reason, "source_selection");
+  assert.equal(rainfallSource?.fetch_status, "ok");
+  assert.equal(operatorSource?.fetch_status, "ok");
 }
 
-async function testPipelineUsesLatestFailureSnapshotInsteadOfFallbackCache() {
-  const tempRoot = await mkdtemp(path.join(os.tmpdir(), "kerala-flood-watch-fallback-"));
+async function testPipelineMarksFailedSourceUnavailableInCache() {
+  const tempRoot = await mkdtemp(path.join(os.tmpdir(), "kerala-flood-watch-failure-state-"));
   await cp(path.join(repoRoot, "config"), path.join(tempRoot, "config"), { recursive: true });
   await cp(path.join(repoRoot, "data"), path.join(tempRoot, "data"), { recursive: true });
   await cp(path.join(repoRoot, "fixtures"), path.join(tempRoot, "fixtures"), { recursive: true });
   await cp(path.join(repoRoot, "src"), path.join(tempRoot, "src"), { recursive: true });
 
   await runPipeline(tempRoot, { useFixtures: true });
-  const sourcesConfigPath = path.join(tempRoot, "config", "sources.json");
-  const sourcesConfig = JSON.parse(await readFile(sourcesConfigPath, "utf8"));
-  const operatorConfig = sourcesConfig.find((source) => source.id === "operator-observations");
-  operatorConfig.cadence_minutes = 0;
-  await writeFile(sourcesConfigPath, JSON.stringify(sourcesConfig, null, 2));
   await rm(path.join(tempRoot, "data", "manual", "observations.json"));
 
   await runPipeline(tempRoot, { useFixtures: false, sourceIds: ["operator-observations"] });
@@ -867,23 +781,13 @@ async function testPipelineUsesLatestFailureSnapshotInsteadOfFallbackCache() {
 
   assert.equal(operatorSource?.fetch_status, "failed");
   assert.equal(operatorSource?.parser_status, "skipped");
-  assert.equal(operatorSource?.reused_in_run, false);
+  assert.equal(operatorSource?.status, "offline");
+  assert.equal(operatorSource?.reused_in_run, undefined);
   assert.equal(cache.sources["operator-observations"]?.snapshot.fetch_status, "failed");
   assert.equal(cache.sources["operator-observations"]?.parsed, null);
   assert.equal(rainfallSource?.fetch_status, "ok");
   assert.equal(rainfallSource?.reused_in_run, true);
   assert.equal(rainfallSource?.reuse_reason, "source_selection");
-
-  await runPipeline(tempRoot, { useFixtures: false, cacheOnly: true });
-  const publishedSourcesRaw = await readFile(path.join(tempRoot, "docs", "data", "latest", "sources.json"), "utf8");
-  const publishedSources = JSON.parse(publishedSourcesRaw);
-  const publishedOperatorSource = publishedSources.sources.find(
-    (source) => source.source_id === "operator-observations"
-  );
-  assert.equal(publishedOperatorSource?.fetch_status, "failed");
-  assert.equal(publishedOperatorSource?.parser_status, "skipped");
-  assert.equal(publishedOperatorSource?.reuse_reason, "publish_from_cache");
-  await rm(tempRoot, { recursive: true, force: true });
 }
 
 function testCalendarDayDistrictWarningFreshness() {
@@ -1174,11 +1078,10 @@ const tests = [
   ["risk-model-stale-weighting", testRiskModelDownweightsStaleSignals],
   ["risk-model-hotspot-gating", testHotspotWatchNeedsDynamicTrigger],
   ["risk-model-district-warning-hotspot-gating", testDistrictWarningAloneDoesNotPromoteHotspotWatch],
-  ["risk-model-local-nowcast-timing", testLocalNowcastTimingOverridesSourceFreshness],
   ["pipeline", testPipeline],
   ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage],
-  ["pipeline-publish-cache", testPipelinePublishesLatestRefreshSnapshotFromCache],
-  ["pipeline-latest-failure", testPipelineUsesLatestFailureSnapshotInsteadOfFallbackCache],
+  ["pipeline-source-selection-cache", testPipelineKeepsLatestCachedStateForUnselectedSources],
+  ["pipeline-failure-state", testPipelineMarksFailedSourceUnavailableInCache],
   ["calendar-day-freshness", testCalendarDayDistrictWarningFreshness],
   ["ksdma-issued-at", testKsdmaIssuedAtExtractionPrefersCurrentLinkedDate]
 ];

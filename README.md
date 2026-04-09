@@ -243,8 +243,8 @@ This rule was tightened specifically to avoid false-positive hotspot alerts from
 
 The dashboard distinguishes between:
 - **Data published**: when the source data itself appears to have been issued
-- **Last checked by our system**: when the system last attempted to fetch that source
-- **This run**: whether the latest refresh produced usable data, or whether the source is currently unavailable
+- **Last checked by our system**: when the system last fetched or confirmed that source
+- **This run**: whether the latest source refresh succeeded or left that source unavailable for this snapshot
 
 ### Source status meanings
 - **Current / ok**
@@ -267,8 +267,9 @@ Current rules:
 - `offline` and intentionally skipped sources do not contribute
 
 This is important for transparency:
-- every refresh workflow fetches live for the sources it owns
-- if a source fails in that refresh, it is treated as unavailable for that snapshot rather than silently reusing an older successful payload
+- each refresh workflow attempts a live fetch for the sources it owns
+- if a source fails in that refresh, it drops out of scoring for that snapshot
+- the next refresh can restore it as soon as the source succeeds again
 
 ## Important Rules Already Implemented
 
@@ -466,7 +467,7 @@ Includes:
 - RainViewer radar
 - NASA IMERG
 
-Important: the source card should be read as “what data is being used now.” Publish rebuilds the page from the latest refresh snapshot for each source group, but each refresh always attempts a live fetch for the sources it owns.
+Important: the source card should be read as “what data is being used now,” not “this source definitely published new data in this run.”
 
 ## Why Some Sources Are On Local Runner And Others Are Not
 
