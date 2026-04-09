@@ -243,6 +243,36 @@ function parseImdDistrictNowcastPage(raw, source = null) {
 }
 
 function parseEmbeddedStationMarkers(raw) {
+  const quotedImagesMatch = raw.match(
+    /"images"\s*:\s*(\[[\s\S]*?\])\s*(?:,\s*"areas"\s*:|,\s*"legend"\s*:|\})/i
+  );
+  if (quotedImagesMatch?.[1]) {
+    try {
+      const images = JSON.parse(quotedImagesMatch[1]);
+      const markers = images
+        .map((entry) => {
+          const latitude = Number.parseFloat(entry.latitude);
+          const longitude = Number.parseFloat(entry.longitude);
+          if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+            return null;
+          }
+          return {
+            title: decodeEmbeddedHtml(entry.title).trim(),
+            latitude,
+            longitude,
+            image_url: decodeEmbeddedHtml(entry.imageURL).trim(),
+            description: decodeEmbeddedHtml(entry.description).trim()
+          };
+        })
+        .filter(Boolean);
+      if (markers.length > 0) {
+        return markers;
+      }
+    } catch {
+      // Fall through to the legacy parser for older IMD page shapes.
+    }
+  }
+
   const markers = [];
   const markerPattern =
     /(?:^|[,{])\s*title\s*:\s*"(?<title>[^"]+)"[\s\S]*?latitude\s*:\s*"?(?<latitude>-?\d+(?:\.\d+)?)"?[\s\S]*?longitude\s*:\s*"?(?<longitude>-?\d+(?:\.\d+)?)"?[\s\S]*?imageURL\s*:\s*"(?<imageURL>[^"]+)"[\s\S]*?description\s*:\s*"(?<description>[\s\S]*?)"\s*(?:[,}])/gi;
