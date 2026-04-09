@@ -1006,7 +1006,7 @@ async function loadPayload() {
     fetchJson(`./data/latest/taluk-risk.json?${fresh}`, { generated_at: null, taluks: [] }),
     fetchJson(`./data/latest/hotspot-risk.json?${fresh}`),
     fetchJson(`./data/latest/alerts.json?${fresh}`),
-    fetchJson(`./data/latest/archive-index.json?${fresh}`),
+    fetchJson(`./data/archive/index.json?${fresh}`),
     fetchJson("./assets/kerala-districts.geojson")
   ]);
 

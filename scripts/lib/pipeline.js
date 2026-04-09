@@ -708,6 +708,10 @@ const MAX_ARCHIVE_RUNS = 30;
 async function removeEmptyAncestors(startDir, stopDir) {
   let currentDir = startDir;
   while (currentDir.startsWith(stopDir) && currentDir !== stopDir) {
+    if (!(await pathExists(currentDir))) {
+      currentDir = path.dirname(currentDir);
+      continue;
+    }
     const entries = await readdir(currentDir);
     if (entries.length > 0) {
       return;
@@ -1258,7 +1262,6 @@ export async function runPipeline(repoRoot, options = {}) {
       await pruneArchiveDirectories(archiveRootDir, archiveIndex.runs);
     }
     if (writePublicOutputs) {
-      await writeJson(path.join(publicLatestDir, "archive-index.json"), archiveIndex);
       await writeJson(path.join(publicLatestDir, "nasa-imerg-history.json"), nasaHistory);
     }
     if (writeRuntimeDerived) {
