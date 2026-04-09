@@ -244,7 +244,7 @@ function parseImdDistrictNowcastPage(raw, source = null) {
 
 function parseEmbeddedStationMarkers(raw) {
   const quotedImagesMatch = raw.match(
-    /"images"\s*:\s*(\[[\s\S]*?\])\s*(?:,\s*"areas"\s*:|,\s*"legend"\s*:|\})/i
+    /"images"\s*:\s*(\[[\s\S]*?\])\s*(?:,\s*(?:"areas"|areas)\s*:|,\s*"legend"\s*:|\})/i
   );
   if (quotedImagesMatch?.[1]) {
     try {
