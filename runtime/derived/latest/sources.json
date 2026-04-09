@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-08T16:53:17.687Z",
+  "generated_at": "2026-04-09T06:31:23.355Z",
   "sources": [
     {
       "source_id": "imd-cap-rss",
@@ -13,7 +13,7 @@
       "parser_status": "ok",
       "failure_stage": null,
       "status": "offline",
-      "freshness_minutes": 6063,
+      "freshness_minutes": 6881,
       "duration_ms": 1310,
       "notes": "IMD CAP RSS with 10 detail XML messages. Publish run rebuilt the page from the latest refresh snapshot.",
       "auth": "none",
@@ -26,7 +26,7 @@
       "last_successful_fetched_at": "2026-04-08T15:53:11.423Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 60
+      "reused_age_minutes": 878
     },
     {
       "source_id": "imd-flash-flood-bulletin",
@@ -50,7 +50,7 @@
       "last_successful_fetched_at": "2026-04-08T15:53:11.425Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 60
+      "reused_age_minutes": 878
     },
     {
       "source_id": "imd-district-warning",
@@ -63,8 +63,8 @@
       "fetch_status": "ok",
       "parser_status": "ok",
       "failure_stage": null,
-      "status": "ok",
-      "freshness_minutes": 1343,
+      "status": "stale",
+      "freshness_minutes": 2161,
       "duration_ms": 746,
       "notes": "Publish run rebuilt the page from the latest refresh snapshot.",
       "auth": "none",
@@ -75,7 +75,7 @@
       "last_successful_fetched_at": "2026-04-08T15:53:11.427Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 60
+      "reused_age_minutes": 878
     },
     {
       "source_id": "imd-district-nowcast",
@@ -88,8 +88,8 @@
       "fetch_status": "ok",
       "parser_status": "ok",
       "failure_stage": null,
-      "status": "stale",
-      "freshness_minutes": 128,
+      "status": "offline",
+      "freshness_minutes": 946,
       "duration_ms": 486,
       "notes": "Publish run rebuilt the page from the latest refresh snapshot.",
       "auth": "none",
@@ -100,7 +100,7 @@
       "last_successful_fetched_at": "2026-04-08T15:53:11.772Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 60
+      "reused_age_minutes": 878
     },
     {
       "source_id": "imd-station-nowcast",
@@ -126,51 +126,51 @@
       "last_successful_fetched_at": "2026-04-08T15:53:12.198Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 60
+      "reused_age_minutes": 878
     },
     {
       "source_id": "indiawris-rainfall",
       "name": "India-WRIS CWC Rainfall",
       "owner": "India-WRIS / CWC",
       "category": "ground-rainfall",
-      "fetched_at": "2026-04-08T15:23:37.030Z",
-      "issued_at": "2026-04-06T03:00:00.000Z",
+      "fetched_at": "2026-04-09T06:26:47.733Z",
+      "issued_at": "2026-04-08T03:00:00.000Z",
       "raw_url": "https://indiawris.gov.in/Dataset/RainFall",
       "fetch_status": "ok",
       "parser_status": "ok",
       "failure_stage": null,
-      "status": "offline",
-      "freshness_minutes": 3713,
-      "duration_ms": 118089,
-      "notes": "India-WRIS rainfall queried for 11 Kerala districts. Publish run rebuilt the page from the latest refresh snapshot.",
+      "status": "stale",
+      "freshness_minutes": 1651,
+      "duration_ms": 176666,
+      "notes": "India-WRIS rainfall queried for 12 Kerala districts. Publish run rebuilt the page from the latest refresh snapshot.",
       "auth": "none",
       "summary": {
-        "district_count": 11,
-        "taluk_count": 23,
-        "station_count": 25,
+        "district_count": 12,
+        "taluk_count": 25,
+        "station_count": 29,
         "requested_district_count": 14,
         "successful_district_count": 14,
         "failed_district_count": 0
       },
-      "last_successful_fetched_at": "2026-04-08T15:23:37.030Z",
+      "last_successful_fetched_at": "2026-04-09T06:26:47.733Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 90
+      "reused_age_minutes": 5
     },
     {
       "source_id": "indiawris-river-level",
       "name": "India-WRIS CWC River Water Level",
       "owner": "India-WRIS / CWC",
       "category": "river-stage",
-      "fetched_at": "2026-04-08T15:23:37.031Z",
-      "issued_at": "2026-04-06T02:30:00.000Z",
+      "fetched_at": "2026-04-09T06:26:47.734Z",
+      "issued_at": "2026-04-08T02:30:00.000Z",
       "raw_url": "https://indiawris.gov.in/Dataset/River Water Level",
       "fetch_status": "ok",
       "parser_status": "ok",
       "failure_stage": null,
-      "status": "offline",
-      "freshness_minutes": 3743,
-      "duration_ms": 109562,
+      "status": "stale",
+      "freshness_minutes": 1681,
+      "duration_ms": 250151,
       "notes": "India-WRIS river level queried for 12 Kerala districts. Publish run rebuilt the page from the latest refresh snapshot.",
       "auth": "none",
       "summary": {
@@ -180,75 +180,75 @@
         "successful_district_count": 14,
         "failed_district_count": 0
       },
-      "last_successful_fetched_at": "2026-04-08T15:23:37.031Z",
+      "last_successful_fetched_at": "2026-04-09T06:26:47.734Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 90
+      "reused_age_minutes": 5
     },
     {
       "source_id": "ksdma-reservoirs",
       "name": "KSDMA Daily Dam Levels (KSEB)",
       "owner": "Kerala State Disaster Management Authority",
       "category": "reservoir-status",
-      "fetched_at": "2026-04-08T15:23:37.031Z",
-      "issued_at": "2026-04-08T05:30:00.000Z",
+      "fetched_at": "2026-04-09T06:26:47.734Z",
+      "issued_at": "2026-04-09T05:30:00.000Z",
       "raw_url": "https://sdma.kerala.gov.in/dam-water-level/",
       "fetch_status": "ok",
       "parser_status": "ok",
       "failure_stage": null,
-      "status": "offline",
-      "freshness_minutes": 683,
-      "duration_ms": 900,
+      "status": "ok",
+      "freshness_minutes": 61,
+      "duration_ms": 1601,
       "notes": "KSDMA KSEB daily dam PDF Water Levels of Major Reservoirs (KSEB). Publish run rebuilt the page from the latest refresh snapshot.",
       "auth": "none",
       "summary": {
         "district_count": 6,
         "taluk_count": 0
       },
-      "last_successful_fetched_at": "2026-04-08T15:23:37.031Z",
+      "last_successful_fetched_at": "2026-04-09T06:26:47.734Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 90
+      "reused_age_minutes": 5
     },
     {
       "source_id": "ksdma-dam-management",
       "name": "KSDMA Daily Dam Levels (Irrigation)",
       "owner": "Kerala State Disaster Management Authority",
       "category": "dam-status",
-      "fetched_at": "2026-04-08T15:23:37.932Z",
-      "issued_at": "2026-04-08T05:30:00.000Z",
+      "fetched_at": "2026-04-09T06:26:49.336Z",
+      "issued_at": "2026-04-09T05:30:00.000Z",
       "raw_url": "https://sdma.kerala.gov.in/dam-water-level/",
       "fetch_status": "ok",
       "parser_status": "ok",
       "failure_stage": null,
-      "status": "offline",
-      "freshness_minutes": 683,
-      "duration_ms": 886,
+      "status": "ok",
+      "freshness_minutes": 61,
+      "duration_ms": 1873,
       "notes": "KSDMA IRRIGATION daily dam PDF Water Levels of Major Reservoirs (IRRIGATION. Publish run rebuilt the page from the latest refresh snapshot.",
       "auth": "none",
       "summary": {
         "district_count": 10,
         "taluk_count": 0
       },
-      "last_successful_fetched_at": "2026-04-08T15:23:37.932Z",
+      "last_successful_fetched_at": "2026-04-09T06:26:49.336Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 90
+      "reused_age_minutes": 5
     },
     {
       "source_id": "cwc-ffs",
       "name": "CWC FFS Live River Levels",
       "owner": "Central Water Commission",
       "category": "river-stage",
-      "fetched_at": "2026-04-08T15:23:38.818Z",
+      "fetched_at": "2026-04-09T06:26:51.209Z",
       "issued_at": "2026-04-08T07:30:00.000Z",
       "raw_url": "https://ffs.india-water.gov.in/",
       "fetch_status": "ok",
       "parser_status": "ok",
       "failure_stage": null,
       "status": "offline",
-      "freshness_minutes": 563,
-      "duration_ms": 142860,
+      "freshness_minutes": 1381,
+      "duration_ms": 124165,
       "notes": "CWC FFS live river levels queried for 45 Kerala stations. Publish run rebuilt the page from the latest refresh snapshot.",
       "auth": "none",
       "summary": {
@@ -261,10 +261,10 @@
         "above_warning_station_count": 0,
         "above_danger_station_count": 0
       },
-      "last_successful_fetched_at": "2026-04-08T15:23:38.818Z",
+      "last_successful_fetched_at": "2026-04-09T06:26:51.209Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 90
+      "reused_age_minutes": 5
     },
     {
       "source_id": "rainviewer-radar",
@@ -277,8 +277,8 @@
       "fetch_status": "ok",
       "parser_status": "ok",
       "failure_stage": null,
-      "status": "ok",
-      "freshness_minutes": 3,
+      "status": "offline",
+      "freshness_minutes": 821,
       "duration_ms": 2154,
       "notes": "RainViewer latest radar frame /v2/radar/c14fa115eb40. Publish run rebuilt the page from the latest refresh snapshot.",
       "auth": "none",
@@ -290,7 +290,7 @@
       "last_successful_fetched_at": "2026-04-08T16:52:45.427Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 1
+      "reused_age_minutes": 819
     },
     {
       "source_id": "nasa-imerg-nrt",
@@ -303,8 +303,8 @@
       "fetch_status": "ok",
       "parser_status": "ok",
       "failure_stage": null,
-      "status": "ok",
-      "freshness_minutes": 293,
+      "status": "offline",
+      "freshness_minutes": 1111,
       "duration_ms": 13353,
       "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260408-S113000-E115959.0690.V07C.30min.zip. Publish run rebuilt the page from the latest refresh snapshot.",
       "auth": "pps-basic",
@@ -318,7 +318,7 @@
       "last_successful_fetched_at": "2026-04-08T16:52:45.430Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 1
+      "reused_age_minutes": 819
     },
     {
       "source_id": "operator-observations",
@@ -343,7 +343,7 @@
       "last_successful_fetched_at": "2026-04-08T15:53:12.259Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 60
+      "reused_age_minutes": 878
     }
   ]
 }
