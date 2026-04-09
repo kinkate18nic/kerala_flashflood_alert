@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import os from "node:os";
 import path from "node:path";
-import { cp, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { zipSync } from "fflate";
 import thresholds from "../config/risk-thresholds.json" with { type: "json" };
@@ -849,6 +849,69 @@ async function testPipelineMarksFailedSourceUnavailableInCache() {
   assert.equal(rainfallSource?.reuse_reason, "source_selection");
 }
 
+async function testPipelinePrunesOldArchiveRuns() {
+  const tempRoot = await mkdtemp(path.join(os.tmpdir(), "kerala-flood-watch-archive-prune-"));
+  await cp(path.join(repoRoot, "config"), path.join(tempRoot, "config"), { recursive: true });
+  await cp(path.join(repoRoot, "data"), path.join(tempRoot, "data"), { recursive: true });
+  await cp(path.join(repoRoot, "fixtures"), path.join(tempRoot, "fixtures"), { recursive: true });
+  await cp(path.join(repoRoot, "src"), path.join(tempRoot, "src"), { recursive: true });
+
+  const archiveRoot = path.join(tempRoot, "docs", "data", "archive");
+  const latestRoot = path.join(tempRoot, "docs", "data", "latest");
+  await mkdir(archiveRoot, { recursive: true });
+  await mkdir(latestRoot, { recursive: true });
+
+  const oldRuns = Array.from({ length: 35 }, (_, index) => {
+    const day = String(Math.floor(index / 5) + 1).padStart(2, "0");
+    const minute = String(index % 60).padStart(2, "0");
+    const stamp = `${String(index).padStart(6, "0")}`;
+    return {
+      generated_at: `2026-03-${day}T00:${minute}:00.000Z`,
+      headline_level: "Normal",
+      headline_message: "Synthetic archive entry",
+      severe_pending_count: 0,
+      path: `./data/archive/2026/03/${day}/${stamp}`
+    };
+  });
+
+  for (const run of oldRuns) {
+    const runPath = path.join(tempRoot, "docs", run.path.replace("./", "").replaceAll("/", path.sep));
+    await mkdir(runPath, { recursive: true });
+    await writeFile(path.join(runPath, "dashboard.json"), JSON.stringify({ generated_at: run.generated_at }));
+  }
+
+  await writeFile(path.join(archiveRoot, "index.json"), JSON.stringify({ runs: oldRuns }, null, 2));
+
+  await runPipeline(tempRoot, { useFixtures: true });
+
+  const archiveIndex = JSON.parse(await readFile(path.join(archiveRoot, "index.json"), "utf8"));
+  const retainedMarchPaths = archiveIndex.runs
+    .filter((run) => run.path.includes("./data/archive/2026/03/"))
+    .map((run) => path.join(tempRoot, "docs", run.path.replace("./", "").replaceAll("/", path.sep)));
+  const retainedRunPaths = new Set(archiveIndex.runs.map((run) => run.path));
+  const removedRun = oldRuns.find((run) => !retainedRunPaths.has(run.path));
+  const prunedRunPath = path.join(
+    tempRoot,
+    "docs",
+    removedRun.path.replace("./", "").replaceAll("/", path.sep)
+  );
+
+  assert.equal(archiveIndex.runs.length, 30);
+  assert.ok(removedRun);
+  assert.equal(await fileExists(prunedRunPath), false);
+  assert.equal(retainedMarchPaths.length > 0, true);
+  assert.equal((await Promise.all(retainedMarchPaths.map((entry) => fileExists(entry)))).every(Boolean), true);
+}
+
+async function fileExists(targetPath) {
+  try {
+    await stat(targetPath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function testCalendarDayDistrictWarningFreshness() {
   const source = {
     freshness_mode: "calendar_day_ist",
@@ -1139,9 +1202,10 @@ const tests = [
   ["risk-model-district-warning-hotspot-gating", testDistrictWarningAloneDoesNotPromoteHotspotWatch],
   ["pipeline", testPipeline],
     ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage],
-    ["pipeline-source-selection-cache", testPipelineKeepsLatestCachedStateForUnselectedSources],
-    ["pipeline-failure-state", testPipelineMarksFailedSourceUnavailableInCache],
-    ["tracked-output-integrity", testTrackedOutputsHaveNoMergeMarkersOrBrokenJson],
+  ["pipeline-source-selection-cache", testPipelineKeepsLatestCachedStateForUnselectedSources],
+  ["pipeline-failure-state", testPipelineMarksFailedSourceUnavailableInCache],
+  ["pipeline-archive-retention", testPipelinePrunesOldArchiveRuns],
+  ["tracked-output-integrity", testTrackedOutputsHaveNoMergeMarkersOrBrokenJson],
     ["calendar-day-freshness", testCalendarDayDistrictWarningFreshness],
     ["ksdma-issued-at", testKsdmaIssuedAtExtractionPrefersCurrentLinkedDate]
   ];

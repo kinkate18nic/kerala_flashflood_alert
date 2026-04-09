@@ -1,5 +1,5 @@
 import path from "node:path";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir, rm } from "node:fs/promises";
 import { readJson, writeJson, writeText, ensureDir, pathExists } from "./fs.js";
 import {
   buildBoundaryMetadata,
@@ -703,6 +703,69 @@ function buildNasaImergHistoryEntry(generatedAt, snapshot, parsedSource) {
   };
 }
 
+const MAX_ARCHIVE_RUNS = 30;
+
+async function removeEmptyAncestors(startDir, stopDir) {
+  let currentDir = startDir;
+  while (currentDir.startsWith(stopDir) && currentDir !== stopDir) {
+    const entries = await readdir(currentDir);
+    if (entries.length > 0) {
+      return;
+    }
+    await rm(currentDir, { recursive: true, force: true });
+    currentDir = path.dirname(currentDir);
+  }
+}
+
+async function pruneArchiveDirectories(archiveRootDir, retainedRuns) {
+  if (!(await pathExists(archiveRootDir))) {
+    return;
+  }
+
+  const retainedPaths = new Set(
+    retainedRuns
+      .map((run) => run.path)
+      .filter(Boolean)
+      .map((runPath) => runPath.replace(/^\.\/data\/archive\//, "").replaceAll("/", path.sep))
+  );
+
+  const years = await readdir(archiveRootDir, { withFileTypes: true });
+  for (const yearEntry of years) {
+    if (!yearEntry.isDirectory()) {
+      continue;
+    }
+    const yearDir = path.join(archiveRootDir, yearEntry.name);
+    const months = await readdir(yearDir, { withFileTypes: true });
+    for (const monthEntry of months) {
+      if (!monthEntry.isDirectory()) {
+        continue;
+      }
+      const monthDir = path.join(yearDir, monthEntry.name);
+      const days = await readdir(monthDir, { withFileTypes: true });
+      for (const dayEntry of days) {
+        if (!dayEntry.isDirectory()) {
+          continue;
+        }
+        const dayDir = path.join(monthDir, dayEntry.name);
+        const runs = await readdir(dayDir, { withFileTypes: true });
+        for (const runEntry of runs) {
+          if (!runEntry.isDirectory()) {
+            continue;
+          }
+          const runDir = path.join(dayDir, runEntry.name);
+          const relativeRunPath = path.relative(archiveRootDir, runDir);
+          if (!retainedPaths.has(relativeRunPath)) {
+            await rm(runDir, { recursive: true, force: true });
+          }
+        }
+        await removeEmptyAncestors(dayDir, archiveRootDir);
+      }
+      await removeEmptyAncestors(monthDir, archiveRootDir);
+    }
+    await removeEmptyAncestors(yearDir, archiveRootDir);
+  }
+}
+
 async function loadTalukDefinitions(repoRoot, options) {
   const localTalukLayer = await readJson(
     path.join(repoRoot, "src", "site", "assets", "kerala-taluks.geojson"),
@@ -1176,7 +1239,7 @@ export async function runPipeline(repoRoot, options = {}) {
         (run, index, allRuns) =>
           allRuns.findIndex((candidate) => candidate.generated_at === run.generated_at) === index
       )
-      .slice(0, 120);
+      .slice(0, MAX_ARCHIVE_RUNS);
 
     for (const [fileName, data] of Object.entries(outputs)) {
       if (writePublicOutputs) {
@@ -1192,6 +1255,7 @@ export async function runPipeline(repoRoot, options = {}) {
 
     if (writeArchiveOutputs) {
       await writeJson(path.join(archiveRootDir, "index.json"), archiveIndex);
+      await pruneArchiveDirectories(archiveRootDir, archiveIndex.runs);
     }
     if (writePublicOutputs) {
       await writeJson(path.join(publicLatestDir, "archive-index.json"), archiveIndex);
