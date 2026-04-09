@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import os from "node:os";
 import path from "node:path";
-import { cp, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { zipSync } from "fflate";
 import thresholds from "../config/risk-thresholds.json" with { type: "json" };
@@ -42,6 +42,66 @@ import { runPipeline, statusFromFreshness } from "../scripts/lib/pipeline.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, "..");
+
+async function listFilesRecursively(rootDir) {
+  const entries = await readdir(rootDir, { withFileTypes: true });
+  const nested = await Promise.all(
+    entries.map(async (entry) => {
+      const entryPath = path.join(rootDir, entry.name);
+      if (entry.isDirectory()) {
+        return listFilesRecursively(entryPath);
+      }
+      return [entryPath];
+    })
+  );
+  return nested.flat();
+}
+
+async function testTrackedOutputsHaveNoMergeMarkersOrBrokenJson() {
+  const targets = [
+    "README.md",
+    path.join("src", "site", "app.js"),
+    path.join("src", "site", "methodology.html"),
+    path.join("docs", "app.js"),
+    path.join("docs", "methodology.html"),
+    path.join("docs", "data", "archive", "index.json"),
+    path.join("docs", "data", "latest"),
+    path.join("docs", "data", "static"),
+    path.join("runtime", "derived", "latest"),
+    path.join("runtime", "metrics", "latest-run.json"),
+    path.join("runtime", "metrics", "nasa-imerg-history.json"),
+    path.join("scripts", "lib", "pipeline.js"),
+    path.join("tests", "run.js")
+  ];
+
+  const files = (
+    await Promise.all(
+      targets.map(async (target) => {
+        const absolutePath = path.join(repoRoot, target);
+        if (path.extname(absolutePath)) {
+          return [absolutePath];
+        }
+        return listFilesRecursively(absolutePath);
+      })
+    )
+  ).flat();
+
+  for (const filePath of files) {
+    const contents = await readFile(filePath, "utf8");
+    assert.equal(
+      /^(<<<<<<<|=======|>>>>>>>) /m.test(contents) || /^(<<<<<<<|=======|>>>>>>>)$/m.test(contents),
+      false,
+      `merge marker found in ${path.relative(repoRoot, filePath)}`
+    );
+
+    if (path.extname(filePath) === ".json") {
+      assert.doesNotThrow(
+        () => JSON.parse(contents),
+        `invalid JSON in ${path.relative(repoRoot, filePath)}`
+      );
+    }
+  }
+}
 
 async function testParsers() {
   const capRaw = await readFile(path.join(repoRoot, "fixtures", "imd-cap-rss.xml"), "utf8");
@@ -1079,12 +1139,13 @@ const tests = [
   ["risk-model-hotspot-gating", testHotspotWatchNeedsDynamicTrigger],
   ["risk-model-district-warning-hotspot-gating", testDistrictWarningAloneDoesNotPromoteHotspotWatch],
   ["pipeline", testPipeline],
-  ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage],
-  ["pipeline-source-selection-cache", testPipelineKeepsLatestCachedStateForUnselectedSources],
-  ["pipeline-failure-state", testPipelineMarksFailedSourceUnavailableInCache],
-  ["calendar-day-freshness", testCalendarDayDistrictWarningFreshness],
-  ["ksdma-issued-at", testKsdmaIssuedAtExtractionPrefersCurrentLinkedDate]
-];
+    ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage],
+    ["pipeline-source-selection-cache", testPipelineKeepsLatestCachedStateForUnselectedSources],
+    ["pipeline-failure-state", testPipelineMarksFailedSourceUnavailableInCache],
+    ["tracked-output-integrity", testTrackedOutputsHaveNoMergeMarkersOrBrokenJson],
+    ["calendar-day-freshness", testCalendarDayDistrictWarningFreshness],
+    ["ksdma-issued-at", testKsdmaIssuedAtExtractionPrefersCurrentLinkedDate]
+  ];
 
 let failures = 0;
 
