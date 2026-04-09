@@ -5508,29 +5508,29 @@
         "name": "RainViewer Radar Nowcast",
         "owner": "RainViewer / IMD radar aggregation",
         "category": "radar-nowcast",
-        "fetched_at": "2026-04-09T19:21:13.708Z",
-        "issued_at": "2026-04-09T19:20:00.000Z",
+        "fetched_at": "2026-04-09T20:12:33.767Z",
+        "issued_at": "2026-04-09T20:10:00.000Z",
         "raw_url": "https://api.rainviewer.com/public/weather-maps.json",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 1,
-        "duration_ms": 2185,
-        "notes": "RainViewer latest radar frame /v2/radar/15078164fa9d",
+        "freshness_minutes": 3,
+        "duration_ms": 1419,
+        "notes": "RainViewer latest radar frame /v2/radar/92a76cb8952a",
         "auth": "none",
         "summary": {
           "district_count": 14,
           "hotspot_count": 20,
-          "latest_frame_time": "2026-04-09T19:20:00.000Z"
+          "latest_frame_time": "2026-04-09T20:10:00.000Z"
         },
-        "last_successful_fetched_at": "2026-04-09T19:21:13.708Z"
+        "last_successful_fetched_at": "2026-04-09T20:12:33.767Z"
       },
       "parsed": {
-        "issued_at": "2026-04-09T19:20:00.000Z",
-        "generated_at": "2026-04-09T19:20:27.000Z",
-        "frame_time": "2026-04-09T19:20:00.000Z",
-        "frame_path": "/v2/radar/15078164fa9d",
+        "issued_at": "2026-04-09T20:10:00.000Z",
+        "generated_at": "2026-04-09T20:10:27.000Z",
+        "frame_time": "2026-04-09T20:10:00.000Z",
+        "frame_path": "/v2/radar/92a76cb8952a",
         "color_scheme": "universal_blue",
         "districts": [
           {
@@ -5986,28 +5986,28 @@
         "name": "NASA IMERG Near-Real-Time",
         "owner": "NASA GPM",
         "category": "satellite-rainfall",
-        "fetched_at": "2026-04-09T19:21:13.711Z",
-        "issued_at": "2026-04-09T14:59:59.000Z",
+        "fetched_at": "2026-04-09T20:12:33.770Z",
+        "issued_at": "2026-04-09T15:59:59.000Z",
         "raw_url": "https://gpm.nasa.gov/imerg",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 261,
-        "duration_ms": 13070,
-        "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260409-S143000-E145959.0870.V07C.30min.zip",
+        "freshness_minutes": 253,
+        "duration_ms": 11106,
+        "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260409-S153000-E155959.0930.V07C.30min.zip",
         "auth": "pps-basic",
         "summary": {
           "district_count": 14,
           "taluk_count": 61,
-          "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260409-S143000-E145959.0870.V07C.30min.zip",
+          "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260409-S153000-E155959.0930.V07C.30min.zip",
           "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260409-S143000-E145959.0870.V07C.3hr.zip",
           "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260409-S143000-E145959.0870.V07C.1day.zip"
         },
-        "last_successful_fetched_at": "2026-04-09T19:21:13.711Z"
+        "last_successful_fetched_at": "2026-04-09T20:12:33.770Z"
       },
       "parsed": {
-        "issued_at": "2026-04-09T14:59:59.000Z",
+        "issued_at": "2026-04-09T15:59:59.000Z",
         "districts": [
           {
             "district_id": "kasaragod",
@@ -6072,7 +6072,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 28,
-            "peak_30m_mm": 0
+            "peak_30m_mm": 0.3
           },
           {
             "district_id": "palakkad",
@@ -6085,7 +6085,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 40,
-            "peak_30m_mm": 0
+            "peak_30m_mm": 0.5
           },
           {
             "district_id": "thrissur",
@@ -6098,7 +6098,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 22,
-            "peak_30m_mm": 0
+            "peak_30m_mm": 0.1
           },
           {
             "district_id": "ernakulam",
@@ -6115,7 +6115,7 @@
           },
           {
             "district_id": "idukki",
-            "rain_1h_mm": 0.3,
+            "rain_1h_mm": 0.6,
             "rain_3h_mm": 1,
             "rain_6h_mm": 2.8,
             "rain_24h_mm": 3.6,
@@ -6124,7 +6124,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 41,
-            "peak_30m_mm": 2
+            "peak_30m_mm": 2.4
           },
           {
             "district_id": "kottayam",
@@ -6163,7 +6163,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 22,
-            "peak_30m_mm": 0
+            "peak_30m_mm": 0.1
           },
           {
             "district_id": "kollam",
@@ -6180,7 +6180,7 @@
           },
           {
             "district_id": "thiruvananthapuram",
-            "rain_1h_mm": 0.2,
+            "rain_1h_mm": 0,
             "rain_3h_mm": 3.4,
             "rain_6h_mm": 6.4,
             "rain_24h_mm": 7.7,
@@ -6189,7 +6189,7 @@
             "source": "nasa-imerg-pps",
             "spatial_aggregation": "district_polygon_mean",
             "cell_count": 18,
-            "peak_30m_mm": 0.5
+            "peak_30m_mm": 0
           }
         ],
         "taluks": [
@@ -6512,7 +6512,7 @@
             "taluk_id": "thiruvananthapuram--thiruvananthapuram",
             "district_id": "thiruvananthapuram",
             "name": "Thiruvananthapuram",
-            "rain_1h_mm": 0.2,
+            "rain_1h_mm": 0,
             "rain_3h_mm": 3.1,
             "rain_6h_mm": 5.9,
             "rain_24h_mm": 5.9,
@@ -6692,7 +6692,7 @@
             "taluk_id": "thiruvananthapuram--neyyattinkara",
             "district_id": "thiruvananthapuram",
             "name": "Neyyattinkara",
-            "rain_1h_mm": 0.2,
+            "rain_1h_mm": 0,
             "rain_3h_mm": 3.1,
             "rain_6h_mm": 5.9,
             "rain_24h_mm": 5.9,
@@ -6932,7 +6932,7 @@
             "taluk_id": "thiruvananthapuram--chirayinkeezhu",
             "district_id": "thiruvananthapuram",
             "name": "Chirayinkeezhu",
-            "rain_1h_mm": 0.2,
+            "rain_1h_mm": 0,
             "rain_3h_mm": 3.1,
             "rain_6h_mm": 5.9,
             "rain_24h_mm": 5.9,
@@ -7052,7 +7052,7 @@
             "taluk_id": "thiruvananthapuram--nedumangad",
             "district_id": "thiruvananthapuram",
             "name": "Nedumangad",
-            "rain_1h_mm": 0.2,
+            "rain_1h_mm": 0,
             "rain_3h_mm": 3.1,
             "rain_6h_mm": 5.9,
             "rain_24h_mm": 5.9,
@@ -7111,8 +7111,8 @@
         ],
         "source_files": {
           "half_hour": [
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260409-S143000-E145959.0870.V07C.30min.zip",
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260409-S140000-E142959.0840.V07C.30min.zip"
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260409-S153000-E155959.0930.V07C.30min.zip",
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260409-S150000-E152959.0900.V07C.30min.zip"
           ],
           "three_hour": [
             "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260409-S143000-E145959.0870.V07C.3hr.zip",
