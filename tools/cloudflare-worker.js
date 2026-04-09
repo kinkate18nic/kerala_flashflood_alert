@@ -1,22 +1,53 @@
+const MAX_WEBHOOK_BODY_BYTES = 64 * 1024;
+const MAX_COMMAND_LENGTH = 512;
+const REQUEST_WINDOW_MS = 60 * 1000;
+const MAX_REQUESTS_PER_IP = 30;
+const MAX_COMMANDS_PER_CHAT = 12;
+const UPDATE_DEDUP_TTL_MS = 10 * 60 * 1000;
+
+const ipRequestWindows = new Map();
+const chatCommandWindows = new Map();
+const seenTelegramUpdates = new Map();
+
 export default {
   async fetch(request, env) {
-    const targetUrl = new URL(request.url);
+    try {
+      const targetUrl = new URL(request.url);
 
-    if (targetUrl.pathname === "/telegram-webhook") {
-      return handleTelegramWebhook(request, env);
+      if (targetUrl.pathname === "/telegram-webhook") {
+        return handleTelegramWebhook(request, env);
+      }
+
+      if (targetUrl.pathname === "/healthz") {
+        return new Response("ok", { status: 200 });
+      }
+
+      return jsonResponse({ ok: false, error: "not_found" }, 404);
+    } catch (error) {
+      console.error("Worker request failed:", error instanceof Error ? error.message : String(error));
+      return jsonResponse({ ok: false, error: "internal_error" }, 500);
     }
-
-    if (targetUrl.pathname === "/healthz") {
-      return new Response("ok", { status: 200 });
-    }
-
-    return jsonResponse({ ok: false, error: "not_found" }, 404);
   }
 };
 
 async function handleTelegramWebhook(request, env) {
   if (request.method !== "POST") {
     return jsonResponse({ ok: false, error: "method_not_allowed" }, 405);
+  }
+
+  const contentType = request.headers.get("content-type") ?? "";
+  if (!contentType.toLowerCase().includes("application/json")) {
+    return jsonResponse({ ok: false, error: "unsupported_media_type" }, 415);
+  }
+
+  const contentLength = Number(request.headers.get("content-length") ?? NaN);
+  if (Number.isFinite(contentLength) && contentLength > MAX_WEBHOOK_BODY_BYTES) {
+    return jsonResponse({ ok: false, error: "payload_too_large" }, 413);
+  }
+
+  const remoteIp = getRemoteIp(request);
+  if (!consumeRateLimit(ipRequestWindows, remoteIp, REQUEST_WINDOW_MS, MAX_REQUESTS_PER_IP)) {
+    return jsonResponse({ ok: false, error: "rate_limited" }, 429);
   }
 
   const expectedSecret = String(env.TELEGRAM_WEBHOOK_SECRET ?? "").trim();
@@ -36,6 +67,15 @@ async function handleTelegramWebhook(request, env) {
     `https://raw.githubusercontent.com/${githubOwner}/${githubRepo}/${githubRef}`;
 
   const update = await request.json().catch(() => null);
+  if (!update || typeof update !== "object") {
+    return jsonResponse({ ok: false, error: "invalid_json_payload" }, 400);
+  }
+
+  const updateId = Number.isInteger(update.update_id) ? String(update.update_id) : null;
+  if (updateId && isDuplicateTelegramUpdate(updateId)) {
+    return jsonResponse({ ok: true, duplicate: true }, 200);
+  }
+
   const message = update?.message;
   const incomingChatId = message?.chat?.id != null ? String(message.chat.id) : "";
   const commandText = String(message?.text ?? "").trim();
@@ -45,8 +85,18 @@ async function handleTelegramWebhook(request, env) {
     return jsonResponse({ ok: false, error: "telegram_not_configured" }, 500);
   }
 
-  if (!incomingChatId || incomingChatId !== commandChatId || !normalizedCommand.startsWith("/")) {
+  if (
+    !incomingChatId ||
+    incomingChatId !== commandChatId ||
+    !normalizedCommand.startsWith("/") ||
+    commandText.length > MAX_COMMAND_LENGTH
+  ) {
     return jsonResponse({ ok: true, ignored: true }, 200);
+  }
+
+  if (!consumeRateLimit(chatCommandWindows, incomingChatId, REQUEST_WINDOW_MS, MAX_COMMANDS_PER_CHAT)) {
+    await sendTelegramMessage(botToken, incomingChatId, "Too many commands sent too quickly. Please wait a minute and try again.");
+    return jsonResponse({ ok: false, error: "chat_rate_limited" }, 429);
   }
 
   const actor =
@@ -255,6 +305,66 @@ function commandHelp() {
     "/approve <alert_id> - approve a pending severe alert for group delivery",
     "/reject <alert_id> - mark a pending severe alert as rejected"
   ].join("\n");
+}
+
+function getRemoteIp(request) {
+  const cfConnectingIp = request.headers.get("CF-Connecting-IP")?.trim();
+  if (cfConnectingIp) {
+    return cfConnectingIp;
+  }
+  const forwardedFor = request.headers.get("X-Forwarded-For") ?? "";
+  return forwardedFor.split(",")[0]?.trim() || "unknown";
+}
+
+function consumeRateLimit(store, key, windowMs, limit) {
+  if (!key) {
+    return true;
+  }
+
+  const now = Date.now();
+  pruneWindowStore(store, now, windowMs);
+  const existing = store.get(key);
+
+  if (!existing || now - existing.windowStartedAt >= windowMs) {
+    store.set(key, {
+      windowStartedAt: now,
+      count: 1
+    });
+    return true;
+  }
+
+  if (existing.count >= limit) {
+    return false;
+  }
+
+  existing.count += 1;
+  store.set(key, existing);
+  return true;
+}
+
+function pruneWindowStore(store, now, ttlMs) {
+  for (const [key, value] of store.entries()) {
+    if (now - value.windowStartedAt >= ttlMs) {
+      store.delete(key);
+    }
+  }
+}
+
+function isDuplicateTelegramUpdate(updateId) {
+  const now = Date.now();
+  for (const [seenId, seenAt] of seenTelegramUpdates.entries()) {
+    if (now - seenAt >= UPDATE_DEDUP_TTL_MS) {
+      seenTelegramUpdates.delete(seenId);
+    }
+  }
+
+  const seenAt = seenTelegramUpdates.get(updateId);
+  if (seenAt && now - seenAt < UPDATE_DEDUP_TTL_MS) {
+    return true;
+  }
+
+  seenTelegramUpdates.set(updateId, now);
+  return false;
 }
 
 async function sendTelegramMessage(botToken, chatId, text) {
