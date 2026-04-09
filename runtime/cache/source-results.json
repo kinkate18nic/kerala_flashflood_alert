@@ -5527,29 +5527,29 @@
         "name": "RainViewer Radar Nowcast",
         "owner": "RainViewer / IMD radar aggregation",
         "category": "radar-nowcast",
-        "fetched_at": "2026-04-09T10:36:18.771Z",
-        "issued_at": "2026-04-09T10:30:00.000Z",
+        "fetched_at": "2026-04-09T11:31:16.627Z",
+        "issued_at": "2026-04-09T11:30:00.000Z",
         "raw_url": "https://api.rainviewer.com/public/weather-maps.json",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 6,
-        "duration_ms": 1185,
-        "notes": "RainViewer latest radar frame /v2/radar/81c75cb97a7e",
+        "freshness_minutes": 1,
+        "duration_ms": 826,
+        "notes": "RainViewer latest radar frame /v2/radar/2288cd447e9d",
         "auth": "none",
         "summary": {
           "district_count": 14,
           "hotspot_count": 20,
-          "latest_frame_time": "2026-04-09T10:30:00.000Z"
+          "latest_frame_time": "2026-04-09T11:30:00.000Z"
         },
-        "last_successful_fetched_at": "2026-04-09T10:36:18.771Z"
+        "last_successful_fetched_at": "2026-04-09T11:31:16.627Z"
       },
       "parsed": {
-        "issued_at": "2026-04-09T10:30:00.000Z",
-        "generated_at": "2026-04-09T10:35:25.000Z",
-        "frame_time": "2026-04-09T10:30:00.000Z",
-        "frame_path": "/v2/radar/81c75cb97a7e",
+        "issued_at": "2026-04-09T11:30:00.000Z",
+        "generated_at": "2026-04-09T11:30:23.000Z",
+        "frame_time": "2026-04-09T11:30:00.000Z",
+        "frame_path": "/v2/radar/2288cd447e9d",
         "color_scheme": "universal_blue",
         "districts": [
           {
@@ -5633,67 +5633,67 @@
           {
             "district_id": "thrissur",
             "name": "Thrissur",
-            "intensity": "none",
-            "severity": 0,
-            "max_dbz": -11,
+            "intensity": "heavy",
+            "severity": 0.75,
+            "max_dbz": 36,
             "sample_location": {
               "lat": 10.5276,
               "lon": 76.2144
             },
-            "active_pixels": 0,
-            "hotspot_detection_count": 0
+            "active_pixels": 8,
+            "hotspot_detection_count": 1
           },
           {
             "district_id": "ernakulam",
             "name": "Ernakulam",
-            "intensity": "light",
-            "severity": 0.25,
-            "max_dbz": 18,
+            "intensity": "heavy",
+            "severity": 0.75,
+            "max_dbz": 36,
             "sample_location": {
               "lat": 9.9816,
               "lon": 76.2999
             },
-            "active_pixels": 26,
+            "active_pixels": 58,
             "hotspot_detection_count": 5
           },
           {
             "district_id": "idukki",
             "name": "Idukki",
-            "intensity": "light",
-            "severity": 0.25,
-            "max_dbz": 18,
+            "intensity": "moderate",
+            "severity": 0.5,
+            "max_dbz": 32,
             "sample_location": {
               "lat": 9.8494,
               "lon": 76.972
             },
-            "active_pixels": 26,
-            "hotspot_detection_count": 2
+            "active_pixels": 99,
+            "hotspot_detection_count": 4
           },
           {
             "district_id": "kottayam",
             "name": "Kottayam",
-            "intensity": "light",
-            "severity": 0.25,
-            "max_dbz": 18,
+            "intensity": "heavy",
+            "severity": 0.75,
+            "max_dbz": 36,
             "sample_location": {
               "lat": 9.5916,
               "lon": 76.5222
             },
-            "active_pixels": 24,
+            "active_pixels": 102,
             "hotspot_detection_count": 0
           },
           {
             "district_id": "alappuzha",
             "name": "Alappuzha",
-            "intensity": "light",
-            "severity": 0.25,
-            "max_dbz": 18,
+            "intensity": "heavy",
+            "severity": 0.75,
+            "max_dbz": 36,
             "sample_location": {
               "lat": 9.4981,
               "lon": 76.3388
             },
-            "active_pixels": 35,
-            "hotspot_detection_count": 3
+            "active_pixels": 61,
+            "hotspot_detection_count": 1
           },
           {
             "district_id": "pathanamthitta",
@@ -5705,7 +5705,7 @@
               "lat": 9.2648,
               "lon": 76.787
             },
-            "active_pixels": 106,
+            "active_pixels": 194,
             "hotspot_detection_count": 1
           },
           {
@@ -5713,12 +5713,12 @@
             "name": "Kollam",
             "intensity": "moderate",
             "severity": 0.5,
-            "max_dbz": 32,
+            "max_dbz": 27,
             "sample_location": {
               "lat": 8.8932,
               "lon": 76.6141
             },
-            "active_pixels": 88,
+            "active_pixels": 137,
             "hotspot_detection_count": 0
           },
           {
@@ -5726,12 +5726,12 @@
             "name": "Thiruvananthapuram",
             "intensity": "moderate",
             "severity": 0.5,
-            "max_dbz": 32,
+            "max_dbz": 27,
             "sample_location": {
               "lat": 8.5241,
               "lon": 76.9366
             },
-            "active_pixels": 80,
+            "active_pixels": 183,
             "hotspot_detection_count": 2
           }
         ],
@@ -5779,10 +5779,10 @@
             "hotspot_id": "h-peermade",
             "district_id": "idukki",
             "name": "Peermade high-range catchment",
-            "intensity": "light",
-            "severity": 0.25,
-            "max_dbz": 18,
-            "active_pixels": 26,
+            "intensity": "moderate",
+            "severity": 0.5,
+            "max_dbz": 23,
+            "active_pixels": 55,
             "location": {
               "lat": 9.574,
               "lon": 76.967
@@ -5794,8 +5794,8 @@
             "name": "Munnar - Devikulam upper catchments",
             "intensity": "light",
             "severity": 0.25,
-            "max_dbz": 18,
-            "active_pixels": 2,
+            "max_dbz": 8,
+            "active_pixels": 49,
             "location": {
               "lat": 10.088,
               "lon": 77.06
@@ -5805,10 +5805,10 @@
             "hotspot_id": "h-vandiperiyar-mullaperiyar",
             "district_id": "idukki",
             "name": "Vandiperiyar - Vallakadavu - Chappathu",
-            "intensity": "none",
-            "severity": 0,
-            "max_dbz": -11,
-            "active_pixels": 0,
+            "intensity": "light",
+            "severity": 0.25,
+            "max_dbz": 8,
+            "active_pixels": 41,
             "location": {
               "lat": 9.567,
               "lon": 77.139
@@ -5818,10 +5818,10 @@
             "hotspot_id": "h-kumily-attapallam",
             "district_id": "idukki",
             "name": "Kumily - Attapallam downstream pocket",
-            "intensity": "none",
-            "severity": 0,
-            "max_dbz": -11,
-            "active_pixels": 0,
+            "intensity": "light",
+            "severity": 0.25,
+            "max_dbz": 8,
+            "active_pixels": 36,
             "location": {
               "lat": 9.606,
               "lon": 77.165
@@ -5844,10 +5844,10 @@
             "hotspot_id": "h-kuttanad",
             "district_id": "alappuzha",
             "name": "Kuttanad low-lying basin",
-            "intensity": "light",
-            "severity": 0.25,
-            "max_dbz": 14,
-            "active_pixels": 4,
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
             "location": {
               "lat": 9.365,
               "lon": 76.421
@@ -5857,10 +5857,10 @@
             "hotspot_id": "h-chengannur-pandanad",
             "district_id": "alappuzha",
             "name": "Chengannur - Pandanad floodplain",
-            "intensity": "light",
-            "severity": 0.25,
-            "max_dbz": 9,
-            "active_pixels": 12,
+            "intensity": "none",
+            "severity": 0,
+            "max_dbz": -11,
+            "active_pixels": 0,
             "location": {
               "lat": 9.323,
               "lon": 76.612
@@ -5870,10 +5870,10 @@
             "hotspot_id": "h-thottappally-thanneermukkom",
             "district_id": "alappuzha",
             "name": "Thottappally - Thanneermukkom control zone",
-            "intensity": "light",
-            "severity": 0.25,
-            "max_dbz": 18,
-            "active_pixels": 23,
+            "intensity": "moderate",
+            "severity": 0.5,
+            "max_dbz": 32,
+            "active_pixels": 48,
             "location": {
               "lat": 9.481,
               "lon": 76.372
@@ -5885,8 +5885,8 @@
             "name": "Aranmula - Kozhencherry - Ranni",
             "intensity": "light",
             "severity": 0.25,
-            "max_dbz": 14,
-            "active_pixels": 6,
+            "max_dbz": 8,
+            "active_pixels": 36,
             "location": {
               "lat": 9.367,
               "lon": 76.755
@@ -5896,10 +5896,10 @@
             "hotspot_id": "h-chalakudy",
             "district_id": "thrissur",
             "name": "Chalakudy river and dam influence belt",
-            "intensity": "none",
-            "severity": 0,
-            "max_dbz": -11,
-            "active_pixels": 0,
+            "intensity": "heavy",
+            "severity": 0.75,
+            "max_dbz": 36,
+            "active_pixels": 45,
             "location": {
               "lat": 10.303,
               "lon": 76.338
@@ -5909,10 +5909,10 @@
             "hotspot_id": "h-aluva-periyar",
             "district_id": "ernakulam",
             "name": "Aluva - Periyar floodplain",
-            "intensity": "light",
-            "severity": 0.25,
-            "max_dbz": 18,
-            "active_pixels": 26,
+            "intensity": "heavy",
+            "severity": 0.75,
+            "max_dbz": 36,
+            "active_pixels": 49,
             "location": {
               "lat": 10.108,
               "lon": 76.352
@@ -5922,10 +5922,10 @@
             "hotspot_id": "h-neeleswaram-periyar",
             "district_id": "ernakulam",
             "name": "Neeleswaram gauge corridor",
-            "intensity": "light",
-            "severity": 0.25,
-            "max_dbz": 18,
-            "active_pixels": 24,
+            "intensity": "heavy",
+            "severity": 0.75,
+            "max_dbz": 36,
+            "active_pixels": 57,
             "location": {
               "lat": 10.171,
               "lon": 76.451
@@ -5935,10 +5935,10 @@
             "hotspot_id": "h-kochi-mgroad-kaloor",
             "district_id": "ernakulam",
             "name": "Kochi MG Road - Kaloor pocket",
-            "intensity": "light",
-            "severity": 0.25,
-            "max_dbz": 18,
-            "active_pixels": 22,
+            "intensity": "heavy",
+            "severity": 0.75,
+            "max_dbz": 36,
+            "active_pixels": 63,
             "location": {
               "lat": 9.985,
               "lon": 76.291
@@ -5948,10 +5948,10 @@
             "hotspot_id": "h-kakkanad-infopark",
             "district_id": "ernakulam",
             "name": "Infopark - Kakkanad thodu network",
-            "intensity": "light",
-            "severity": 0.25,
-            "max_dbz": 18,
-            "active_pixels": 26,
+            "intensity": "heavy",
+            "severity": 0.75,
+            "max_dbz": 36,
+            "active_pixels": 62,
             "location": {
               "lat": 10.015,
               "lon": 76.355
@@ -5961,10 +5961,10 @@
             "hotspot_id": "h-kalamassery",
             "district_id": "ernakulam",
             "name": "Kalamassery drainage pocket",
-            "intensity": "light",
-            "severity": 0.25,
-            "max_dbz": 18,
-            "active_pixels": 24,
+            "intensity": "heavy",
+            "severity": 0.75,
+            "max_dbz": 36,
+            "active_pixels": 59,
             "location": {
               "lat": 10.062,
               "lon": 76.329
@@ -5976,8 +5976,8 @@
             "name": "Thampanoor - East Fort core",
             "intensity": "moderate",
             "severity": 0.5,
-            "max_dbz": 32,
-            "active_pixels": 74,
+            "max_dbz": 27,
+            "active_pixels": 142,
             "location": {
               "lat": 8.489,
               "lon": 76.95
@@ -5989,8 +5989,8 @@
             "name": "Kannammoola - Uppidamoodu canals",
             "intensity": "moderate",
             "severity": 0.5,
-            "max_dbz": 32,
-            "active_pixels": 76,
+            "max_dbz": 27,
+            "active_pixels": 140,
             "location": {
               "lat": 8.522,
               "lon": 76.944
@@ -6005,28 +6005,28 @@
         "name": "NASA IMERG Near-Real-Time",
         "owner": "NASA GPM",
         "category": "satellite-rainfall",
-        "fetched_at": "2026-04-09T10:36:18.775Z",
-        "issued_at": "2026-04-09T05:59:59.000Z",
+        "fetched_at": "2026-04-09T11:31:16.630Z",
+        "issued_at": "2026-04-09T06:59:59.000Z",
         "raw_url": "https://gpm.nasa.gov/imerg",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 276,
-        "duration_ms": 16451,
-        "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260409-S053000-E055959.0330.V07C.30min.zip",
+        "freshness_minutes": 271,
+        "duration_ms": 11178,
+        "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260409-S063000-E065959.0390.V07C.30min.zip",
         "auth": "pps-basic",
         "summary": {
           "district_count": 14,
           "taluk_count": 61,
-          "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260409-S053000-E055959.0330.V07C.30min.zip",
+          "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260409-S063000-E065959.0390.V07C.30min.zip",
           "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260409-S053000-E055959.0330.V07C.3hr.zip",
           "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260409-S053000-E055959.0330.V07C.1day.zip"
         },
-        "last_successful_fetched_at": "2026-04-09T10:36:18.775Z"
+        "last_successful_fetched_at": "2026-04-09T11:31:16.630Z"
       },
       "parsed": {
-        "issued_at": "2026-04-09T05:59:59.000Z",
+        "issued_at": "2026-04-09T06:59:59.000Z",
         "districts": [
           {
             "district_id": "kasaragod",
@@ -7130,8 +7130,8 @@
         ],
         "source_files": {
           "half_hour": [
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260409-S053000-E055959.0330.V07C.30min.zip",
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260409-S050000-E052959.0300.V07C.30min.zip"
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260409-S063000-E065959.0390.V07C.30min.zip",
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260409-S060000-E062959.0360.V07C.30min.zip"
           ],
           "three_hour": [
             "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260409-S053000-E055959.0330.V07C.3hr.zip",
