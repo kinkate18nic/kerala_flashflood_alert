@@ -779,7 +779,13 @@ function sourceHealthLabel(source) {
 }
 
 function sourceDataPublishedLabel(source) {
-  return source.issued_at ? formatTime(source.issued_at) : "Not provided by source";
+  if (source.issued_at) {
+    return formatTime(source.issued_at);
+  }
+  if (source.fetch_status === "failed" || source.parser_status === "failed" || source.status === "offline") {
+    return "No usable source timestamp";
+  }
+  return "Source did not publish a timestamp";
 }
 
 function sourceLastCheckedLabel(source) {
@@ -790,26 +796,26 @@ function sourceLastCheckedLabel(source) {
 function sourceCurrentRunLabel(source) {
   if (source.published_from_cache) {
     return source.status === "offline"
-      ? "Published as unavailable from latest refresh state"
-      : "Published from latest refresh state";
+      ? "Published using latest refresh result: unavailable"
+      : "Published using latest refresh result";
   }
   if (source.fetch_status === "ok" && source.parser_status === "ok") {
     return "Live refresh succeeded";
   }
   if (source.fetch_status === "failed_cached") {
-    return "Unavailable in latest refresh state";
+    return "Latest refresh result: unavailable";
   }
   if (source.fetch_status === "skipped_cached") {
-    return "Not part of this refresh flow";
+    return "Not checked in this refresh flow";
   }
   if (source.fetch_status === "skipped") {
-    return "Not part of this refresh flow";
+    return "Not checked in this refresh flow";
   }
   if (source.fetch_status === "failed") {
-    return "Unavailable in latest refresh state";
+    return "Latest refresh failed";
   }
   if (source.parser_status === "failed") {
-    return "Unavailable in latest refresh state";
+    return "Latest refresh parse failed";
   }
   return "Checked in this run";
 }
@@ -840,27 +846,27 @@ function dataUsageSummary(source) {
 
   if (source.published_from_cache) {
     if (source.status === "offline") {
-      return `This page was rebuilt from the latest refresh state. This source was last checked at ${refreshLabel} and is currently unavailable, so it is not contributing to scoring.`;
+      return `This page was rebuilt from the latest saved refresh result. We last checked this source at ${refreshLabel}, but it was unavailable then, so it is not contributing to scoring.`;
     }
-    return `Showing data published at ${dataPublishedLabel}. This page was rebuilt from the latest refresh state, last checked by our system at ${refreshLabel}.`;
+    return `Showing source data published at ${dataPublishedLabel}. This page was rebuilt from the latest saved refresh result, and our system last checked this source at ${refreshLabel}.`;
   }
 
   if (source.fetch_status === "failed_cached") {
-    return `Showing data published at ${dataPublishedLabel}. This source is unavailable in the latest refresh state and was last checked at ${refreshLabel}.`;
+    return `This source was last checked at ${refreshLabel} and was unavailable in the latest refresh result, so it is not contributing to scoring right now.`;
   }
   if (source.fetch_status === "skipped_cached") {
-    return `Showing data published at ${dataPublishedLabel}. This source was not part of the latest refresh flow.`;
+    return `Showing source data published at ${dataPublishedLabel}. This source was not checked in the latest refresh flow.`;
   }
   if (source.fetch_status === "skipped") {
-    return "No usable data was available for this source in the current run.";
+    return "This source was not checked in this refresh flow.";
   }
   if (source.fetch_status === "failed") {
-    return `This source was last checked at ${refreshLabel} and is unavailable in the latest refresh state, so it is not contributing right now.`;
+    return `We last checked this source at ${refreshLabel}, but the latest refresh failed, so it is not contributing to scoring right now.`;
   }
   if (source.parser_status === "failed") {
-    return `This source was last checked at ${refreshLabel} and is unavailable in the latest refresh state, so it is not contributing right now.`;
+    return `We last checked this source at ${refreshLabel}, but the latest refresh could not parse it, so it is not contributing to scoring right now.`;
   }
-  return `Showing data published at ${dataPublishedLabel}.`;
+  return `Showing source data published at ${dataPublishedLabel}.`;
 }
 
 function openSourceDetails(source) {
@@ -883,7 +889,7 @@ function openSourceDetails(source) {
     source.name,
     `
       <p class="source-detail-desc">${escapeHtml(meta.description ?? source.name)}</p>
-      <p class="source-detail-desc"><strong>Data in use:</strong> ${escapeHtml(dataUsageSummary(source))}</p>
+      <p class="source-detail-desc"><strong>What this page is using:</strong> ${escapeHtml(dataUsageSummary(source))}</p>
       ${
         sourceLink
           ? `<p class="source-detail-desc"><strong>Source link:</strong> <a class="source-link" href="${escapeAttr(sourceLink)}" target="_blank" rel="noopener noreferrer">Open original source</a></p>`
@@ -899,7 +905,7 @@ function openSourceDetails(source) {
           <span class="source-detail-value">${escapeHtml(freshLabel)}</span>
         </div>
         <div class="source-detail-row">
-          <span class="source-detail-label">Data published</span>
+          <span class="source-detail-label">Source data time</span>
           <span class="source-detail-value">${escapeHtml(sourceDataPublishedLabel(source))}</span>
         </div>
         <div class="source-detail-row">
@@ -907,7 +913,7 @@ function openSourceDetails(source) {
           <span class="source-detail-value">${escapeHtml(sourceLastCheckedLabel(source))}</span>
         </div>
         <div class="source-detail-row">
-          <span class="source-detail-label">This run</span>
+          <span class="source-detail-label">Latest refresh result</span>
           <span class="source-detail-value">${escapeHtml(sourceCurrentRunLabel(source))}</span>
         </div>
         <div class="source-detail-row">
@@ -956,7 +962,7 @@ function renderSources() {
                 <span class="source-fact-value">${escapeHtml(formatFreshness(source.freshness_minutes))}</span>
               </div>
               <div class="source-fact-row">
-                <span class="source-fact-label">Data published</span>
+                <span class="source-fact-label">Source data time</span>
                 <span class="source-fact-value">${escapeHtml(sourceDataPublishedLabel(source))}</span>
               </div>
               <div class="source-fact-row">
@@ -964,7 +970,7 @@ function renderSources() {
                 <span class="source-fact-value">${escapeHtml(sourceLastCheckedLabel(source))}</span>
               </div>
               <div class="source-fact-row">
-                <span class="source-fact-label">This run</span>
+                <span class="source-fact-label">Latest refresh result</span>
                 <span class="source-fact-value">${escapeHtml(sourceCurrentRunLabel(source))}</span>
               </div>
             </div>
