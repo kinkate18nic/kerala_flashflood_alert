@@ -1,6 +1,6 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { copyTree, ensureDir, readJson, writeJson, writeText } from "./lib/fs.js";
+import { copyTree, ensureDir, readJson, writeJson, writeStableGeneratedJson, writeText } from "./lib/fs.js";
 import { districts, hotspots } from "../src/shared/areas.js";
 import { parseTalukBoundaries, pointInGeometry } from "./lib/boundaries.js";
 import { buildHotspotFootprint } from "../src/shared/hotspot-footprints.js";
@@ -55,14 +55,14 @@ const hotspotsWithFootprints = hotspots.map((hotspot) => ({
     buildHotspotFootprint(hotspot, terrainByDistrict[hotspot.district_id]?.value ?? hotspot.susceptibility)
 }));
 
-await writeJson(path.join(targetSiteDir, "data", "static", "areas.json"), {
+await writeStableGeneratedJson(path.join(targetSiteDir, "data", "static", "areas.json"), {
   generated_at: new Date().toISOString(),
   districts,
   taluks,
   hotspots: hotspotsWithFootprints
 });
 
-await writeJson(path.join(targetSiteDir, "data", "static", "risk-metadata.json"), {
+await writeStableGeneratedJson(path.join(targetSiteDir, "data", "static", "risk-metadata.json"), {
   generated_at: new Date().toISOString(),
   alert_levels: alertLevels
 });

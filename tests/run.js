@@ -35,6 +35,7 @@ import {
   talukIdFromBoundaryNames
 } from "../scripts/lib/boundaries.js";
 import { summarizeRiverLevelSeries } from "../scripts/lib/indiawris.js";
+import { writeStableGeneratedJson } from "../scripts/lib/fs.js";
 import { buildHotspotFootprint } from "../src/shared/hotspot-footprints.js";
 import { buildRiskOutputs } from "../scripts/lib/risk-model.js";
 import { runPipeline, statusFromFreshness } from "../scripts/lib/pipeline.js";
@@ -903,6 +904,42 @@ async function testPipelinePrunesOldArchiveRuns() {
   assert.equal((await Promise.all(retainedMarchPaths.map((entry) => fileExists(entry)))).every(Boolean), true);
 }
 
+async function testStableGeneratedJsonPreservesTimestampWhenContentMatches() {
+  const tempRoot = await mkdtemp(path.join(os.tmpdir(), "kerala-flood-watch-static-json-"));
+  const filePath = path.join(tempRoot, "areas.json");
+
+  const firstValue = {
+    generated_at: "2026-04-09T08:44:01.155Z",
+    districts: [{ id: "idukki", name: "Idukki" }],
+    hotspots: []
+  };
+  const secondValue = {
+    generated_at: "2026-04-09T09:44:01.155Z",
+    districts: [{ id: "idukki", name: "Idukki" }],
+    hotspots: []
+  };
+  const changedValue = {
+    generated_at: "2026-04-09T10:44:01.155Z",
+    districts: [{ id: "idukki", name: "Idukki Hills" }],
+    hotspots: []
+  };
+
+  assert.equal(await writeStableGeneratedJson(filePath, firstValue), true);
+  const firstText = await readFile(filePath, "utf8");
+
+  assert.equal(await writeStableGeneratedJson(filePath, secondValue), false);
+  const secondText = await readFile(filePath, "utf8");
+  const secondJson = JSON.parse(secondText);
+
+  assert.equal(secondText, firstText);
+  assert.equal(secondJson.generated_at, firstValue.generated_at);
+
+  assert.equal(await writeStableGeneratedJson(filePath, changedValue), true);
+  const thirdJson = JSON.parse(await readFile(filePath, "utf8"));
+  assert.equal(thirdJson.generated_at, changedValue.generated_at);
+  assert.equal(thirdJson.districts[0].name, "Idukki Hills");
+}
+
 async function fileExists(targetPath) {
   try {
     await stat(targetPath);
@@ -1205,6 +1242,7 @@ const tests = [
   ["pipeline-source-selection-cache", testPipelineKeepsLatestCachedStateForUnselectedSources],
   ["pipeline-failure-state", testPipelineMarksFailedSourceUnavailableInCache],
   ["pipeline-archive-retention", testPipelinePrunesOldArchiveRuns],
+  ["stable-generated-json", testStableGeneratedJsonPreservesTimestampWhenContentMatches],
   ["tracked-output-integrity", testTrackedOutputsHaveNoMergeMarkersOrBrokenJson],
     ["calendar-day-freshness", testCalendarDayDistrictWarningFreshness],
     ["ksdma-issued-at", testKsdmaIssuedAtExtractionPrefersCurrentLinkedDate]

@@ -22,6 +22,54 @@ export async function writeJson(filePath, value) {
   await writeFile(filePath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
 }
 
+function stripGeneratedAt(value) {
+  if (Array.isArray(value)) {
+    return value.map(stripGeneratedAt);
+  }
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value)
+        .filter(([key]) => key !== "generated_at")
+        .map(([key, nestedValue]) => [key, stripGeneratedAt(nestedValue)])
+    );
+  }
+  return value;
+}
+
+export async function writeStableGeneratedJson(filePath, value) {
+  await ensureDir(path.dirname(filePath));
+
+  let existingText = null;
+  let existingJson = null;
+  try {
+    existingText = await readFile(filePath, "utf8");
+    existingJson = JSON.parse(existingText);
+  } catch {
+    existingText = null;
+    existingJson = null;
+  }
+
+  let nextValue = value;
+  if (
+    existingJson &&
+    JSON.stringify(stripGeneratedAt(existingJson)) === JSON.stringify(stripGeneratedAt(value)) &&
+    existingJson.generated_at
+  ) {
+    nextValue = {
+      ...value,
+      generated_at: existingJson.generated_at
+    };
+  }
+
+  const nextText = `${JSON.stringify(nextValue, null, 2)}\n`;
+  if (existingText === nextText) {
+    return false;
+  }
+
+  await writeFile(filePath, nextText, "utf8");
+  return true;
+}
+
 export async function writeText(filePath, value) {
   await ensureDir(path.dirname(filePath));
   await writeFile(filePath, value, "utf8");
