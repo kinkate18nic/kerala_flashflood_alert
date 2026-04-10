@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-10T10:34:04.113Z",
+  "generated_at": "2026-04-10T10:34:22.587Z",
   "sources": [
     {
       "source_id": "imd-cap-rss",
@@ -13,7 +13,7 @@
       "parser_status": "ok",
       "failure_stage": null,
       "status": "offline",
-      "freshness_minutes": 8563,
+      "freshness_minutes": 8564,
       "duration_ms": 1347,
       "notes": "IMD CAP RSS with 10 detail XML messages",
       "auth": "none",
@@ -26,7 +26,7 @@
       "last_successful_fetched_at": "2026-04-10T10:33:40.119Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 0,
+      "reused_age_minutes": 1,
       "published_from_cache": true
     },
     {
@@ -51,7 +51,7 @@
       "last_successful_fetched_at": "2026-04-10T10:33:40.124Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 0,
+      "reused_age_minutes": 1,
       "published_from_cache": true
     },
     {
@@ -77,7 +77,7 @@
       "last_successful_fetched_at": "2026-04-10T10:33:40.126Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 0,
+      "reused_age_minutes": 1,
       "published_from_cache": true
     },
     {
@@ -103,7 +103,7 @@
       "last_successful_fetched_at": "2026-04-10T10:33:40.471Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 0,
+      "reused_age_minutes": 1,
       "published_from_cache": true
     },
     {
@@ -130,7 +130,7 @@
       "last_successful_fetched_at": "2026-04-10T10:33:41.247Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 0,
+      "reused_age_minutes": 1,
       "published_from_cache": true
     },
     {
@@ -281,26 +281,26 @@
       "name": "RainViewer Radar Nowcast",
       "owner": "RainViewer / IMD radar aggregation",
       "category": "radar-nowcast",
-      "fetched_at": "2026-04-10T09:09:50.461Z",
-      "issued_at": "2026-04-10T09:00:00.000Z",
+      "fetched_at": "2026-04-10T10:33:48.347Z",
+      "issued_at": "2026-04-10T10:30:00.000Z",
       "raw_url": "https://api.rainviewer.com/public/weather-maps.json",
       "fetch_status": "ok",
       "parser_status": "ok",
       "failure_stage": null,
-      "status": "offline",
-      "freshness_minutes": 94,
-      "duration_ms": 1467,
-      "notes": "RainViewer latest radar frame /v2/radar/2cafe8f653a9",
+      "status": "ok",
+      "freshness_minutes": 4,
+      "duration_ms": 1046,
+      "notes": "RainViewer latest radar frame /v2/radar/66350273e71e",
       "auth": "none",
       "summary": {
         "district_count": 14,
         "hotspot_count": 20,
-        "latest_frame_time": "2026-04-10T09:00:00.000Z"
+        "latest_frame_time": "2026-04-10T10:30:00.000Z"
       },
-      "last_successful_fetched_at": "2026-04-10T09:09:50.461Z",
+      "last_successful_fetched_at": "2026-04-10T10:33:48.347Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 84,
+      "reused_age_minutes": 1,
       "published_from_cache": true
     },
     {
@@ -308,28 +308,28 @@
       "name": "NASA IMERG Near-Real-Time",
       "owner": "NASA GPM",
       "category": "satellite-rainfall",
-      "fetched_at": "2026-04-10T09:09:50.464Z",
-      "issued_at": "2026-04-10T04:59:59.000Z",
+      "fetched_at": "2026-04-10T10:33:48.350Z",
+      "issued_at": "2026-04-10T05:59:59.000Z",
       "raw_url": "https://gpm.nasa.gov/imerg",
       "fetch_status": "ok",
       "parser_status": "ok",
       "failure_stage": null,
       "status": "ok",
-      "freshness_minutes": 334,
-      "duration_ms": 11311,
-      "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260410-S043000-E045959.0270.V07C.30min.zip",
+      "freshness_minutes": 274,
+      "duration_ms": 14578,
+      "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260410-S053000-E055959.0330.V07C.30min.zip",
       "auth": "pps-basic",
       "summary": {
         "district_count": 14,
         "taluk_count": 61,
-        "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260410-S043000-E045959.0270.V07C.30min.zip",
-        "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260410-S023000-E025959.0150.V07C.3hr.zip",
-        "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260410-S023000-E025959.0150.V07C.1day.zip"
+        "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260410-S053000-E055959.0330.V07C.30min.zip",
+        "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260410-S053000-E055959.0330.V07C.3hr.zip",
+        "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260410-S053000-E055959.0330.V07C.1day.zip"
       },
-      "last_successful_fetched_at": "2026-04-10T09:09:50.464Z",
+      "last_successful_fetched_at": "2026-04-10T10:33:48.350Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 84,
+      "reused_age_minutes": 1,
       "published_from_cache": true
     },
     {
@@ -355,7 +355,7 @@
       "last_successful_fetched_at": "2026-04-10T10:33:41.466Z",
       "reused_in_run": true,
       "reuse_reason": "publish_from_cache",
-      "reused_age_minutes": 0,
+      "reused_age_minutes": 1,
       "published_from_cache": true
     }
   ]
