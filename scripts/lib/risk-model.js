@@ -248,8 +248,20 @@ function hasHydrologySupport(cwc) {
   return effectiveSeverity(cwc) >= 0.25;
 }
 
+function hasStrongHydrologySupport(cwc) {
+  return effectiveSeverity(cwc) >= 0.5;
+}
+
 function hasOperationalDamSupport(reservoir, dam) {
   return effectiveSeverity(reservoir) >= 0.32 || effectiveSeverity(dam) >= 0.32;
+}
+
+function hasLocalFloodWeatherSupport(observation, radar, stationNowcast) {
+  return (
+    hasRainSupport(observation) ||
+    hasRadarSupport(radar, { strongOnly: true }) ||
+    effectiveSeverity(stationNowcast) >= 0.28
+  );
 }
 
 function computeRunoffTriggerIndex(observation, radar, rainfallSourceWeights = {}) {
@@ -374,22 +386,27 @@ function hasWatchSupport({
 }) {
   const directOfficial = hasDirectOfficialSupport(cap, bulletin);
   const directLocalOfficial = effectiveSeverity(stationNowcast) >= 0.35;
+  const localFloodWeather = hasLocalFloodWeatherSupport(observation, radar, stationNowcast);
   const districtWarningBacked =
     effectiveSeverity(districtWarning) > 0.2 &&
-    (
-      hasRainSupport(observation) ||
-      hasRadarSupport(radar, { strongOnly: true }) ||
-      hasHydrologySupport(cwc) ||
-      effectiveSeverity(stationNowcast) >= 0.28
-    );
+    (localFloodWeather || hasHydrologySupport(cwc));
   const hydro = hasHydrologySupport(cwc);
+  const strongHydro = hasStrongHydrologySupport(cwc);
   const damOps = hasOperationalDamSupport(reservoir, dam);
   const runoffReady = (runoffPotential?.score ?? 0) >= runoffPotentialThreshold(category);
 
   switch (category) {
     case "river_floodplain":
     case "river_confluence":
-      return directOfficial || directLocalOfficial || districtWarningBacked || hydro || damOps || runoffReady;
+      return (
+        directOfficial ||
+        directLocalOfficial ||
+        districtWarningBacked ||
+        runoffReady ||
+        strongHydro ||
+        (hydro && localFloodWeather) ||
+        (damOps && localFloodWeather)
+      );
     case "dam_downstream":
       return directOfficial || directLocalOfficial || districtWarningBacked || hydro || damOps || runoffReady;
     default:
