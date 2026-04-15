@@ -7,6 +7,7 @@ import {
   parseImdCapRss,
   parseImdFlashFloodBulletin,
   parseCwcFfs,
+  parseImdDistrictWarning,
   parseImdStationNowcast
 } from "../scripts/lib/parsers.js";
 
@@ -50,4 +51,25 @@ test("parseImdStationNowcast supports the current quoted IMD map format", async 
   assert.equal(parsed.active_station_count, 1);
   assert.equal(parsed.issued_at, "2026-04-09T09:30:00.000Z");
   assert.ok(parsed.stations.some((station) => station.station_name === "Pathanamthitta"));
+});
+
+test("parseImdDistrictWarning ignores heat-only hazards for flood severity", () => {
+  const raw = `
+    {
+      "title": "KOLLAM",
+      "color": "#FFFF00",
+      "balloonText": "KOLLAM :<\\/br><img src=warning_images\\/09.png><p>Hot Day<\\/p><\\/img><p>Updated on:2026-04-15<\\/p>"
+    },
+    {
+      "title": "KOZHIKODE",
+      "color": "#FFFF00",
+      "balloonText": "KOZHIKODE :<\\/br><img src=warning_images\\/03.png><p>Thunderstorm & Lightning, Squall etc<\\/p><\\/img><\\/br><img src=warning_images\\/09.png><p>Hot Day<\\/p><\\/img><p>Updated on:2026-04-15<\\/p>"
+    }
+  `;
+  const parsed = parseImdDistrictWarning(raw);
+  const kollam = parsed.districts.find((district) => district.district_id === "kollam");
+  const kozhikode = parsed.districts.find((district) => district.district_id === "kozhikode");
+
+  assert.equal(kollam?.severity, 0);
+  assert.equal(kozhikode?.severity, 0.22);
 });

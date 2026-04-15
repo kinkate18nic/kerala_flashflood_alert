@@ -134,6 +134,27 @@ function warningSeverityFromText(text) {
   return severity;
 }
 
+function isHeatOnlyImdHazard(text) {
+  const normalized = String(text ?? "").toLowerCase();
+  if (!normalized) {
+    return false;
+  }
+
+  const hasHeatSignal =
+    /hot day|heat wave|severe heat wave|warm night|hot and humid weather/.test(normalized);
+  const hasFloodRelevantSignal =
+    /very heavy rain|extremely heavy rain|heavy rain|moderate rain|light rain|thunderstorm|lightning|squall|strong surface winds|hailstorm/.test(normalized);
+
+  return hasHeatSignal && !hasFloodRelevantSignal;
+}
+
+function imdFloodSeverity(color, text, fallbackSeverity = 0) {
+  if (isHeatOnlyImdHazard(text)) {
+    return 0;
+  }
+  return colorSeverity(color, fallbackSeverity);
+}
+
 function nowcastSeverityFromText(text) {
   const normalized = String(text ?? "").toLowerCase();
   if (!normalized || /no warning/.test(normalized)) {
@@ -175,7 +196,7 @@ function parseImdDistrictWarningPage(raw) {
     const updatedAt = updatedMatch?.[1]
       ? parseDate(`${updatedMatch[1]}T00:00:00+05:30`)?.toISOString() ?? null
       : null;
-    const severity = colorSeverity(entry.color, warningSeverityFromText(cleanedText));
+    const severity = imdFloodSeverity(entry.color, cleanedText, warningSeverityFromText(cleanedText));
     return {
       district_id: entry.district_id,
       district_name: entry.district_name,
@@ -213,7 +234,7 @@ function parseImdDistrictNowcastPage(raw, source = null) {
     const validUntil = issueMatch && validMatch
       ? parseImdLocalDateTime(issueMatch[1], validMatch[1])
       : null;
-    const severity = colorSeverity(entry.color, nowcastSeverityFromText(cleanedText));
+    const severity = imdFloodSeverity(entry.color, cleanedText, nowcastSeverityFromText(cleanedText));
     return {
       district_id: entry.district_id,
       district_name: entry.district_name,
