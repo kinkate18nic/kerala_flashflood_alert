@@ -5282,29 +5282,29 @@
         "name": "RainViewer Radar Nowcast",
         "owner": "RainViewer / IMD radar aggregation",
         "category": "radar-nowcast",
-        "fetched_at": "2026-04-15T14:52:31.418Z",
-        "issued_at": "2026-04-15T14:50:00.000Z",
+        "fetched_at": "2026-04-15T16:01:42.421Z",
+        "issued_at": "2026-04-15T16:00:00.000Z",
         "raw_url": "https://api.rainviewer.com/public/weather-maps.json",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 3,
-        "duration_ms": 1099,
-        "notes": "RainViewer latest radar frame /v2/radar/1434f6a51ae5",
+        "freshness_minutes": 2,
+        "duration_ms": 1079,
+        "notes": "RainViewer latest radar frame /v2/radar/e497025686d2",
         "auth": "none",
         "summary": {
           "district_count": 14,
           "hotspot_count": 20,
-          "latest_frame_time": "2026-04-15T14:50:00.000Z"
+          "latest_frame_time": "2026-04-15T16:00:00.000Z"
         },
-        "last_successful_fetched_at": "2026-04-15T14:52:31.418Z"
+        "last_successful_fetched_at": "2026-04-15T16:01:42.421Z"
       },
       "parsed": {
-        "issued_at": "2026-04-15T14:50:00.000Z",
-        "generated_at": "2026-04-15T14:50:23.000Z",
-        "frame_time": "2026-04-15T14:50:00.000Z",
-        "frame_path": "/v2/radar/1434f6a51ae5",
+        "issued_at": "2026-04-15T16:00:00.000Z",
+        "generated_at": "2026-04-15T16:00:28.000Z",
+        "frame_time": "2026-04-15T16:00:00.000Z",
+        "frame_path": "/v2/radar/e497025686d2",
         "color_scheme": "universal_blue",
         "districts": [
           {
@@ -5447,15 +5447,15 @@
               "lat": 9.4981,
               "lon": 76.3388
             },
-            "active_pixels": 11,
+            "active_pixels": 9,
             "hotspot_detection_count": 2
           },
           {
             "district_id": "pathanamthitta",
             "name": "Pathanamthitta",
-            "intensity": "moderate",
-            "severity": 0.5,
-            "max_dbz": 23,
+            "intensity": "light",
+            "severity": 0.25,
+            "max_dbz": 18,
             "sample_location": {
               "lat": 9.2648,
               "lon": 76.787
@@ -5466,9 +5466,9 @@
           {
             "district_id": "kollam",
             "name": "Kollam",
-            "intensity": "moderate",
-            "severity": 0.5,
-            "max_dbz": 23,
+            "intensity": "light",
+            "severity": 0.25,
+            "max_dbz": 18,
             "sample_location": {
               "lat": 8.8932,
               "lon": 76.6141
@@ -5486,7 +5486,7 @@
               "lat": 8.5241,
               "lon": 76.9366
             },
-            "active_pixels": 8,
+            "active_pixels": 9,
             "hotspot_detection_count": 0
           }
         ],
@@ -5615,7 +5615,7 @@
             "intensity": "light",
             "severity": 0.25,
             "max_dbz": 9,
-            "active_pixels": 11,
+            "active_pixels": 10,
             "location": {
               "lat": 9.323,
               "lon": 76.612
@@ -5760,28 +5760,28 @@
         "name": "NASA IMERG Near-Real-Time",
         "owner": "NASA GPM",
         "category": "satellite-rainfall",
-        "fetched_at": "2026-04-15T14:52:31.420Z",
-        "issued_at": "2026-04-15T09:59:59.000Z",
+        "fetched_at": "2026-04-15T16:01:42.423Z",
+        "issued_at": "2026-04-15T10:59:59.000Z",
         "raw_url": "https://gpm.nasa.gov/imerg",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 293,
-        "duration_ms": 15686,
-        "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260415-S093000-E095959.0570.V07C.30min.zip",
+        "freshness_minutes": 302,
+        "duration_ms": 18030,
+        "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260415-S103000-E105959.0630.V07C.30min.zip",
         "auth": "pps-basic",
         "summary": {
           "district_count": 14,
           "taluk_count": 61,
-          "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260415-S093000-E095959.0570.V07C.30min.zip",
+          "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260415-S103000-E105959.0630.V07C.30min.zip",
           "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260415-S083000-E085959.0510.V07C.3hr.zip",
           "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260415-S083000-E085959.0510.V07C.1day.zip"
         },
-        "last_successful_fetched_at": "2026-04-15T14:52:31.420Z"
+        "last_successful_fetched_at": "2026-04-15T16:01:42.423Z"
       },
       "parsed": {
-        "issued_at": "2026-04-15T09:59:59.000Z",
+        "issued_at": "2026-04-15T10:59:59.000Z",
         "districts": [
           {
             "district_id": "kasaragod",
@@ -6885,8 +6885,8 @@
         ],
         "source_files": {
           "half_hour": [
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260415-S093000-E095959.0570.V07C.30min.zip",
-            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260415-S090000-E092959.0540.V07C.30min.zip"
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260415-S103000-E105959.0630.V07C.30min.zip",
+            "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260415-S100000-E102959.0600.V07C.30min.zip"
           ],
           "three_hour": [
             "https://jsimpsonhttps.pps.eosdis.nasa.gov/imerg/gis/early/3B-HHR-E.MS.MRG.3IMERG.20260415-S083000-E085959.0510.V07C.3hr.zip",
