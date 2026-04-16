@@ -5282,29 +5282,29 @@
         "name": "RainViewer Radar Nowcast",
         "owner": "RainViewer / IMD radar aggregation",
         "category": "radar-nowcast",
-        "fetched_at": "2026-04-15T23:08:41.863Z",
-        "issued_at": "2026-04-15T23:00:00.000Z",
+        "fetched_at": "2026-04-16T00:04:54.283Z",
+        "issued_at": "2026-04-16T00:00:00.000Z",
         "raw_url": "https://api.rainviewer.com/public/weather-maps.json",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 9,
-        "duration_ms": 1078,
-        "notes": "RainViewer latest radar frame /v2/radar/f897aa0ee846",
+        "freshness_minutes": 5,
+        "duration_ms": 841,
+        "notes": "RainViewer latest radar frame /v2/radar/83596d47a778",
         "auth": "none",
         "summary": {
           "district_count": 14,
           "hotspot_count": 20,
-          "latest_frame_time": "2026-04-15T23:00:00.000Z"
+          "latest_frame_time": "2026-04-16T00:00:00.000Z"
         },
-        "last_successful_fetched_at": "2026-04-15T23:08:41.863Z"
+        "last_successful_fetched_at": "2026-04-16T00:04:54.283Z"
       },
       "parsed": {
-        "issued_at": "2026-04-15T23:00:00.000Z",
-        "generated_at": "2026-04-15T23:05:34.000Z",
-        "frame_time": "2026-04-15T23:00:00.000Z",
-        "frame_path": "/v2/radar/f897aa0ee846",
+        "issued_at": "2026-04-16T00:00:00.000Z",
+        "generated_at": "2026-04-16T00:00:26.000Z",
+        "frame_time": "2026-04-16T00:00:00.000Z",
+        "frame_path": "/v2/radar/83596d47a778",
         "color_scheme": "universal_blue",
         "districts": [
           {
@@ -5442,20 +5442,20 @@
             "name": "Alappuzha",
             "intensity": "light",
             "severity": 0.25,
-            "max_dbz": 9,
+            "max_dbz": 14,
             "sample_location": {
               "lat": 9.4981,
               "lon": 76.3388
             },
-            "active_pixels": 11,
+            "active_pixels": 12,
             "hotspot_detection_count": 2
           },
           {
             "district_id": "pathanamthitta",
             "name": "Pathanamthitta",
-            "intensity": "moderate",
-            "severity": 0.5,
-            "max_dbz": 27,
+            "intensity": "light",
+            "severity": 0.25,
+            "max_dbz": 18,
             "sample_location": {
               "lat": 9.2648,
               "lon": 76.787
@@ -5466,14 +5466,14 @@
           {
             "district_id": "kollam",
             "name": "Kollam",
-            "intensity": "moderate",
-            "severity": 0.5,
-            "max_dbz": 27,
+            "intensity": "light",
+            "severity": 0.25,
+            "max_dbz": 18,
             "sample_location": {
               "lat": 8.8932,
               "lon": 76.6141
             },
-            "active_pixels": 18,
+            "active_pixels": 19,
             "hotspot_detection_count": 0
           },
           {
@@ -5486,7 +5486,7 @@
               "lat": 8.5241,
               "lon": 76.9366
             },
-            "active_pixels": 10,
+            "active_pixels": 11,
             "hotspot_detection_count": 0
           }
         ],
@@ -5601,8 +5601,8 @@
             "name": "Kuttanad low-lying basin",
             "intensity": "light",
             "severity": 0.25,
-            "max_dbz": 9,
-            "active_pixels": 1,
+            "max_dbz": 14,
+            "active_pixels": 2,
             "location": {
               "lat": 9.365,
               "lon": 76.421
@@ -5614,8 +5614,8 @@
             "name": "Chengannur - Pandanad floodplain",
             "intensity": "light",
             "severity": 0.25,
-            "max_dbz": 9,
-            "active_pixels": 12,
+            "max_dbz": 14,
+            "active_pixels": 13,
             "location": {
               "lat": 9.323,
               "lon": 76.612
@@ -5640,8 +5640,8 @@
             "name": "Aranmula - Kozhencherry - Ranni",
             "intensity": "light",
             "severity": 0.25,
-            "max_dbz": 9,
-            "active_pixels": 2,
+            "max_dbz": 14,
+            "active_pixels": 3,
             "location": {
               "lat": 9.367,
               "lon": 76.755
@@ -5760,15 +5760,15 @@
         "name": "NASA IMERG Near-Real-Time",
         "owner": "NASA GPM",
         "category": "satellite-rainfall",
-        "fetched_at": "2026-04-15T23:08:41.866Z",
+        "fetched_at": "2026-04-16T00:04:54.286Z",
         "issued_at": "2026-04-15T18:59:59.000Z",
         "raw_url": "https://gpm.nasa.gov/imerg",
         "fetch_status": "ok",
         "parser_status": "ok",
         "failure_stage": null,
         "status": "ok",
-        "freshness_minutes": 249,
-        "duration_ms": 20228,
+        "freshness_minutes": 305,
+        "duration_ms": 10975,
         "notes": "IMERG sampled from 3B-HHR-E.MS.MRG.3IMERG.20260415-S183000-E185959.1110.V07C.30min.zip",
         "auth": "pps-basic",
         "summary": {
@@ -5778,7 +5778,7 @@
           "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260415-S173000-E175959.1050.V07C.3hr.zip",
           "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260415-S173000-E175959.1050.V07C.1day.zip"
         },
-        "last_successful_fetched_at": "2026-04-15T23:08:41.866Z"
+        "last_successful_fetched_at": "2026-04-16T00:04:54.286Z"
       },
       "parsed": {
         "issued_at": "2026-04-15T18:59:59.000Z",
