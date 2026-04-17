@@ -389,7 +389,7 @@ The Worker is now intentionally narrow in scope:
 - it exposes a simple `/healthz` check
 - it is no longer used as a general fetch proxy for source collection
 
-The older 5-minute polling workflow is kept only as a fallback path. If the Telegram bot is switched to webhook mode, polling now exits cleanly instead of failing.
+The older 5-minute polling path has been removed. Telegram operations now use the Cloudflare Worker webhook path only.
 
 ### What pause means now
 
