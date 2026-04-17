@@ -141,6 +141,15 @@
         <section class="panel prose-panel">
           <h2>How scoring works</h2>
           <p>The model produces a composite score from 0 to 100 for districts, taluks, and hotspots. It is a decision-support score, not a probability.</p>
+          <p>
+            The important mental model is:
+          </p>
+          <p class="callout">
+            The dashboard first converts each source into a normalized severity signal, then applies freshness and source-health weighting, then combines those weighted signals into a 0-100 operational score.
+          </p>
+          <p>
+            A high score means multiple relevant signals agree that local flood consequence risk is elevated. A low score means either the weather is weak, the hydrology is quiet, the terrain is not very sensitive, or the available evidence does not agree strongly enough.
+          </p>
           <div class="table-wrap">
             <table class="prose-table">
               <thead>
@@ -162,7 +171,130 @@
               </tbody>
             </table>
           </div>
-          <p>The model also adds a small agreement bonus when several independent signals point in the same direction.</p>
+          <p>The model also adds a small agreement bonus when several independent signal families point in the same direction.</p>
+          <h3>District score formula</h3>
+          <p>
+            District scoring is the clearest base formula in the system:
+          </p>
+          <pre><code>district_raw_score =
+  official_warning_component +
+  flash_flood_bulletin_component +
+  rainfall_component +
+  antecedent_wetness_component +
+  terrain_component +
+  hydrology_component +
+  radar_nowcast_component +
+  reservoir_dam_component +
+  agreement_bonus</code></pre>
+          <p>
+            Each component is normalized to a 0-100-like scale first, then multiplied by its configured weight. The final result is clamped into a 0-100 score band.
+          </p>
+          <h3>What a source percentage means</h3>
+          <p>
+            When the dashboard shows phrases like <code>IMD district warning 22%</code> or <code>IMD station nowcast 18%</code>, that number is the source signal’s effective severity after parsing and freshness weighting, not the final flood probability.
+          </p>
+          <p>
+            Examples:
+          </p>
+          <ul>
+            <li><code>22%</code> means severity <code>0.22</code></li>
+            <li><code>35%</code> means severity <code>0.35</code></li>
+            <li><code>70%</code> means severity <code>0.70</code></li>
+          </ul>
+          <p>
+            The district, taluk, and hotspot scores then use those severities inside the weighted formulas below.
+          </p>
+          <h3>How warning and nowcast text becomes a severity value</h3>
+          <p>
+            The parser maps IMD text into coarse operational severity buckets before scoring. These values are intentionally simple and transparent rather than machine-learned.
+          </p>
+          <div class="table-wrap">
+            <table class="prose-table">
+              <thead>
+                <tr>
+                  <th>Signal text</th>
+                  <th>Base severity</th>
+                  <th>Interpretation in the model</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><code>No Warning</code></td><td>0.00</td><td>No flood contribution</td></tr>
+                <tr><td>Thunderstorm / Lightning / Squall / Strong surface winds / Hailstorm</td><td>0.22</td><td>Weak but relevant convective support</td></tr>
+                <tr><td>Light rain</td><td>0.18</td><td>Minor local wet-weather signal</td></tr>
+                <tr><td>Moderate rain</td><td>0.35</td><td>Meaningful short-lead rain support</td></tr>
+                <tr><td>Heavy rain</td><td>0.35 to 0.55</td><td>Strong flood-weather support depending on source type</td></tr>
+                <tr><td>Very heavy / extremely heavy rain</td><td>0.60 to 0.75</td><td>Very strong official support</td></tr>
+                <tr><td>Red-like warning colour</td><td>up to 0.70</td><td>Strong official severity when the text is also flood-relevant</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            Heat-only products such as <code>Hot Day</code>, <code>Heat Wave</code>, and similar heat advisories are intentionally treated as <strong>zero flood severity</strong>. They remain visible as source text for transparency, but they should not help create a flood watch by themselves.
+          </p>
+          <h3>How source freshness changes the score</h3>
+          <p>
+            Every signal is also multiplied by a source-health weight:
+          </p>
+          <div class="table-wrap">
+            <table class="prose-table">
+              <thead>
+                <tr>
+                  <th>Source status</th>
+                  <th>Multiplier</th>
+                  <th>Effect on scoring</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><code>ok</code></td><td>1.00</td><td>Full contribution</td></tr>
+                <tr><td><code>degraded</code></td><td>0.60</td><td>Reduced but still allowed to contribute</td></tr>
+                <tr><td><code>stale</code></td><td>0.25</td><td>Heavily down-weighted</td></tr>
+                <tr><td><code>offline</code></td><td>0.00</td><td>No score contribution</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            Example: an IMD warning with severity <code>0.22</code> contributes as <code>0.22</code> when the source is current, <code>0.132</code> when degraded, <code>0.055</code> when stale, and <code>0</code> when offline.
+          </p>
+          <h3>How rainfall is normalized</h3>
+          <p>
+            Rainfall is not scored as raw millimetres directly. It is normalized against configured caps so that very different durations can be blended together consistently.
+          </p>
+          <div class="table-wrap">
+            <table class="prose-table">
+              <thead>
+                <tr>
+                  <th>Rainfall window</th>
+                  <th>Normalization cap</th>
+                  <th>Internal share inside rainfall family</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1 hour</td><td>80 mm</td><td>28%</td></tr>
+                <tr><td>3 hour</td><td>140 mm</td><td>24%</td></tr>
+                <tr><td>6 hour</td><td>220 mm</td><td>24%</td></tr>
+                <tr><td>24 hour</td><td>320 mm</td><td>24%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            Antecedent wetness is calculated separately from 3-day and 7-day totals:
+          </p>
+          <ul>
+            <li>3-day total uses a 500 mm cap and contributes 55% of the wetness family</li>
+            <li>7-day total uses a 900 mm cap and contributes 45% of the wetness family</li>
+          </ul>
+          <h3>Agreement bonus</h3>
+          <p>
+            The model adds a bonus when several independent families are active at once:
+          </p>
+          <ul>
+            <li>2 active families: <code>+4</code></li>
+            <li>3 active families: <code>+8</code></li>
+            <li>4 or more active families: <code>+12</code></li>
+          </ul>
+          <p>
+            “Independent families” here means broad groups such as official warnings, bulletin support, runoff readiness, radar or nowcast, and hydrology or dam context. This is meant to reward agreement across different evidence types, not duplicate the same signal.
+          </p>
           <h3>Alert thresholds</h3>
           <div class="table-wrap">
             <table class="prose-table">
@@ -182,6 +314,93 @@
             </table>
           </div>
           <p class="callout">A score of 58 does not mean “58% chance of flood.” It means the current combination of evidence crosses the dashboard’s <code>Alert</code> threshold.</p>
+          <h3>Worked district example</h3>
+          <p>
+            Suppose a district has these current conditions:
+          </p>
+          <ul>
+            <li>IMD district warning severity <code>0.22</code> from thunderstorm wording</li>
+            <li>No CAP alert</li>
+            <li>No flash-flood bulletin support</li>
+            <li>1h rain 12 mm, 3h rain 20 mm, 6h rain 35 mm, 24h rain 30 mm</li>
+            <li>3-day rain 60 mm, 7-day rain 100 mm</li>
+            <li>terrain susceptibility <code>0.80</code></li>
+            <li>hydrology severity <code>0.35</code></li>
+            <li>district radar or nowcast severity <code>0.28</code></li>
+            <li>reservoir or dam severity <code>0.40</code></li>
+          </ul>
+          <p>
+            The district score is approximately built like this:
+          </p>
+          <pre><code>official warning  = 22 * 0.24 = 5.3
+bulletin          =  0 * 0.10 = 0.0
+rainfall family   = 18.2 * 0.24 = 4.4
+antecedent family = 13.2 * 0.09 = 1.2
+terrain           = 80 * 0.12 = 9.6
+hydrology         = 35 * 0.08 = 2.8
+radar / nowcast   = 28 * 0.08 = 2.2
+reservoir / dam   = 40 * 0.05 = 2.0
+agreement bonus   = +8
+
+raw score ≈ 35.5  → Watch</code></pre>
+          <p>
+            The exact dashboard number may differ slightly because the real model uses source-health multipliers, combines some signals before weighting, rounds to one decimal place, and uses the latest available source state at publish time. But this is the real structure of the calculation.
+          </p>
+          <h3>How hotspot scoring differs from district scoring</h3>
+          <p>
+            Hotspots start from the district model but then add consequence-focused local adjustments:
+          </p>
+          <pre><code>hotspot_raw_score =
+  district_dynamic_raw_score
+  + hotspot_susceptibility * category_weight
+  + category_boost
+  + manual_override_boost
+  + local_short_lead_signal_term
+  + hydrology_or_dam_term</code></pre>
+          <p>
+            Important consequences of that design:
+          </p>
+          <ul>
+            <li>Hotspots inherit broad district context, but do not exactly equal district scores.</li>
+            <li>Hotspot category matters: steep catchments, river floodplains, dam-downstream corridors, and urban flood pockets do not all escalate the same way.</li>
+            <li>Nearby station nowcast and nearby radar matter more for hotspots than for districts.</li>
+          </ul>
+          <h3>Runoff potential</h3>
+          <p>
+            Runoff potential is a separate internal calculation, also shown in the UI because it helps explain why a place is sensitive even before flooding is visible.
+          </p>
+          <p>
+            It blends:
+          </p>
+          <ul>
+            <li>catchment wetness</li>
+            <li>short-lead trigger intensity (recent rain + radar)</li>
+            <li>local susceptibility</li>
+          </ul>
+          <p>
+            Different hotspot categories use different blend weights. For example, a <code>river_floodplain</code> hotspot leans more on wetness and susceptibility, while an <code>urban_flood_pocket</code> hotspot leans more on short-lead trigger intensity.
+          </p>
+          <h3>Watch-gating safeguards</h3>
+          <p>
+            One more safeguard matters a lot:
+          </p>
+          <p class="callout">
+            A hotspot is not allowed to remain at <code>Watch</code> just because its raw score crosses 35. It must also pass a category-specific “watch support” gate.
+          </p>
+          <p>
+            This gate exists to stop false positives such as:
+          </p>
+          <ul>
+            <li>broad district warnings with no meaningful local rain</li>
+            <li>heat-only advisories like <code>Hot Day</code></li>
+            <li>weak dam or river context with no local flood-weather support</li>
+          </ul>
+          <p>
+            For example, river-floodplain hotspots now require either strong hydrology on its own or a combination of hydrology or dam context plus meaningful local flood-weather support. That tightening was added because weak rain plus hot-weather days were producing too many marginal floodplain watches.
+          </p>
+          <p>
+            If you think any of these calculations, thresholds, or gating rules are wrong for Kerala reality, please send a concrete example to <a href="mailto:nishanthdotkesavan@gmail.com">nishanthdotkesavan@gmail.com</a>. The goal is not to defend the model; the goal is to improve it when reality disagrees.
+          </p>
         </section>
 
         <section class="panel prose-panel">
@@ -190,6 +409,14 @@
           <p>Districts combine official warning products, district nowcast, official and satellite rainfall, radar, river-stage and dam context, and terrain susceptibility. Districts are the most balanced layer.</p>
           <h3>Taluk logic</h3>
           <p>Taluks use localized rainfall estimates, district background conditions, hotspot membership or context, and local runoff susceptibility. They are meant to be more local than districts, but still more cautious than hotspots.</p>
+          <p>
+            Taluks also get extra score from:
+          </p>
+          <ul>
+            <li>the strongest mapped hotspot score inside the taluk</li>
+            <li>the number of mapped hotspots in that taluk</li>
+            <li>local hotspot susceptibility averaged into the taluk susceptibility term</li>
+          </ul>
           <h3>Hotspot logic</h3>
           <p>Hotspots are the most consequence-focused layer. They combine nearby rainfall, nearby radar, nearby station nowcast when available, catchment wetness, hotspot category, terrain and runoff susceptibility, and river or dam context where relevant.</p>
           <p>Hotspots are not allowed to escalate too easily from broad warning text alone. A generic district thunderstorm or wind warning should not create a hotspot <code>Watch</code> by itself.</p>
@@ -199,9 +426,9 @@
           <h2>Freshness, saved copies, and source status</h2>
           <p>The dashboard separates three different ideas:</p>
           <ul>
-            <li><strong>Data published</strong>: when the source data itself appears to have been issued</li>
+            <li><strong>Source data time</strong>: when the source data itself appears to have been issued</li>
             <li><strong>Last checked by our system</strong>: when our system last fetched or confirmed that source</li>
-            <li><strong>This run</strong>: whether the latest source refresh succeeded or left that source unavailable for this snapshot</li>
+            <li><strong>Latest refresh result</strong>: whether the latest source refresh succeeded or left that source unavailable for this snapshot</li>
           </ul>
           <p>Source status meanings:</p>
           <ul>
@@ -299,6 +526,9 @@
         <section class="panel prose-panel">
           <h2>Feedback we want</h2>
           <p>We especially welcome feedback from IMD users, hydrologists, district disaster-management staff, dam and river monitoring teams, and field volunteers who can compare dashboard outputs with local reality.</p>
+          <p>
+            Feedback email: <a href="mailto:nishanthdotkesavan@gmail.com">nishanthdotkesavan@gmail.com</a>
+          </p>
           <p>Useful feedback looks like:</p>
           <ul>
             <li>“This alert is too aggressive for this kind of signal.”</li>
@@ -308,6 +538,9 @@
             <li>“This official product should be treated as primary, not secondary.”</li>
             <li>“This explanation is too technical or not understandable.”</li>
           </ul>
+          <p>
+            The most helpful feedback includes the exact area name, date, what the dashboard showed, and what local reality looked like instead.
+          </p>
         </section>
       </main>
     </div>
