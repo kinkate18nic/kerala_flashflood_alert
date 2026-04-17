@@ -253,9 +253,15 @@ function parseImdDistrictNowcastPage(raw, source = null) {
     .filter(Boolean)
     .sort((left, right) => right.getTime() - left.getTime())[0]
     ?.toISOString() ?? null;
+  const validUntil = entries
+    .map((entry) => parseDate(entry.valid_until))
+    .filter(Boolean)
+    .sort((left, right) => right.getTime() - left.getTime())[0]
+    ?.toISOString() ?? null;
 
   return {
     issued_at: issuedAt,
+    valid_until: validUntil,
     district_count: entries.length,
     active_district_count: activeEntries.filter((entry) => entry.severity > 0).length,
     filtered_item_count: entries.length - activeEntries.length,
@@ -385,9 +391,15 @@ function parseImdStationNowcastPage(raw, source = null) {
     .filter(Boolean)
     .sort((left, right) => right.getTime() - left.getTime())[0]
     ?.toISOString() ?? null;
+  const validUntil = stations
+    .map((entry) => parseDate(entry.valid_until))
+    .filter(Boolean)
+    .sort((left, right) => right.getTime() - left.getTime())[0]
+    ?.toISOString() ?? null;
 
   return {
     issued_at: issuedAt,
+    valid_until: validUntil,
     station_count: stations.length,
     active_station_count: activeStations.length,
     hotspot_count: hotspotMatches.size,

@@ -45,9 +45,27 @@ function calendarDayAgeInIst(issuedAt, generatedAt) {
   return Math.round((generatedMidnight.getTime() - issuedMidnight.getTime()) / 86400000);
 }
 
-export function statusFromFreshness(freshnessMinutes, source, fetchOk, parserOk, issuedAt = null, generatedAt = null) {
+export function statusFromFreshness(
+  freshnessMinutes,
+  source,
+  fetchOk,
+  parserOk,
+  issuedAt = null,
+  generatedAt = null,
+  validUntil = null
+) {
   if (!fetchOk || !parserOk) {
     return "offline";
+  }
+  if (
+    (source.id === "imd-district-nowcast" || source.id === "imd-station-nowcast") &&
+    validUntil
+  ) {
+    const referenceTime = parseDate(generatedAt) ?? new Date();
+    const validUntilDate = parseDate(validUntil);
+    if (validUntilDate) {
+      return validUntilDate.getTime() > referenceTime.getTime() ? "ok" : "offline";
+    }
   }
   if (source.freshness_mode === "calendar_day_ist") {
     const ageDays = calendarDayAgeInIst(issuedAt, generatedAt);
@@ -204,7 +222,15 @@ function sourceCachePath(repoRoot) {
 
 function sourceFreshnessFromSnapshot(snapshot, source, parsed, generatedAt) {
   const freshnessMinutes = minutesBetween(parseDate(snapshot?.issued_at), new Date(generatedAt));
-  const baseStatus = statusFromFreshness(freshnessMinutes, source, true, true, snapshot?.issued_at, generatedAt);
+  const baseStatus = statusFromFreshness(
+    freshnessMinutes,
+    source,
+    true,
+    true,
+    snapshot?.issued_at,
+    generatedAt,
+    snapshot?.valid_until ?? null
+  );
   return {
     freshnessMinutes,
     status: applyCoverageStatus(baseStatus, parsed)
@@ -691,6 +717,7 @@ function buildNasaImergHistoryEntry(generatedAt, snapshot, parsedSource) {
   return {
     generated_at: generatedAt,
     issued_at: snapshot.issued_at ?? parsedSource?.issued_at ?? null,
+    valid_until: snapshot.valid_until ?? parsedSource?.valid_until ?? null,
     status: snapshot.status,
     parser_status: snapshot.parser_status,
     freshness_minutes: snapshot.freshness_minutes,
@@ -944,6 +971,7 @@ export async function runPipeline(repoRoot, options = {}) {
       let fetchOk = false;
       let parserOk = false;
       let issuedAt = null;
+      let validUntil = null;
       let note = "";
       let resolvedUrl = source.url ?? source.path;
 
@@ -965,6 +993,7 @@ export async function runPipeline(repoRoot, options = {}) {
               : await parser(raw, source);
           parserOk = true;
           issuedAt = parsed?.issued_at ?? parsed?.published_at ?? parsed?.items?.[0]?.published_at ?? null;
+          validUntil = parsed?.valid_until ?? null;
           if (options.useFixtures) {
             issuedAt = new Date(
               new Date(generatedAt).getTime() - Math.max(5, source.cadence_minutes) * 60000
@@ -985,7 +1014,8 @@ export async function runPipeline(repoRoot, options = {}) {
         fetchOk,
         parserOk,
         issuedDate?.toISOString() ?? null,
-        generatedAt
+        generatedAt,
+        validUntil
       );
       const status = applyCoverageStatus(baseStatus, parsed);
       const fetchStatus = fetchOk ? "ok" : "failed";
@@ -1007,6 +1037,7 @@ export async function runPipeline(repoRoot, options = {}) {
           category: source.category,
           fetched_at: fetchedAt,
           issued_at: issuedDate?.toISOString() ?? null,
+          valid_until: validUntil,
           raw_url: resolvedUrl ?? source.url ?? source.path,
           fetch_status: fetchStatus,
           parser_status: parserStatus,
@@ -1034,6 +1065,7 @@ export async function runPipeline(repoRoot, options = {}) {
               category: source.category,
               fetched_at: fetchedAt,
               issued_at: issuedDate?.toISOString() ?? null,
+              valid_until: validUntil,
               raw_url: resolvedUrl ?? source.url ?? source.path,
               fetch_status: fetchStatus,
               parser_status: parserStatus,

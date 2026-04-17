@@ -251,6 +251,7 @@ async function testParsers() {
     reference_time: "2026-03-31T15:00:00+05:30"
   });
   assert.equal(districtNowcast.active_district_count, 1);
+  assert.equal(districtNowcast.valid_until, "2026-03-31T10:30:00.000Z");
   assert.ok(districtNowcast.districts.some((district) => district.district_id === "pathanamthitta"));
   const expiredDistrictNowcast = parseImdDistrictNowcast(districtNowcastRaw, {
     reference_time: "2026-03-31T16:30:00+05:30"
@@ -265,6 +266,7 @@ async function testParsers() {
     reference_time: "2026-04-01T15:00:00+05:30"
   });
   assert.equal(stationNowcast.active_station_count, 1);
+  assert.equal(stationNowcast.valid_until, "2026-04-01T10:30:00.000Z");
   assert.ok(stationNowcast.hotspots.some((entry) => entry.hotspot_id === "h-munnar-devikulam"));
   const expiredStationNowcast = parseImdStationNowcast(stationNowcastRaw, {
     reference_time: "2026-04-01T16:30:00+05:30"
@@ -970,6 +972,44 @@ function testCalendarDayDistrictWarningFreshness() {
   );
 }
 
+function testNowcastFreshnessUsesValidUntil() {
+  const districtNowcastSource = {
+    id: "imd-district-nowcast",
+    freshness_sla_minutes: 120,
+    offline_after_minutes: 360
+  };
+  const stationNowcastSource = {
+    id: "imd-station-nowcast",
+    freshness_sla_minutes: 120,
+    offline_after_minutes: 360
+  };
+
+  assert.equal(
+    statusFromFreshness(
+      127,
+      districtNowcastSource,
+      true,
+      true,
+      "2026-04-17T01:30:00.000Z",
+      "2026-04-17T03:36:48.347Z",
+      "2026-04-17T04:00:00.000Z"
+    ),
+    "ok"
+  );
+  assert.equal(
+    statusFromFreshness(
+      127,
+      stationNowcastSource,
+      true,
+      true,
+      "2026-04-17T01:30:00.000Z",
+      "2026-04-17T03:36:48.347Z",
+      "2026-04-17T03:00:00.000Z"
+    ),
+    "offline"
+  );
+}
+
 async function testKsdmaIssuedAtExtractionPrefersCurrentLinkedDate() {
   const pageHtml = `
     <html>
@@ -1244,8 +1284,9 @@ const tests = [
   ["pipeline-archive-retention", testPipelinePrunesOldArchiveRuns],
   ["stable-generated-json", testStableGeneratedJsonPreservesTimestampWhenContentMatches],
   ["tracked-output-integrity", testTrackedOutputsHaveNoMergeMarkersOrBrokenJson],
-    ["calendar-day-freshness", testCalendarDayDistrictWarningFreshness],
-    ["ksdma-issued-at", testKsdmaIssuedAtExtractionPrefersCurrentLinkedDate]
+  ["calendar-day-freshness", testCalendarDayDistrictWarningFreshness],
+  ["nowcast-valid-until-freshness", testNowcastFreshnessUsesValidUntil],
+  ["ksdma-issued-at", testKsdmaIssuedAtExtractionPrefersCurrentLinkedDate]
   ];
 
 let failures = 0;
