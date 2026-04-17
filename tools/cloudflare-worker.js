@@ -252,11 +252,12 @@ function getPendingAlerts(alertsDocument, rejectionsDocument) {
 
 function buildStatusText(opsState, alertsDocument, rejectionsDocument) {
   const pendingCount = getPendingAlerts(alertsDocument, rejectionsDocument).length;
+  const changedAtLabel = formatTelegramTime(opsState.changed_at);
   if (opsState.refresh_paused) {
     return [
       "Refresh status: paused",
       `Pending severe reviews: ${pendingCount}`,
-      opsState.changed_at ? `Changed: ${opsState.changed_at}` : null,
+      changedAtLabel ? `Changed: ${changedAtLabel}` : null,
       opsState.changed_by ? `By: ${opsState.changed_by}` : null,
       opsState.note ? `Note: ${opsState.note}` : null
     ]
@@ -267,11 +268,28 @@ function buildStatusText(opsState, alertsDocument, rejectionsDocument) {
   return [
     "Refresh status: active",
     `Pending severe reviews: ${pendingCount}`,
-    opsState.changed_at ? `Last change: ${opsState.changed_at}` : null,
+    changedAtLabel ? `Last change: ${changedAtLabel}` : null,
     opsState.changed_by ? `By: ${opsState.changed_by}` : null
   ]
     .filter(Boolean)
     .join("\n");
+}
+
+function formatTelegramTime(value) {
+  if (!value) {
+    return null;
+  }
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return String(value);
+  }
+
+  return date.toLocaleString("en-IN", {
+    dateStyle: "medium",
+    timeStyle: "short",
+    timeZone: "Asia/Kolkata"
+  });
 }
 
 function buildPendingAlertsText(alertsDocument, rejectionsDocument) {
