@@ -22,6 +22,7 @@
 body {
   margin: 0;
   min-height: 100vh;
+  scroll-padding-top: 108px;
   font-family: "Manrope", "Segoe UI", sans-serif;
   color: var(--ink);
   background:
@@ -40,11 +41,35 @@ body {
   padding: 24px 0 10px;
 }
 
+.masthead {
+  position: sticky;
+  top: 12px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 6px 0 18px;
+  padding: 10px 12px;
+  border-radius: 22px;
+  background: rgba(255, 249, 238, 0.92);
+  border: 1px solid rgba(22, 38, 31, 0.08);
+  box-shadow: 0 16px 34px rgba(18, 38, 29, 0.08);
+  backdrop-filter: blur(18px);
+}
+
 .page-nav {
   display: flex;
   gap: 10px;
-  margin: 6px 0 18px;
   flex-wrap: wrap;
+  margin: 0;
+}
+
+.masthead-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .page-nav-link {
@@ -88,8 +113,8 @@ h2 {
 
 h1 {
   max-width: 11ch;
-  font-size: clamp(2.8rem, 5vw, 5.2rem);
-  line-height: 0.94;
+  font-size: clamp(2.3rem, 4vw, 4.2rem);
+  line-height: 0.96;
 }
 
 .hero-subheading {
@@ -120,6 +145,10 @@ h1 {
   justify-content: flex-end;
 }
 
+.hero-actions:empty {
+  display: none;
+}
+
 .chip {
   display: inline-flex;
   align-items: center;
@@ -139,6 +168,25 @@ h1 {
 
 .link-chip {
   text-decoration: none;
+}
+
+.scroll-top {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 45;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.35rem;
+  font-weight: 800;
+  box-shadow: 0 14px 28px rgba(18, 38, 29, 0.2);
 }
 
 .layout {
@@ -560,6 +608,17 @@ h1 {
   .hero-copy {
     flex-direction: column;
   }
+
+  .masthead {
+    top: 8px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .masthead-meta {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }
 
 @media (max-width: 720px) {
@@ -578,6 +637,16 @@ h1 {
 
   .district-label {
     font-size: 8px;
+  }
+
+  .page-nav-link,
+  .chip {
+    min-height: 36px;
+    padding: 0 12px;
+  }
+
+  h1 {
+    font-size: 2rem;
   }
 }
 .control-stack {
