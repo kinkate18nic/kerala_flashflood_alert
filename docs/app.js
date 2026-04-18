@@ -1,5 +1,4 @@
 const state = {
-  horizon: "now",
   mapScope: "district",
   payload: null,
   archiveIndex: null,
@@ -30,7 +29,6 @@ const references = {
   sourceGrid: document.querySelector("#source-grid"),
   dialog: document.querySelector("#evidence-dialog"),
   dialogContent: document.querySelector("#dialog-content"),
-  timeframeToggle: document.querySelector("#timeframe-toggle"),
   dialogClose: document.querySelector("#dialog-close"),
   archiveSelect: document.querySelector("#archive-select")
 };
@@ -111,28 +109,12 @@ function formatTime(value) {
   });
 }
 
-function horizonAdjustedScore(item) {
-  if (state.horizon === "now") {
-    return item.score;
-  }
-  if (state.horizon === "6h") {
-    return Math.min(100, Math.round(item.score + (item.level === "Watch" ? 4 : 7)));
-  }
-  return Math.max(0, Math.round(item.score * 0.88 + (item.susceptibility ?? 0.5) * 18));
+function displayScore(item) {
+  return Number(item.score ?? 0).toFixed(0);
 }
 
-function horizonLabel() {
-  if (state.horizon === "6h") {
-    return "Next 6 hours";
-  }
-  if (state.horizon === "72h") {
-    return "Next 72 hours";
-  }
-  return "Now";
-}
-
-function sortByHorizon(items) {
-  return [...items].sort((left, right) => horizonAdjustedScore(right) - horizonAdjustedScore(left));
+function sortByScore(items) {
+  return [...items].sort((left, right) => (right.score ?? 0) - (left.score ?? 0));
 }
 
 function firstMatchingDriver(drivers = [], patterns = []) {
@@ -427,7 +409,7 @@ function bindMapInteractions() {
         item.name,
         `
           ${levelPill(item.level)}
-          <p><strong>Composite score:</strong> ${horizonAdjustedScore(item).toFixed(0)} / 100</p>
+          <p><strong>Composite score:</strong> ${displayScore(item)} / 100</p>
           <p><strong>Confidence:</strong> ${(item.confidence * 100).toFixed(0)}%</p>
           <h3>Drivers</h3>
           ${renderTextList(item.drivers)}
@@ -467,7 +449,6 @@ function renderHeadline() {
       <h3>Top concern: ${escapeHtml(topAlert.name)}</h3>
       <p>${alerts.length === 1 ? "Current top alert" : `${alerts.length} active alerts are listed below`}. Highest current concern: ${escapeHtml(topAlert.message_en)}</p>
       <div class="meta">
-        <span>${horizonLabel()}</span>
         <span>${affectedDistricts.size || 1} district${affectedDistricts.size === 1 ? "" : "s"} affected</span>
         <span>${escapeHtml(topAlert.review_state.replaceAll("_", " "))}</span>
       </div>
@@ -477,7 +458,6 @@ function renderHeadline() {
       <h3>Routine monitoring</h3>
       <p>No active Watch-or-higher alerts. Continue routine observation and source-health checks.</p>
       <div class="meta">
-        <span>${horizonLabel()}</span>
         <span>${state.payload.sources.sources.filter((source) => source.status === "ok").length} sources currently healthy</span>
       </div>
     `;
@@ -585,7 +565,7 @@ function renderMap() {
 }
 
 function renderAlerts() {
-  references.alertsList.innerHTML = sortByHorizon(state.payload.alerts.alerts)
+  references.alertsList.innerHTML = sortByScore(state.payload.alerts.alerts)
     .map(
       (alert) => `
         <article class="alert-row" data-alert-id="${escapeAttr(alert.alert_id)}">
@@ -595,8 +575,7 @@ function renderAlerts() {
             <p>${escapeHtml(alert.message_en)}</p>
           </div>
           <div class="meta">
-            <span>${horizonLabel()}</span>
-            <span>Score ${horizonAdjustedScore(alert)}</span>
+            <span>Score ${displayScore(alert)}</span>
             <span>${escapeHtml(alert.review_state.replaceAll("_", " "))}</span>
           </div>
           <button class="chip subtle" type="button">Evidence</button>
@@ -624,13 +603,13 @@ function renderAlerts() {
 }
 
 function renderRiskCards(target, items, suffix = "") {
-  target.innerHTML = sortByHorizon(items)
+  target.innerHTML = sortByScore(items)
     .map(
       (item) => `
         <article class="risk-card" data-id="${escapeAttr(item.area_id)}">
           ${levelPill(item.level)}
           <h3>${escapeHtml(item.name)}</h3>
-          <div class="score">${horizonAdjustedScore(item)}</div>
+          <div class="score">${displayScore(item)}</div>
           <p>${escapeHtml(cardSummary(item))}</p>
           <div class="meta">
             <span>${escapeHtml(cardScopeLabel(item, suffix))}</span>
@@ -1062,18 +1041,6 @@ async function loadArchive(pathPrefix) {
   };
   renderAll();
 }
-
-references.timeframeToggle.addEventListener("click", (event) => {
-  const button = event.target.closest("button[data-horizon]");
-  if (!button) {
-    return;
-  }
-  state.horizon = button.dataset.horizon;
-  references.timeframeToggle.querySelectorAll("button").forEach((candidate) => {
-    candidate.classList.toggle("active", candidate === button);
-  });
-  renderAll();
-});
 
 references.dialogClose.addEventListener("click", () => references.dialog.close());
 references.dialog.addEventListener("click", (event) => {
