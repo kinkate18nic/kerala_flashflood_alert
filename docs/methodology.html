@@ -391,18 +391,22 @@ raw score ≈ 35.5  → Watch</code></pre>
             One more safeguard matters a lot:
           </p>
           <p class="callout">
-            A hotspot is not allowed to remain at <code>Watch</code> just because its raw score crosses 35. It must also pass a category-specific “watch support” gate.
+            A hotspot or locally promoted taluk is not allowed to remain at <code>Watch</code> just because its raw score crosses 35. It must also pass a category-specific “watch support” gate.
           </p>
           <p>
             This gate exists to stop false positives such as:
           </p>
           <ul>
-            <li>broad district warnings with no meaningful local rain</li>
+            <li>broad district thunderstorm or wind warnings with no meaningful local rain</li>
+            <li>moderate radar or nearby station nowcast context that is not strong enough for flash-flood concern</li>
             <li>heat-only advisories like <code>Hot Day</code></li>
-            <li>weak dam or river context with no local flood-weather support</li>
+            <li>vulnerable geography, weak dam context, or weak river context with no current flood-weather trigger</li>
           </ul>
           <p>
-            For example, river-floodplain hotspots now require either strong hydrology on its own or a combination of hydrology or dam context plus meaningful local flood-weather support. That tightening was added because weak rain plus hot-weather days were producing too many marginal floodplain watches.
+            A local <code>Watch</code> now needs flash-flood-capable support: short-duration rain that crosses the hotspot category threshold, strong radar, strong nearby station nowcast, strong hydrology, strong dam or release context, explicit flash-flood bulletin/CAP support, or runoff readiness backed by wetness or another flood trigger.
+          </p>
+          <p>
+            For example, river-floodplain and dam-downstream hotspots now require strong hydrology or dam context on its own, or a weaker river or reservoir signal paired with meaningful local flood-weather support. Moderate storm context, district warning text, and consequence geography can still explain caution, but they should not create a flash-flood <code>Watch</code> by themselves.
           </p>
           <p>
             If you think any of these calculations, thresholds, or gating rules are wrong for Kerala reality, please send a concrete example to <a href="mailto:nishanthdotkesavan@gmail.com">nishanthdotkesavan@gmail.com</a>. The goal is not to defend the model; the goal is to improve it when reality disagrees.
@@ -425,7 +429,7 @@ raw score ≈ 35.5  → Watch</code></pre>
           </ul>
           <h3>Hotspot logic</h3>
           <p>Hotspots are the most consequence-focused layer. They combine nearby rainfall, nearby radar, nearby station nowcast when available, catchment wetness, hotspot category, terrain and runoff susceptibility, and river or dam context where relevant.</p>
-          <p>Hotspots are not allowed to escalate too easily from broad warning text alone. A generic district thunderstorm or wind warning should not create a hotspot <code>Watch</code> by itself.</p>
+          <p>Hotspots are not allowed to escalate too easily from broad warning text, moderate storm context, or vulnerable geography alone. A generic district thunderstorm or wind warning should not create a hotspot <code>Watch</code> by itself.</p>
         </section>
 
         <section class="panel prose-panel">

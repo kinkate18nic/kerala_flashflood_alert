@@ -231,13 +231,14 @@ They combine:
 - terrain and runoff susceptibility
 - river or dam context where relevant
 
-Hotspots are **not allowed** to escalate too easily from broad warning text alone.
+Hotspots are **not allowed** to escalate too easily from broad warning text, moderate storm context, or consequence geography alone.
 
 For example:
 - a generic district thunderstorm or wind warning should **not** create a hotspot `Watch` by itself
-- hotspot `Watch` needs stronger support such as local rain, radar, hydrology, nearby official nowcast, or runoff readiness
+- moderate radar or nearby station nowcast can support the explanation, but should not create a flash-flood `Watch` unless it is strong enough or paired with flood-capable rainfall, hydrology, dam/release, or wetness evidence
+- hotspot `Watch` needs a flash-flood-capable trigger such as short-duration rain, strong radar, strong nearby station nowcast, strong hydrology, strong dam/release context, explicit flash-flood bulletin/CAP support, or runoff readiness backed by wetness or another flood trigger
 
-This rule was tightened specifically to avoid false-positive hotspot alerts from broad statewide district warnings.
+This rule was tightened specifically to avoid false-positive hotspot alerts from broad district warnings, thunderstorm/wind wording, moderate storm context, and vulnerable geography when actual flash-flood support is weak.
 
 ## How Source Freshness Works
 

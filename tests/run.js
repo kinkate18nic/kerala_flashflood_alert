@@ -699,6 +699,223 @@ function testDistrictWarningAloneDoesNotPromoteHotspotWatch() {
   );
 }
 
+function testModerateStormContextDoesNotPromoteFlashFloodHotspotWatch() {
+  const generatedAt = "2026-04-29T12:12:04.503Z";
+  const result = buildRiskOutputs({
+    generatedAt,
+    thresholds,
+    sourceSnapshots: [
+      { source_id: "imd-district-warning", status: "ok" },
+      { source_id: "imd-district-nowcast", status: "ok" },
+      { source_id: "imd-station-nowcast", status: "ok" },
+      { source_id: "rainviewer-radar", status: "ok" },
+      { source_id: "indiawris-rainfall", status: "ok" },
+      { source_id: "indiawris-river-level", status: "ok" },
+      { source_id: "cwc-ffs", status: "stale" },
+      { source_id: "ksdma-reservoirs", status: "stale" },
+      { source_id: "ksdma-dam-management", status: "stale" }
+    ],
+    capByDistrict: {},
+    bulletinByDistrict: {},
+    imdDistrictWarningByDistrict: {
+      idukki: {
+        severity: 0.22,
+        hazards: ["Thunderstorm & Lightning", "Squall etc", "Strong Surface Winds"],
+        notes: ["IDUKKI : Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-04-29"],
+        source_ids: ["imd-district-warning"]
+      }
+    },
+    imdNowcastByDistrict: {
+      idukki: {
+        severity: 0.35,
+        notes: ["IDUKKI Light Thunderstorms with moderate rain: 5-15 mm/hr"],
+        source_ids: ["imd-district-nowcast"]
+      }
+    },
+    stationNowcastByHotspot: {
+      "h-munnar-devikulam": {
+        severity: 0.35,
+        station_name: "Munnar",
+        distance_km: 0.1,
+        notes: ["Munnar: Light Thunderstorms with moderate rain: 5-15 mm/hr"],
+        source_ids: ["imd-station-nowcast"]
+      }
+    },
+    reservoirByDistrict: {
+      idukki: { active: true, severity: 0.35, notes: ["Reservoir caution active"], source_ids: ["ksdma-reservoirs"] }
+    },
+    damByDistrict: {
+      idukki: { active: true, severity: 0.35, notes: ["Dam downstream caution active"], source_ids: ["ksdma-dam-management"] }
+    },
+    cwcByDistrict: {
+      idukki: {
+        active: true,
+        severity: 0.22,
+        notes: ["CWC flood forecasting observed river rise 1.08 m across 4 stations"],
+        source_ids: ["cwc-ffs"]
+      }
+    },
+    radarByDistrict: {
+      idukki: {
+        severity: 0.5,
+        intensity: "moderate",
+        max_dbz: 23,
+        notes: ["RainViewer moderate cell near district"],
+        source_ids: ["rainviewer-radar"]
+      }
+    },
+    radarByHotspot: {
+      "h-munnar-devikulam": {
+        severity: 0.5,
+        intensity: "moderate",
+        max_dbz: 23,
+        notes: ["RainViewer moderate cell near hotspot"],
+        source_ids: ["rainviewer-radar"]
+      }
+    },
+    rainfallByDistrict: {
+      idukki: {
+        rain_1h_mm: 0.6,
+        rain_3h_mm: 1.6,
+        rain_6h_mm: 2.8,
+        rain_24h_mm: 6.5,
+        rain_3d_mm: 6.5,
+        rain_7d_mm: 6.5,
+        official_rain_24h_mm: 6.5,
+        official_station_count: 3,
+        official_peak_station_24h_mm: 19.4,
+        spatial_aggregation: "district_polygon_mean+indiawris_station_mean",
+        peak_30m_mm: 2.6,
+        source_ids: ["nasa-imerg-nrt", "indiawris-rainfall"],
+        short_duration_source_ids: ["nasa-imerg-nrt"],
+        daily_source_ids: ["indiawris-rainfall"],
+        antecedent_source_ids: ["indiawris-rainfall"]
+      }
+    },
+    taluks: [],
+    approvals: [],
+    hotspotOverrides: [{ hotspot_id: "h-munnar-devikulam", score_boost: 6 }],
+    freshnessBySource: {
+      "imd-district-warning": 1062,
+      "imd-district-nowcast": 102,
+      "imd-station-nowcast": 102,
+      "rainviewer-radar": 2,
+      "indiawris-rainfall": 552,
+      "indiawris-river-level": 582,
+      "cwc-ffs": 282,
+      "ksdma-reservoirs": 402,
+      "ksdma-dam-management": 402
+    },
+    statusBySource: {
+      "imd-district-warning": "ok",
+      "imd-district-nowcast": "ok",
+      "imd-station-nowcast": "ok",
+      "rainviewer-radar": "ok",
+      "indiawris-rainfall": "ok",
+      "indiawris-river-level": "ok",
+      "cwc-ffs": "stale",
+      "ksdma-reservoirs": "stale",
+      "ksdma-dam-management": "stale"
+    }
+  });
+
+  const hotspot = result.hotspotStates.find((entry) => entry.area_id === "h-munnar-devikulam");
+  assert.ok(hotspot);
+  assert.equal(hotspot.level, "Normal");
+  assert.equal(hotspot.score, thresholds.thresholds.watch - 0.1);
+  assert.ok(
+    hotspot.drivers.some((driver) =>
+      driver.includes("No current rain, river-stage, or operational release trigger supporting hotspot watch")
+    )
+  );
+}
+
+function testShortDurationRainCanPromoteFlashFloodHotspotWatch() {
+  const generatedAt = "2026-04-29T12:12:04.503Z";
+  const result = buildRiskOutputs({
+    generatedAt,
+    thresholds,
+    sourceSnapshots: [
+      { source_id: "imd-district-warning", status: "ok" },
+      { source_id: "rainviewer-radar", status: "ok" },
+      { source_id: "indiawris-rainfall", status: "ok" }
+    ],
+    capByDistrict: {},
+    bulletinByDistrict: {},
+    reservoirByDistrict: {},
+    damByDistrict: {},
+    cwcByDistrict: {},
+    imdDistrictWarningByDistrict: {
+      idukki: {
+        severity: 0.22,
+        hazards: ["Thunderstorm & Lightning"],
+        notes: ["IDUKKI : Thunderstorm & Lightning Updated on:2026-04-29"],
+        source_ids: ["imd-district-warning"]
+      }
+    },
+    radarByDistrict: {
+      idukki: {
+        severity: 0.25,
+        intensity: "light",
+        max_dbz: 18,
+        notes: ["Light district radar echo"],
+        source_ids: ["rainviewer-radar"]
+      }
+    },
+    radarByHotspot: {
+      "h-munnar-devikulam": {
+        severity: 0.25,
+        intensity: "light",
+        max_dbz: 18,
+        notes: ["Light hotspot radar echo"],
+        source_ids: ["rainviewer-radar"]
+      }
+    },
+    rainfallByDistrict: {
+      idukki: {
+        rain_1h_mm: 16,
+        rain_3h_mm: 18,
+        rain_6h_mm: 20,
+        rain_24h_mm: 22,
+        rain_3d_mm: 22,
+        rain_7d_mm: 22,
+        official_rain_24h_mm: 22,
+        official_station_count: 3,
+        official_peak_station_24h_mm: 22,
+        spatial_aggregation: "district_polygon_mean+indiawris_station_mean",
+        peak_30m_mm: 7,
+        source_ids: ["nasa-imerg-nrt", "indiawris-rainfall"],
+        short_duration_source_ids: ["nasa-imerg-nrt"],
+        daily_source_ids: ["indiawris-rainfall"],
+        antecedent_source_ids: ["indiawris-rainfall"]
+      }
+    },
+    taluks: [],
+    approvals: [],
+    hotspotOverrides: [],
+    freshnessBySource: {
+      "imd-district-warning": 60,
+      "rainviewer-radar": 2,
+      "indiawris-rainfall": 60
+    },
+    statusBySource: {
+      "imd-district-warning": "ok",
+      "rainviewer-radar": "ok",
+      "indiawris-rainfall": "ok"
+    }
+  });
+
+  const hotspot = result.hotspotStates.find((entry) => entry.area_id === "h-munnar-devikulam");
+  assert.ok(hotspot);
+  assert.equal(hotspot.level, "Watch");
+  assert.ok(hotspot.score >= thresholds.thresholds.watch);
+  assert.ok(
+    hotspot.drivers.every((driver) =>
+      !driver.includes("No current rain, river-stage, or operational release trigger supporting hotspot watch")
+    )
+  );
+}
+
 async function testPipeline() {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), "kerala-flood-watch-"));
   await cp(path.join(repoRoot, "config"), path.join(tempRoot, "config"), { recursive: true });
@@ -1277,6 +1494,8 @@ const tests = [
   ["risk-model-stale-weighting", testRiskModelDownweightsStaleSignals],
   ["risk-model-hotspot-gating", testHotspotWatchNeedsDynamicTrigger],
   ["risk-model-district-warning-hotspot-gating", testDistrictWarningAloneDoesNotPromoteHotspotWatch],
+  ["risk-model-moderate-storm-context-gating", testModerateStormContextDoesNotPromoteFlashFloodHotspotWatch],
+  ["risk-model-short-duration-rain-trigger", testShortDurationRainCanPromoteFlashFloodHotspotWatch],
   ["pipeline", testPipeline],
     ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage],
   ["pipeline-source-selection-cache", testPipelineKeepsLatestCachedStateForUnselectedSources],
