@@ -114,7 +114,7 @@
         "name": "India-WRIS CWC Rainfall",
         "owner": "India-WRIS / CWC",
         "category": "ground-rainfall",
-        "fetched_at": "2026-05-02T11:49:46.199Z",
+        "fetched_at": "2026-05-02T13:20:42.338Z",
         "issued_at": "2026-04-30T03:00:00.000Z",
         "valid_until": null,
         "raw_url": "https://indiawris.gov.in/Dataset/RainFall",
@@ -122,8 +122,8 @@
         "parser_status": "ok",
         "failure_stage": null,
         "status": "offline",
-        "freshness_minutes": 3410,
-        "duration_ms": 106690,
+        "freshness_minutes": 3501,
+        "duration_ms": 66287,
         "notes": "India-WRIS rainfall queried for 12 Kerala districts",
         "auth": "none",
         "summary": {
@@ -134,7 +134,7 @@
           "successful_district_count": 14,
           "failed_district_count": 0
         },
-        "last_successful_fetched_at": "2026-05-02T11:49:46.199Z"
+        "last_successful_fetched_at": "2026-05-02T13:20:42.338Z"
       },
       "parsed": {
         "issued_at": "2026-04-30T03:00:00.000Z",
@@ -748,6 +748,36 @@
             ]
           },
           {
+            "taluk_id": "malappuram--ponnani",
+            "district_id": "malappuram",
+            "source": "indiawris-cwc",
+            "station_count": 1,
+            "max_station_24h_mm": 0,
+            "rain_24h_mm": 0,
+            "rain_3d_mm": 1,
+            "rain_7d_mm": 1,
+            "daily_series": [
+              {
+                "date": "2026-04-28",
+                "mean": 0,
+                "max": 0,
+                "station_count": 1
+              },
+              {
+                "date": "2026-04-27",
+                "mean": 0,
+                "max": 0,
+                "station_count": 1
+              },
+              {
+                "date": "2026-04-26",
+                "mean": 1,
+                "max": 2,
+                "station_count": 1
+              }
+            ]
+          },
+          {
             "taluk_id": "malappuram--ernad",
             "district_id": "malappuram",
             "source": "indiawris-cwc",
@@ -780,36 +810,6 @@
                 "mean": 0,
                 "max": 0,
                 "station_count": 2
-              }
-            ]
-          },
-          {
-            "taluk_id": "malappuram--ponnani",
-            "district_id": "malappuram",
-            "source": "indiawris-cwc",
-            "station_count": 1,
-            "max_station_24h_mm": 0,
-            "rain_24h_mm": 0,
-            "rain_3d_mm": 1,
-            "rain_7d_mm": 1,
-            "daily_series": [
-              {
-                "date": "2026-04-28",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              },
-              {
-                "date": "2026-04-27",
-                "mean": 0,
-                "max": 0,
-                "station_count": 1
-              },
-              {
-                "date": "2026-04-26",
-                "mean": 1,
-                "max": 2,
-                "station_count": 1
               }
             ]
           },
@@ -1463,7 +1463,7 @@
         "name": "India-WRIS CWC River Water Level",
         "owner": "India-WRIS / CWC",
         "category": "river-stage",
-        "fetched_at": "2026-05-02T11:49:46.200Z",
+        "fetched_at": "2026-05-02T13:20:42.339Z",
         "issued_at": "2026-04-30T07:30:00.000Z",
         "valid_until": null,
         "raw_url": "https://indiawris.gov.in/Dataset/River Water Level",
@@ -1471,8 +1471,8 @@
         "parser_status": "ok",
         "failure_stage": null,
         "status": "offline",
-        "freshness_minutes": 3140,
-        "duration_ms": 143114,
+        "freshness_minutes": 3231,
+        "duration_ms": 66464,
         "notes": "India-WRIS river level queried for 12 Kerala districts",
         "auth": "none",
         "summary": {
@@ -1482,7 +1482,7 @@
           "successful_district_count": 14,
           "failed_district_count": 0
         },
-        "last_successful_fetched_at": "2026-05-02T11:49:46.200Z"
+        "last_successful_fetched_at": "2026-05-02T13:20:42.339Z"
       },
       "parsed": {
         "issued_at": "2026-04-30T07:30:00.000Z",
@@ -2292,7 +2292,7 @@
         "name": "KSDMA Daily Dam Levels (KSEB)",
         "owner": "Kerala State Disaster Management Authority",
         "category": "reservoir-status",
-        "fetched_at": "2026-05-02T11:49:46.200Z",
+        "fetched_at": "2026-05-02T13:20:42.339Z",
         "issued_at": "2026-05-02T05:30:00.000Z",
         "valid_until": null,
         "raw_url": "https://sdma.kerala.gov.in/dam-water-level/",
@@ -2300,15 +2300,15 @@
         "parser_status": "ok",
         "failure_stage": null,
         "status": "stale",
-        "freshness_minutes": 380,
-        "duration_ms": 1009,
+        "freshness_minutes": 471,
+        "duration_ms": 919,
         "notes": "KSDMA KSEB daily dam PDF Water Levels of Major Reservoirs (KSEB)",
         "auth": "none",
         "summary": {
           "district_count": 6,
           "taluk_count": 0
         },
-        "last_successful_fetched_at": "2026-05-02T11:49:46.200Z"
+        "last_successful_fetched_at": "2026-05-02T13:20:42.339Z"
       },
       "parsed": {
         "issued_at": "2026-05-02T05:30:00.000Z",
@@ -3049,7 +3049,7 @@
         "name": "KSDMA Daily Dam Levels (Irrigation)",
         "owner": "Kerala State Disaster Management Authority",
         "category": "dam-status",
-        "fetched_at": "2026-05-02T11:49:47.209Z",
+        "fetched_at": "2026-05-02T13:20:43.258Z",
         "issued_at": "2026-05-02T05:30:00.000Z",
         "valid_until": null,
         "raw_url": "https://sdma.kerala.gov.in/dam-water-level/",
@@ -3057,15 +3057,15 @@
         "parser_status": "ok",
         "failure_stage": null,
         "status": "stale",
-        "freshness_minutes": 380,
-        "duration_ms": 857,
+        "freshness_minutes": 471,
+        "duration_ms": 724,
         "notes": "KSDMA IRRIGATION daily dam PDF Water Levels of Major Reservoirs (IRRIGATION",
         "auth": "none",
         "summary": {
           "district_count": 10,
           "taluk_count": 0
         },
-        "last_successful_fetched_at": "2026-05-02T11:49:47.209Z"
+        "last_successful_fetched_at": "2026-05-02T13:20:43.258Z"
       },
       "parsed": {
         "issued_at": "2026-05-02T05:30:00.000Z",
@@ -3928,7 +3928,7 @@
         "name": "CWC FFS Live River Levels",
         "owner": "Central Water Commission",
         "category": "river-stage",
-        "fetched_at": "2026-05-02T11:49:48.066Z",
+        "fetched_at": "2026-05-02T13:20:43.982Z",
         "issued_at": "2026-05-02T07:30:00.000Z",
         "valid_until": null,
         "raw_url": "https://ffs.india-water.gov.in/",
@@ -3936,8 +3936,8 @@
         "parser_status": "ok",
         "failure_stage": null,
         "status": "stale",
-        "freshness_minutes": 260,
-        "duration_ms": 44233,
+        "freshness_minutes": 351,
+        "duration_ms": 44060,
         "notes": "CWC FFS live river levels queried for 45 Kerala stations",
         "auth": "none",
         "summary": {
@@ -3950,7 +3950,7 @@
           "above_warning_station_count": 0,
           "above_danger_station_count": 0
         },
-        "last_successful_fetched_at": "2026-05-02T11:49:48.066Z"
+        "last_successful_fetched_at": "2026-05-02T13:20:43.982Z"
       },
       "parsed": {
         "issued_at": "2026-05-02T13:00:00+05:30",
