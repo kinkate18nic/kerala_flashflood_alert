@@ -636,14 +636,33 @@ function collapseSignals(parsedSources) {
       cwcByDistrict[district] = {
         active: Boolean(parsedSources["cwc-ffs"].warning || parsedSources["cwc-ffs"].watch),
         severity: parsedSources["cwc-ffs"].warning ? 0.7 : parsedSources["cwc-ffs"].watch ? 0.4 : 0,
+        warning: Boolean(parsedSources["cwc-ffs"].warning),
+        watch: Boolean(parsedSources["cwc-ffs"].watch),
+        above_warning_station_count: parsedSources["cwc-ffs"].above_warning_station_count ?? 0,
+        above_danger_station_count: parsedSources["cwc-ffs"].above_danger_station_count ?? 0,
+        forecast_warning_station_count: parsedSources["cwc-ffs"].forecast_warning_station_count ?? 0,
+        forecast_danger_station_count: parsedSources["cwc-ffs"].forecast_danger_station_count ?? 0,
         notes: ["CWC flood forecasting signal"],
         source_ids: ["cwc-ffs"]
       };
       continue;
     }
     cwcByDistrict[district.district_id] = {
-      active: (district.severity ?? 0) > 0,
+      active:
+        (district.severity ?? 0) > 0 ||
+        (district.above_warning_station_count ?? 0) > 0 ||
+        (district.above_danger_station_count ?? 0) > 0 ||
+        Boolean(parsedSources["cwc-ffs"].warning || parsedSources["cwc-ffs"].watch),
       severity: district.severity ?? 0,
+      warning: Boolean(parsedSources["cwc-ffs"].warning),
+      watch: Boolean(parsedSources["cwc-ffs"].watch),
+      above_warning_station_count: district.above_warning_station_count ?? 0,
+      above_danger_station_count: district.above_danger_station_count ?? 0,
+      forecast_warning_station_count: district.forecast_warning_station_count ?? 0,
+      forecast_danger_station_count: district.forecast_danger_station_count ?? 0,
+      max_rise_m: district.max_rise_m ?? null,
+      threshold_station_count: district.threshold_station_count ?? 0,
+      severity_basis: district.severity_basis ?? null,
       notes: [district.summary_note ?? "CWC flood forecasting live river-level signal"].filter(Boolean),
       source_ids: ["cwc-ffs"]
     };
@@ -663,6 +682,15 @@ function collapseSignals(parsedSources) {
     cwcByDistrict[district.district_id] = {
       active: existing.active || (district.severity ?? 0) > 0,
       severity: Math.max(existing.severity, district.severity ?? 0),
+      warning: existing.warning ?? false,
+      watch: existing.watch ?? false,
+      above_warning_station_count: Math.max(existing.above_warning_station_count ?? 0, district.above_warning_station_count ?? 0),
+      above_danger_station_count: Math.max(existing.above_danger_station_count ?? 0, district.above_danger_station_count ?? 0),
+      forecast_warning_station_count: Math.max(existing.forecast_warning_station_count ?? 0, district.forecast_warning_station_count ?? 0),
+      forecast_danger_station_count: Math.max(existing.forecast_danger_station_count ?? 0, district.forecast_danger_station_count ?? 0),
+      max_rise_m: Math.max(existing.max_rise_m ?? 0, district.max_rise_m ?? 0),
+      threshold_station_count: Math.max(existing.threshold_station_count ?? 0, district.threshold_station_count ?? 0),
+      severity_basis: existing.severity_basis ?? district.severity_basis ?? null,
       notes: [riverLevelText, ...existing.notes].filter(Boolean),
       source_ids: [...new Set([...(existing.source_ids ?? []), "indiawris-river-level"])]
     };

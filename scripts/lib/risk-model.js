@@ -261,6 +261,17 @@ function hasStrongHydrologySupport(cwc) {
   return effectiveSeverity(cwc) >= 0.5;
 }
 
+function hasHydrologyThresholdSupport(cwc) {
+  const thresholdTriggered =
+    (cwc?.above_warning_station_count ?? 0) > 0 ||
+    (cwc?.above_danger_station_count ?? 0) > 0 ||
+    (cwc?.forecast_warning_station_count ?? 0) > 0 ||
+    (cwc?.forecast_danger_station_count ?? 0) > 0 ||
+    Boolean(cwc?.watch) ||
+    Boolean(cwc?.warning);
+  return thresholdTriggered && effectiveSeverity(cwc) >= 0.2;
+}
+
 function hasOperationalDamSupport(reservoir, dam) {
   return effectiveSeverity(reservoir) >= 0.32 || effectiveSeverity(dam) >= 0.32;
 }
@@ -400,16 +411,22 @@ function hasWatchSupport({
   const directOfficial = effectiveSeverity(bulletin) > 0.2 || effectiveSeverity(cap) >= 0.55;
   const directLocalOfficial = effectiveSeverity(stationNowcast) >= 0.55;
   const localFloodWeather = hasLocalFloodWeatherSupport(observation, radar, stationNowcast, category);
+  const actionableHydro = hasStrongHydrologySupport(cwc) || hasHydrologyThresholdSupport(cwc);
   const districtWarningBacked =
     effectiveSeverity(districtWarning) > 0.2 &&
-    (localFloodWeather || hasHydrologySupport(cwc));
+    (localFloodWeather || actionableHydro);
   const hydro = hasHydrologySupport(cwc);
-  const strongHydro = hasStrongHydrologySupport(cwc);
   const damOps = hasOperationalDamSupport(reservoir, dam);
   const strongDamOps = hasStrongOperationalDamSupport(reservoir, dam);
   const runoffReady =
     (runoffPotential?.score ?? 0) >= runoffPotentialThreshold(category) &&
-    (localFloodWeather || hasAntecedentSupport(observation) || directOfficial || strongHydro || strongDamOps);
+    (
+      localFloodWeather ||
+      directOfficial ||
+      actionableHydro ||
+      strongDamOps ||
+      (category !== "dam_downstream" && hasAntecedentSupport(observation))
+    );
 
   switch (category) {
     case "river_floodplain":
@@ -419,7 +436,7 @@ function hasWatchSupport({
         directLocalOfficial ||
         districtWarningBacked ||
         runoffReady ||
-        strongHydro ||
+        actionableHydro ||
         (hydro && localFloodWeather) ||
         (damOps && localFloodWeather)
       );
@@ -428,7 +445,7 @@ function hasWatchSupport({
         directOfficial ||
         directLocalOfficial ||
         districtWarningBacked ||
-        strongHydro ||
+        actionableHydro ||
         strongDamOps ||
         runoffReady ||
         (hydro && localFloodWeather) ||
@@ -439,7 +456,7 @@ function hasWatchSupport({
         directOfficial ||
         directLocalOfficial ||
         districtWarningBacked ||
-        strongHydro ||
+        hasStrongHydrologySupport(cwc) ||
         runoffReady ||
         (hydro && localFloodWeather) ||
         (damOps && localFloodWeather)
@@ -1005,20 +1022,28 @@ export function buildRiskOutputs(context) {
       hotspotExcess * 0.35 +
       Math.min(8, talukHotspots.length * 2.5);
     const talukSupportsWatch = talukHotspots.length
-      ? talukHotspots.some((hotspot) =>
-          hasWatchSupport({
+      ? talukHotspots.some((hotspot) => {
+          const hotspotStationNowcast = stationNowcastByHotspot[hotspot.area_id] ?? { severity: 0, notes: [] };
+          const stationSignalState = nowcastSignalState(hotspotStationNowcast, "imd-station-nowcast", context);
+          const stationWeight = sourceStatusWeight(stationSignalState.status);
+          return hasWatchSupport({
             category: hotspot.category,
             cap: weightedCap,
             bulletin: weightedBulletin,
             districtWarning: weightedDistrictWarning,
-            stationNowcast: stationNowcastByHotspot[hotspot.area_id],
+            stationNowcast: {
+              ...hotspotStationNowcast,
+              source_weight: stationWeight,
+              effective_severity: (hotspotStationNowcast.severity ?? 0) * stationWeight
+            },
             radar: combinedShortLeadSignal,
             cwc: weightedCwc,
             reservoir: weightedReservoir,
             dam: weightedDam,
-            runoffPotential
-          })
-        )
+            runoffPotential,
+            observation
+          });
+        })
         : hasWatchSupport({
           category: null,
           cap: weightedCap,
@@ -1029,7 +1054,8 @@ export function buildRiskOutputs(context) {
           cwc: weightedCwc,
           reservoir: weightedReservoir,
           dam: weightedDam,
-          runoffPotential
+          runoffPotential,
+          observation
         });
     let score = round(clamp(rawScore / 100, 0, 1) * 100);
     if (!talukSupportsWatch && score >= thresholds.thresholds.watch) {

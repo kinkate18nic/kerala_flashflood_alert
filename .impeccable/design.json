@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-07T00:00:00.000Z",
+  "title": "Design System: Kerala Flash-Flood Watch",
+  "extensions": {
+    "colorMeta": {
+      "neutral-bg": {
+        "role": "neutral",
+        "displayName": "Parchment Field",
+        "canonical": "#efe8d8",
+        "tonalRamp": ["#2d2a22", "#4f493d", "#706758", "#8f846f", "#ada18a", "#c9beaa", "#e1d7c6", "#f7f1e6"]
+      },
+      "neutral-bg-deep": {
+        "role": "neutral",
+        "displayName": "Mist Basin",
+        "canonical": "#d9e2d4",
+        "tonalRamp": ["#263128", "#435245", "#5f7262", "#7b9280", "#98b09d", "#b6c8b8", "#d1ddd0", "#eef4ec"]
+      },
+      "neutral-ink": {
+        "role": "neutral",
+        "displayName": "Forest Ink",
+        "canonical": "#16261f",
+        "tonalRamp": ["#0b1410", "#16261f", "#22362e", "#30463c", "#496055", "#667d73", "#92a8a0", "#c8d4cf"]
+      },
+      "neutral-muted": {
+        "role": "neutral",
+        "displayName": "Rain Note",
+        "canonical": "#4f645a",
+        "tonalRamp": ["#18201c", "#2a352f", "#3a4b43", "#4f645a", "#6d8278", "#90a39b", "#b6c3be", "#dde4e1"]
+      },
+      "primary-accent": {
+        "role": "primary",
+        "displayName": "Monsoon Desk Green",
+        "canonical": "#214f3f",
+        "tonalRamp": ["#0c1b15", "#143026", "#214f3f", "#306652", "#4b826d", "#73a58f", "#a8c7bb", "#e0ece7"]
+      },
+      "level-watch": {
+        "role": "secondary",
+        "displayName": "Watch Amber",
+        "canonical": "#ae8115",
+        "tonalRamp": ["#2f2206", "#573f0a", "#7e5d10", "#ae8115", "#c79a37", "#dbb666", "#ecd39d", "#f8eed1"]
+      },
+      "level-alert": {
+        "role": "secondary",
+        "displayName": "Alert Clay",
+        "canonical": "#ba5b21",
+        "tonalRamp": ["#351808", "#5d2c11", "#8a4318", "#ba5b21", "#d07847", "#e29b77", "#efc5b0", "#fae8dd"]
+      },
+      "level-severe": {
+        "role": "tertiary",
+        "displayName": "Severe Rust",
+        "canonical": "#a12b18",
+        "tonalRamp": ["#2d0b07", "#55140c", "#7d1f12", "#a12b18", "#bd4d38", "#d67c6f", "#e8b5ad", "#f7e4df"]
+      },
+      "level-severe-reviewed": {
+        "role": "tertiary",
+        "displayName": "Reviewed Maroon",
+        "canonical": "#66170d",
+        "tonalRamp": ["#1e0604", "#3c0c08", "#66170d", "#87261a", "#a64537", "#c26d61", "#ddb0aa", "#f2dfdc"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero framing and major public-facing headings."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Supportive deck copy and section-level framing."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Compact card and block headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Operational explanation, evidence, and description."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Pills, statuses, and compact UI metadata."
+      }
+    },
+    "shadows": [
+      {
+        "name": "ambient-surface",
+        "value": "0 18px 54px rgba(18, 38, 29, 0.08)",
+        "purpose": "Default shadow for panels and chips."
+      },
+      {
+        "name": "sticky-header",
+        "value": "0 16px 34px rgba(18, 38, 29, 0.08)",
+        "purpose": "Lift for the masthead over the field."
+      },
+      {
+        "name": "interactive-lift",
+        "value": "0 14px 28px rgba(18, 38, 29, 0.2)",
+        "purpose": "Active small elements like the scroll-top button."
+      },
+      {
+        "name": "dialog-depth",
+        "value": "0 32px 90px rgba(0, 0, 0, 0.28)",
+        "purpose": "Reserved deep separation for evidence dialogs."
+      }
+    ],
+    "motion": [
+      {
+        "name": "duration-standard",
+        "value": "180ms",
+        "purpose": "Default interactive transitions."
+      },
+      {
+        "name": "ease-standard",
+        "value": "ease",
+        "purpose": "Current site-wide easing for hover and reveal transitions."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "md",
+        "value": "980px"
+      },
+      {
+        "name": "sm",
+        "value": "720px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Navigation Pill",
+      "kind": "nav",
+      "refersTo": "nav-pill-active",
+      "description": "Active top-level route chip used in the sticky masthead.",
+      "html": "<a class=\"ds-nav-pill ds-nav-pill-active\" href=\"#\" aria-current=\"page\">Dashboard</a>",
+      "css": ".ds-nav-pill { display:inline-flex; align-items:center; min-height:38px; padding:0 14px; border-radius:999px; border:1px solid rgba(22,38,31,0.08); text-decoration:none; font-family:\"Manrope\",\"Segoe UI\",sans-serif; font-size:0.86rem; font-weight:700; line-height:1.2; letter-spacing:0.04em; transition:background-color 180ms ease, color 180ms ease, transform 180ms ease; } .ds-nav-pill:focus-visible { outline:2px solid var(--accent, #214f3f); outline-offset:2px; } .ds-nav-pill-active { background:var(--accent, #214f3f); color:#ffffff; } .ds-nav-pill-active:hover { transform:translateY(-1px); }"
+    },
+    {
+      "name": "Secondary Navigation Pill",
+      "kind": "nav",
+      "refersTo": "nav-pill-default",
+      "description": "Inactive route pill resting on the warm masthead surface.",
+      "html": "<a class=\"ds-nav-pill ds-nav-pill-default\" href=\"#\">Methodology</a>",
+      "css": ".ds-nav-pill { display:inline-flex; align-items:center; min-height:38px; padding:0 14px; border-radius:999px; border:1px solid rgba(22,38,31,0.08); text-decoration:none; font-family:\"Manrope\",\"Segoe UI\",sans-serif; font-size:0.86rem; font-weight:700; line-height:1.2; letter-spacing:0.04em; transition:background-color 180ms ease, color 180ms ease, transform 180ms ease; } .ds-nav-pill:focus-visible { outline:2px solid var(--accent, #214f3f); outline-offset:2px; } .ds-nav-pill-default { background:rgba(255,255,255,0.72); color:var(--ink, #16261f); } .ds-nav-pill-default:hover { background:rgba(255,255,255,0.86); transform:translateY(-1px); }"
+    },
+    {
+      "name": "Status Chip",
+      "kind": "chip",
+      "refersTo": "status-chip",
+      "description": "Compact civic marker for mode and generation status.",
+      "html": "<span class=\"ds-chip\">Decision-support mode</span>",
+      "css": ".ds-chip { display:inline-flex; align-items:center; min-height:38px; padding:0 14px; border-radius:999px; background:var(--accent, #214f3f); color:#f6f4ef; box-shadow:0 18px 54px rgba(18,38,29,0.08); font-family:\"Manrope\",\"Segoe UI\",sans-serif; font-size:0.86rem; font-weight:700; line-height:1.2; letter-spacing:0.04em; }"
+    },
+    {
+      "name": "Risk Surface Card",
+      "kind": "card",
+      "refersTo": "surface-card",
+      "description": "Primary reading unit for headline, alert, risk, and source evidence blocks.",
+      "html": "<article class=\"ds-card\"><span class=\"ds-level\" style=\"background: var(--watch, #ae8115);\">Watch</span><h3>Peerumade</h3><p>Runoff potential guarded, district warning active, dam context present.</p></article>",
+      "css": ".ds-card { background:var(--panel-strong, #fff9eef5); color:var(--ink, #16261f); border:1px solid rgba(22,38,31,0.09); border-radius:24px; padding:18px; box-shadow:0 18px 54px rgba(18,38,29,0.08); font-family:\"Manrope\",\"Segoe UI\",sans-serif; transition:transform 180ms ease, background-color 180ms ease, border-color 180ms ease; } .ds-card:hover { transform:translateY(-2px); } .ds-card h3 { margin:12px 0 8px; font-size:1.05rem; line-height:1.2; font-weight:700; } .ds-card p { margin:0; color:var(--muted, #4f645a); font-size:0.96rem; line-height:1.5; } .ds-level { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; color:#ffffff; font-size:0.86rem; font-weight:700; line-height:1.2; }"
+    },
+    {
+      "name": "Source Info Button",
+      "kind": "button",
+      "refersTo": "surface-card",
+      "description": "Small in-card disclosure affordance for source methodology and fetch details.",
+      "html": "<button class=\"ds-source-info\" type=\"button\" aria-label=\"More source details\">i</button>",
+      "css": ".ds-source-info { width:26px; height:26px; border-radius:50%; border:1.5px solid var(--accent, #214f3f); background:transparent; color:var(--accent, #214f3f); font-size:0.82rem; font-weight:700; font-style:italic; font-family:\"Georgia\",\"Newsreader\",serif; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; line-height:1; padding:0; transition:background 180ms ease, color 180ms ease, transform 180ms ease; } .ds-source-info:hover { background:var(--accent, #214f3f); color:#ffffff; transform:scale(1.12); } .ds-source-info:focus-visible { outline:2px solid var(--accent, #214f3f); outline-offset:2px; }"
+    },
+    {
+      "name": "Evidence Dialog Surface",
+      "kind": "custom",
+      "refersTo": "surface-panel",
+      "description": "Modal reading surface for evidence detail, source health, and methodology notes.",
+      "html": "<section class=\"ds-dialog\"><button class=\"ds-dialog-close\" type=\"button\" aria-label=\"Close\">×</button><h3>Source health</h3><p>The parser succeeded, but the feed is older than usual for this run.</p></section>",
+      "css": ".ds-dialog { position:relative; width:min(760px, calc(100vw - 24px)); border-radius:28px; padding:28px; background:#fffaf0; color:var(--ink, #16261f); box-shadow:0 32px 90px rgba(0,0,0,0.28); border:1px solid rgba(22,38,31,0.08); font-family:\"Manrope\",\"Segoe UI\",sans-serif; } .ds-dialog h3 { margin:0 32px 12px 0; font-size:1.2rem; line-height:1.2; font-weight:700; } .ds-dialog p { margin:0; color:var(--muted, #4f645a); line-height:1.6; } .ds-dialog-close { position:absolute; right:18px; top:14px; border:0; background:transparent; color:var(--ink, #16261f); font-size:2rem; line-height:1; cursor:pointer; transition:transform 180ms ease, opacity 180ms ease; } .ds-dialog-close:hover { transform:scale(1.04); opacity:0.78; } .ds-dialog-close:focus-visible { outline:2px solid var(--accent, #214f3f); outline-offset:2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Calm Signal Desk",
+    "overview": "This design system frames the dashboard as a calm civic reading surface for live flood attention rather than a command center or a static government portal. Warm parchment neutrals, deep green ink, and serif-led framing make the interface public-facing and humane, while restrained tonal layering keeps the operational content readable on mobile and under uncertainty. The system rejects generic SaaS chrome, alarmist crisis aesthetics, and update-feed styling in favor of trust, clarity, and measured urgency.",
+    "keyCharacteristics": [
+      "Warm civic-editorial palette",
+      "Serif framing with highly legible sans interface text",
+      "Tonal layering first, shadows secondary",
+      "Rounded humane surfaces",
+      "Status color reserved for actual level semantics"
+    ],
+    "rules": [
+      {
+        "name": "The Status-Only Heat Rule",
+        "body": "Amber, orange, and red belong to operational level semantics first. They should not become general decorative accents.",
+        "section": "colors"
+      },
+      {
+        "name": "The Warm Utility Rule",
+        "body": "Core surfaces stay warm and paper-tinted. Avoid pure white, pure black, or cold enterprise neutrals.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Serif type frames public meaning, sans type carries the working interface.",
+        "section": "typography"
+      },
+      {
+        "name": "The Layer-First Rule",
+        "body": "If tonal contrast can create separation, use it before increasing shadow depth.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do preserve the warm neutral field using #efe8d8, #f8f5ef, and #d9e2d4.",
+      "Do use #214f3f as the main civic accent for navigation, chips, and links.",
+      "Do pair color with explicit level text for all risk communication.",
+      "Do keep interactions quiet, around 180ms, using transform, opacity, and tonal changes.",
+      "Do maintain the rounded surface rhythm of 28px panels, 24px cards, and 999px pills."
+    ],
+    "donts": [
+      "Don't make it feel like a government PDF portal.",
+      "Don't make it feel like a generic SaaS dashboard.",
+      "Don't make it feel like an alarmist disaster app.",
+      "Don't make it feel like a newsfeed clone.",
+      "Don't replace tonal layering with decorative glassmorphism everywhere.",
+      "Don't use pure black, pure white, or cold un-tinted neutrals that break the paper-field character."
+    ]
+  }
+}

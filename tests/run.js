@@ -916,6 +916,315 @@ function testShortDurationRainCanPromoteFlashFloodHotspotWatch() {
   );
 }
 
+function testWeakRiseOnlyHydrologyDoesNotPromoteDamDownstreamWatch() {
+  const generatedAt = "2026-05-07T09:18:34.371Z";
+  const result = buildRiskOutputs({
+    generatedAt,
+    thresholds,
+    sourceSnapshots: [
+      { source_id: "imd-district-warning", status: "ok" },
+      { source_id: "imd-district-nowcast", status: "ok" },
+      { source_id: "imd-station-nowcast", status: "ok" },
+      { source_id: "rainviewer-radar", status: "ok" },
+      { source_id: "nasa-imerg-nrt", status: "ok" },
+      { source_id: "cwc-ffs", status: "stale" },
+      { source_id: "ksdma-reservoirs", status: "ok" },
+      { source_id: "ksdma-dam-management", status: "ok" }
+    ],
+    capByDistrict: {},
+    bulletinByDistrict: {},
+    imdDistrictWarningByDistrict: {
+      idukki: {
+        severity: 0.35,
+        hazards: ["Heavy Rain", "Thunderstorm & Lightning", "Squall etc", "Strong Surface Winds"],
+        notes: ["IDUKKI : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-05-07"],
+        source_ids: ["imd-district-warning"]
+      }
+    },
+    imdNowcastByDistrict: {
+      idukki: {
+        severity: 0.22,
+        notes: ["IDUKKI Light rain:"],
+        source_ids: ["imd-district-nowcast"]
+      }
+    },
+    stationNowcastByHotspot: {
+      "h-vandiperiyar-mullaperiyar": {
+        severity: 0.28,
+        station_name: "Thekkady",
+        distance_km: 3.1,
+        notes: ["Thekkady: Light rain: less than 5 mm/hr"],
+        source_ids: ["imd-station-nowcast"]
+      }
+    },
+    reservoirByDistrict: {
+      idukki: { active: true, severity: 0.35, notes: ["Reservoir caution active"], source_ids: ["ksdma-reservoirs"] }
+    },
+    damByDistrict: {
+      idukki: { active: true, severity: 0.35, notes: ["Dam downstream caution active"], source_ids: ["ksdma-dam-management"] }
+    },
+    cwcByDistrict: {
+      idukki: {
+        active: true,
+        severity: 0.4,
+        above_warning_station_count: 0,
+        above_danger_station_count: 0,
+        forecast_warning_station_count: 0,
+        forecast_danger_station_count: 0,
+        notes: ["CWC flood forecasting observed river rise 1.08 m across 4 stations"],
+        source_ids: ["cwc-ffs"]
+      }
+    },
+    radarByDistrict: {
+      idukki: {
+        severity: 0,
+        intensity: "none",
+        max_dbz: 0,
+        notes: ["No meaningful RainViewer radar echo near district"],
+        source_ids: ["rainviewer-radar"]
+      }
+    },
+    radarByHotspot: {
+      "h-vandiperiyar-mullaperiyar": {
+        severity: 0,
+        intensity: "none",
+        max_dbz: 0,
+        notes: ["No meaningful RainViewer radar echo near hotspot"],
+        source_ids: ["rainviewer-radar"]
+      }
+    },
+    rainfallByDistrict: {
+      idukki: {
+        rain_1h_mm: 0,
+        rain_3h_mm: 0.3,
+        rain_6h_mm: 0.6,
+        rain_24h_mm: 9.5,
+        rain_3d_mm: 48,
+        rain_7d_mm: 95,
+        official_rain_24h_mm: 9.5,
+        official_station_count: 0,
+        official_peak_station_24h_mm: 0,
+        spatial_aggregation: "district_polygon_mean",
+        peak_30m_mm: 0,
+        source_ids: ["nasa-imerg-nrt"],
+        short_duration_source_ids: ["nasa-imerg-nrt"],
+        daily_source_ids: ["nasa-imerg-nrt"],
+        antecedent_source_ids: ["nasa-imerg-nrt"]
+      }
+    },
+    taluks: [],
+    approvals: [],
+    hotspotOverrides: [{ hotspot_id: "h-vandiperiyar-mullaperiyar", score_boost: 12 }],
+    freshnessBySource: {
+      "imd-district-warning": 889,
+      "imd-district-nowcast": 109,
+      "imd-station-nowcast": 109,
+      "rainviewer-radar": 19,
+      "nasa-imerg-nrt": 259,
+      "cwc-ffs": 409,
+      "ksdma-reservoirs": 229,
+      "ksdma-dam-management": 229
+    },
+    statusBySource: {
+      "imd-district-warning": "ok",
+      "imd-district-nowcast": "ok",
+      "imd-station-nowcast": "ok",
+      "rainviewer-radar": "ok",
+      "nasa-imerg-nrt": "ok",
+      "cwc-ffs": "stale",
+      "ksdma-reservoirs": "ok",
+      "ksdma-dam-management": "ok"
+    }
+  });
+
+  const hotspot = result.hotspotStates.find((entry) => entry.area_id === "h-vandiperiyar-mullaperiyar");
+  assert.ok(hotspot);
+  assert.equal(hotspot.level, "Normal");
+  assert.ok(
+    hotspot.drivers.some((driver) =>
+      driver.includes("No current rain, river-stage, or operational release trigger supporting hotspot watch")
+    )
+  );
+}
+
+function testActionableHydrologyStillPromotesDamDownstreamWatch() {
+  const generatedAt = "2026-05-07T09:18:34.371Z";
+  const result = buildRiskOutputs({
+    generatedAt,
+    thresholds,
+    sourceSnapshots: [
+      { source_id: "imd-district-warning", status: "ok" },
+      { source_id: "cwc-ffs", status: "ok" },
+      { source_id: "ksdma-reservoirs", status: "ok" },
+      { source_id: "ksdma-dam-management", status: "ok" }
+    ],
+    capByDistrict: {},
+    bulletinByDistrict: {},
+    imdDistrictWarningByDistrict: {
+      idukki: {
+        severity: 0.35,
+        hazards: ["Heavy Rain"],
+        notes: ["IDUKKI : Heavy Rain Updated on:2026-05-07"],
+        source_ids: ["imd-district-warning"]
+      }
+    },
+    imdNowcastByDistrict: {},
+    stationNowcastByHotspot: {},
+    reservoirByDistrict: {
+      idukki: { active: true, severity: 0.35, notes: ["Reservoir caution active"], source_ids: ["ksdma-reservoirs"] }
+    },
+    damByDistrict: {
+      idukki: { active: true, severity: 0.35, notes: ["Dam downstream caution active"], source_ids: ["ksdma-dam-management"] }
+    },
+    cwcByDistrict: {
+      idukki: {
+        active: true,
+        severity: 0.4,
+        watch: true,
+        above_warning_station_count: 1,
+        above_danger_station_count: 0,
+        forecast_warning_station_count: 0,
+        forecast_danger_station_count: 0,
+        notes: ["CWC flood forecasting watch active at 1 station"],
+        source_ids: ["cwc-ffs"]
+      }
+    },
+    radarByDistrict: {},
+    radarByHotspot: {},
+    rainfallByDistrict: {
+      idukki: {
+        rain_1h_mm: 0,
+        rain_3h_mm: 0,
+        rain_6h_mm: 0,
+        rain_24h_mm: 8,
+        rain_3d_mm: 18,
+        rain_7d_mm: 35,
+        official_rain_24h_mm: 8,
+        official_station_count: 0,
+        official_peak_station_24h_mm: 0,
+        spatial_aggregation: "district_polygon_mean",
+        peak_30m_mm: 0,
+        source_ids: ["nasa-imerg-nrt"]
+      }
+    },
+    taluks: [],
+    approvals: [],
+    hotspotOverrides: [{ hotspot_id: "h-vandiperiyar-mullaperiyar", score_boost: 12 }],
+    freshnessBySource: {
+      "imd-district-warning": 889,
+      "cwc-ffs": 59,
+      "ksdma-reservoirs": 229,
+      "ksdma-dam-management": 229
+    },
+    statusBySource: {
+      "imd-district-warning": "ok",
+      "cwc-ffs": "ok",
+      "ksdma-reservoirs": "ok",
+      "ksdma-dam-management": "ok"
+    }
+  });
+
+  const hotspot = result.hotspotStates.find((entry) => entry.area_id === "h-vandiperiyar-mullaperiyar");
+  assert.ok(hotspot);
+  assert.equal(hotspot.level, "Watch");
+  assert.ok(
+    hotspot.drivers.every((driver) =>
+      !driver.includes("No current rain, river-stage, or operational release trigger supporting hotspot watch")
+    )
+  );
+}
+
+function testTalukWatchUsesLocalTalukRainObservation() {
+  const generatedAt = "2026-05-07T09:18:34.371Z";
+  const result = buildRiskOutputs({
+    generatedAt,
+    thresholds,
+    sourceSnapshots: [
+      { source_id: "imd-district-warning", status: "ok" },
+      { source_id: "nasa-imerg-nrt", status: "ok" }
+    ],
+    capByDistrict: {},
+    bulletinByDistrict: {},
+    imdDistrictWarningByDistrict: {
+      idukki: {
+        severity: 0.22,
+        hazards: ["Thunderstorm & Lightning"],
+        notes: ["IDUKKI : Thunderstorm & Lightning Updated on:2026-05-07"],
+        source_ids: ["imd-district-warning"]
+      }
+    },
+    imdNowcastByDistrict: {},
+    stationNowcastByHotspot: {},
+    reservoirByDistrict: {},
+    damByDistrict: {},
+    cwcByDistrict: {},
+    radarByDistrict: {},
+    radarByHotspot: {},
+    rainfallByDistrict: {
+      idukki: {
+        rain_1h_mm: 0,
+        rain_3h_mm: 0,
+        rain_6h_mm: 0,
+        rain_24h_mm: 3,
+        rain_3d_mm: 6,
+        rain_7d_mm: 10,
+        official_rain_24h_mm: 3,
+        official_station_count: 0,
+        official_peak_station_24h_mm: 0,
+        spatial_aggregation: "district_polygon_mean",
+        peak_30m_mm: 0,
+        source_ids: ["nasa-imerg-nrt"]
+      }
+    },
+    rainfallByTaluk: {
+      "t-devikulam-test": {
+        rain_1h_mm: 22,
+        rain_3h_mm: 50,
+        rain_6h_mm: 70,
+        rain_24h_mm: 90,
+        rain_3d_mm: 100,
+        rain_7d_mm: 140,
+        official_rain_24h_mm: 90,
+        official_station_count: 0,
+        official_peak_station_24h_mm: 0,
+        spatial_aggregation: "taluk_representative_point",
+        peak_30m_mm: 11,
+        source_ids: ["nasa-imerg-nrt"],
+        short_duration_source_ids: ["nasa-imerg-nrt"],
+        daily_source_ids: ["nasa-imerg-nrt"],
+        antecedent_source_ids: ["nasa-imerg-nrt"]
+      }
+    },
+    taluks: [
+      {
+        taluk_id: "t-devikulam-test",
+        district_id: "idukki",
+        name: "Devikulam Test",
+        hotspot_ids: ["h-munnar-devikulam"]
+      }
+    ],
+    approvals: [],
+    hotspotOverrides: [{ hotspot_id: "h-munnar-devikulam", score_boost: 6 }],
+    freshnessBySource: {
+      "imd-district-warning": 889,
+      "nasa-imerg-nrt": 259
+    },
+    statusBySource: {
+      "imd-district-warning": "ok",
+      "nasa-imerg-nrt": "ok"
+    }
+  });
+
+  const taluk = result.talukStates.find((entry) => entry.area_id === "t-devikulam-test");
+  assert.ok(taluk);
+  assert.equal(taluk.level, "Watch");
+  assert.ok(
+    taluk.drivers.every((driver) =>
+      !driver.includes("No current rain, river-stage, or operational release trigger supporting taluk watch")
+    )
+  );
+}
+
 async function testPipeline() {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), "kerala-flood-watch-"));
   await cp(path.join(repoRoot, "config"), path.join(tempRoot, "config"), { recursive: true });
@@ -1496,8 +1805,11 @@ const tests = [
   ["risk-model-district-warning-hotspot-gating", testDistrictWarningAloneDoesNotPromoteHotspotWatch],
   ["risk-model-moderate-storm-context-gating", testModerateStormContextDoesNotPromoteFlashFloodHotspotWatch],
   ["risk-model-short-duration-rain-trigger", testShortDurationRainCanPromoteFlashFloodHotspotWatch],
+  ["risk-model-weak-rise-only-hydrology-gating", testWeakRiseOnlyHydrologyDoesNotPromoteDamDownstreamWatch],
+  ["risk-model-actionable-hydrology-watch", testActionableHydrologyStillPromotesDamDownstreamWatch],
+  ["risk-model-taluk-local-rain-gating", testTalukWatchUsesLocalTalukRainObservation],
   ["pipeline", testPipeline],
-    ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage],
+  ["pipeline-partial-indiawris", testPipelineDegradesPartialIndiaWrisCoverage],
   ["pipeline-source-selection-cache", testPipelineKeepsLatestCachedStateForUnselectedSources],
   ["pipeline-failure-state", testPipelineMarksFailedSourceUnavailableInCache],
   ["pipeline-archive-retention", testPipelinePrunesOldArchiveRuns],

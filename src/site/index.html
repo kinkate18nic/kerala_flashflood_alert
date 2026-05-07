@@ -28,7 +28,7 @@
         </nav>
         <div class="masthead-meta">
           <span class="chip" id="mode-chip">Decision-support mode</span>
-          <span class="chip subtle" id="generated-chip">Waiting for data</span>
+          <span class="chip subtle" id="generated-chip" aria-live="polite">Waiting for data</span>
         </div>
       </div>
 
@@ -38,7 +38,7 @@
           <div>
             <h1>Flash-flood watch</h1>
             <p class="hero-subheading">For districts, hotspots, dams, and river corridors.</p>
-            <p id="headline-text">
+            <p id="headline-text" aria-live="polite">
               Loading the latest signals from IMD, KSDMA, CWC, and local observation inputs.
             </p>
           </div>
@@ -46,41 +46,37 @@
         </div>
       </header>
 
-      <main class="layout">
-        <section class="panel headline-panel">
-          <div class="panel-head">
-            <h2>Operational Headline</h2>
-            <div class="control-stack">
-              <label class="archive-control">
-                <span>Replay</span>
-                <select id="archive-select">
-                  <option value="latest">Latest run</option>
-                </select>
-              </label>
+        <main class="layout">
+          <section class="panel headline-panel">
+            <div class="panel-head">
+              <h2>Current Situation</h2>
+              <div class="control-stack">
+                <label class="archive-control">
+                  <span>Previous updates</span>
+                  <select id="archive-select">
+                    <option value="latest">Latest run</option>
+                  </select>
+                </label>
+              </div>
             </div>
-          </div>
-          <div class="headline-grid">
-            <div class="headline-card" id="headline-card"></div>
-            <div class="review-card">
-              <div class="label">Review queue</div>
-              <div class="metric" id="review-count">0</div>
-              <p>Severe alerts remain pending until manually approved.</p>
+            <div class="headline-grid">
+              <div class="headline-card" id="headline-card"></div>
+              <div class="review-card" id="review-card" hidden></div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section class="panel map-panel">
-          <div class="panel-head">
-            <h2>Kerala Risk Map</h2>
-            <div class="control-stack">
-              <span class="subtle-text">District boundaries with hotspot overlays</span>
+          <section class="panel map-panel">
+            <div class="panel-head">
+              <h2>Kerala Risk Map</h2>
+              <div class="control-stack">
+                <span class="subtle-text">District boundaries with hotspot overlays. Select a district or hotspot to inspect evidence.</span>
+              </div>
             </div>
-          </div>
-          <div class="map-stage">
-            <svg class="district-map" viewBox="0 0 420 720" aria-hidden="true">
-              <defs>
-                <linearGradient id="districtMapGlow" x1="0" x2="1" y1="0" y2="1">
-                  <stop offset="0%" stop-color="rgba(63, 143, 119, 0.58)" />
+            <div class="map-stage">
+              <svg class="district-map" viewBox="0 0 420 720" role="img" aria-label="Kerala district and hotspot risk map">
+                <defs>
+                  <linearGradient id="districtMapGlow" x1="0" x2="1" y1="0" y2="1">
+                    <stop offset="0%" stop-color="rgba(63, 143, 119, 0.58)" />
                   <stop offset="100%" stop-color="rgba(12, 35, 28, 0.12)" />
                 </linearGradient>
               </defs>

@@ -308,6 +308,7 @@ h1 {
 .risk-card,
 .source-card,
 .alert-row {
+  min-width: 0;
   border-radius: 24px;
   padding: 18px;
   background: var(--panel-strong);
@@ -316,6 +317,21 @@ h1 {
 
 .headline-card {
   min-height: 180px;
+}
+
+.headline-card h3,
+.review-card h3,
+.risk-card h3,
+.source-card h3,
+.alert-row h3,
+.headline-card p,
+.review-card p,
+.risk-card p,
+.source-card p,
+.alert-row p,
+.source-fact-value,
+.source-detail-value {
+  overflow-wrap: anywhere;
 }
 
 .source-facts {
@@ -483,6 +499,20 @@ h1 {
   cursor: pointer;
 }
 
+.pressable-card {
+  position: relative;
+}
+
+.pressable-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid transparent;
+  pointer-events: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
 .risk-card .score,
 .source-card .score {
   font-size: 1.75rem;
@@ -529,6 +559,28 @@ h1 {
   gap: 18px;
 }
 
+.card-affordance {
+  justify-self: end;
+  pointer-events: none;
+}
+
+.empty-state {
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(33, 79, 63, 0.06);
+  border: 1px solid rgba(33, 79, 63, 0.1);
+}
+
+.empty-state h3 {
+  margin: 0 0 8px;
+  font-size: 1.02rem;
+}
+
+.empty-state p {
+  margin: 0;
+  color: var(--muted);
+}
+
 .evidence-dialog {
   width: min(760px, calc(100vw - 24px));
   border: 0;
@@ -570,6 +622,39 @@ h1 {
   color: #9d2a17;
 }
 
+.page-nav-link:focus-visible,
+.chip:focus-visible,
+.scroll-top:focus-visible,
+.archive-control select:focus-visible,
+.pressable-card:focus-visible,
+.source-link:focus-visible,
+.dialog-close:focus-visible,
+.district-shape:focus-visible,
+.hotspot-marker:focus-visible {
+  outline: 3px solid rgba(33, 79, 63, 0.28);
+  outline-offset: 3px;
+}
+
+.pressable-card:focus-visible::after {
+  border-color: rgba(33, 79, 63, 0.3);
+  box-shadow: 0 0 0 4px rgba(33, 79, 63, 0.08);
+}
+
+.district-shape:focus-visible,
+.hotspot-marker:focus-visible {
+  filter: drop-shadow(0 0 0.4rem rgba(255, 249, 238, 0.5));
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .masthead {
+    background: rgba(255, 249, 238, 0.98);
+  }
+
+  .panel {
+    background: rgba(255, 252, 245, 0.95);
+  }
+}
+
 @media (max-width: 980px) {
   .headline-panel,
   .map-panel {
@@ -579,6 +664,10 @@ h1 {
   .headline-grid,
   .alert-row {
     grid-template-columns: 1fr;
+  }
+
+  .card-affordance {
+    justify-self: start;
   }
 
   .hero-copy {
@@ -625,6 +714,27 @@ h1 {
     font-size: 2rem;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .hotspot-marker:hover,
+  .risk-card:hover,
+  .alert-row:hover {
+    transform: none;
+  }
+}
 .control-stack {
   display: flex;
   gap: 10px;
@@ -656,36 +766,6 @@ h1 {
   padding: 16px;
 }
 
-.source-info-btn {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  border: 1.5px solid var(--accent);
-  background: transparent;
-  color: var(--accent);
-  font-size: 0.82rem;
-  font-weight: 700;
-  font-style: italic;
-  font-family: "Georgia", "Newsreader", serif;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
-  z-index: 1;
-  line-height: 1;
-  padding: 0;
-}
-
-.source-info-btn:hover {
-  background: var(--accent);
-  color: #fff;
-  transform: scale(1.12);
-}
-
 .source-desc {
   color: var(--muted);
   font-size: 0.88rem;
@@ -694,13 +774,12 @@ h1 {
 }
 
 .source-card h3 {
-  margin: 2px 28px 8px 0;
+  margin: 2px 0 8px;
   font-size: 1.05rem;
   line-height: 1.2;
 }
 
 .source-card .label {
-  margin-right: 28px;
   font-size: 0.8rem;
 }
 

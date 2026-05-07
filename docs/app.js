@@ -18,7 +18,7 @@ const references = {
   headlineCard: document.querySelector("#headline-card"),
   generatedChip: document.querySelector("#generated-chip"),
   modeChip: document.querySelector("#mode-chip"),
-  reviewCount: document.querySelector("#review-count"),
+  reviewCard: document.querySelector("#review-card"),
   districtLayer: document.querySelector("#district-layer"),
   hotspotFootprintLayer: document.querySelector("#hotspot-footprint-layer"),
   districtLabelLayer: document.querySelector("#district-label-layer"),
@@ -228,9 +228,44 @@ function cardScopeLabel(item, suffix = "") {
   return item.region ?? item.district_name ?? item.district_id ?? "";
 }
 
+function pluralize(count, singular, plural = `${singular}s`) {
+  return `${count} ${count === 1 ? singular : plural}`;
+}
+
+function emptyStateMarkup(title, body) {
+  return `
+    <article class="empty-state" aria-live="polite">
+      <h3>${escapeHtml(title)}</h3>
+      <p>${escapeHtml(body)}</p>
+    </article>
+  `;
+}
+
 function openEvidence(title, body) {
   references.dialogContent.innerHTML = `<h2>${escapeHtml(title)}</h2>${body}`;
   references.dialog.showModal();
+}
+
+function openAreaEvidence(item) {
+  openEvidence(
+    item.name,
+    `
+      ${levelPill(item.level)}
+      <p><strong>Composite score:</strong> ${displayScore(item)} / 100</p>
+      <p><strong>Confidence:</strong> ${(item.confidence * 100).toFixed(0)}%</p>
+      <h3>Drivers</h3>
+      ${renderTextList(item.drivers)}
+      <h3>Source evidence</h3>
+      <ul class="evidence-list">
+        ${item.source_refs
+          .map(
+            (source) =>
+              `<li><strong>${escapeHtml(source.source_id)}</strong>: ${escapeHtml(source.detail)} (${escapeHtml(source.status)}, freshness ${escapeHtml(source.freshness_minutes ?? "n/a")} min)${sourceLinkMarkup(source.source_id)}</li>`
+          )
+          .join("")}
+      </ul>
+    `
+  );
 }
 
 function publicSourceUrl(rawUrl) {
@@ -398,39 +433,33 @@ function hotspotPosition(hotspot, projectedCentroids, districtAnchorsById, proje
   };
 }
 
+function bindActivation(element, handler) {
+  element.addEventListener("click", handler);
+  element.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+    event.preventDefault();
+    handler();
+  });
+}
+
 function bindMapInteractions() {
   document.querySelectorAll("[data-area-id][data-area-type]").forEach((element) => {
-    element.addEventListener("click", () => {
+    bindActivation(element, () => {
       const item = areaItemFromEvent(element.dataset.areaId, element.dataset.areaType);
       if (!item) {
         return;
       }
-      openEvidence(
-        item.name,
-        `
-          ${levelPill(item.level)}
-          <p><strong>Composite score:</strong> ${displayScore(item)} / 100</p>
-          <p><strong>Confidence:</strong> ${(item.confidence * 100).toFixed(0)}%</p>
-          <h3>Drivers</h3>
-          ${renderTextList(item.drivers)}
-          <h3>Source evidence</h3>
-          <ul class="evidence-list">
-            ${item.source_refs
-              .map(
-                (source) =>
-                  `<li><strong>${escapeHtml(source.source_id)}</strong>: ${escapeHtml(source.detail)} (${escapeHtml(source.status)}, freshness ${escapeHtml(source.freshness_minutes ?? "n/a")} min)${sourceLinkMarkup(source.source_id)}</li>`
-              )
-              .join("")}
-          </ul>
-        `
-      );
+      openAreaEvidence(item);
     });
   });
 }
 
 function renderHeadline() {
-  const topAlert = state.payload.alerts.alerts[0];
-  const alerts = state.payload.alerts.alerts;
+  const alerts = state.payload.alerts.alerts ?? [];
+  const sources = state.payload.sources.sources ?? [];
+  const topAlert = alerts[0];
   const affectedDistricts = new Set(
     alerts
       .map((alert) => alert.district_id ?? (alert.area_type === "district" ? alert.area_id : null))
@@ -438,10 +467,10 @@ function renderHeadline() {
   );
   references.headlineText.textContent = topAlert
     ? `${alerts.length} active alert${alerts.length === 1 ? "" : "s"} across ${affectedDistricts.size || 1} district${affectedDistricts.size === 1 ? "" : "s"}`
-    : "No active Watch-or-higher alerts";
+      : "No active Watch-or-higher alerts";
   references.generatedChip.textContent = `Updated ${formatTime(state.payload.dashboard.generated_at)}`;
   references.modeChip.textContent = `${state.payload.dashboard.mode} mode`;
-  references.reviewCount.textContent = String(state.payload.dashboard.severe_pending_count);
+  const pendingCount = Number(state.payload.dashboard.severe_pending_count ?? 0);
 
   references.headlineCard.innerHTML = topAlert
     ? `
@@ -458,9 +487,21 @@ function renderHeadline() {
       <h3>Routine monitoring</h3>
       <p>No active Watch-or-higher alerts. Continue routine observation and source-health checks.</p>
       <div class="meta">
-        <span>${state.payload.sources.sources.filter((source) => source.status === "ok").length} sources currently healthy</span>
+        <span>${sources.filter((source) => source.status === "ok").length} sources currently healthy</span>
       </div>
     `;
+
+  if (pendingCount > 0) {
+    references.reviewCard.hidden = false;
+    references.reviewCard.innerHTML = `
+      <div class="label">Manual review pending</div>
+      <div class="metric">${escapeHtml(String(pendingCount))}</div>
+      <p>${escapeHtml(pluralize(pendingCount, "severe alert"))} still require manual confirmation before any public escalation.</p>
+    `;
+  } else {
+    references.reviewCard.hidden = true;
+    references.reviewCard.innerHTML = "";
+  }
 }
 
 function renderMap() {
@@ -506,6 +547,9 @@ function renderMap() {
           class="district-shape"
           data-area-id="${escapeAttr(areaId)}"
           data-area-type="district"
+          tabindex="0"
+          role="button"
+          aria-label="${escapeAttr(`Open evidence for ${item?.name ?? areaId}, ${level} level`)}"
           d="${pathData}"
           fill="${escapeAttr(levelColors[level] ?? "var(--normal)")}"
           title="${escapeAttr(item?.name ?? areaId)}"
@@ -536,10 +580,9 @@ function renderMap() {
         return `
           <path
             class="hotspot-footprint"
-            data-area-id="${escapeAttr(hotspot.id)}"
-            data-area-type="hotspot"
             d="${featureToPath(hotspot.footprint, project)}"
             fill="${escapeAttr(levelColors[level] ?? "var(--normal)")}"
+            aria-hidden="true"
           ></path>
         `;
       }),
@@ -552,6 +595,9 @@ function renderMap() {
           class="hotspot-marker"
           data-area-id="${escapeAttr(hotspot.id)}"
           data-area-type="hotspot"
+          tabindex="0"
+          role="button"
+          aria-label="${escapeAttr(`Open evidence for ${item?.name ?? hotspot.id}, ${level} level`)}"
           cx="${position.x.toFixed(1)}"
           cy="${position.y.toFixed(1)}"
           r="6"
@@ -565,10 +611,25 @@ function renderMap() {
 }
 
 function renderAlerts() {
-  references.alertsList.innerHTML = sortByScore(state.payload.alerts.alerts)
+  const alerts = sortByScore(state.payload.alerts.alerts ?? []);
+  if (!alerts.length) {
+    references.alertsList.innerHTML = emptyStateMarkup(
+      "No active public alerts",
+      "Current runs do not show any Watch-or-higher alerts. Continue routine monitoring and review source health for outages."
+    );
+    return;
+  }
+
+  references.alertsList.innerHTML = alerts
     .map(
       (alert) => `
-        <article class="alert-row" data-alert-id="${escapeAttr(alert.alert_id)}">
+        <article
+          class="alert-row pressable-card"
+          data-alert-id="${escapeAttr(alert.alert_id)}"
+          tabindex="0"
+          role="button"
+          aria-label="${escapeAttr(`Open evidence for alert ${alert.name}`)}"
+        >
           <div>
             ${levelPill(alert.level)}
             <h3>${escapeHtml(alert.name)}</h3>
@@ -578,15 +639,18 @@ function renderAlerts() {
             <span>Score ${displayScore(alert)}</span>
             <span>${escapeHtml(alert.review_state.replaceAll("_", " "))}</span>
           </div>
-          <button class="chip subtle" type="button">Evidence</button>
+          <span class="chip subtle card-affordance" aria-hidden="true">Evidence</span>
         </article>
       `
     )
     .join("");
 
   references.alertsList.querySelectorAll(".alert-row").forEach((row) => {
-    row.addEventListener("click", () => {
-      const alert = state.payload.alerts.alerts.find((item) => item.alert_id === row.dataset.alertId);
+    bindActivation(row, () => {
+      const alert = alerts.find((item) => item.alert_id === row.dataset.alertId);
+      if (!alert) {
+        return;
+      }
       openEvidence(
         `${alert.name} alert`,
         `
@@ -603,10 +667,32 @@ function renderAlerts() {
 }
 
 function renderRiskCards(target, items, suffix = "") {
-  target.innerHTML = sortByScore(items)
+  const sortedItems = sortByScore(items ?? []);
+  if (!sortedItems.length) {
+    const scopeName =
+      target === references.districtGrid
+        ? "district"
+        : target === references.talukGrid
+          ? "taluk"
+          : "hotspot";
+    target.innerHTML = emptyStateMarkup(
+      `No ${scopeName} entries`,
+      `This run does not include any ${scopeName} risk entries to review.`
+    );
+    return;
+  }
+
+  target.innerHTML = sortedItems
     .map(
       (item) => `
-        <article class="risk-card" data-id="${escapeAttr(item.area_id)}">
+        <article
+          class="risk-card pressable-card"
+          data-id="${escapeAttr(item.area_id)}"
+          data-area-type="${escapeAttr(item.area_type ?? "")}"
+          tabindex="0"
+          role="button"
+          aria-label="${escapeAttr(`Open evidence for ${item.name}, ${item.level} level`)}"
+        >
           ${levelPill(item.level)}
           <h3>${escapeHtml(item.name)}</h3>
           <div class="score">${displayScore(item)}</div>
@@ -618,6 +704,16 @@ function renderRiskCards(target, items, suffix = "") {
       `
     )
     .join("");
+
+  target.querySelectorAll(".risk-card").forEach((card) => {
+    bindActivation(card, () => {
+      const item = sortedItems.find((entry) => entry.area_id === card.dataset.id);
+      if (!item) {
+        return;
+      }
+      openAreaEvidence(item);
+    });
+  });
 }
 
 const SOURCE_META = {
@@ -925,13 +1021,27 @@ function openSourceDetails(source) {
 }
 
 function renderSources() {
-  references.sourceGrid.innerHTML = state.payload.sources.sources
+  const sources = state.payload.sources.sources ?? [];
+  if (!sources.length) {
+    references.sourceGrid.innerHTML = emptyStateMarkup(
+      "No source-health entries",
+      "The current run did not publish source-health details. Refresh later or inspect the latest run status."
+    );
+    return;
+  }
+
+  references.sourceGrid.innerHTML = sources
     .map(
       (source) => {
         const statusClass = safeStatusClass(source.status);
         return `
-          <article class="source-card" data-source-id="${escapeAttr(source.source_id)}">
-            <button class="source-info-btn" title="View details" type="button">i</button>
+          <article
+            class="source-card pressable-card"
+            data-source-id="${escapeAttr(source.source_id)}"
+            tabindex="0"
+            role="button"
+            aria-label="${escapeAttr(`Open source details for ${source.name}`)}"
+          >
             <div class="label">${escapeHtml(source.owner)}</div>
             <h3>${escapeHtml(source.name)}</h3>
             <div class="score status-${statusClass}">${escapeHtml(sourceHealthLabel(source))}</div>
@@ -953,20 +1063,21 @@ function renderSources() {
                 <span class="source-fact-value">${escapeHtml(sourceCurrentRunLabel(source))}</span>
               </div>
             </div>
+            <div class="meta">
+              <span>Open details</span>
+            </div>
           </article>
         `;
       }
     )
     .join("");
 
-  references.sourceGrid.querySelectorAll(".source-info-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const card = btn.closest(".source-card");
-      const source = state.payload.sources.sources.find(
-        (s) => s.source_id === card.dataset.sourceId
-      );
-      if (source) openSourceDetails(source);
+  references.sourceGrid.querySelectorAll(".source-card").forEach((card) => {
+    bindActivation(card, () => {
+      const source = sources.find((s) => s.source_id === card.dataset.sourceId);
+      if (source) {
+        openSourceDetails(source);
+      }
     });
   });
 }
