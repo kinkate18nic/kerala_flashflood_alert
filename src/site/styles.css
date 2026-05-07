@@ -38,7 +38,7 @@ body {
 }
 
 .hero {
-  padding: 24px 0 10px;
+  padding: 24px 0 18px;
 }
 
 .masthead {
@@ -105,6 +105,10 @@ body {
   align-items: flex-start;
 }
 
+.hero-intro {
+  max-width: 66ch;
+}
+
 h1,
 h2 {
   font-family: "Newsreader", Georgia, serif;
@@ -140,9 +144,11 @@ h1 {
 
 .hero-actions {
   display: flex;
+  align-items: center;
   gap: 10px;
   flex-wrap: wrap;
   justify-content: flex-end;
+  margin-top: 6px;
 }
 
 .hero-actions:empty {
@@ -192,7 +198,7 @@ h1 {
 .layout {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 18px;
+  gap: 20px;
 }
 
 .prose-layout {
@@ -272,9 +278,16 @@ h1 {
 .alerts-panel,
 .district-panel,
 .taluk-panel,
-.hotspot-panel,
-.health-panel {
+.hotspot-panel {
   grid-column: span 12;
+}
+
+.health-panel {
+  grid-column: span 4;
+}
+
+.alerts-panel {
+  grid-column: span 8;
 }
 
 .panel-head {
@@ -283,6 +296,16 @@ h1 {
   align-items: center;
   gap: 12px;
   margin-bottom: 18px;
+}
+
+.panel-title-block {
+  display: grid;
+  gap: 6px;
+}
+
+.panel-kicker {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .subtle-text,
@@ -317,6 +340,15 @@ h1 {
 
 .headline-card {
   min-height: 180px;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.review-card {
+  display: grid;
+  align-content: start;
+  gap: 10px;
 }
 
 .headline-card h3,
@@ -338,6 +370,36 @@ h1 {
   display: grid;
   gap: 6px;
   margin: 10px 0 0;
+}
+
+.summary-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.summary-pill {
+  min-width: 0;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(33, 79, 63, 0.06);
+  border: 1px solid rgba(33, 79, 63, 0.09);
+}
+
+.summary-pill-value {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.summary-pill-label {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 .source-fact-row {
@@ -530,6 +592,12 @@ h1 {
   font-size: 0.88rem;
 }
 
+.source-card .meta {
+  margin-top: 16px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
 .source-status-note {
   margin: 12px 0 8px;
   padding: 10px 12px;
@@ -657,7 +725,9 @@ h1 {
 
 @media (max-width: 980px) {
   .headline-panel,
-  .map-panel {
+  .map-panel,
+  .alerts-panel,
+  .health-panel {
     grid-column: span 12;
   }
 
@@ -672,6 +742,10 @@ h1 {
 
   .hero-copy {
     flex-direction: column;
+  }
+
+  .hero-actions {
+    justify-content: flex-start;
   }
 
   .masthead {
@@ -708,6 +782,10 @@ h1 {
   .chip {
     min-height: 36px;
     padding: 0 12px;
+  }
+
+  .summary-strip {
+    grid-template-columns: 1fr;
   }
 
   h1 {

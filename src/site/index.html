@@ -35,7 +35,7 @@
       <header class="hero">
         <div class="eyebrow">Kerala Monsoon Decision Support</div>
         <div class="hero-copy">
-          <div>
+          <div class="hero-intro">
             <h1>Flash-flood watch</h1>
             <p class="hero-subheading">For districts, hotspots, dams, and river corridors.</p>
             <p id="headline-text" aria-live="polite">
@@ -46,10 +46,13 @@
         </div>
       </header>
 
-        <main class="layout">
-          <section class="panel headline-panel">
+      <main class="layout">
+          <section class="panel headline-panel" id="situation">
             <div class="panel-head">
-              <h2>Current Situation</h2>
+              <div class="panel-title-block">
+                <div class="label panel-kicker">Start Here</div>
+                <h2>Current Situation</h2>
+              </div>
               <div class="control-stack">
                 <label class="archive-control">
                   <span>Previous updates</span>
@@ -65,9 +68,12 @@
             </div>
           </section>
 
-          <section class="panel map-panel">
+          <section class="panel map-panel" id="map">
             <div class="panel-head">
-              <h2>Kerala Risk Map</h2>
+              <div class="panel-title-block">
+                <div class="label panel-kicker">Explore</div>
+                <h2>Kerala Risk Map</h2>
+              </div>
               <div class="control-stack">
                 <span class="subtle-text">District boundaries with hotspot overlays. Select a district or hotspot to inspect evidence.</span>
               </div>
@@ -85,47 +91,62 @@
               <g id="hotspot-footprint-layer"></g>
               <g id="district-label-layer"></g>
             </svg>
-          </div>
-        </section>
+            </div>
+          </section>
 
-        <section class="panel alerts-panel">
+        <section class="panel alerts-panel" id="alerts">
           <div class="panel-head">
-            <h2>Active Alerts</h2>
-            <span class="subtle-text">Watch and above, traceable to source evidence</span>
+            <div class="panel-title-block">
+              <div class="label panel-kicker">Attention Now</div>
+              <h2>Active Alerts</h2>
+            </div>
+            <span class="subtle-text">Watch and above, traceable to source evidence.</span>
           </div>
           <div id="alerts-list" class="stack"></div>
         </section>
 
-        <section class="panel district-panel">
+        <section class="panel health-panel" id="sources">
           <div class="panel-head">
-            <h2>District Risk</h2>
-            <span class="subtle-text">Sorted by current composite risk score</span>
+            <div class="panel-title-block">
+              <div class="label panel-kicker">Data Trust</div>
+              <h2>Source Health</h2>
+            </div>
+            <span class="subtle-text">Whether the underlying feeds are current enough to trust this run.</span>
+          </div>
+          <div id="source-grid" class="card-grid"></div>
+        </section>
+
+        <section class="panel district-panel" id="districts">
+          <div class="panel-head">
+            <div class="panel-title-block">
+              <div class="label panel-kicker">Area Scan</div>
+              <h2>District Risk</h2>
+            </div>
+            <span class="subtle-text">Broad district scan, sorted by current composite risk score.</span>
           </div>
           <div id="district-grid" class="card-grid"></div>
         </section>
 
-        <section class="panel taluk-panel">
+        <section class="panel taluk-panel" id="taluks">
           <div class="panel-head">
-            <h2>Taluk Risk</h2>
-            <span class="subtle-text">District-derived rainfall context refined by taluk hotspot membership</span>
+            <div class="panel-title-block">
+              <div class="label panel-kicker">Local Detail</div>
+              <h2>Taluk Risk</h2>
+            </div>
+            <span class="subtle-text">Local refinement where hotspot membership changes the district picture.</span>
           </div>
           <div id="taluk-grid" class="card-grid taluk-grid"></div>
         </section>
 
-        <section class="panel hotspot-panel">
+        <section class="panel hotspot-panel" id="hotspots">
           <div class="panel-head">
-            <h2>Hotspots</h2>
-            <span class="subtle-text">Curated corridors and low-lying pockets</span>
+            <div class="panel-title-block">
+              <div class="label panel-kicker">Named Corridors</div>
+              <h2>Hotspots</h2>
+            </div>
+            <span class="subtle-text">Named flash-flood and downstream corridors to inspect more closely.</span>
           </div>
           <div id="hotspot-grid" class="card-grid hotspot-grid"></div>
-        </section>
-
-        <section class="panel health-panel">
-          <div class="panel-head">
-            <h2>Source Health</h2>
-            <span class="subtle-text">Freshness and parser state</span>
-          </div>
-          <div id="source-grid" class="card-grid"></div>
         </section>
       </main>
     </div>

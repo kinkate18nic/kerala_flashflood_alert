@@ -19,6 +19,7 @@ const references = {
   generatedChip: document.querySelector("#generated-chip"),
   modeChip: document.querySelector("#mode-chip"),
   reviewCard: document.querySelector("#review-card"),
+  heroActions: document.querySelector(".hero-actions"),
   districtLayer: document.querySelector("#district-layer"),
   hotspotFootprintLayer: document.querySelector("#hotspot-footprint-layer"),
   districtLabelLayer: document.querySelector("#district-label-layer"),
@@ -268,6 +269,15 @@ function openAreaEvidence(item) {
   );
 }
 
+function summaryPill(label, value) {
+  return `
+    <div class="summary-pill">
+      <span class="summary-pill-value">${escapeHtml(String(value))}</span>
+      <span class="summary-pill-label">${escapeHtml(label)}</span>
+    </div>
+  `;
+}
+
 function publicSourceUrl(rawUrl) {
   if (!rawUrl || typeof rawUrl !== "string") {
     return null;
@@ -459,24 +469,43 @@ function bindMapInteractions() {
 function renderHeadline() {
   const alerts = state.payload.alerts.alerts ?? [];
   const sources = state.payload.sources.sources ?? [];
+  const hotspots = state.payload.hotspotRisk.hotspots ?? [];
   const topAlert = alerts[0];
   const affectedDistricts = new Set(
     alerts
       .map((alert) => alert.district_id ?? (alert.area_type === "district" ? alert.area_id : null))
       .filter(Boolean)
   );
+  const healthySourceCount = sources.filter((source) => source.status === "ok").length;
+  const activeHotspotCount = hotspots.filter((hotspot) => hotspot.level && hotspot.level !== "Normal").length;
   references.headlineText.textContent = topAlert
     ? `${alerts.length} active alert${alerts.length === 1 ? "" : "s"} across ${affectedDistricts.size || 1} district${affectedDistricts.size === 1 ? "" : "s"}`
       : "No active Watch-or-higher alerts";
   references.generatedChip.textContent = `Updated ${formatTime(state.payload.dashboard.generated_at)}`;
   references.modeChip.textContent = `${state.payload.dashboard.mode} mode`;
   const pendingCount = Number(state.payload.dashboard.severe_pending_count ?? 0);
+  references.heroActions.innerHTML = topAlert
+    ? `
+      <a class="chip subtle link-chip" href="#alerts">See active alerts</a>
+      <a class="chip subtle link-chip" href="#map">Use the map</a>
+      <a class="chip subtle link-chip" href="#sources">Check source health</a>
+    `
+    : `
+      <a class="chip subtle link-chip" href="#districts">Review districts</a>
+      <a class="chip subtle link-chip" href="#hotspots">Inspect hotspots</a>
+      <a class="chip subtle link-chip" href="#sources">Check source health</a>
+    `;
 
   references.headlineCard.innerHTML = topAlert
     ? `
       ${levelPill(topAlert.level)}
       <h3>Top concern: ${escapeHtml(topAlert.name)}</h3>
       <p>${alerts.length === 1 ? "Current top alert" : `${alerts.length} active alerts are listed below`}. Highest current concern: ${escapeHtml(topAlert.message_en)}</p>
+      <div class="summary-strip">
+        ${summaryPill("alerts", alerts.length)}
+        ${summaryPill("districts affected", affectedDistricts.size || 1)}
+        ${summaryPill("hotspots elevated", activeHotspotCount)}
+      </div>
       <div class="meta">
         <span>${affectedDistricts.size || 1} district${affectedDistricts.size === 1 ? "" : "s"} affected</span>
         <span>${escapeHtml(topAlert.review_state.replaceAll("_", " "))}</span>
@@ -486,8 +515,13 @@ function renderHeadline() {
       ${levelPill("Normal")}
       <h3>Routine monitoring</h3>
       <p>No active Watch-or-higher alerts. Continue routine observation and source-health checks.</p>
+      <div class="summary-strip">
+        ${summaryPill("alerts", 0)}
+        ${summaryPill("healthy sources", healthySourceCount)}
+        ${summaryPill("hotspots elevated", activeHotspotCount)}
+      </div>
       <div class="meta">
-        <span>${sources.filter((source) => source.status === "ok").length} sources currently healthy</span>
+        <span>${healthySourceCount} sources currently healthy</span>
       </div>
     `;
 
@@ -1045,6 +1079,7 @@ function renderSources() {
             <div class="label">${escapeHtml(source.owner)}</div>
             <h3>${escapeHtml(source.name)}</h3>
             <div class="score status-${statusClass}">${escapeHtml(sourceHealthLabel(source))}</div>
+            <p class="source-desc">${escapeHtml(dataUsageSummary(source))}</p>
             <div class="source-facts">
               <div class="source-fact-row">
                 <span class="source-fact-label">Data age</span>
