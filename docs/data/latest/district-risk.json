@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-05-20T11:53:14.506Z",
+  "generated_at": "2026-05-20T12:08:12.822Z",
   "districts": [
     {
       "area_id": "kasaragod",
       "area_type": "district",
       "name": "Kasaragod",
       "level": "Normal",
-      "score": 5.1,
-      "confidence": 0.4,
+      "score": 4.5,
+      "confidence": 0.5,
       "region": "north",
       "susceptibility": 0.3453774237735794,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 14.2,
-        "wetness_index": 7.6,
+        "score": 12.2,
+        "wetness_index": 1.9,
         "trigger_index": 0.6,
         "susceptibility_index": 34.5,
         "label": "low"
@@ -25,32 +25,34 @@
         "roughness_mean": 7.092902,
         "dem_normalized": 0.3
       },
-      "valid_from": "2026-05-20T11:53:14.506Z",
-      "valid_to": "2026-05-20T17:53:14.506Z",
+      "valid_from": "2026-05-20T12:08:12.822Z",
+      "valid_to": "2026-05-20T18:08:12.822Z",
       "drivers": [
-        "Observed 24h rain 7.7 mm and 1h rain 0.2 mm",
+        "Observed 24h rain 7.9 mm and 1h rain 0.2 mm",
+        "India-WRIS official 24h rainfall 7.9 mm from 2 stations",
+        "Peak India-WRIS station 24h rainfall 16.8 mm",
         "Peak recent 30 min rain 0.5 mm",
-        "Rainfall aggregation district_polygon_mean",
-        "Runoff potential low (wetness 7.6, trigger 0.6)",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "Runoff potential low (wetness 1.9, trigger 0.6)",
         "Terrain susceptibility 35% from NASADEM + local baseline"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 3014,
+          "freshness_minutes": 3029,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "KASARAGOD : Very Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-05-18",
-          "freshness_minutes": 3923,
+          "freshness_minutes": 3938,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "KASARAGOD Light rain:",
-          "freshness_minutes": 2843,
+          "freshness_minutes": 2858,
           "status": "offline"
         },
         {
@@ -61,52 +63,58 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Official rainfall available from 2 stations",
+          "freshness_minutes": 548,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 3,
+          "freshness_minutes": 18,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 578,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.36 m across 3 stations",
-          "freshness_minutes": 3143,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 3 stations",
+          "freshness_minutes": 278,
+          "status": "stale"
         }
       ],
       "rainfall": {
         "rain_1h_mm": 0.2,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 7.7,
-        "rain_3d_mm": 26.2,
-        "rain_7d_mm": 118.5,
-        "source": "nasa-imerg-pps",
+        "rain_24h_mm": 7.9,
+        "rain_3d_mm": 9.1,
+        "rain_7d_mm": 15.2,
+        "source": "nasa-imerg-pps+indiawris-cwc",
         "source_ids": [
-          "nasa-imerg-nrt"
+          "nasa-imerg-nrt",
+          "indiawris-rainfall"
         ],
         "short_duration_source_ids": [
           "nasa-imerg-nrt"
         ],
         "daily_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
         "antecedent_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
-        "spatial_aggregation": "district_polygon_mean",
+        "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 17,
-        "peak_30m_mm": 0.5
+        "peak_30m_mm": 0.5,
+        "official_rain_24h_mm": 7.9,
+        "official_rain_3d_mm": 9.1,
+        "official_rain_7d_mm": 15.2,
+        "official_station_count": 2,
+        "official_peak_station_24h_mm": 16.8
       },
       "review_state": "auto_published"
     },
@@ -115,14 +123,14 @@
       "area_type": "district",
       "name": "Kannur",
       "level": "Normal",
-      "score": 10.4,
-      "confidence": 0.4,
+      "score": 14.8,
+      "confidence": 0.5,
       "region": "north",
       "susceptibility": 0.4514881833946861,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 22.5,
-        "wetness_index": 8.6,
+        "score": 20.5,
+        "wetness_index": 2.8,
         "trigger_index": 14.1,
         "susceptibility_index": 45.1,
         "label": "guarded"
@@ -134,33 +142,35 @@
         "roughness_mean": 7.417914,
         "dem_normalized": 0.4
       },
-      "valid_from": "2026-05-20T11:53:14.506Z",
-      "valid_to": "2026-05-20T17:53:14.506Z",
+      "valid_from": "2026-05-20T12:08:12.822Z",
+      "valid_to": "2026-05-20T18:08:12.822Z",
       "drivers": [
-        "Observed 24h rain 1.8 mm and 1h rain 0.1 mm",
+        "Observed 24h rain 0 mm and 1h rain 0.1 mm",
+        "India-WRIS official 24h rainfall 0 mm from 1 station",
         "Peak recent 30 min rain 0.2 mm",
-        "Rainfall aggregation district_polygon_mean",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "RainViewer nowcast moderate (25 dBZ)",
-        "Runoff potential guarded (wetness 8.6, trigger 14.1)",
-        "Terrain susceptibility 45% from NASADEM + local baseline"
+        "Runoff potential guarded (wetness 2.8, trigger 14.1)",
+        "Terrain susceptibility 45% from NASADEM + local baseline",
+        "Dam downstream caution active"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 3014,
+          "freshness_minutes": 3029,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "KANNUR : Very Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-05-18",
-          "freshness_minutes": 3923,
+          "freshness_minutes": 3938,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "KANNUR Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-05-18 1600 Hrs Valid upto: 1900 Hrs",
-          "freshness_minutes": 2963,
+          "freshness_minutes": 2978,
           "status": "offline"
         },
         {
@@ -171,52 +181,58 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Official rainfall available from 1 station",
+          "freshness_minutes": 548,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near district",
-          "freshness_minutes": 3,
+          "freshness_minutes": 18,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 578,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 1 station",
-          "freshness_minutes": 3143,
-          "status": "offline"
+          "freshness_minutes": 278,
+          "status": "stale"
         }
       ],
       "rainfall": {
         "rain_1h_mm": 0.1,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 1.8,
-        "rain_3d_mm": 49.8,
-        "rain_7d_mm": 90.3,
-        "source": "nasa-imerg-pps",
+        "rain_24h_mm": 0,
+        "rain_3d_mm": 20,
+        "rain_7d_mm": 20,
+        "source": "nasa-imerg-pps+indiawris-cwc",
         "source_ids": [
-          "nasa-imerg-nrt"
+          "nasa-imerg-nrt",
+          "indiawris-rainfall"
         ],
         "short_duration_source_ids": [
           "nasa-imerg-nrt"
         ],
         "daily_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
         "antecedent_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
-        "spatial_aggregation": "district_polygon_mean",
+        "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 25,
-        "peak_30m_mm": 0.2
+        "peak_30m_mm": 0.2,
+        "official_rain_24h_mm": 0,
+        "official_rain_3d_mm": 20,
+        "official_rain_7d_mm": 20,
+        "official_station_count": 1,
+        "official_peak_station_24h_mm": 0
       },
       "review_state": "auto_published"
     },
@@ -225,8 +241,8 @@
       "area_type": "district",
       "name": "Wayanad",
       "level": "Normal",
-      "score": 10.9,
-      "confidence": 0.4,
+      "score": 16,
+      "confidence": 0.5,
       "region": "north-hills",
       "susceptibility": 0.5329780836855869,
       "terrain_model": "nasadem_blended",
@@ -244,32 +260,34 @@
         "roughness_mean": 8.218636,
         "dem_normalized": 0.4
       },
-      "valid_from": "2026-05-20T11:53:14.506Z",
-      "valid_to": "2026-05-20T17:53:14.506Z",
+      "valid_from": "2026-05-20T12:08:12.822Z",
+      "valid_to": "2026-05-20T18:08:12.822Z",
       "drivers": [
         "Observed 24h rain 2.1 mm and 1h rain 0 mm",
         "Rainfall aggregation district_polygon_mean",
         "RainViewer nowcast moderate (25 dBZ)",
         "Runoff potential guarded (wetness 4.4, trigger 13.9)",
-        "Terrain susceptibility 53% from NASADEM + local baseline"
+        "Terrain susceptibility 53% from NASADEM + local baseline",
+        "Reservoir caution active",
+        "Dam downstream caution active"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 3014,
+          "freshness_minutes": 3029,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "WAYANAD : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-05-18",
-          "freshness_minutes": 3923,
+          "freshness_minutes": 3938,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "WAYANAD Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-05-18 1600 Hrs Valid upto: 1900 Hrs",
-          "freshness_minutes": 2963,
+          "freshness_minutes": 2978,
           "status": "offline"
         },
         {
@@ -281,26 +299,26 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 548,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near district",
-          "freshness_minutes": 3,
+          "freshness_minutes": 18,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 578,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 1 station",
-          "freshness_minutes": 3143,
-          "status": "offline"
+          "freshness_minutes": 278,
+          "status": "stale"
         }
       ],
       "rainfall": {
@@ -334,14 +352,14 @@
       "area_type": "district",
       "name": "Kozhikode",
       "level": "Normal",
-      "score": 12.2,
-      "confidence": 0.4,
+      "score": 16.5,
+      "confidence": 0.5,
       "region": "north",
       "susceptibility": 0.5989515325184362,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 27.5,
-        "wetness_index": 9.2,
+        "score": 25.2,
+        "wetness_index": 2.4,
         "trigger_index": 13.9,
         "susceptibility_index": 59.9,
         "label": "guarded"
@@ -353,32 +371,35 @@
         "roughness_mean": 8.165773,
         "dem_normalized": 0.6
       },
-      "valid_from": "2026-05-20T11:53:14.506Z",
-      "valid_to": "2026-05-20T17:53:14.506Z",
+      "valid_from": "2026-05-20T12:08:12.822Z",
+      "valid_to": "2026-05-20T18:08:12.822Z",
       "drivers": [
-        "Observed 24h rain 2.7 mm and 1h rain 0 mm",
-        "Rainfall aggregation district_polygon_mean",
+        "Observed 24h rain 0 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 0 mm from 2 stations",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "RainViewer nowcast moderate (25 dBZ)",
-        "Runoff potential guarded (wetness 9.2, trigger 13.9)",
-        "Terrain susceptibility 60% from NASADEM + local baseline"
+        "Runoff potential guarded (wetness 2.4, trigger 13.9)",
+        "Terrain susceptibility 60% from NASADEM + local baseline",
+        "Reservoir caution active",
+        "Dam downstream caution active"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 3014,
+          "freshness_minutes": 3029,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "KOZHIKODE : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-05-18",
-          "freshness_minutes": 3923,
+          "freshness_minutes": 3938,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "KOZHIKODE Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-05-18 1600 Hrs Valid upto: 1900 Hrs",
-          "freshness_minutes": 2963,
+          "freshness_minutes": 2978,
           "status": "offline"
         },
         {
@@ -389,52 +410,58 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Official rainfall available from 2 stations",
+          "freshness_minutes": 548,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near district",
-          "freshness_minutes": 3,
+          "freshness_minutes": 18,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 578,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting live river level available from 2 stations",
-          "freshness_minutes": 3143,
-          "status": "offline"
+          "detail": "CWC flood forecasting observed river rise 0.02 m across 2 stations",
+          "freshness_minutes": 278,
+          "status": "stale"
         }
       ],
       "rainfall": {
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 2.7,
-        "rain_3d_mm": 52.4,
-        "rain_7d_mm": 97.6,
-        "source": "nasa-imerg-pps",
+        "rain_24h_mm": 0,
+        "rain_3d_mm": 17.4,
+        "rain_7d_mm": 17.4,
+        "source": "nasa-imerg-pps+indiawris-cwc",
         "source_ids": [
-          "nasa-imerg-nrt"
+          "nasa-imerg-nrt",
+          "indiawris-rainfall"
         ],
         "short_duration_source_ids": [
           "nasa-imerg-nrt"
         ],
         "daily_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
         "antecedent_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
-        "spatial_aggregation": "district_polygon_mean",
+        "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 19,
-        "peak_30m_mm": 0
+        "peak_30m_mm": 0,
+        "official_rain_24h_mm": 0,
+        "official_rain_3d_mm": 17.4,
+        "official_rain_7d_mm": 17.4,
+        "official_station_count": 2,
+        "official_peak_station_24h_mm": 0
       },
       "review_state": "auto_published"
     },
@@ -443,14 +470,14 @@
       "area_type": "district",
       "name": "Malappuram",
       "level": "Normal",
-      "score": 12.9,
-      "confidence": 0.4,
+      "score": 12.5,
+      "confidence": 0.5,
       "region": "north-central",
       "susceptibility": 0.6742140418587734,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 29.2,
-        "wetness_index": 6.7,
+        "score": 27.9,
+        "wetness_index": 3,
         "trigger_index": 14.1,
         "susceptibility_index": 67.4,
         "label": "guarded"
@@ -462,33 +489,35 @@
         "roughness_mean": 8.008132,
         "dem_normalized": 0.7
       },
-      "valid_from": "2026-05-20T11:53:14.506Z",
-      "valid_to": "2026-05-20T17:53:14.506Z",
+      "valid_from": "2026-05-20T12:08:12.822Z",
+      "valid_to": "2026-05-20T18:08:12.822Z",
       "drivers": [
-        "Observed 24h rain 4.7 mm and 1h rain 0.1 mm",
+        "Observed 24h rain 9.7 mm and 1h rain 0.1 mm",
+        "India-WRIS official 24h rainfall 9.7 mm from 3 stations",
+        "Peak India-WRIS station 24h rainfall 16 mm",
         "Peak recent 30 min rain 0.2 mm",
-        "Rainfall aggregation district_polygon_mean",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "RainViewer nowcast moderate (25 dBZ)",
-        "Runoff potential guarded (wetness 6.7, trigger 14.1)",
+        "Runoff potential guarded (wetness 3, trigger 14.1)",
         "Terrain susceptibility 67% from NASADEM + local baseline"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 3014,
+          "freshness_minutes": 3029,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "MALAPPURAM : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-05-18",
-          "freshness_minutes": 3923,
+          "freshness_minutes": 3938,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "MALAPPURAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-05-18 1600 Hrs Valid upto: 1900 Hrs",
-          "freshness_minutes": 2963,
+          "freshness_minutes": 2978,
           "status": "offline"
         },
         {
@@ -499,52 +528,58 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Official rainfall available from 3 stations",
+          "freshness_minutes": 548,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near district",
-          "freshness_minutes": 3,
+          "freshness_minutes": 18,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 578,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.1 m across 5 stations",
-          "freshness_minutes": 3143,
-          "status": "offline"
+          "detail": "CWC flood forecasting observed river rise 0.25 m across 4 stations",
+          "freshness_minutes": 278,
+          "status": "stale"
         }
       ],
       "rainfall": {
         "rain_1h_mm": 0.1,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 4.7,
-        "rain_3d_mm": 40.2,
-        "rain_7d_mm": 64,
-        "source": "nasa-imerg-pps",
+        "rain_24h_mm": 9.7,
+        "rain_3d_mm": 18.5,
+        "rain_7d_mm": 18.8,
+        "source": "nasa-imerg-pps+indiawris-cwc",
         "source_ids": [
-          "nasa-imerg-nrt"
+          "nasa-imerg-nrt",
+          "indiawris-rainfall"
         ],
         "short_duration_source_ids": [
           "nasa-imerg-nrt"
         ],
         "daily_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
         "antecedent_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
-        "spatial_aggregation": "district_polygon_mean",
+        "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 28,
-        "peak_30m_mm": 0.2
+        "peak_30m_mm": 0.2,
+        "official_rain_24h_mm": 9.7,
+        "official_rain_3d_mm": 18.5,
+        "official_rain_7d_mm": 18.8,
+        "official_station_count": 3,
+        "official_peak_station_24h_mm": 16
       },
       "review_state": "auto_published"
     },
@@ -553,8 +588,8 @@
       "area_type": "district",
       "name": "Palakkad",
       "level": "Normal",
-      "score": 12.8,
-      "confidence": 0.4,
+      "score": 17.8,
+      "confidence": 0.5,
       "region": "ghat-gap",
       "susceptibility": 0.6881768722702085,
       "terrain_model": "nasadem_blended",
@@ -572,33 +607,34 @@
         "roughness_mean": 8.603137,
         "dem_normalized": 0.8
       },
-      "valid_from": "2026-05-20T11:53:14.506Z",
-      "valid_to": "2026-05-20T17:53:14.506Z",
+      "valid_from": "2026-05-20T12:08:12.822Z",
+      "valid_to": "2026-05-20T18:08:12.822Z",
       "drivers": [
         "Observed 24h rain 2.5 mm and 1h rain 0 mm",
         "Peak recent 30 min rain 0.1 mm",
         "Rainfall aggregation district_polygon_mean",
         "RainViewer nowcast moderate (25 dBZ)",
         "Runoff potential guarded (wetness 4.6, trigger 14)",
-        "Terrain susceptibility 69% from NASADEM + local baseline"
+        "Terrain susceptibility 69% from NASADEM + local baseline",
+        "Dam downstream caution active"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 3014,
+          "freshness_minutes": 3029,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "PALAKKAD : Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-05-18",
-          "freshness_minutes": 3923,
+          "freshness_minutes": 3938,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "PALAKKAD Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-05-18 1600 Hrs Valid upto: 1900 Hrs",
-          "freshness_minutes": 2963,
+          "freshness_minutes": 2978,
           "status": "offline"
         },
         {
@@ -610,26 +646,26 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 548,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near district",
-          "freshness_minutes": 3,
+          "freshness_minutes": 18,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 578,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting live river level available from 4 stations",
-          "freshness_minutes": 3143,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 3 stations",
+          "freshness_minutes": 278,
+          "status": "stale"
         }
       ],
       "rainfall": {
@@ -663,14 +699,14 @@
       "area_type": "district",
       "name": "Thrissur",
       "level": "Normal",
-      "score": 9,
-      "confidence": 0.4,
+      "score": 13.9,
+      "confidence": 0.5,
       "region": "central",
       "susceptibility": 0.5123293858356701,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 22.4,
-        "wetness_index": 7.8,
+        "score": 21.6,
+        "wetness_index": 5.4,
         "trigger_index": 8.5,
         "susceptibility_index": 51.2,
         "label": "guarded"
@@ -682,33 +718,37 @@
         "roughness_mean": 6.105978,
         "dem_normalized": 0.5
       },
-      "valid_from": "2026-05-20T11:53:14.506Z",
-      "valid_to": "2026-05-20T17:53:14.506Z",
+      "valid_from": "2026-05-20T12:08:12.822Z",
+      "valid_to": "2026-05-20T18:08:12.822Z",
       "drivers": [
-        "Observed 24h rain 3.2 mm and 1h rain 0 mm",
+        "Observed 24h rain 10 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 10 mm from 2 stations",
+        "Peak India-WRIS station 24h rainfall 20 mm",
         "Peak recent 30 min rain 0.2 mm",
-        "Rainfall aggregation district_polygon_mean",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "RainViewer nowcast light (15 dBZ)",
-        "Runoff potential guarded (wetness 7.8, trigger 8.5)",
-        "Terrain susceptibility 51% from NASADEM + local baseline"
+        "Runoff potential guarded (wetness 5.4, trigger 8.5)",
+        "Terrain susceptibility 51% from NASADEM + local baseline",
+        "Reservoir caution active",
+        "Dam downstream caution active"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 3014,
+          "freshness_minutes": 3029,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "THRISSUR : Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-05-18",
-          "freshness_minutes": 3923,
+          "freshness_minutes": 3938,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "THRISSUR Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-05-18 1600 Hrs Valid upto: 1900 Hrs",
-          "freshness_minutes": 2963,
+          "freshness_minutes": 2978,
           "status": "offline"
         },
         {
@@ -719,52 +759,58 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Official rainfall available from 2 stations",
+          "freshness_minutes": 548,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near district",
-          "freshness_minutes": 3,
+          "freshness_minutes": 18,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 578,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.04 m across 4 stations",
-          "freshness_minutes": 3143,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 4 stations",
+          "freshness_minutes": 278,
+          "status": "stale"
         }
       ],
       "rainfall": {
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 3.2,
-        "rain_3d_mm": 46.1,
-        "rain_7d_mm": 78.7,
-        "source": "nasa-imerg-pps",
+        "rain_24h_mm": 10,
+        "rain_3d_mm": 29.6,
+        "rain_7d_mm": 51.9,
+        "source": "nasa-imerg-pps+indiawris-cwc",
         "source_ids": [
-          "nasa-imerg-nrt"
+          "nasa-imerg-nrt",
+          "indiawris-rainfall"
         ],
         "short_duration_source_ids": [
           "nasa-imerg-nrt"
         ],
         "daily_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
         "antecedent_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
-        "spatial_aggregation": "district_polygon_mean",
+        "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 22,
-        "peak_30m_mm": 0.2
+        "peak_30m_mm": 0.2,
+        "official_rain_24h_mm": 10,
+        "official_rain_3d_mm": 29.6,
+        "official_rain_7d_mm": 51.9,
+        "official_station_count": 2,
+        "official_peak_station_24h_mm": 20
       },
       "review_state": "auto_published"
     },
@@ -773,14 +819,14 @@
       "area_type": "district",
       "name": "Ernakulam",
       "level": "Normal",
-      "score": 7.6,
-      "confidence": 0.4,
+      "score": 12.3,
+      "confidence": 0.5,
       "region": "central-coastal",
       "susceptibility": 0.4167676405333245,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 17.6,
-        "wetness_index": 5.2,
+        "score": 16.4,
+        "wetness_index": 1.9,
         "trigger_index": 6.3,
         "susceptibility_index": 41.7,
         "label": "low"
@@ -792,32 +838,35 @@
         "roughness_mean": 4.42897,
         "dem_normalized": 0.2
       },
-      "valid_from": "2026-05-20T11:53:14.506Z",
-      "valid_to": "2026-05-20T17:53:14.506Z",
+      "valid_from": "2026-05-20T12:08:12.822Z",
+      "valid_to": "2026-05-20T18:08:12.822Z",
       "drivers": [
-        "Observed 24h rain 2 mm and 1h rain 0 mm",
-        "Rainfall aggregation district_polygon_mean",
+        "Observed 24h rain 0 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 0 mm from 5 stations",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
         "RainViewer nowcast light (10 dBZ)",
-        "Runoff potential low (wetness 5.2, trigger 6.3)",
-        "Terrain susceptibility 42% from NASADEM + local baseline"
+        "Runoff potential low (wetness 1.9, trigger 6.3)",
+        "Terrain susceptibility 42% from NASADEM + local baseline",
+        "Reservoir caution active",
+        "Dam downstream caution active"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 3014,
+          "freshness_minutes": 3029,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "ERNAKULAM : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-05-18",
-          "freshness_minutes": 3923,
+          "freshness_minutes": 3938,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "ERNAKULAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-05-18 1600 Hrs Valid upto: 1900 Hrs",
-          "freshness_minutes": 2963,
+          "freshness_minutes": 2978,
           "status": "offline"
         },
         {
@@ -828,52 +877,58 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Official rainfall available from 5 stations",
+          "freshness_minutes": 548,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near district",
-          "freshness_minutes": 3,
+          "freshness_minutes": 18,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 578,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.07 m across 5 stations",
-          "freshness_minutes": 3143,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 5 stations",
+          "freshness_minutes": 278,
+          "status": "stale"
         }
       ],
       "rainfall": {
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 2,
-        "rain_3d_mm": 28.1,
-        "rain_7d_mm": 60.1,
-        "source": "nasa-imerg-pps",
+        "rain_24h_mm": 0,
+        "rain_3d_mm": 7.4,
+        "rain_7d_mm": 28.7,
+        "source": "nasa-imerg-pps+indiawris-cwc",
         "source_ids": [
-          "nasa-imerg-nrt"
+          "nasa-imerg-nrt",
+          "indiawris-rainfall"
         ],
         "short_duration_source_ids": [
           "nasa-imerg-nrt"
         ],
         "daily_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
         "antecedent_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
-        "spatial_aggregation": "district_polygon_mean",
+        "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 21,
-        "peak_30m_mm": 0
+        "peak_30m_mm": 0,
+        "official_rain_24h_mm": 0,
+        "official_rain_3d_mm": 7.4,
+        "official_rain_7d_mm": 28.7,
+        "official_station_count": 5,
+        "official_peak_station_24h_mm": 0
       },
       "review_state": "auto_published"
     },
@@ -882,14 +937,14 @@
       "area_type": "district",
       "name": "Idukki",
       "level": "Normal",
-      "score": 11.9,
-      "confidence": 0.4,
+      "score": 12.8,
+      "confidence": 0.5,
       "region": "high-range",
       "susceptibility": 0.964,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 32.9,
-        "wetness_index": 3.3,
+        "score": 32.3,
+        "wetness_index": 1.6,
         "trigger_index": 0,
         "susceptibility_index": 96.4,
         "label": "guarded"
@@ -901,31 +956,35 @@
         "roughness_mean": 13.95467,
         "dem_normalized": 1
       },
-      "valid_from": "2026-05-20T11:53:14.506Z",
-      "valid_to": "2026-05-20T17:53:14.506Z",
+      "valid_from": "2026-05-20T12:08:12.822Z",
+      "valid_to": "2026-05-20T18:08:12.822Z",
       "drivers": [
-        "Observed 24h rain 1.5 mm and 1h rain 0 mm",
-        "Rainfall aggregation district_polygon_mean",
-        "Runoff potential guarded (wetness 3.3, trigger 0)",
-        "Terrain susceptibility 96% from NASADEM + local baseline"
+        "Observed 24h rain 2.8 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 2.8 mm from 3 stations",
+        "Peak India-WRIS station 24h rainfall 4.6 mm",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "Runoff potential guarded (wetness 1.6, trigger 0)",
+        "Terrain susceptibility 96% from NASADEM + local baseline",
+        "Reservoir caution active",
+        "Dam downstream caution active"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 3014,
+          "freshness_minutes": 3029,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "IDUKKI : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-05-18",
-          "freshness_minutes": 3923,
+          "freshness_minutes": 3938,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "IDUKKI Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-05-18 1600 Hrs Valid upto: 1900 Hrs",
-          "freshness_minutes": 2963,
+          "freshness_minutes": 2978,
           "status": "offline"
         },
         {
@@ -936,52 +995,58 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Official rainfall available from 3 stations",
+          "freshness_minutes": 548,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 3,
+          "freshness_minutes": 18,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 578,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.03 m across 4 stations",
-          "freshness_minutes": 3143,
-          "status": "offline"
+          "detail": "CWC flood forecasting observed river rise 0.96 m across 4 stations",
+          "freshness_minutes": 278,
+          "status": "stale"
         }
       ],
       "rainfall": {
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 1.5,
-        "rain_3d_mm": 18.1,
-        "rain_7d_mm": 36.3,
-        "source": "nasa-imerg-pps",
+        "rain_24h_mm": 2.8,
+        "rain_3d_mm": 6,
+        "rain_7d_mm": 21.2,
+        "source": "nasa-imerg-pps+indiawris-cwc",
         "source_ids": [
-          "nasa-imerg-nrt"
+          "nasa-imerg-nrt",
+          "indiawris-rainfall"
         ],
         "short_duration_source_ids": [
           "nasa-imerg-nrt"
         ],
         "daily_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
         "antecedent_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
-        "spatial_aggregation": "district_polygon_mean",
+        "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 41,
-        "peak_30m_mm": 0
+        "peak_30m_mm": 0,
+        "official_rain_24h_mm": 2.8,
+        "official_rain_3d_mm": 6,
+        "official_rain_7d_mm": 21.2,
+        "official_station_count": 3,
+        "official_peak_station_24h_mm": 4.6
       },
       "review_state": "auto_published"
     },
@@ -990,14 +1055,14 @@
       "area_type": "district",
       "name": "Kottayam",
       "level": "Normal",
-      "score": 6.3,
-      "confidence": 0.4,
+      "score": 6,
+      "confidence": 0.5,
       "region": "central",
       "susceptibility": 0.4992972512402114,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 17.6,
-        "wetness_index": 3.1,
+        "score": 16.6,
+        "wetness_index": 0.4,
         "trigger_index": 0.1,
         "susceptibility_index": 49.9,
         "label": "low"
@@ -1009,32 +1074,33 @@
         "roughness_mean": 6.439277,
         "dem_normalized": 0.4
       },
-      "valid_from": "2026-05-20T11:53:14.506Z",
-      "valid_to": "2026-05-20T17:53:14.506Z",
+      "valid_from": "2026-05-20T12:08:12.822Z",
+      "valid_to": "2026-05-20T18:08:12.822Z",
       "drivers": [
-        "Observed 24h rain 1.6 mm and 1h rain 0 mm",
+        "Observed 24h rain 0 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 0 mm from 2 stations",
         "Peak recent 30 min rain 0.1 mm",
-        "Rainfall aggregation district_polygon_mean",
-        "Runoff potential low (wetness 3.1, trigger 0.1)",
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "Runoff potential low (wetness 0.4, trigger 0.1)",
         "Terrain susceptibility 50% from NASADEM + local baseline"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 3014,
+          "freshness_minutes": 3029,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "KOTTAYAM : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-05-18",
-          "freshness_minutes": 3923,
+          "freshness_minutes": 3938,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "KOTTAYAM Light rain:",
-          "freshness_minutes": 2843,
+          "freshness_minutes": 2858,
           "status": "offline"
         },
         {
@@ -1045,52 +1111,58 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Official rainfall available from 2 stations",
+          "freshness_minutes": 548,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 3,
+          "freshness_minutes": 18,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 578,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.04 m across 4 stations",
-          "freshness_minutes": 3143,
-          "status": "offline"
+          "detail": "CWC flood forecasting observed river rise 0.01 m across 4 stations",
+          "freshness_minutes": 278,
+          "status": "stale"
         }
       ],
       "rainfall": {
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 1.6,
-        "rain_3d_mm": 12.4,
-        "rain_7d_mm": 45.5,
-        "source": "nasa-imerg-pps",
+        "rain_24h_mm": 0,
+        "rain_3d_mm": 1.8,
+        "rain_7d_mm": 4.9,
+        "source": "nasa-imerg-pps+indiawris-cwc",
         "source_ids": [
-          "nasa-imerg-nrt"
+          "nasa-imerg-nrt",
+          "indiawris-rainfall"
         ],
         "short_duration_source_ids": [
           "nasa-imerg-nrt"
         ],
         "daily_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
         "antecedent_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
-        "spatial_aggregation": "district_polygon_mean",
+        "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 16,
-        "peak_30m_mm": 0.1
+        "peak_30m_mm": 0.1,
+        "official_rain_24h_mm": 0,
+        "official_rain_3d_mm": 1.8,
+        "official_rain_7d_mm": 4.9,
+        "official_station_count": 2,
+        "official_peak_station_24h_mm": 0
       },
       "review_state": "auto_published"
     },
@@ -1100,7 +1172,7 @@
       "name": "Alappuzha",
       "level": "Normal",
       "score": 4.2,
-      "confidence": 0.4,
+      "confidence": 0.5,
       "region": "coastal-lowland",
       "susceptibility": 0.3161867262061899,
       "terrain_model": "nasadem_blended",
@@ -1118,8 +1190,8 @@
         "roughness_mean": 1.791728,
         "dem_normalized": 0.1
       },
-      "valid_from": "2026-05-20T11:53:14.506Z",
-      "valid_to": "2026-05-20T17:53:14.506Z",
+      "valid_from": "2026-05-20T12:08:12.822Z",
+      "valid_to": "2026-05-20T18:08:12.822Z",
       "drivers": [
         "Observed 24h rain 1 mm and 1h rain 0 mm",
         "Rainfall aggregation district_polygon_mean",
@@ -1130,19 +1202,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 3014,
+          "freshness_minutes": 3029,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "ALAPPUZHA : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-05-18",
-          "freshness_minutes": 3923,
+          "freshness_minutes": 3938,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "ALAPPUZHA Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-05-18 1700 Hrs Valid upto: 1900 Hrs",
-          "freshness_minutes": 2903,
+          "freshness_minutes": 2918,
           "status": "offline"
         },
         {
@@ -1154,26 +1226,26 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 548,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 3,
+          "freshness_minutes": 18,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 578,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": 3143,
-          "status": "offline"
+          "freshness_minutes": 278,
+          "status": "stale"
         }
       ],
       "rainfall": {
@@ -1207,14 +1279,14 @@
       "area_type": "district",
       "name": "Pathanamthitta",
       "level": "Normal",
-      "score": 10.2,
-      "confidence": 0.4,
+      "score": 11.1,
+      "confidence": 0.5,
       "region": "ghat-to-river",
       "susceptibility": 0.8256959994272752,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 28.1,
-        "wetness_index": 2.3,
+        "score": 27.6,
+        "wetness_index": 0.8,
         "trigger_index": 0.1,
         "susceptibility_index": 82.6,
         "label": "guarded"
@@ -1226,32 +1298,35 @@
         "roughness_mean": 11.31176,
         "dem_normalized": 0.8
       },
-      "valid_from": "2026-05-20T11:53:14.506Z",
-      "valid_to": "2026-05-20T17:53:14.506Z",
+      "valid_from": "2026-05-20T12:08:12.822Z",
+      "valid_to": "2026-05-20T18:08:12.822Z",
       "drivers": [
-        "Observed 24h rain 2 mm and 1h rain 0 mm",
+        "Observed 24h rain 0.9 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 0.9 mm from 4 stations",
+        "Peak India-WRIS station 24h rainfall 3.6 mm",
         "Peak recent 30 min rain 0.1 mm",
-        "Rainfall aggregation district_polygon_mean",
-        "Runoff potential guarded (wetness 2.3, trigger 0.1)",
-        "Terrain susceptibility 83% from NASADEM + local baseline"
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "Runoff potential guarded (wetness 0.8, trigger 0.1)",
+        "Terrain susceptibility 83% from NASADEM + local baseline",
+        "Reservoir caution active"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 3014,
+          "freshness_minutes": 3029,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "PATHANAMTHITTA : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-05-18",
-          "freshness_minutes": 3923,
+          "freshness_minutes": 3938,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "PATHANAMTHITTA Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-05-18 1600 Hrs Valid upto: 1900 Hrs",
-          "freshness_minutes": 2963,
+          "freshness_minutes": 2978,
           "status": "offline"
         },
         {
@@ -1262,52 +1337,58 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Official rainfall available from 4 stations",
+          "freshness_minutes": 548,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 3,
+          "freshness_minutes": 18,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 578,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.02 m across 4 stations",
-          "freshness_minutes": 3143,
-          "status": "offline"
+          "detail": "CWC flood forecasting observed river rise 0.06 m across 4 stations",
+          "freshness_minutes": 278,
+          "status": "stale"
         }
       ],
       "rainfall": {
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 2,
-        "rain_3d_mm": 10.5,
-        "rain_7d_mm": 29.1,
-        "source": "nasa-imerg-pps",
+        "rain_24h_mm": 0.9,
+        "rain_3d_mm": 2.5,
+        "rain_7d_mm": 13,
+        "source": "nasa-imerg-pps+indiawris-cwc",
         "source_ids": [
-          "nasa-imerg-nrt"
+          "nasa-imerg-nrt",
+          "indiawris-rainfall"
         ],
         "short_duration_source_ids": [
           "nasa-imerg-nrt"
         ],
         "daily_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
         "antecedent_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
-        "spatial_aggregation": "district_polygon_mean",
+        "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 22,
-        "peak_30m_mm": 0.1
+        "peak_30m_mm": 0.1,
+        "official_rain_24h_mm": 0.9,
+        "official_rain_3d_mm": 2.5,
+        "official_rain_7d_mm": 13,
+        "official_station_count": 4,
+        "official_peak_station_24h_mm": 3.6
       },
       "review_state": "auto_published"
     },
@@ -1316,14 +1397,14 @@
       "area_type": "district",
       "name": "Kollam",
       "level": "Normal",
-      "score": 6.9,
-      "confidence": 0.4,
+      "score": 7.9,
+      "confidence": 0.5,
       "region": "south",
       "susceptibility": 0.546144448116304,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 19.1,
-        "wetness_index": 2.9,
+        "score": 18.8,
+        "wetness_index": 2,
         "trigger_index": 0.2,
         "susceptibility_index": 54.6,
         "label": "low"
@@ -1335,32 +1416,35 @@
         "roughness_mean": 7.522414,
         "dem_normalized": 0.5
       },
-      "valid_from": "2026-05-20T11:53:14.506Z",
-      "valid_to": "2026-05-20T17:53:14.506Z",
+      "valid_from": "2026-05-20T12:08:12.822Z",
+      "valid_to": "2026-05-20T18:08:12.822Z",
       "drivers": [
-        "Observed 24h rain 2.2 mm and 1h rain 0 mm",
+        "Observed 24h rain 4.3 mm and 1h rain 0 mm",
+        "India-WRIS official 24h rainfall 4.3 mm from 3 stations",
+        "Peak India-WRIS station 24h rainfall 8.4 mm",
         "Peak recent 30 min rain 0.2 mm",
-        "Rainfall aggregation district_polygon_mean",
-        "Runoff potential low (wetness 2.9, trigger 0.2)",
-        "Terrain susceptibility 55% from NASADEM + local baseline"
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "Runoff potential low (wetness 2, trigger 0.2)",
+        "Terrain susceptibility 55% from NASADEM + local baseline",
+        "Dam downstream caution active"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 3014,
+          "freshness_minutes": 3029,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "KOLLAM : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-05-18",
-          "freshness_minutes": 3923,
+          "freshness_minutes": 3938,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "KOLLAM Light rain:",
-          "freshness_minutes": 2843,
+          "freshness_minutes": 2858,
           "status": "offline"
         },
         {
@@ -1371,52 +1455,58 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Official rainfall available from 3 stations",
+          "freshness_minutes": 548,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 3,
+          "freshness_minutes": 18,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 578,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.02 m across 3 stations",
-          "freshness_minutes": 3143,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 3 stations",
+          "freshness_minutes": 278,
+          "status": "stale"
         }
       ],
       "rainfall": {
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 2.2,
-        "rain_3d_mm": 9.5,
-        "rain_7d_mm": 47.9,
-        "source": "nasa-imerg-pps",
+        "rain_24h_mm": 4.3,
+        "rain_3d_mm": 8.4,
+        "rain_7d_mm": 25.3,
+        "source": "nasa-imerg-pps+indiawris-cwc",
         "source_ids": [
-          "nasa-imerg-nrt"
+          "nasa-imerg-nrt",
+          "indiawris-rainfall"
         ],
         "short_duration_source_ids": [
           "nasa-imerg-nrt"
         ],
         "daily_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
         "antecedent_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
-        "spatial_aggregation": "district_polygon_mean",
+        "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 22,
-        "peak_30m_mm": 0.2
+        "peak_30m_mm": 0.2,
+        "official_rain_24h_mm": 4.3,
+        "official_rain_3d_mm": 8.4,
+        "official_rain_7d_mm": 25.3,
+        "official_station_count": 3,
+        "official_peak_station_24h_mm": 8.4
       },
       "review_state": "auto_published"
     },
@@ -1425,14 +1515,14 @@
       "area_type": "district",
       "name": "Thiruvananthapuram",
       "level": "Normal",
-      "score": 6.7,
-      "confidence": 0.4,
+      "score": 7.7,
+      "confidence": 0.5,
       "region": "south-coastal",
       "susceptibility": 0.5228924574818898,
       "terrain_model": "nasadem_blended",
       "runoff_potential": {
-        "score": 18.6,
-        "wetness_index": 3.1,
+        "score": 18.5,
+        "wetness_index": 3,
         "trigger_index": 0.8,
         "susceptibility_index": 52.3,
         "label": "low"
@@ -1444,32 +1534,35 @@
         "roughness_mean": 6.988385,
         "dem_normalized": 0.5
       },
-      "valid_from": "2026-05-20T11:53:14.506Z",
-      "valid_to": "2026-05-20T17:53:14.506Z",
+      "valid_from": "2026-05-20T12:08:12.822Z",
+      "valid_to": "2026-05-20T18:08:12.822Z",
       "drivers": [
-        "Observed 24h rain 5.3 mm and 1h rain 0.2 mm",
+        "Observed 24h rain 6.4 mm and 1h rain 0.2 mm",
+        "India-WRIS official 24h rainfall 6.4 mm from 2 stations",
+        "Peak India-WRIS station 24h rainfall 12.2 mm",
         "Peak recent 30 min rain 0.7 mm",
-        "Rainfall aggregation district_polygon_mean",
-        "Runoff potential low (wetness 3.1, trigger 0.8)",
-        "Terrain susceptibility 52% from NASADEM + local baseline"
+        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "Runoff potential low (wetness 3, trigger 0.8)",
+        "Terrain susceptibility 52% from NASADEM + local baseline",
+        "Dam downstream caution active"
       ],
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 3014,
+          "freshness_minutes": 3029,
           "status": "offline"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "THIRUVANANTHAPURAM : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-05-18",
-          "freshness_minutes": 3923,
+          "freshness_minutes": 3938,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
           "detail": "THIRUVANANTHAPURAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-05-18 1800 Hrs Valid upto: 1900 Hrs",
-          "freshness_minutes": 2843,
+          "freshness_minutes": 2858,
           "status": "offline"
         },
         {
@@ -1480,52 +1573,58 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "detail": "Official rainfall available from 2 stations",
+          "freshness_minutes": 548,
+          "status": "ok"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near district",
-          "freshness_minutes": 3,
+          "freshness_minutes": 18,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": null,
-          "status": "offline"
+          "freshness_minutes": 578,
+          "status": "ok"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.07 m across 3 stations",
-          "freshness_minutes": 3143,
-          "status": "offline"
+          "detail": "CWC flood forecasting observed river rise 0.18 m across 3 stations",
+          "freshness_minutes": 278,
+          "status": "stale"
         }
       ],
       "rainfall": {
         "rain_1h_mm": 0.2,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 5.3,
-        "rain_3d_mm": 13.6,
-        "rain_7d_mm": 38.1,
-        "source": "nasa-imerg-pps",
+        "rain_24h_mm": 6.4,
+        "rain_3d_mm": 16.4,
+        "rain_7d_mm": 26.3,
+        "source": "nasa-imerg-pps+indiawris-cwc",
         "source_ids": [
-          "nasa-imerg-nrt"
+          "nasa-imerg-nrt",
+          "indiawris-rainfall"
         ],
         "short_duration_source_ids": [
           "nasa-imerg-nrt"
         ],
         "daily_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
         "antecedent_source_ids": [
-          "nasa-imerg-nrt"
+          "indiawris-rainfall"
         ],
-        "spatial_aggregation": "district_polygon_mean",
+        "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 18,
-        "peak_30m_mm": 0.7
+        "peak_30m_mm": 0.7,
+        "official_rain_24h_mm": 6.4,
+        "official_rain_3d_mm": 16.4,
+        "official_rain_7d_mm": 26.3,
+        "official_station_count": 2,
+        "official_peak_station_24h_mm": 12.2
       },
       "review_state": "auto_published"
     }
