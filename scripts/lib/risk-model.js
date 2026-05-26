@@ -218,6 +218,29 @@ function hasFlashFloodRainTrigger(observation, category = null) {
   );
 }
 
+function hasShortFuseRainTrigger(observation, category = null) {
+  if (!observation) {
+    return false;
+  }
+
+  const sensitiveCategory = ["steep_catchment", "urban_flood_pocket"].includes(category);
+  const lowlandCategory = ["low_lying_basin", "river_floodplain", "river_confluence"].includes(category);
+  const thresholds = sensitiveCategory
+    ? { peak30m: 6, oneHour: 12, threeHour: 30, sixHour: 50 }
+    : lowlandCategory
+      ? { peak30m: 8, oneHour: 15, threeHour: 35, sixHour: 60 }
+      : { peak30m: 8, oneHour: 15, threeHour: 35, sixHour: 60 };
+
+  const wetnessMultiplier = hasAntecedentSupport(observation) ? 0.75 : 1;
+
+  return (
+    (observation.peak_30m_mm ?? 0) >= thresholds.peak30m * wetnessMultiplier ||
+    (observation.rain_1h_mm ?? 0) >= thresholds.oneHour * wetnessMultiplier ||
+    (observation.rain_3h_mm ?? 0) >= thresholds.threeHour * wetnessMultiplier ||
+    (observation.rain_6h_mm ?? 0) >= thresholds.sixHour * wetnessMultiplier
+  );
+}
+
 function hasAntecedentSupport(observation) {
   if (!observation) {
     return false;
@@ -272,6 +295,10 @@ function hasHydrologyThresholdSupport(cwc) {
   return thresholdTriggered && effectiveSeverity(cwc) >= 0.2;
 }
 
+function isFreshEnoughForPromotion(signal) {
+  return (signal?.source_weight ?? 1) >= 0.6;
+}
+
 function hasOperationalDamSupport(reservoir, dam) {
   return effectiveSeverity(reservoir) >= 0.32 || effectiveSeverity(dam) >= 0.32;
 }
@@ -281,6 +308,14 @@ function hasStrongOperationalDamSupport(reservoir, dam) {
 }
 
 function hasLocalFloodWeatherSupport(observation, radar, stationNowcast, category = null) {
+  if (category === "dam_downstream") {
+    return (
+      hasShortFuseRainTrigger(observation, category) ||
+      hasFlashFloodRadarTrigger(radar, category) ||
+      effectiveSeverity(stationNowcast) >= 0.65
+    );
+  }
+
   return (
     hasFlashFloodRainTrigger(observation, category) ||
     hasFlashFloodRadarTrigger(radar, category) ||
@@ -411,20 +446,21 @@ function hasWatchSupport({
   const directOfficial = effectiveSeverity(bulletin) > 0.2 || effectiveSeverity(cap) >= 0.55;
   const directLocalOfficial = effectiveSeverity(stationNowcast) >= 0.55;
   const localFloodWeather = hasLocalFloodWeatherSupport(observation, radar, stationNowcast, category);
-  const actionableHydro = hasStrongHydrologySupport(cwc) || hasHydrologyThresholdSupport(cwc);
+  const freshHydrology = hasHydrologySupport(cwc) && isFreshEnoughForPromotion(cwc);
+  const actionableHydro =
+    isFreshEnoughForPromotion(cwc) &&
+    (hasStrongHydrologySupport(cwc) || hasHydrologyThresholdSupport(cwc));
   const districtWarningBacked =
     effectiveSeverity(districtWarning) > 0.2 &&
     (localFloodWeather || actionableHydro);
-  const hydro = hasHydrologySupport(cwc);
   const damOps = hasOperationalDamSupport(reservoir, dam);
-  const strongDamOps = hasStrongOperationalDamSupport(reservoir, dam);
   const runoffReady =
     (runoffPotential?.score ?? 0) >= runoffPotentialThreshold(category) &&
     (
       localFloodWeather ||
       directOfficial ||
       actionableHydro ||
-      strongDamOps ||
+      hasStrongOperationalDamSupport(reservoir, dam) ||
       (category !== "dam_downstream" && hasAntecedentSupport(observation))
     );
 
@@ -437,7 +473,7 @@ function hasWatchSupport({
         districtWarningBacked ||
         runoffReady ||
         actionableHydro ||
-        (hydro && localFloodWeather) ||
+        (freshHydrology && localFloodWeather) ||
         (damOps && localFloodWeather)
       );
     case "dam_downstream":
@@ -446,9 +482,8 @@ function hasWatchSupport({
         directLocalOfficial ||
         districtWarningBacked ||
         actionableHydro ||
-        strongDamOps ||
-        runoffReady ||
-        (hydro && localFloodWeather) ||
+        (runoffReady && localFloodWeather) ||
+        (freshHydrology && localFloodWeather) ||
         (damOps && localFloodWeather)
       );
     default:
@@ -456,9 +491,9 @@ function hasWatchSupport({
         directOfficial ||
         directLocalOfficial ||
         districtWarningBacked ||
-        hasStrongHydrologySupport(cwc) ||
+        actionableHydro ||
         runoffReady ||
-        (hydro && localFloodWeather) ||
+        (freshHydrology && localFloodWeather) ||
         (damOps && localFloodWeather)
       );
   }
@@ -783,10 +818,7 @@ export function buildRiskOutputs(context) {
     const districtTerrain = terrainByDistrict[hotspot.district_id];
     const hotspotSusceptibility = clamp(hotspot.susceptibility * 0.7 + districtTerrain.value * 0.3);
     const categoryBoost = hotspotCategoryBoost(hotspot.category);
-    const hotspotShortLeadSignal = combineSignals(
-      combineSignals(weightedRadar, districtModel?.nowcast),
-      weightedStationNowcast
-    );
+    const hotspotShortLeadSignal = combineSignals(weightedRadar, weightedStationNowcast);
     const runoffPotential = computeRunoffPotential({
       category: hotspot.category,
       observation: districtModel?.observation,
