@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-05-29T08:14:36.497Z",
+  "generated_at": "2026-05-29T08:39:13.526Z",
   "spatial_aggregation": "district_and_taluk_polygon_mean_with_district_fallback_points",
   "source_metadata": {
     "nasa_imerg": {
-      "issued_at": "2026-05-28T23:59:59.000Z",
-      "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260528-S233000-E235959.1410.V07C.30min.zip",
-      "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260528-S233000-E235959.1410.V07C.3hr.zip",
-      "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260528-S233000-E235959.1410.V07C.1day.zip"
+      "issued_at": "2026-05-29T03:59:59.000Z",
+      "latest_half_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260529-S033000-E035959.0210.V07C.30min.zip",
+      "latest_three_hour_file": "3B-HHR-E.MS.MRG.3IMERG.20260529-S023000-E025959.0150.V07C.3hr.zip",
+      "latest_daily_file": "3B-HHR-E.MS.MRG.3IMERG.20260529-S023000-E025959.0150.V07C.1day.zip"
     },
     "rainviewer_radar": {
-      "issued_at": "2026-05-29T04:50:00.000Z",
-      "latest_frame_time": "2026-05-29T04:50:00.000Z",
+      "issued_at": "2026-05-29T08:30:00.000Z",
+      "latest_frame_time": "2026-05-29T08:30:00.000Z",
       "hotspot_count": 20
     },
     "indiawris_rainfall": {
@@ -28,8 +28,8 @@
     "districts": {
       "kasaragod": {
         "rain_1h_mm": 0,
-        "rain_3h_mm": 0,
-        "rain_6h_mm": 0,
+        "rain_3h_mm": 0.1,
+        "rain_6h_mm": 0.1,
         "rain_24h_mm": 0,
         "rain_3d_mm": 0,
         "rain_7d_mm": 10.5,
@@ -59,7 +59,7 @@
       "kannur": {
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
-        "rain_6h_mm": 0.1,
+        "rain_6h_mm": 0,
         "rain_24h_mm": 0,
         "rain_3d_mm": 0,
         "rain_7d_mm": 0,
@@ -90,9 +90,9 @@
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 0.7,
-        "rain_3d_mm": 8,
-        "rain_7d_mm": 13.4,
+        "rain_24h_mm": 0.2,
+        "rain_3d_mm": 7.4,
+        "rain_7d_mm": 12.6,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -143,7 +143,7 @@
       "malappuram": {
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
-        "rain_6h_mm": 0.1,
+        "rain_6h_mm": 0,
         "rain_24h_mm": 0.6,
         "rain_3d_mm": 1,
         "rain_7d_mm": 1,
@@ -232,7 +232,7 @@
       },
       "ernakulam": {
         "rain_1h_mm": 0,
-        "rain_3h_mm": 0,
+        "rain_3h_mm": 0.1,
         "rain_6h_mm": 0.1,
         "rain_24h_mm": 4.7,
         "rain_3d_mm": 15.2,
@@ -321,12 +321,12 @@
         "official_peak_station_24h_mm": 4
       },
       "alappuzha": {
-        "rain_1h_mm": 0,
-        "rain_3h_mm": 0.6,
-        "rain_6h_mm": 0.8,
-        "rain_24h_mm": 16.3,
-        "rain_3d_mm": 34.7,
-        "rain_7d_mm": 98.8,
+        "rain_1h_mm": 0.1,
+        "rain_3h_mm": 0.3,
+        "rain_6h_mm": 0.9,
+        "rain_24h_mm": 13,
+        "rain_3d_mm": 32.9,
+        "rain_7d_mm": 79.7,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -342,12 +342,12 @@
         ],
         "spatial_aggregation": "district_polygon_mean",
         "cell_count": 13,
-        "peak_30m_mm": 0
+        "peak_30m_mm": 0.1
       },
       "pathanamthitta": {
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
-        "rain_6h_mm": 0,
+        "rain_6h_mm": 0.1,
         "rain_24h_mm": 0.5,
         "rain_3d_mm": 8.3,
         "rain_7d_mm": 15.8,
@@ -375,9 +375,9 @@
         "official_peak_station_24h_mm": 1.8
       },
       "kollam": {
-        "rain_1h_mm": 0.2,
-        "rain_3h_mm": 2.3,
-        "rain_6h_mm": 3.2,
+        "rain_1h_mm": 0.4,
+        "rain_3h_mm": 0.7,
+        "rain_6h_mm": 3,
         "rain_24h_mm": 1.9,
         "rain_3d_mm": 4.5,
         "rain_7d_mm": 16.3,
@@ -397,7 +397,7 @@
         ],
         "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 22,
-        "peak_30m_mm": 0.1,
+        "peak_30m_mm": 0.5,
         "official_rain_24h_mm": 1.9,
         "official_rain_3d_mm": 4.5,
         "official_rain_7d_mm": 16.3,
@@ -405,9 +405,9 @@
         "official_peak_station_24h_mm": 2.6
       },
       "thiruvananthapuram": {
-        "rain_1h_mm": 0.1,
-        "rain_3h_mm": 0.3,
-        "rain_6h_mm": 0.4,
+        "rain_1h_mm": 0.4,
+        "rain_3h_mm": 0.5,
+        "rain_6h_mm": 0.8,
         "rain_24h_mm": 2.7,
         "rain_3d_mm": 5,
         "rain_7d_mm": 8.6,
@@ -427,7 +427,7 @@
         ],
         "spatial_aggregation": "district_polygon_mean+indiawris_station_mean",
         "cell_count": 18,
-        "peak_30m_mm": 0.4,
+        "peak_30m_mm": 0.7,
         "official_rain_24h_mm": 2.7,
         "official_rain_3d_mm": 5,
         "official_rain_7d_mm": 8.6,
@@ -469,11 +469,11 @@
       },
       "kannur--taliparamba": {
         "rain_1h_mm": 0,
-        "rain_3h_mm": 0,
-        "rain_6h_mm": 0,
-        "rain_24h_mm": 2,
-        "rain_3d_mm": 8.6,
-        "rain_7d_mm": 12.3,
+        "rain_3h_mm": 0.2,
+        "rain_6h_mm": 0.2,
+        "rain_24h_mm": 3.7,
+        "rain_3d_mm": 10,
+        "rain_7d_mm": 13.1,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -494,11 +494,11 @@
       },
       "kannur--kannur": {
         "rain_1h_mm": 0,
-        "rain_3h_mm": 0,
-        "rain_6h_mm": 0,
-        "rain_24h_mm": 2,
-        "rain_3d_mm": 8.6,
-        "rain_7d_mm": 12.3,
+        "rain_3h_mm": 0.2,
+        "rain_6h_mm": 0.2,
+        "rain_24h_mm": 3.7,
+        "rain_3d_mm": 10,
+        "rain_7d_mm": 13.1,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -519,8 +519,8 @@
       },
       "kannur--thalassery": {
         "rain_1h_mm": 0,
-        "rain_3h_mm": 0,
-        "rain_6h_mm": 0,
+        "rain_3h_mm": 0.2,
+        "rain_6h_mm": 0.2,
         "rain_24h_mm": 0,
         "rain_3d_mm": 0,
         "rain_7d_mm": 0,
@@ -552,9 +552,9 @@
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 0.4,
-        "rain_3d_mm": 7.6,
-        "rain_7d_mm": 12.8,
+        "rain_24h_mm": 0,
+        "rain_3d_mm": 7.1,
+        "rain_7d_mm": 12.2,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -608,9 +608,9 @@
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 0.4,
-        "rain_3d_mm": 7.6,
-        "rain_7d_mm": 12.8,
+        "rain_24h_mm": 0,
+        "rain_3d_mm": 7.1,
+        "rain_7d_mm": 12.2,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -631,11 +631,11 @@
       },
       "ernakulam--aluva": {
         "rain_1h_mm": 0,
-        "rain_3h_mm": 0.1,
-        "rain_6h_mm": 0.1,
-        "rain_24h_mm": 4.7,
-        "rain_3d_mm": 36.8,
-        "rain_7d_mm": 113.2,
+        "rain_3h_mm": 0.7,
+        "rain_6h_mm": 0.8,
+        "rain_24h_mm": 3.5,
+        "rain_3d_mm": 34.3,
+        "rain_7d_mm": 101.1,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -658,9 +658,9 @@
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 0.4,
-        "rain_3d_mm": 7.6,
-        "rain_7d_mm": 12.8,
+        "rain_24h_mm": 0,
+        "rain_3d_mm": 7.1,
+        "rain_7d_mm": 12.2,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -680,12 +680,12 @@
         "peak_30m_mm": 0
       },
       "alappuzha--mavelikkara": {
-        "rain_1h_mm": 0.2,
-        "rain_3h_mm": 2.3,
-        "rain_6h_mm": 2.9,
-        "rain_24h_mm": 17.3,
-        "rain_3d_mm": 42.9,
-        "rain_7d_mm": 104,
+        "rain_1h_mm": 0,
+        "rain_3h_mm": 0.3,
+        "rain_6h_mm": 2.6,
+        "rain_24h_mm": 12.7,
+        "rain_3d_mm": 36.1,
+        "rain_7d_mm": 78.3,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -708,9 +708,9 @@
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 14.9,
-        "rain_3d_mm": 33.5,
-        "rain_7d_mm": 79.5,
+        "rain_24h_mm": 11.1,
+        "rain_3d_mm": 32.4,
+        "rain_7d_mm": 73.8,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -762,11 +762,11 @@
       },
       "ernakulam--paravur": {
         "rain_1h_mm": 0,
-        "rain_3h_mm": 0.1,
-        "rain_6h_mm": 0.1,
-        "rain_24h_mm": 4.7,
-        "rain_3d_mm": 36.8,
-        "rain_7d_mm": 113.2,
+        "rain_3h_mm": 0.7,
+        "rain_6h_mm": 0.8,
+        "rain_24h_mm": 3.5,
+        "rain_3d_mm": 34.3,
+        "rain_7d_mm": 101.1,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -787,11 +787,11 @@
       },
       "ernakulam--kochi": {
         "rain_1h_mm": 0,
-        "rain_3h_mm": 0.1,
-        "rain_6h_mm": 0.1,
-        "rain_24h_mm": 4.7,
-        "rain_3d_mm": 36.8,
-        "rain_7d_mm": 113.2,
+        "rain_3h_mm": 0.7,
+        "rain_6h_mm": 0.8,
+        "rain_24h_mm": 3.5,
+        "rain_3d_mm": 34.3,
+        "rain_7d_mm": 101.1,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -811,12 +811,12 @@
         "peak_30m_mm": 0
       },
       "alappuzha--cherthala": {
-        "rain_1h_mm": 0.2,
-        "rain_3h_mm": 2.3,
-        "rain_6h_mm": 2.9,
-        "rain_24h_mm": 17.3,
-        "rain_3d_mm": 42.9,
-        "rain_7d_mm": 104,
+        "rain_1h_mm": 0,
+        "rain_3h_mm": 0.3,
+        "rain_6h_mm": 2.6,
+        "rain_24h_mm": 12.7,
+        "rain_3d_mm": 36.1,
+        "rain_7d_mm": 78.3,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -870,9 +870,9 @@
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 22.5,
-        "rain_3d_mm": 40.6,
-        "rain_7d_mm": 82,
+        "rain_24h_mm": 17.3,
+        "rain_3d_mm": 38.8,
+        "rain_7d_mm": 68.2,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -927,8 +927,8 @@
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0.5,
-        "rain_3d_mm": 3.5,
-        "rain_7d_mm": 11.2,
+        "rain_3d_mm": 3.4,
+        "rain_7d_mm": 11.3,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -948,9 +948,9 @@
         "peak_30m_mm": 0
       },
       "kollam--pathanapuram": {
-        "rain_1h_mm": 0.8,
-        "rain_3h_mm": 9.5,
-        "rain_6h_mm": 12.9,
+        "rain_1h_mm": 1.4,
+        "rain_3h_mm": 5.1,
+        "rain_6h_mm": 14.6,
         "rain_24h_mm": 1.4,
         "rain_3d_mm": 7.2,
         "rain_7d_mm": 22.5,
@@ -979,12 +979,12 @@
         "official_peak_station_24h_mm": 1.4
       },
       "kollam--kunnathur": {
-        "rain_1h_mm": 0.8,
-        "rain_3h_mm": 9.5,
-        "rain_6h_mm": 12.9,
-        "rain_24h_mm": 22,
-        "rain_3d_mm": 24.4,
-        "rain_7d_mm": 59.7,
+        "rain_1h_mm": 1.4,
+        "rain_3h_mm": 5.1,
+        "rain_6h_mm": 14.6,
+        "rain_24h_mm": 28.6,
+        "rain_3d_mm": 31.9,
+        "rain_7d_mm": 65.9,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1004,12 +1004,12 @@
         "peak_30m_mm": 0.1
       },
       "thiruvananthapuram--thiruvananthapuram": {
-        "rain_1h_mm": 0.3,
-        "rain_3h_mm": 0.5,
-        "rain_6h_mm": 0.5,
-        "rain_24h_mm": 22.6,
-        "rain_3d_mm": 31.3,
-        "rain_7d_mm": 39,
+        "rain_1h_mm": 0.6,
+        "rain_3h_mm": 0.7,
+        "rain_6h_mm": 1.2,
+        "rain_24h_mm": 17.5,
+        "rain_3d_mm": 29.3,
+        "rain_7d_mm": 36.6,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1026,7 +1026,7 @@
         "district_id": "thiruvananthapuram",
         "spatial_aggregation": "taluk_representative_point",
         "cell_count": 1,
-        "peak_30m_mm": 0.2
+        "peak_30m_mm": 0.1
       },
       "pathanamthitta--ranni": {
         "rain_1h_mm": 0,
@@ -1093,10 +1093,10 @@
       "malappuram--tirur": {
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
-        "rain_6h_mm": 0.2,
-        "rain_24h_mm": 5.8,
-        "rain_3d_mm": 11.1,
-        "rain_7d_mm": 23.6,
+        "rain_6h_mm": 0,
+        "rain_24h_mm": 5,
+        "rain_3d_mm": 10.9,
+        "rain_7d_mm": 17.9,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1120,8 +1120,8 @@
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0,
-        "rain_3d_mm": 0.7,
-        "rain_7d_mm": 32.8,
+        "rain_3d_mm": 0.5,
+        "rain_7d_mm": 32.3,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1143,7 +1143,7 @@
       "malappuram--ponnani": {
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
-        "rain_6h_mm": 0.2,
+        "rain_6h_mm": 0,
         "rain_24h_mm": 3.2,
         "rain_3d_mm": 4.8,
         "rain_7d_mm": 4.8,
@@ -1176,8 +1176,8 @@
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0.5,
-        "rain_3d_mm": 3.5,
-        "rain_7d_mm": 11.2,
+        "rain_3d_mm": 3.4,
+        "rain_7d_mm": 11.3,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1198,8 +1198,8 @@
       },
       "ernakulam--kothamangalam": {
         "rain_1h_mm": 0,
-        "rain_3h_mm": 0.1,
-        "rain_6h_mm": 0.1,
+        "rain_3h_mm": 0.7,
+        "rain_6h_mm": 0.8,
         "rain_24h_mm": 0,
         "rain_3d_mm": 5.6,
         "rain_7d_mm": 17.7,
@@ -1229,11 +1229,11 @@
       },
       "ernakulam--kanayannur": {
         "rain_1h_mm": 0,
-        "rain_3h_mm": 0.1,
-        "rain_6h_mm": 0.1,
-        "rain_24h_mm": 4.7,
-        "rain_3d_mm": 36.8,
-        "rain_7d_mm": 113.2,
+        "rain_3h_mm": 0.7,
+        "rain_6h_mm": 0.8,
+        "rain_24h_mm": 3.5,
+        "rain_3d_mm": 34.3,
+        "rain_7d_mm": 101.1,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1257,8 +1257,8 @@
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0.5,
-        "rain_3d_mm": 6.8,
-        "rain_7d_mm": 25.9,
+        "rain_3d_mm": 5.6,
+        "rain_7d_mm": 24.2,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1278,12 +1278,12 @@
         "peak_30m_mm": 0
       },
       "kollam--karunagappally": {
-        "rain_1h_mm": 0.8,
-        "rain_3h_mm": 9.5,
-        "rain_6h_mm": 12.9,
-        "rain_24h_mm": 22,
-        "rain_3d_mm": 24.4,
-        "rain_7d_mm": 59.7,
+        "rain_1h_mm": 1.4,
+        "rain_3h_mm": 5.1,
+        "rain_6h_mm": 14.6,
+        "rain_24h_mm": 28.6,
+        "rain_3d_mm": 31.9,
+        "rain_7d_mm": 65.9,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1334,9 +1334,9 @@
         "official_peak_station_24h_mm": 4
       },
       "thiruvananthapuram--neyyattinkara": {
-        "rain_1h_mm": 0.3,
-        "rain_3h_mm": 0.5,
-        "rain_6h_mm": 0.5,
+        "rain_1h_mm": 0.6,
+        "rain_3h_mm": 0.7,
+        "rain_6h_mm": 1.2,
         "rain_24h_mm": 3.6,
         "rain_3d_mm": 3.6,
         "rain_7d_mm": 6.3,
@@ -1357,7 +1357,7 @@
         "district_id": "thiruvananthapuram",
         "spatial_aggregation": "taluk_representative_point+indiawris_station_mean",
         "cell_count": 1,
-        "peak_30m_mm": 0.2,
+        "peak_30m_mm": 0.1,
         "official_rain_24h_mm": 3.6,
         "official_rain_3d_mm": 3.6,
         "official_rain_7d_mm": 6.3,
@@ -1396,9 +1396,9 @@
         "official_peak_station_24h_mm": 1.8
       },
       "kollam--kottarakkara": {
-        "rain_1h_mm": 0.8,
-        "rain_3h_mm": 9.5,
-        "rain_6h_mm": 12.9,
+        "rain_1h_mm": 1.4,
+        "rain_3h_mm": 5.1,
+        "rain_6h_mm": 14.6,
         "rain_24h_mm": 2.1,
         "rain_3d_mm": 3.2,
         "rain_7d_mm": 13.3,
@@ -1427,12 +1427,12 @@
         "official_peak_station_24h_mm": 2.6
       },
       "kollam--kollam": {
-        "rain_1h_mm": 0.8,
-        "rain_3h_mm": 9.5,
-        "rain_6h_mm": 12.9,
-        "rain_24h_mm": 22,
-        "rain_3d_mm": 24.4,
-        "rain_7d_mm": 59.7,
+        "rain_1h_mm": 1.4,
+        "rain_3h_mm": 5.1,
+        "rain_6h_mm": 14.6,
+        "rain_24h_mm": 28.6,
+        "rain_3d_mm": 31.9,
+        "rain_7d_mm": 65.9,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1455,9 +1455,9 @@
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 14.9,
-        "rain_3d_mm": 33.5,
-        "rain_7d_mm": 79.5,
+        "rain_24h_mm": 11.1,
+        "rain_3d_mm": 32.4,
+        "rain_7d_mm": 73.8,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1479,7 +1479,7 @@
       "malappuram--ernad": {
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
-        "rain_6h_mm": 0.2,
+        "rain_6h_mm": 0,
         "rain_24h_mm": 0,
         "rain_3d_mm": 0,
         "rain_7d_mm": 0,
@@ -1510,10 +1510,10 @@
       "malappuram--perinthalmanna": {
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
-        "rain_6h_mm": 0.2,
-        "rain_24h_mm": 5.8,
-        "rain_3d_mm": 11.1,
-        "rain_7d_mm": 23.6,
+        "rain_6h_mm": 0,
+        "rain_24h_mm": 5,
+        "rain_3d_mm": 10.9,
+        "rain_7d_mm": 17.9,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1537,8 +1537,8 @@
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0,
-        "rain_3d_mm": 0.7,
-        "rain_7d_mm": 32.8,
+        "rain_3d_mm": 0.5,
+        "rain_7d_mm": 32.3,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1562,8 +1562,8 @@
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0.5,
-        "rain_3d_mm": 3.5,
-        "rain_7d_mm": 11.2,
+        "rain_3d_mm": 3.4,
+        "rain_7d_mm": 11.3,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1615,8 +1615,8 @@
       },
       "ernakulam--muvattupuzha": {
         "rain_1h_mm": 0,
-        "rain_3h_mm": 0.1,
-        "rain_6h_mm": 0.1,
+        "rain_3h_mm": 0.7,
+        "rain_6h_mm": 0.8,
         "rain_24h_mm": 11.6,
         "rain_3d_mm": 21.1,
         "rain_7d_mm": 37.4,
@@ -1679,9 +1679,9 @@
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 22.5,
-        "rain_3d_mm": 40.6,
-        "rain_7d_mm": 82,
+        "rain_24h_mm": 17.3,
+        "rain_3d_mm": 38.8,
+        "rain_7d_mm": 68.2,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1704,9 +1704,9 @@
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 22.5,
-        "rain_3d_mm": 40.6,
-        "rain_7d_mm": 82,
+        "rain_24h_mm": 17.3,
+        "rain_3d_mm": 38.8,
+        "rain_7d_mm": 68.2,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1727,8 +1727,8 @@
       },
       "ernakulam--kunnathunad": {
         "rain_1h_mm": 0,
-        "rain_3h_mm": 0.1,
-        "rain_6h_mm": 0.1,
+        "rain_3h_mm": 0.7,
+        "rain_6h_mm": 0.8,
         "rain_24h_mm": 0.4,
         "rain_3d_mm": 19.6,
         "rain_7d_mm": 86.5,
@@ -1757,12 +1757,12 @@
         "official_peak_station_24h_mm": 0.4
       },
       "alappuzha--karthikappally": {
-        "rain_1h_mm": 0.2,
-        "rain_3h_mm": 2.3,
-        "rain_6h_mm": 2.9,
-        "rain_24h_mm": 17.3,
-        "rain_3d_mm": 42.9,
-        "rain_7d_mm": 104,
+        "rain_1h_mm": 0,
+        "rain_3h_mm": 0.3,
+        "rain_6h_mm": 2.6,
+        "rain_24h_mm": 12.7,
+        "rain_3d_mm": 36.1,
+        "rain_7d_mm": 78.3,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1782,9 +1782,9 @@
         "peak_30m_mm": 0
       },
       "thiruvananthapuram--chirayinkeezhu": {
-        "rain_1h_mm": 0.3,
-        "rain_3h_mm": 0.5,
-        "rain_6h_mm": 0.5,
+        "rain_1h_mm": 0.6,
+        "rain_3h_mm": 0.7,
+        "rain_6h_mm": 1.2,
         "rain_24h_mm": 0.8,
         "rain_3d_mm": 7.9,
         "rain_7d_mm": 12,
@@ -1805,7 +1805,7 @@
         "district_id": "thiruvananthapuram",
         "spatial_aggregation": "taluk_representative_point+indiawris_station_mean",
         "cell_count": 1,
-        "peak_30m_mm": 0.2,
+        "peak_30m_mm": 0.1,
         "official_rain_24h_mm": 0.8,
         "official_rain_3d_mm": 7.9,
         "official_rain_7d_mm": 12,
@@ -1844,12 +1844,12 @@
         "official_peak_station_24h_mm": 0
       },
       "alappuzha--chengannur": {
-        "rain_1h_mm": 0.2,
-        "rain_3h_mm": 2.3,
-        "rain_6h_mm": 2.9,
-        "rain_24h_mm": 17.3,
-        "rain_3d_mm": 42.9,
-        "rain_7d_mm": 104,
+        "rain_1h_mm": 0,
+        "rain_3h_mm": 0.3,
+        "rain_6h_mm": 2.6,
+        "rain_24h_mm": 12.7,
+        "rain_3d_mm": 36.1,
+        "rain_7d_mm": 78.3,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1873,8 +1873,8 @@
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0.5,
-        "rain_3d_mm": 3.5,
-        "rain_7d_mm": 11.2,
+        "rain_3d_mm": 3.4,
+        "rain_7d_mm": 11.3,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1925,12 +1925,12 @@
         "official_peak_station_24h_mm": 0
       },
       "alappuzha--ambalappuzha": {
-        "rain_1h_mm": 0.2,
-        "rain_3h_mm": 2.3,
-        "rain_6h_mm": 2.9,
-        "rain_24h_mm": 17.3,
-        "rain_3d_mm": 42.9,
-        "rain_7d_mm": 104,
+        "rain_1h_mm": 0,
+        "rain_3h_mm": 0.3,
+        "rain_6h_mm": 2.6,
+        "rain_24h_mm": 12.7,
+        "rain_3d_mm": 36.1,
+        "rain_7d_mm": 78.3,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1953,9 +1953,9 @@
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 22.5,
-        "rain_3d_mm": 40.6,
-        "rain_7d_mm": 82,
+        "rain_24h_mm": 17.3,
+        "rain_3d_mm": 38.8,
+        "rain_7d_mm": 68.2,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -1975,12 +1975,12 @@
         "peak_30m_mm": 0
       },
       "alappuzha--kuttanad": {
-        "rain_1h_mm": 0.2,
-        "rain_3h_mm": 2.3,
-        "rain_6h_mm": 2.9,
-        "rain_24h_mm": 17.3,
-        "rain_3d_mm": 42.9,
-        "rain_7d_mm": 104,
+        "rain_1h_mm": 0,
+        "rain_3h_mm": 0.3,
+        "rain_6h_mm": 2.6,
+        "rain_24h_mm": 12.7,
+        "rain_3d_mm": 36.1,
+        "rain_7d_mm": 78.3,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -2000,12 +2000,12 @@
         "peak_30m_mm": 0
       },
       "thiruvananthapuram--nedumangad": {
-        "rain_1h_mm": 0.3,
-        "rain_3h_mm": 0.5,
-        "rain_6h_mm": 0.5,
-        "rain_24h_mm": 22.6,
-        "rain_3d_mm": 31.3,
-        "rain_7d_mm": 39,
+        "rain_1h_mm": 0.6,
+        "rain_3h_mm": 0.7,
+        "rain_6h_mm": 1.2,
+        "rain_24h_mm": 17.5,
+        "rain_3d_mm": 29.3,
+        "rain_7d_mm": 36.6,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -2022,15 +2022,15 @@
         "district_id": "thiruvananthapuram",
         "spatial_aggregation": "taluk_representative_point",
         "cell_count": 1,
-        "peak_30m_mm": 0.2
+        "peak_30m_mm": 0.1
       },
       "palakkad--mannarkad": {
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
         "rain_24h_mm": 0,
-        "rain_3d_mm": 0.7,
-        "rain_7d_mm": 32.8,
+        "rain_3d_mm": 0.5,
+        "rain_7d_mm": 32.3,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
@@ -2053,9 +2053,9 @@
         "rain_1h_mm": 0,
         "rain_3h_mm": 0,
         "rain_6h_mm": 0,
-        "rain_24h_mm": 0.9,
-        "rain_3d_mm": 20.2,
-        "rain_7d_mm": 42,
+        "rain_24h_mm": 0.2,
+        "rain_3d_mm": 18.4,
+        "rain_7d_mm": 31.3,
         "source": "nasa-imerg-pps",
         "source_ids": [
           "nasa-imerg-nrt"
