@@ -1645,6 +1645,196 @@ function testLowLyingBasinKeepsWatchWithMonsoonRainAndRadar() {
   assert.ok(hotspot.score >= thresholds.thresholds.watch);
 }
 
+function testPathanamthittaStyleDistrictContextDoesNotPromoteWatch() {
+  const generatedAt = "2026-06-04T08:27:25.547Z";
+  const result = buildRiskOutputs({
+    generatedAt,
+    thresholds,
+    sourceSnapshots: [
+      { source_id: "imd-district-warning", status: "ok" },
+      { source_id: "imd-district-nowcast", status: "ok" },
+      { source_id: "rainviewer-radar", status: "ok" },
+      { source_id: "indiawris-rainfall", status: "ok" },
+      { source_id: "ksdma-reservoirs", status: "ok" },
+      { source_id: "ksdma-dam-management", status: "ok" }
+    ],
+    capByDistrict: {},
+    bulletinByDistrict: {},
+    imdDistrictWarningByDistrict: {
+      pathanamthitta: {
+        severity: 0.6,
+        hazards: ["Very Heavy Rain", "Thunderstorm & Lightning"],
+        notes: ["PATHANAMTHITTA : Very Heavy Rain Thunderstorm & Lightning Updated on:2026-06-04"],
+        source_ids: ["imd-district-warning"]
+      }
+    },
+    imdNowcastByDistrict: {
+      pathanamthitta: {
+        severity: 0.35,
+        notes: ["PATHANAMTHITTA Light Thunderstorms with moderate rain: 5-15 mm/hr"],
+        source_ids: ["imd-district-nowcast"]
+      }
+    },
+    stationNowcastByHotspot: {},
+    reservoirByDistrict: {
+      pathanamthitta: { active: true, severity: 0.35, notes: ["Reservoir caution active"], source_ids: ["ksdma-reservoirs"] }
+    },
+    damByDistrict: {
+      pathanamthitta: { active: true, severity: 0.35, notes: ["Dam downstream caution active"], source_ids: ["ksdma-dam-management"] }
+    },
+    cwcByDistrict: {},
+    radarByDistrict: {
+      pathanamthitta: {
+        severity: 0.5,
+        intensity: "moderate",
+        max_dbz: 27,
+        notes: ["RainViewer moderate cell near district"],
+        source_ids: ["rainviewer-radar"]
+      }
+    },
+    radarByHotspot: {},
+    rainfallByDistrict: {
+      pathanamthitta: {
+        rain_1h_mm: 1.5,
+        rain_3h_mm: 3.2,
+        rain_6h_mm: 5.6,
+        rain_24h_mm: 1.7,
+        rain_3d_mm: 4,
+        rain_7d_mm: 8,
+        official_rain_24h_mm: 1.7,
+        official_station_count: 4,
+        official_peak_station_24h_mm: 14.2,
+        spatial_aggregation: "district_polygon_mean+indiawris_station_mean",
+        peak_30m_mm: 6.2,
+        source_ids: ["nasa-imerg-nrt", "indiawris-rainfall"],
+        short_duration_source_ids: ["nasa-imerg-nrt"],
+        daily_source_ids: ["indiawris-rainfall"],
+        antecedent_source_ids: ["indiawris-rainfall"]
+      }
+    },
+    taluks: [],
+    approvals: [],
+    hotspotOverrides: [],
+    freshnessBySource: {
+      "imd-district-warning": 837,
+      "imd-district-nowcast": 57,
+      "rainviewer-radar": 17,
+      "indiawris-rainfall": 867,
+      "ksdma-reservoirs": 177,
+      "ksdma-dam-management": 177
+    },
+    statusBySource: {
+      "imd-district-warning": "ok",
+      "imd-district-nowcast": "ok",
+      "rainviewer-radar": "ok",
+      "indiawris-rainfall": "ok",
+      "ksdma-reservoirs": "ok",
+      "ksdma-dam-management": "ok"
+    }
+  });
+
+  const district = result.districtStates.find((entry) => entry.area_id === "pathanamthitta");
+  assert.ok(district);
+  assert.equal(district.level, "Normal");
+}
+
+function testRiverFloodplainNeedsStrongerRunoffSignalForWatch() {
+  const generatedAt = "2026-06-04T08:27:25.547Z";
+  const result = buildRiskOutputs({
+    generatedAt,
+    thresholds,
+    sourceSnapshots: [
+      { source_id: "imd-district-warning", status: "ok" },
+      { source_id: "imd-district-nowcast", status: "ok" },
+      { source_id: "imd-station-nowcast", status: "ok" },
+      { source_id: "rainviewer-radar", status: "ok" },
+      { source_id: "nasa-imerg-nrt", status: "ok" }
+    ],
+    capByDistrict: {},
+    bulletinByDistrict: {},
+    imdDistrictWarningByDistrict: {
+      alappuzha: {
+        severity: 0.6,
+        hazards: ["Very Heavy Rain", "Thunderstorm & Lightning"],
+        notes: ["ALAPPUZHA : Very Heavy Rain Thunderstorm & Lightning Updated on:2026-06-04"],
+        source_ids: ["imd-district-warning"]
+      }
+    },
+    imdNowcastByDistrict: {
+      alappuzha: {
+        severity: 0.35,
+        notes: ["ALAPPUZHA Light Thunderstorms with moderate rain: 5-15 mm/hr"],
+        source_ids: ["imd-district-nowcast"]
+      }
+    },
+    stationNowcastByHotspot: {
+      "h-chengannur-pandanad": {
+        severity: 0,
+        notes: ["No IMD station nowcast near hotspot"],
+        source_ids: ["imd-station-nowcast"]
+      }
+    },
+    reservoirByDistrict: {},
+    damByDistrict: {},
+    cwcByDistrict: {},
+    radarByDistrict: {
+      alappuzha: {
+        severity: 0.5,
+        intensity: "moderate",
+        max_dbz: 27,
+        notes: ["RainViewer moderate cell near district"],
+        source_ids: ["rainviewer-radar"]
+      }
+    },
+    radarByHotspot: {
+      "h-chengannur-pandanad": {
+        severity: 0.5,
+        intensity: "moderate",
+        max_dbz: 23,
+        notes: ["RainViewer moderate cell near hotspot"],
+        source_ids: ["rainviewer-radar"]
+      }
+    },
+    rainfallByDistrict: {
+      alappuzha: {
+        rain_1h_mm: 4.1,
+        rain_3h_mm: 9.6,
+        rain_6h_mm: 15.8,
+        rain_24h_mm: 28.1,
+        rain_3d_mm: 32,
+        rain_7d_mm: 45,
+        peak_30m_mm: 9.1,
+        spatial_aggregation: "district_polygon_mean",
+        source_ids: ["nasa-imerg-nrt"],
+        short_duration_source_ids: ["nasa-imerg-nrt"],
+        daily_source_ids: ["nasa-imerg-nrt"],
+        antecedent_source_ids: ["nasa-imerg-nrt"]
+      }
+    },
+    taluks: [],
+    approvals: [],
+    hotspotOverrides: [],
+    freshnessBySource: {
+      "imd-district-warning": 837,
+      "imd-district-nowcast": 57,
+      "imd-station-nowcast": 39,
+      "rainviewer-radar": 17,
+      "nasa-imerg-nrt": 267
+    },
+    statusBySource: {
+      "imd-district-warning": "ok",
+      "imd-district-nowcast": "ok",
+      "imd-station-nowcast": "ok",
+      "rainviewer-radar": "ok",
+      "nasa-imerg-nrt": "ok"
+    }
+  });
+
+  const hotspot = result.hotspotStates.find((entry) => entry.area_id === "h-chengannur-pandanad");
+  assert.ok(hotspot);
+  assert.equal(hotspot.level, "Normal");
+}
+
 function testActionableHydrologyStillPromotesDamDownstreamWatch() {
   const generatedAt = "2026-05-07T09:18:34.371Z";
   const result = buildRiskOutputs({
@@ -2409,6 +2599,8 @@ const tests = [
   ["risk-model-district-watch-needs-flash-flood-trigger", testDistrictWatchNeedsDistrictScaleFlashFloodTrigger],
   ["risk-model-fresh-generic-hydrology-not-dam-trigger", testFreshGenericHydrologyDoesNotPromoteDamDownstreamWatch],
   ["risk-model-low-lying-basin-monsoon-watch", testLowLyingBasinKeepsWatchWithMonsoonRainAndRadar],
+  ["risk-model-pathanamthitta-district-gating", testPathanamthittaStyleDistrictContextDoesNotPromoteWatch],
+  ["risk-model-river-floodplain-needs-stronger-runoff", testRiverFloodplainNeedsStrongerRunoffSignalForWatch],
   ["risk-model-actionable-hydrology-watch", testActionableHydrologyStillPromotesDamDownstreamWatch],
   ["risk-model-taluk-local-rain-gating", testTalukWatchUsesLocalTalukRainObservation],
   ["pipeline", testPipeline],
