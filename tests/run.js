@@ -1296,6 +1296,355 @@ function testDistrictNowcastContextDoesNotCountAsLocalDamDownstreamTrigger() {
   );
 }
 
+function testDistrictWatchNeedsDistrictScaleFlashFloodTrigger() {
+  const generatedAt = "2026-06-04T08:12:51.301Z";
+  const result = buildRiskOutputs({
+    generatedAt,
+    thresholds,
+    sourceSnapshots: [
+      { source_id: "imd-district-warning", status: "ok" },
+      { source_id: "imd-district-nowcast", status: "ok" },
+      { source_id: "rainviewer-radar", status: "ok" },
+      { source_id: "indiawris-rainfall", status: "ok" },
+      { source_id: "cwc-ffs", status: "ok" },
+      { source_id: "ksdma-reservoirs", status: "ok" },
+      { source_id: "ksdma-dam-management", status: "ok" }
+    ],
+    capByDistrict: {},
+    bulletinByDistrict: {},
+    imdDistrictWarningByDistrict: {
+      thrissur: {
+        severity: 0.6,
+        hazards: ["Very Heavy Rain", "Thunderstorm & Lightning"],
+        notes: ["THRISSUR : Very Heavy Rain Thunderstorm & Lightning Updated on:2026-06-04"],
+        source_ids: ["imd-district-warning"]
+      }
+    },
+    imdNowcastByDistrict: {
+      thrissur: {
+        severity: 0.35,
+        notes: ["THRISSUR Light Thunderstorms with moderate rain: 5-15 mm/hr"],
+        source_ids: ["imd-district-nowcast"]
+      }
+    },
+    stationNowcastByHotspot: {},
+    reservoirByDistrict: {
+      thrissur: { active: true, severity: 0.35, notes: ["Reservoir caution active"], source_ids: ["ksdma-reservoirs"] }
+    },
+    damByDistrict: {
+      thrissur: { active: true, severity: 0.35, notes: ["Dam downstream caution active"], source_ids: ["ksdma-dam-management"] }
+    },
+    cwcByDistrict: {
+      thrissur: {
+        active: true,
+        severity: 0.35,
+        watch: true,
+        above_warning_station_count: 0,
+        above_danger_station_count: 0,
+        forecast_warning_station_count: 0,
+        forecast_danger_station_count: 0,
+        threshold_station_count: 0,
+        severity_basis: "rise_fallback",
+        notes: ["CWC flood forecasting observed river rise 0.01 m across 4 stations"],
+        source_ids: ["cwc-ffs"]
+      }
+    },
+    radarByDistrict: {
+      thrissur: {
+        severity: 0,
+        intensity: "none",
+        max_dbz: 0,
+        notes: ["No meaningful RainViewer radar echo near district"],
+        source_ids: ["rainviewer-radar"]
+      }
+    },
+    radarByHotspot: {},
+    rainfallByDistrict: {
+      thrissur: {
+        rain_1h_mm: 0.2,
+        rain_3h_mm: 0.4,
+        rain_6h_mm: 0.8,
+        rain_24h_mm: 3.6,
+        rain_3d_mm: 7,
+        rain_7d_mm: 10,
+        official_rain_24h_mm: 3.6,
+        official_station_count: 3,
+        official_peak_station_24h_mm: 25.2,
+        spatial_aggregation: "district_polygon_mean+indiawris_station_mean",
+        peak_30m_mm: 1.1,
+        source_ids: ["nasa-imerg-nrt", "indiawris-rainfall"],
+        short_duration_source_ids: ["nasa-imerg-nrt"],
+        daily_source_ids: ["indiawris-rainfall"],
+        antecedent_source_ids: ["indiawris-rainfall"]
+      }
+    },
+    taluks: [],
+    approvals: [],
+    hotspotOverrides: [],
+    freshnessBySource: {
+      "imd-district-warning": 823,
+      "imd-district-nowcast": 43,
+      "rainviewer-radar": 3,
+      "indiawris-rainfall": 853,
+      "cwc-ffs": 103,
+      "ksdma-reservoirs": 163,
+      "ksdma-dam-management": 163
+    },
+    statusBySource: {
+      "imd-district-warning": "ok",
+      "imd-district-nowcast": "ok",
+      "rainviewer-radar": "ok",
+      "indiawris-rainfall": "ok",
+      "cwc-ffs": "ok",
+      "ksdma-reservoirs": "ok",
+      "ksdma-dam-management": "ok"
+    }
+  });
+
+  const district = result.districtStates.find((entry) => entry.area_id === "thrissur");
+  assert.ok(district);
+  assert.equal(district.level, "Normal");
+  assert.ok(
+    district.drivers.some((driver) =>
+      driver.includes("No current district-scale rain, radar, or hydrology trigger supporting district watch")
+    )
+  );
+}
+
+function testFreshGenericHydrologyDoesNotPromoteDamDownstreamWatch() {
+  const generatedAt = "2026-06-04T08:12:51.301Z";
+  const result = buildRiskOutputs({
+    generatedAt,
+    thresholds,
+    sourceSnapshots: [
+      { source_id: "imd-district-warning", status: "ok" },
+      { source_id: "imd-district-nowcast", status: "ok" },
+      { source_id: "imd-station-nowcast", status: "ok" },
+      { source_id: "rainviewer-radar", status: "ok" },
+      { source_id: "indiawris-rainfall", status: "ok" },
+      { source_id: "cwc-ffs", status: "ok" },
+      { source_id: "ksdma-reservoirs", status: "ok" },
+      { source_id: "ksdma-dam-management", status: "ok" }
+    ],
+    capByDistrict: {},
+    bulletinByDistrict: {},
+    imdDistrictWarningByDistrict: {
+      idukki: {
+        severity: 0.35,
+        hazards: ["Heavy Rain", "Thunderstorm & Lightning"],
+        notes: ["IDUKKI : Heavy Rain Thunderstorm & Lightning Updated on:2026-06-04"],
+        source_ids: ["imd-district-warning"]
+      }
+    },
+    imdNowcastByDistrict: {
+      idukki: {
+        severity: 0.35,
+        notes: ["IDUKKI Light Thunderstorms with moderate rain: 5-15 mm/hr"],
+        source_ids: ["imd-district-nowcast"]
+      }
+    },
+    stationNowcastByHotspot: {
+      "h-vandiperiyar-mullaperiyar": {
+        severity: 0.35,
+        station_name: "Thekkady",
+        distance_km: 4.7,
+        notes: ["Thekkady: Moderate rain: 5-15 mm/hr"],
+        source_ids: ["imd-station-nowcast"]
+      }
+    },
+    reservoirByDistrict: {
+      idukki: { active: true, severity: 0.35, notes: ["Reservoir caution active"], source_ids: ["ksdma-reservoirs"] }
+    },
+    damByDistrict: {
+      idukki: { active: true, severity: 0.35, notes: ["Dam downstream caution active"], source_ids: ["ksdma-dam-management"] }
+    },
+    cwcByDistrict: {
+      idukki: {
+        active: true,
+        severity: 0.4,
+        watch: true,
+        above_warning_station_count: 0,
+        above_danger_station_count: 0,
+        forecast_warning_station_count: 0,
+        forecast_danger_station_count: 0,
+        threshold_station_count: 0,
+        severity_basis: "rise_fallback",
+        notes: ["CWC flood forecasting observed river rise 0.01 m across 4 stations"],
+        source_ids: ["cwc-ffs"]
+      }
+    },
+    radarByDistrict: {
+      idukki: {
+        severity: 0.25,
+        intensity: "light",
+        max_dbz: 18,
+        notes: ["RainViewer light cell near district"],
+        source_ids: ["rainviewer-radar"]
+      }
+    },
+    radarByHotspot: {
+      "h-vandiperiyar-mullaperiyar": {
+        severity: 0.18,
+        intensity: "light",
+        max_dbz: 14,
+        notes: ["RainViewer light cell near hotspot"],
+        source_ids: ["rainviewer-radar"]
+      }
+    },
+    rainfallByDistrict: {
+      idukki: {
+        rain_1h_mm: 0.8,
+        rain_3h_mm: 1.4,
+        rain_6h_mm: 2.2,
+        rain_24h_mm: 3.8,
+        rain_3d_mm: 8,
+        rain_7d_mm: 12,
+        official_rain_24h_mm: 3.8,
+        official_station_count: 5,
+        official_peak_station_24h_mm: 23,
+        spatial_aggregation: "district_polygon_mean+indiawris_station_mean",
+        peak_30m_mm: 1.6,
+        source_ids: ["nasa-imerg-nrt", "indiawris-rainfall"],
+        short_duration_source_ids: ["nasa-imerg-nrt"],
+        daily_source_ids: ["indiawris-rainfall"],
+        antecedent_source_ids: ["indiawris-rainfall"]
+      }
+    },
+    taluks: [],
+    approvals: [],
+    hotspotOverrides: [{ hotspot_id: "h-vandiperiyar-mullaperiyar", score_boost: 12 }],
+    freshnessBySource: {
+      "imd-district-warning": 823,
+      "imd-district-nowcast": 43,
+      "imd-station-nowcast": 25,
+      "rainviewer-radar": 3,
+      "indiawris-rainfall": 853,
+      "cwc-ffs": 103,
+      "ksdma-reservoirs": 163,
+      "ksdma-dam-management": 163
+    },
+    statusBySource: {
+      "imd-district-warning": "ok",
+      "imd-district-nowcast": "ok",
+      "imd-station-nowcast": "ok",
+      "rainviewer-radar": "ok",
+      "indiawris-rainfall": "ok",
+      "cwc-ffs": "ok",
+      "ksdma-reservoirs": "ok",
+      "ksdma-dam-management": "ok"
+    }
+  });
+
+  const hotspot = result.hotspotStates.find((entry) => entry.area_id === "h-vandiperiyar-mullaperiyar");
+  assert.ok(hotspot);
+  assert.equal(hotspot.level, "Normal");
+  assert.ok(
+    hotspot.drivers.some((driver) =>
+      driver.includes("No current rain, river-stage, or operational release trigger supporting hotspot watch")
+    )
+  );
+}
+
+function testLowLyingBasinKeepsWatchWithMonsoonRainAndRadar() {
+  const generatedAt = "2026-06-04T08:12:51.301Z";
+  const result = buildRiskOutputs({
+    generatedAt,
+    thresholds,
+    sourceSnapshots: [
+      { source_id: "imd-district-warning", status: "ok" },
+      { source_id: "imd-district-nowcast", status: "ok" },
+      { source_id: "imd-station-nowcast", status: "ok" },
+      { source_id: "rainviewer-radar", status: "ok" },
+      { source_id: "nasa-imerg-nrt", status: "ok" }
+    ],
+    capByDistrict: {},
+    bulletinByDistrict: {},
+    imdDistrictWarningByDistrict: {
+      alappuzha: {
+        severity: 0.6,
+        hazards: ["Very Heavy Rain", "Thunderstorm & Lightning"],
+        notes: ["ALAPPUZHA : Very Heavy Rain Thunderstorm & Lightning Updated on:2026-06-04"],
+        source_ids: ["imd-district-warning"]
+      }
+    },
+    imdNowcastByDistrict: {
+      alappuzha: {
+        severity: 0.35,
+        notes: ["ALAPPUZHA Light Thunderstorms with moderate rain: 5-15 mm/hr"],
+        source_ids: ["imd-district-nowcast"]
+      }
+    },
+    stationNowcastByHotspot: {
+      "h-kuttanad": {
+        severity: 0.35,
+        station_name: "Alappuzha",
+        distance_km: 17.3,
+        notes: ["Alappuzha: Moderate rain: 5-15 mm/hr"],
+        source_ids: ["imd-station-nowcast"]
+      }
+    },
+    reservoirByDistrict: {},
+    damByDistrict: {},
+    cwcByDistrict: {},
+    radarByDistrict: {
+      alappuzha: {
+        severity: 0.5,
+        intensity: "moderate",
+        max_dbz: 27,
+        notes: ["RainViewer moderate cell near district"],
+        source_ids: ["rainviewer-radar"]
+      }
+    },
+    radarByHotspot: {
+      "h-kuttanad": {
+        severity: 0.5,
+        intensity: "moderate",
+        max_dbz: 23,
+        notes: ["RainViewer moderate cell near hotspot"],
+        source_ids: ["rainviewer-radar"]
+      }
+    },
+    rainfallByDistrict: {
+      alappuzha: {
+        rain_1h_mm: 4.1,
+        rain_3h_mm: 9.6,
+        rain_6h_mm: 15.8,
+        rain_24h_mm: 28.1,
+        rain_3d_mm: 32,
+        rain_7d_mm: 45,
+        peak_30m_mm: 9.1,
+        spatial_aggregation: "district_polygon_mean",
+        source_ids: ["nasa-imerg-nrt"],
+        short_duration_source_ids: ["nasa-imerg-nrt"],
+        daily_source_ids: ["nasa-imerg-nrt"],
+        antecedent_source_ids: ["nasa-imerg-nrt"]
+      }
+    },
+    taluks: [],
+    approvals: [],
+    hotspotOverrides: [],
+    freshnessBySource: {
+      "imd-district-warning": 823,
+      "imd-district-nowcast": 43,
+      "imd-station-nowcast": 25,
+      "rainviewer-radar": 3,
+      "nasa-imerg-nrt": 253
+    },
+    statusBySource: {
+      "imd-district-warning": "ok",
+      "imd-district-nowcast": "ok",
+      "imd-station-nowcast": "ok",
+      "rainviewer-radar": "ok",
+      "nasa-imerg-nrt": "ok"
+    }
+  });
+
+  const hotspot = result.hotspotStates.find((entry) => entry.area_id === "h-kuttanad");
+  assert.ok(hotspot);
+  assert.equal(hotspot.level, "Watch");
+  assert.ok(hotspot.score >= thresholds.thresholds.watch);
+}
+
 function testActionableHydrologyStillPromotesDamDownstreamWatch() {
   const generatedAt = "2026-05-07T09:18:34.371Z";
   const result = buildRiskOutputs({
@@ -2057,6 +2406,9 @@ const tests = [
   ["risk-model-weak-rise-only-hydrology-gating", testWeakRiseOnlyHydrologyDoesNotPromoteDamDownstreamWatch],
   ["risk-model-stale-threshold-hydrology-gating", testStaleThresholdHydrologyDoesNotPromoteDamDownstreamWatch],
   ["risk-model-district-nowcast-not-local-dam-trigger", testDistrictNowcastContextDoesNotCountAsLocalDamDownstreamTrigger],
+  ["risk-model-district-watch-needs-flash-flood-trigger", testDistrictWatchNeedsDistrictScaleFlashFloodTrigger],
+  ["risk-model-fresh-generic-hydrology-not-dam-trigger", testFreshGenericHydrologyDoesNotPromoteDamDownstreamWatch],
+  ["risk-model-low-lying-basin-monsoon-watch", testLowLyingBasinKeepsWatchWithMonsoonRainAndRadar],
   ["risk-model-actionable-hydrology-watch", testActionableHydrologyStillPromotesDamDownstreamWatch],
   ["risk-model-taluk-local-rain-gating", testTalukWatchUsesLocalTalukRainObservation],
   ["pipeline", testPipeline],

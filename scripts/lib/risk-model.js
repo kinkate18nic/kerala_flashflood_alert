@@ -290,8 +290,8 @@ function hasHydrologyThresholdSupport(cwc) {
     (cwc?.above_danger_station_count ?? 0) > 0 ||
     (cwc?.forecast_warning_station_count ?? 0) > 0 ||
     (cwc?.forecast_danger_station_count ?? 0) > 0 ||
-    Boolean(cwc?.watch) ||
-    Boolean(cwc?.warning);
+    (cwc?.threshold_station_count ?? 0) > 0 ||
+    ["threshold", "threshold_forecast"].includes(cwc?.severity_basis);
   return thresholdTriggered && effectiveSeverity(cwc) >= 0.2;
 }
 
@@ -320,6 +320,48 @@ function hasLocalFloodWeatherSupport(observation, radar, stationNowcast, categor
     hasFlashFloodRainTrigger(observation, category) ||
     hasFlashFloodRadarTrigger(radar, category) ||
     effectiveSeverity(stationNowcast) >= 0.55
+  );
+}
+
+function hasDistrictFlashFloodSupport(observation, radar, nowcast) {
+  return (
+    hasShortFuseRainTrigger(observation, null) ||
+    hasRadarSupport(radar, { strongOnly: true }) ||
+    effectiveSeverity(nowcast) >= 0.55
+  );
+}
+
+function hasDistrictWatchSupport({
+  cap,
+  bulletin,
+  districtWarning,
+  nowcast,
+  radar,
+  cwc,
+  reservoir,
+  dam,
+  runoffPotential,
+  observation
+}) {
+  const directOfficial = effectiveSeverity(bulletin) > 0.2 || effectiveSeverity(cap) >= 0.55;
+  const localFlashFloodSupport = hasDistrictFlashFloodSupport(observation, radar, nowcast);
+  const actionableHydro =
+    isFreshEnoughForPromotion(cwc) &&
+    (hasStrongHydrologySupport(cwc) || hasHydrologyThresholdSupport(cwc));
+  const districtWarningBacked =
+    effectiveSeverity(districtWarning) > 0.2 &&
+    (localFlashFloodSupport || actionableHydro);
+  const runoffReady =
+    (runoffPotential?.score ?? 0) >= runoffPotentialThreshold(null) &&
+    (localFlashFloodSupport || directOfficial || actionableHydro);
+  const strongDamOps = hasStrongOperationalDamSupport(reservoir, dam);
+
+  return (
+    directOfficial ||
+    districtWarningBacked ||
+    actionableHydro ||
+    runoffReady ||
+    (strongDamOps && localFlashFloodSupport)
   );
 }
 
@@ -672,7 +714,22 @@ export function buildRiskOutputs(context) {
       dynamicRawScore: Math.max(0, rawScore - componentScores.terrain)
     };
 
-    const score = clamp(rawScore / 100, 0, 1) * 100;
+    const districtSupportsWatch = hasDistrictWatchSupport({
+      cap: weightedCap,
+      bulletin: weightedBulletin,
+      districtWarning: weightedDistrictWarning,
+      nowcast: weightedNowcast,
+      radar: weightedRadar,
+      cwc: weightedCwc,
+      reservoir: weightedReservoir,
+      dam: weightedDam,
+      runoffPotential,
+      observation
+    });
+    let score = clamp(rawScore / 100, 0, 1) * 100;
+    if (!districtSupportsWatch && score >= thresholds.thresholds.watch) {
+      score = thresholds.thresholds.watch - 0.1;
+    }
     const level = scoreToLevel(score);
 
     const drivers = [
@@ -698,6 +755,7 @@ export function buildRiskOutputs(context) {
       weightedRadar.effective_severity > 0
         ? `RainViewer nowcast ${weightedRadar.intensity.replaceAll("_", " ")} (${weightedRadar.max_dbz ?? "n/a"} dBZ)`
         : null,
+      !districtSupportsWatch ? "No current district-scale rain, radar, or hydrology trigger supporting district watch" : null,
       `Runoff potential ${runoffPotential.label} (wetness ${runoffPotential.wetness_index}, trigger ${runoffPotential.trigger_index})`,
       terrain.dem
         ? `Terrain susceptibility ${(terrain.value * 100).toFixed(0)}% from NASADEM + local baseline`
