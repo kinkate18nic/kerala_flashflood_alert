@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-04T02:57:41.293Z",
+  "generated_at": "2026-06-11T08:54:34.175Z",
   "hotspots": [
     {
       "area_id": "h-mundakkai-chooralmala",
@@ -12,13 +12,13 @@
         "orographic-rainfall"
       ],
       "level": "Normal",
-      "score": 16.8,
-      "confidence": 0.4,
+      "score": 32,
+      "confidence": 0.5,
       "susceptibility": 0.831893425105676,
       "runoff_potential": {
-        "score": 21.2,
-        "wetness_index": 0.1,
-        "trigger_index": 0.9,
+        "score": 24.4,
+        "wetness_index": 10.4,
+        "trigger_index": 1.1,
         "susceptibility_index": 83.2,
         "label": "guarded"
       },
@@ -29,14 +29,16 @@
       },
       "buffer_km": 8,
       "drivers": [
-        "Observed 24h rain 0 mm and 1h rain 0.1 mm",
-        "India-WRIS official 24h rainfall 0 mm from 1 station",
-        "Peak recent 30 min rain 0.3 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "Runoff potential low (wetness 0.1, trigger 0.9)",
+        "Observed 24h rain 9.8 mm and 1h rain 0 mm",
+        "Rainfall aggregation district_polygon_mean",
+        "RainViewer nowcast moderate (27 dBZ)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential guarded (wetness 10.4, trigger 16.1)",
         "Terrain susceptibility 53% from NASADEM + local baseline",
+        "Reservoir caution active",
+        "Dam downstream caution active",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0.1, trigger 0.9)",
+        "Hotspot runoff potential guarded (wetness 10.4, trigger 1.1)",
         "Hotspot susceptibility 83%",
         "Hotspot category steep catchment",
         "Hotspot analysis radius 8 km"
@@ -45,19 +47,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "WAYANAD : Very Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "WAYANAD : Very Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "WAYANAD Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "WAYANAD Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -68,38 +70,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near hotspot",
-          "freshness_minutes": 8,
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 1 station",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "Vythiri: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "Vythiri: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-meppadi-vythiri",
@@ -112,13 +114,13 @@
         "road-isolation"
       ],
       "level": "Normal",
-      "score": 16.3,
-      "confidence": 0.4,
+      "score": 31.5,
+      "confidence": 0.5,
       "susceptibility": 0.7968934251056761,
       "runoff_potential": {
-        "score": 20.3,
-        "wetness_index": 0.1,
-        "trigger_index": 0.9,
+        "score": 23.6,
+        "wetness_index": 10.4,
+        "trigger_index": 1.1,
         "susceptibility_index": 79.7,
         "label": "guarded"
       },
@@ -129,14 +131,16 @@
       },
       "buffer_km": 10,
       "drivers": [
-        "Observed 24h rain 0 mm and 1h rain 0.1 mm",
-        "India-WRIS official 24h rainfall 0 mm from 1 station",
-        "Peak recent 30 min rain 0.3 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "Runoff potential low (wetness 0.1, trigger 0.9)",
+        "Observed 24h rain 9.8 mm and 1h rain 0 mm",
+        "Rainfall aggregation district_polygon_mean",
+        "RainViewer nowcast moderate (27 dBZ)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential guarded (wetness 10.4, trigger 16.1)",
         "Terrain susceptibility 53% from NASADEM + local baseline",
+        "Reservoir caution active",
+        "Dam downstream caution active",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0.1, trigger 0.9)",
+        "Hotspot runoff potential guarded (wetness 10.4, trigger 1.1)",
         "Hotspot susceptibility 80%",
         "Hotspot category steep catchment",
         "Hotspot analysis radius 10 km"
@@ -145,19 +149,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "WAYANAD : Very Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "WAYANAD : Very Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "WAYANAD Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "WAYANAD Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -168,38 +172,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near hotspot",
-          "freshness_minutes": 8,
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 1 station",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "Vythiri: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "Vythiri: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-padinjarathara-banasura",
@@ -212,15 +216,15 @@
         "banasura"
       ],
       "level": "Normal",
-      "score": 11.9,
-      "confidence": 0.4,
+      "score": 32.5,
+      "confidence": 0.5,
       "susceptibility": 0.775893425105676,
       "runoff_potential": {
-        "score": 31.4,
-        "wetness_index": 0.1,
-        "trigger_index": 0.9,
+        "score": 37.1,
+        "wetness_index": 10.4,
+        "trigger_index": 10,
         "susceptibility_index": 77.6,
-        "label": "guarded"
+        "label": "elevated"
       },
       "category": "dam_downstream",
       "location": {
@@ -229,14 +233,17 @@
       },
       "buffer_km": 12,
       "drivers": [
-        "Observed 24h rain 0 mm and 1h rain 0.1 mm",
-        "India-WRIS official 24h rainfall 0 mm from 1 station",
-        "Peak recent 30 min rain 0.3 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "Runoff potential low (wetness 0.1, trigger 0.9)",
+        "Observed 24h rain 9.8 mm and 1h rain 0 mm",
+        "Rainfall aggregation district_polygon_mean",
+        "RainViewer nowcast moderate (27 dBZ)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential guarded (wetness 10.4, trigger 16.1)",
         "Terrain susceptibility 53% from NASADEM + local baseline",
+        "Reservoir caution active",
+        "Dam downstream caution active",
+        "Hotspot radar echo light (16 dBZ)",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0.1, trigger 0.9)",
+        "Hotspot runoff potential elevated (wetness 10.4, trigger 10)",
         "Hotspot susceptibility 78%",
         "Hotspot category dam downstream",
         "Hotspot analysis radius 12 km"
@@ -245,19 +252,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "WAYANAD : Very Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "WAYANAD : Very Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "WAYANAD Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "WAYANAD Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -268,38 +275,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 1 station",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "No meaningful RainViewer radar echo near hotspot",
-          "freshness_minutes": 8,
+          "detail": "RainViewer light cell near hotspot",
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting live river level available from 1 station",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "Wayanad: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "Wayanad: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-peermade",
@@ -312,13 +319,13 @@
         "runoff"
       ],
       "level": "Normal",
-      "score": 24.3,
-      "confidence": 0.4,
+      "score": 34.9,
+      "confidence": 0.5,
       "susceptibility": 0.9401999999999999,
       "runoff_potential": {
-        "score": 28.4,
-        "wetness_index": 1,
-        "trigger_index": 10.2,
+        "score": 33.2,
+        "wetness_index": 8,
+        "trigger_index": 16.3,
         "susceptibility_index": 94,
         "label": "guarded"
       },
@@ -329,18 +336,18 @@
       },
       "buffer_km": 10,
       "drivers": [
-        "Observed 24h rain 0.5 mm and 1h rain 0.5 mm",
-        "India-WRIS official 24h rainfall 0.5 mm from 5 stations",
-        "Peak India-WRIS station 24h rainfall 3.6 mm",
-        "Peak recent 30 min rain 0.8 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast light (14 dBZ)",
-        "Runoff potential elevated (wetness 1, trigger 10.2)",
+        "Observed 24h rain 10.2 mm and 1h rain 0.4 mm",
+        "Peak recent 30 min rain 2 mm",
+        "Rainfall aggregation district_polygon_mean",
+        "RainViewer nowcast moderate (25 dBZ)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential elevated (wetness 8, trigger 16.3)",
         "Terrain susceptibility 96% from NASADEM + local baseline",
-        "CWC river-stage warning/watch active",
-        "Hotspot radar echo light (14 dBZ)",
+        "Reservoir caution active",
+        "Dam downstream caution active",
+        "Hotspot radar echo moderate (25 dBZ)",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 1, trigger 10.2)",
+        "Hotspot runoff potential guarded (wetness 8, trigger 16.3)",
         "Hotspot susceptibility 94%",
         "Hotspot category steep catchment",
         "Hotspot analysis radius 10 km"
@@ -349,19 +356,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "IDUKKI : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "IDUKKI : Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "IDUKKI Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "IDUKKI Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -372,38 +379,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 5 stations",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 8,
+          "detail": "RainViewer moderate cell near hotspot",
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.02 m across 4 stations",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 4 stations",
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "Sabarimala Sannidhanam: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "Sabarimala Sannidhanam: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-munnar-devikulam",
@@ -416,12 +423,12 @@
         "landslide"
       ],
       "level": "Normal",
-      "score": 22.5,
-      "confidence": 0.4,
+      "score": 33.4,
+      "confidence": 0.5,
       "susceptibility": 0.9541999999999999,
       "runoff_potential": {
-        "score": 25.2,
-        "wetness_index": 1,
+        "score": 27.3,
+        "wetness_index": 8,
         "trigger_index": 2.4,
         "susceptibility_index": 95.4,
         "label": "guarded"
@@ -433,17 +440,17 @@
       },
       "buffer_km": 14,
       "drivers": [
-        "Observed 24h rain 0.5 mm and 1h rain 0.5 mm",
-        "India-WRIS official 24h rainfall 0.5 mm from 5 stations",
-        "Peak India-WRIS station 24h rainfall 3.6 mm",
-        "Peak recent 30 min rain 0.8 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast light (14 dBZ)",
-        "Runoff potential elevated (wetness 1, trigger 10.2)",
+        "Observed 24h rain 10.2 mm and 1h rain 0.4 mm",
+        "Peak recent 30 min rain 2 mm",
+        "Rainfall aggregation district_polygon_mean",
+        "RainViewer nowcast moderate (25 dBZ)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential elevated (wetness 8, trigger 16.3)",
         "Terrain susceptibility 96% from NASADEM + local baseline",
-        "CWC river-stage warning/watch active",
+        "Reservoir caution active",
+        "Dam downstream caution active",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 1, trigger 2.4)",
+        "Hotspot runoff potential guarded (wetness 8, trigger 2.4)",
         "Hotspot susceptibility 95%",
         "Hotspot category steep catchment",
         "Hotspot analysis radius 14 km"
@@ -452,19 +459,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "IDUKKI : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "IDUKKI : Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "IDUKKI Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "IDUKKI Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -475,38 +482,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 5 stations",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near hotspot",
-          "freshness_minutes": 8,
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.02 m across 4 stations",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 4 stations",
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "Munnar: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "Munnar: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-vandiperiyar-mullaperiyar",
@@ -519,13 +526,13 @@
         "rapid-rise"
       ],
       "level": "Normal",
-      "score": 18.1,
-      "confidence": 0.4,
+      "score": 34.9,
+      "confidence": 0.5,
       "susceptibility": 0.9192,
       "runoff_potential": {
-        "score": 37.9,
-        "wetness_index": 1,
-        "trigger_index": 2.4,
+        "score": 44.5,
+        "wetness_index": 8,
+        "trigger_index": 16.3,
         "susceptibility_index": 91.9,
         "label": "elevated"
       },
@@ -536,17 +543,18 @@
       },
       "buffer_km": 12,
       "drivers": [
-        "Observed 24h rain 0.5 mm and 1h rain 0.5 mm",
-        "India-WRIS official 24h rainfall 0.5 mm from 5 stations",
-        "Peak India-WRIS station 24h rainfall 3.6 mm",
-        "Peak recent 30 min rain 0.8 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast light (14 dBZ)",
-        "Runoff potential elevated (wetness 1, trigger 10.2)",
+        "Observed 24h rain 10.2 mm and 1h rain 0.4 mm",
+        "Peak recent 30 min rain 2 mm",
+        "Rainfall aggregation district_polygon_mean",
+        "RainViewer nowcast moderate (25 dBZ)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential elevated (wetness 8, trigger 16.3)",
         "Terrain susceptibility 96% from NASADEM + local baseline",
-        "CWC river-stage warning/watch active",
+        "Reservoir caution active",
+        "Dam downstream caution active",
+        "Hotspot radar echo moderate (25 dBZ)",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential elevated (wetness 1, trigger 2.4)",
+        "Hotspot runoff potential elevated (wetness 8, trigger 16.3)",
         "Hotspot susceptibility 92%",
         "Hotspot category dam downstream",
         "Hotspot analysis radius 12 km"
@@ -555,19 +563,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "IDUKKI : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "IDUKKI : Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "IDUKKI Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "IDUKKI Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -578,38 +586,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 5 stations",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "No meaningful RainViewer radar echo near hotspot",
-          "freshness_minutes": 8,
+          "detail": "RainViewer moderate cell near hotspot",
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.02 m across 4 stations",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 4 stations",
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "Thekkady: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "Thekkady: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-kumily-attapallam",
@@ -621,12 +629,12 @@
         "downstream-inundation"
       ],
       "level": "Normal",
-      "score": 17.6,
-      "confidence": 0.4,
+      "score": 31.2,
+      "confidence": 0.5,
       "susceptibility": 0.8772,
       "runoff_potential": {
-        "score": 36.2,
-        "wetness_index": 1,
+        "score": 37.9,
+        "wetness_index": 8,
         "trigger_index": 2.4,
         "susceptibility_index": 87.7,
         "label": "elevated"
@@ -638,17 +646,17 @@
       },
       "buffer_km": 8,
       "drivers": [
-        "Observed 24h rain 0.5 mm and 1h rain 0.5 mm",
-        "India-WRIS official 24h rainfall 0.5 mm from 5 stations",
-        "Peak India-WRIS station 24h rainfall 3.6 mm",
-        "Peak recent 30 min rain 0.8 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast light (14 dBZ)",
-        "Runoff potential elevated (wetness 1, trigger 10.2)",
+        "Observed 24h rain 10.2 mm and 1h rain 0.4 mm",
+        "Peak recent 30 min rain 2 mm",
+        "Rainfall aggregation district_polygon_mean",
+        "RainViewer nowcast moderate (25 dBZ)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential elevated (wetness 8, trigger 16.3)",
         "Terrain susceptibility 96% from NASADEM + local baseline",
-        "CWC river-stage warning/watch active",
+        "Reservoir caution active",
+        "Dam downstream caution active",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential elevated (wetness 1, trigger 2.4)",
+        "Hotspot runoff potential elevated (wetness 8, trigger 2.4)",
         "Hotspot susceptibility 88%",
         "Hotspot category dam downstream",
         "Hotspot analysis radius 8 km"
@@ -657,19 +665,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "IDUKKI : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "IDUKKI : Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "IDUKKI Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "IDUKKI Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -680,38 +688,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 5 stations",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near hotspot",
-          "freshness_minutes": 8,
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.02 m across 4 stations",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 4 stations",
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "Kumily: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "Kumily: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-nilambur-chaliyar",
@@ -724,13 +732,13 @@
         "chaliyar"
       ],
       "level": "Normal",
-      "score": 10.1,
-      "confidence": 0.4,
+      "score": 15.8,
+      "confidence": 0.5,
       "susceptibility": 0.776264212557632,
       "runoff_potential": {
-        "score": 23.5,
-        "wetness_index": 0.3,
-        "trigger_index": 0.5,
+        "score": 30.8,
+        "wetness_index": 16.3,
+        "trigger_index": 0.6,
         "susceptibility_index": 77.6,
         "label": "guarded"
       },
@@ -741,14 +749,15 @@
       },
       "buffer_km": 10,
       "drivers": [
-        "Observed 24h rain 0.1 mm and 1h rain 0 mm",
-        "India-WRIS official 24h rainfall 0.1 mm from 6 stations",
-        "Peak India-WRIS station 24h rainfall 1.8 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "Runoff potential guarded (wetness 0.3, trigger 0.5)",
+        "Observed 24h rain 4.8 mm and 1h rain 0.1 mm",
+        "Peak recent 30 min rain 0.4 mm",
+        "Rainfall aggregation district_polygon_mean",
+        "RainViewer nowcast moderate (23 dBZ)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential guarded (wetness 16.3, trigger 13.4)",
         "Terrain susceptibility 67% from NASADEM + local baseline",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0.3, trigger 0.5)",
+        "Hotspot runoff potential guarded (wetness 16.3, trigger 0.6)",
         "Hotspot susceptibility 78%",
         "Hotspot category river floodplain",
         "Hotspot analysis radius 10 km"
@@ -757,19 +766,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "MALAPPURAM : Very Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "MALAPPURAM : Very Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "MALAPPURAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "MALAPPURAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -780,38 +789,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 6 stations",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near hotspot",
-          "freshness_minutes": 8,
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.01 m across 5 stations",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 5 stations",
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
           "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 2248,
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-kuttanad",
@@ -824,13 +833,13 @@
         "multi-river-drainage"
       ],
       "level": "Normal",
-      "score": 20.5,
-      "confidence": 0.4,
+      "score": 23.3,
+      "confidence": 0.5,
       "susceptibility": 0.7528560178618569,
       "runoff_potential": {
-        "score": 35.3,
-        "wetness_index": 4.8,
-        "trigger_index": 24.2,
+        "score": 37.4,
+        "wetness_index": 15.1,
+        "trigger_index": 19.3,
         "susceptibility_index": 75.3,
         "label": "elevated"
       },
@@ -841,15 +850,16 @@
       },
       "buffer_km": 18,
       "drivers": [
-        "Observed 24h rain 8.1 mm and 1h rain 6 mm",
-        "Peak recent 30 min rain 11.3 mm",
+        "Observed 24h rain 21.7 mm and 1h rain 1.7 mm",
+        "Peak recent 30 min rain 2.1 mm",
         "Rainfall aggregation district_polygon_mean",
         "RainViewer nowcast moderate (27 dBZ)",
-        "Runoff potential guarded (wetness 4.8, trigger 31.4)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential guarded (wetness 15.1, trigger 19.3)",
         "Terrain susceptibility 32% from NASADEM + local baseline",
-        "Hotspot radar echo light (14 dBZ)",
+        "Hotspot radar echo moderate (27 dBZ)",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential elevated (wetness 4.8, trigger 24.2)",
+        "Hotspot runoff potential elevated (wetness 15.1, trigger 19.3)",
         "Hotspot susceptibility 75%",
         "Hotspot category low lying basin",
         "Hotspot analysis radius 18 km"
@@ -858,19 +868,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "ALAPPUZHA : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "ALAPPUZHA : Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "ALAPPUZHA Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "ALAPPUZHA Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -882,37 +892,37 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 8,
+          "detail": "RainViewer moderate cell near hotspot",
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "Alappuzha: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "Alappuzha: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-chengannur-pandanad",
@@ -925,13 +935,13 @@
         "prolonged-inundation"
       ],
       "level": "Normal",
-      "score": 16.9,
-      "confidence": 0.4,
+      "score": 19.7,
+      "confidence": 0.5,
       "susceptibility": 0.7178560178618569,
       "runoff_potential": {
-        "score": 30.3,
-        "wetness_index": 4.8,
-        "trigger_index": 26.4,
+        "score": 33.1,
+        "wetness_index": 15.1,
+        "trigger_index": 19.3,
         "susceptibility_index": 71.8,
         "label": "guarded"
       },
@@ -942,15 +952,16 @@
       },
       "buffer_km": 12,
       "drivers": [
-        "Observed 24h rain 8.1 mm and 1h rain 6 mm",
-        "Peak recent 30 min rain 11.3 mm",
+        "Observed 24h rain 21.7 mm and 1h rain 1.7 mm",
+        "Peak recent 30 min rain 2.1 mm",
         "Rainfall aggregation district_polygon_mean",
         "RainViewer nowcast moderate (27 dBZ)",
-        "Runoff potential guarded (wetness 4.8, trigger 31.4)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential guarded (wetness 15.1, trigger 19.3)",
         "Terrain susceptibility 32% from NASADEM + local baseline",
-        "Hotspot radar echo light (18 dBZ)",
+        "Hotspot radar echo moderate (27 dBZ)",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 4.8, trigger 26.4)",
+        "Hotspot runoff potential guarded (wetness 15.1, trigger 19.3)",
         "Hotspot susceptibility 72%",
         "Hotspot category river floodplain",
         "Hotspot analysis radius 12 km"
@@ -959,19 +970,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "ALAPPUZHA : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "ALAPPUZHA : Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "ALAPPUZHA Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "ALAPPUZHA Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -983,37 +994,37 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 8,
+          "detail": "RainViewer moderate cell near hotspot",
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
           "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 2248,
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-thottappally-thanneermukkom",
@@ -1026,13 +1037,13 @@
         "drainage-control"
       ],
       "level": "Normal",
-      "score": 16.1,
-      "confidence": 0.4,
+      "score": 16.9,
+      "confidence": 0.5,
       "susceptibility": 0.6968560178618569,
       "runoff_potential": {
-        "score": 30.8,
-        "wetness_index": 4.8,
-        "trigger_index": 26.4,
+        "score": 30.6,
+        "wetness_index": 15.1,
+        "trigger_index": 12.1,
         "susceptibility_index": 69.7,
         "label": "guarded"
       },
@@ -1043,15 +1054,16 @@
       },
       "buffer_km": 14,
       "drivers": [
-        "Observed 24h rain 8.1 mm and 1h rain 6 mm",
-        "Peak recent 30 min rain 11.3 mm",
+        "Observed 24h rain 21.7 mm and 1h rain 1.7 mm",
+        "Peak recent 30 min rain 2.1 mm",
         "Rainfall aggregation district_polygon_mean",
         "RainViewer nowcast moderate (27 dBZ)",
-        "Runoff potential guarded (wetness 4.8, trigger 31.4)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential guarded (wetness 15.1, trigger 19.3)",
         "Terrain susceptibility 32% from NASADEM + local baseline",
-        "Hotspot radar echo light (18 dBZ)",
+        "Hotspot radar echo light (14 dBZ)",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 4.8, trigger 26.4)",
+        "Hotspot runoff potential guarded (wetness 15.1, trigger 12.1)",
         "Hotspot susceptibility 70%",
         "Hotspot category river confluence",
         "Hotspot analysis radius 14 km"
@@ -1060,19 +1072,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "ALAPPUZHA : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "ALAPPUZHA : Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "ALAPPUZHA Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "ALAPPUZHA Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -1084,37 +1096,37 @@
         {
           "source_id": "indiawris-rainfall",
           "detail": "No India-WRIS rainfall signal mapped for district",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 8,
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "Alappuzha: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "Alappuzha: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-pamba-corridor",
@@ -1127,13 +1139,13 @@
         "river-corridor"
       ],
       "level": "Normal",
-      "score": 15.2,
-      "confidence": 0.4,
+      "score": 33.4,
+      "confidence": 0.5,
       "susceptibility": 0.8777087998281825,
       "runoff_potential": {
-        "score": 29.1,
-        "wetness_index": 0.1,
-        "trigger_index": 10.8,
+        "score": 34.1,
+        "wetness_index": 8.7,
+        "trigger_index": 15.3,
         "susceptibility_index": 87.8,
         "label": "guarded"
       },
@@ -1144,17 +1156,18 @@
       },
       "buffer_km": 18,
       "drivers": [
-        "Observed 24h rain 0.2 mm and 1h rain 0.9 mm",
-        "India-WRIS official 24h rainfall 0.2 mm from 4 stations",
-        "Peak India-WRIS station 24h rainfall 2.2 mm",
-        "Peak recent 30 min rain 1.4 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast light (18 dBZ)",
-        "Runoff potential guarded (wetness 0.1, trigger 13)",
+        "Observed 24h rain 11.9 mm and 1h rain 0 mm",
+        "Peak recent 30 min rain 0.2 mm",
+        "Rainfall aggregation district_polygon_mean",
+        "RainViewer nowcast moderate (27 dBZ)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential elevated (wetness 8.7, trigger 15.3)",
         "Terrain susceptibility 83% from NASADEM + local baseline",
-        "Hotspot radar echo light (14 dBZ)",
+        "Reservoir caution active",
+        "Dam downstream caution active",
+        "Hotspot radar echo moderate (27 dBZ)",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0.1, trigger 10.8)",
+        "Hotspot runoff potential guarded (wetness 8.7, trigger 15.3)",
         "Hotspot susceptibility 88%",
         "Hotspot category river floodplain",
         "Hotspot analysis radius 18 km"
@@ -1163,19 +1176,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "PATHANAMTHITTA : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "PATHANAMTHITTA : Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "PATHANAMTHITTA Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "PATHANAMTHITTA Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -1186,38 +1199,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 8,
+          "detail": "RainViewer moderate cell near hotspot",
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.01 m across 4 stations",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 4 stations",
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "Pathanamthitta: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "Pathanamthitta: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-chalakudy",
@@ -1230,13 +1243,13 @@
         "riverine"
       ],
       "level": "Normal",
-      "score": 17.5,
-      "confidence": 0.4,
+      "score": 30.3,
+      "confidence": 0.5,
       "susceptibility": 0.741698815750701,
       "runoff_potential": {
-        "score": 33.5,
-        "wetness_index": 0.1,
-        "trigger_index": 10.8,
+        "score": 33.8,
+        "wetness_index": 12.3,
+        "trigger_index": 3,
         "susceptibility_index": 74.2,
         "label": "guarded"
       },
@@ -1247,16 +1260,17 @@
       },
       "buffer_km": 12,
       "drivers": [
-        "Observed 24h rain 0 mm and 1h rain 0.2 mm",
-        "India-WRIS official 24h rainfall 0 mm from 2 stations",
-        "Peak recent 30 min rain 0.4 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
+        "Observed 24h rain 6 mm and 1h rain 0.9 mm",
+        "Peak recent 30 min rain 2.5 mm",
+        "Rainfall aggregation district_polygon_mean",
         "RainViewer nowcast moderate (23 dBZ)",
-        "Runoff potential guarded (wetness 0.1, trigger 13.6)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential guarded (wetness 12.3, trigger 15.8)",
         "Terrain susceptibility 51% from NASADEM + local baseline",
-        "Hotspot radar echo light (18 dBZ)",
+        "Reservoir caution active",
+        "Dam downstream caution active",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0.1, trigger 10.8)",
+        "Hotspot runoff potential guarded (wetness 12.3, trigger 3)",
         "Hotspot susceptibility 74%",
         "Hotspot category dam downstream",
         "Hotspot analysis radius 12 km"
@@ -1265,19 +1279,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "THRISSUR : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "THRISSUR : Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "THRISSUR Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "THRISSUR Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -1288,38 +1302,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 2 stations",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 8,
+          "detail": "No meaningful RainViewer radar echo near hotspot",
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.02 m across 4 stations",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 4 stations",
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
           "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 2248,
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-aluva-periyar",
@@ -1332,13 +1346,13 @@
         "idamalayar"
       ],
       "level": "Normal",
-      "score": 18,
-      "confidence": 0.4,
+      "score": 29,
+      "confidence": 0.5,
       "susceptibility": 0.7690302921599974,
       "runoff_potential": {
-        "score": 35.2,
-        "wetness_index": 0.2,
-        "trigger_index": 12.5,
+        "score": 36.2,
+        "wetness_index": 14.3,
+        "trigger_index": 5.3,
         "susceptibility_index": 76.9,
         "label": "elevated"
       },
@@ -1349,16 +1363,17 @@
       },
       "buffer_km": 14,
       "drivers": [
-        "Observed 24h rain 0 mm and 1h rain 0.5 mm",
-        "India-WRIS official 24h rainfall 0 mm from 4 stations",
-        "Peak recent 30 min rain 0.8 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast moderate (23 dBZ)",
-        "Runoff potential low (wetness 0.2, trigger 15.3)",
+        "Observed 24h rain 10.7 mm and 1h rain 1.9 mm",
+        "Peak recent 30 min rain 3.5 mm",
+        "Rainfall aggregation district_polygon_mean",
+        "RainViewer nowcast light (5 dBZ)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential guarded (wetness 14.3, trigger 11.6)",
         "Terrain susceptibility 42% from NASADEM + local baseline",
-        "Hotspot radar echo light (18 dBZ)",
+        "Reservoir caution active",
+        "Dam downstream caution active",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential elevated (wetness 0.2, trigger 12.5)",
+        "Hotspot runoff potential elevated (wetness 14.3, trigger 5.3)",
         "Hotspot susceptibility 77%",
         "Hotspot category dam downstream",
         "Hotspot analysis radius 14 km"
@@ -1367,19 +1382,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "ERNAKULAM : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "ERNAKULAM : Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "ERNAKULAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "ERNAKULAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -1390,38 +1405,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 8,
+          "detail": "No meaningful RainViewer radar echo near hotspot",
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.52 m across 5 stations",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 5 stations",
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "Kakkanad: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "Kakkanad: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-neeleswaram-periyar",
@@ -1434,13 +1449,13 @@
         "periyar"
       ],
       "level": "Normal",
-      "score": 14.9,
-      "confidence": 0.4,
+      "score": 25.9,
+      "confidence": 0.5,
       "susceptibility": 0.6920302921599972,
       "runoff_potential": {
-        "score": 24.6,
-        "wetness_index": 0.2,
-        "trigger_index": 12.5,
+        "score": 28.1,
+        "wetness_index": 14.3,
+        "trigger_index": 5.3,
         "susceptibility_index": 69.2,
         "label": "guarded"
       },
@@ -1451,16 +1466,17 @@
       },
       "buffer_km": 10,
       "drivers": [
-        "Observed 24h rain 0 mm and 1h rain 0.5 mm",
-        "India-WRIS official 24h rainfall 0 mm from 4 stations",
-        "Peak recent 30 min rain 0.8 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast moderate (23 dBZ)",
-        "Runoff potential low (wetness 0.2, trigger 15.3)",
+        "Observed 24h rain 10.7 mm and 1h rain 1.9 mm",
+        "Peak recent 30 min rain 3.5 mm",
+        "Rainfall aggregation district_polygon_mean",
+        "RainViewer nowcast light (5 dBZ)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential guarded (wetness 14.3, trigger 11.6)",
         "Terrain susceptibility 42% from NASADEM + local baseline",
-        "Hotspot radar echo light (18 dBZ)",
+        "Reservoir caution active",
+        "Dam downstream caution active",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0.2, trigger 12.5)",
+        "Hotspot runoff potential guarded (wetness 14.3, trigger 5.3)",
         "Hotspot susceptibility 69%",
         "Hotspot category river confluence",
         "Hotspot analysis radius 10 km"
@@ -1469,19 +1485,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "ERNAKULAM : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "ERNAKULAM : Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "ERNAKULAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "ERNAKULAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -1492,38 +1508,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 8,
+          "detail": "No meaningful RainViewer radar echo near hotspot",
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.52 m across 5 stations",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 5 stations",
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
           "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 2248,
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-kochi-mgroad-kaloor",
@@ -1536,13 +1552,13 @@
         "urban"
       ],
       "level": "Normal",
-      "score": 17.5,
-      "confidence": 0.4,
+      "score": 23,
+      "confidence": 0.5,
       "susceptibility": 0.6780302921599972,
       "runoff_potential": {
-        "score": 25.4,
-        "wetness_index": 0.2,
-        "trigger_index": 15.3,
+        "score": 22.7,
+        "wetness_index": 14.3,
+        "trigger_index": 5.3,
         "susceptibility_index": 67.8,
         "label": "guarded"
       },
@@ -1553,16 +1569,17 @@
       },
       "buffer_km": 5,
       "drivers": [
-        "Observed 24h rain 0 mm and 1h rain 0.5 mm",
-        "India-WRIS official 24h rainfall 0 mm from 4 stations",
-        "Peak recent 30 min rain 0.8 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast moderate (23 dBZ)",
-        "Runoff potential low (wetness 0.2, trigger 15.3)",
+        "Observed 24h rain 10.7 mm and 1h rain 1.9 mm",
+        "Peak recent 30 min rain 3.5 mm",
+        "Rainfall aggregation district_polygon_mean",
+        "RainViewer nowcast light (5 dBZ)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential guarded (wetness 14.3, trigger 11.6)",
         "Terrain susceptibility 42% from NASADEM + local baseline",
-        "Hotspot radar echo moderate (23 dBZ)",
+        "Reservoir caution active",
+        "Dam downstream caution active",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0.2, trigger 15.3)",
+        "Hotspot runoff potential guarded (wetness 14.3, trigger 5.3)",
         "Hotspot susceptibility 68%",
         "Hotspot category urban flood pocket",
         "Hotspot analysis radius 5 km"
@@ -1571,19 +1588,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "ERNAKULAM : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "ERNAKULAM : Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "ERNAKULAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "ERNAKULAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -1594,38 +1611,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer moderate cell near hotspot",
-          "freshness_minutes": 8,
+          "detail": "No meaningful RainViewer radar echo near hotspot",
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.52 m across 5 stations",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 5 stations",
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "Ernakulam: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "Ernakulam: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-kakkanad-infopark",
@@ -1638,13 +1655,13 @@
         "tech-corridor"
       ],
       "level": "Normal",
-      "score": 15.6,
-      "confidence": 0.4,
+      "score": 23.2,
+      "confidence": 0.5,
       "susceptibility": 0.6990302921599973,
       "runoff_potential": {
-        "score": 24.4,
-        "wetness_index": 0.2,
-        "trigger_index": 12.5,
+        "score": 23.3,
+        "wetness_index": 14.3,
+        "trigger_index": 5.3,
         "susceptibility_index": 69.9,
         "label": "guarded"
       },
@@ -1655,16 +1672,17 @@
       },
       "buffer_km": 6,
       "drivers": [
-        "Observed 24h rain 0 mm and 1h rain 0.5 mm",
-        "India-WRIS official 24h rainfall 0 mm from 4 stations",
-        "Peak recent 30 min rain 0.8 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast moderate (23 dBZ)",
-        "Runoff potential low (wetness 0.2, trigger 15.3)",
+        "Observed 24h rain 10.7 mm and 1h rain 1.9 mm",
+        "Peak recent 30 min rain 3.5 mm",
+        "Rainfall aggregation district_polygon_mean",
+        "RainViewer nowcast light (5 dBZ)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential guarded (wetness 14.3, trigger 11.6)",
         "Terrain susceptibility 42% from NASADEM + local baseline",
-        "Hotspot radar echo light (18 dBZ)",
+        "Reservoir caution active",
+        "Dam downstream caution active",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0.2, trigger 12.5)",
+        "Hotspot runoff potential guarded (wetness 14.3, trigger 5.3)",
         "Hotspot susceptibility 70%",
         "Hotspot category urban flood pocket",
         "Hotspot analysis radius 6 km"
@@ -1673,19 +1691,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "ERNAKULAM : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "ERNAKULAM : Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "ERNAKULAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "ERNAKULAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -1696,38 +1714,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 8,
+          "detail": "No meaningful RainViewer radar echo near hotspot",
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.52 m across 5 stations",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 5 stations",
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "Kakkanad: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "Kakkanad: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-kalamassery",
@@ -1739,13 +1757,13 @@
         "street-flooding"
       ],
       "level": "Normal",
-      "score": 15.3,
-      "confidence": 0.4,
+      "score": 22.9,
+      "confidence": 0.5,
       "susceptibility": 0.6640302921599972,
       "runoff_potential": {
-        "score": 23.5,
-        "wetness_index": 0.2,
-        "trigger_index": 12.5,
+        "score": 22.4,
+        "wetness_index": 14.3,
+        "trigger_index": 5.3,
         "susceptibility_index": 66.4,
         "label": "guarded"
       },
@@ -1756,16 +1774,17 @@
       },
       "buffer_km": 5,
       "drivers": [
-        "Observed 24h rain 0 mm and 1h rain 0.5 mm",
-        "India-WRIS official 24h rainfall 0 mm from 4 stations",
-        "Peak recent 30 min rain 0.8 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast moderate (23 dBZ)",
-        "Runoff potential low (wetness 0.2, trigger 15.3)",
+        "Observed 24h rain 10.7 mm and 1h rain 1.9 mm",
+        "Peak recent 30 min rain 3.5 mm",
+        "Rainfall aggregation district_polygon_mean",
+        "RainViewer nowcast light (5 dBZ)",
+        "No current district-scale rain, radar, or hydrology trigger supporting district watch",
+        "Runoff potential guarded (wetness 14.3, trigger 11.6)",
         "Terrain susceptibility 42% from NASADEM + local baseline",
-        "Hotspot radar echo light (18 dBZ)",
+        "Reservoir caution active",
+        "Dam downstream caution active",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0.2, trigger 12.5)",
+        "Hotspot runoff potential guarded (wetness 14.3, trigger 5.3)",
         "Hotspot susceptibility 66%",
         "Hotspot category urban flood pocket",
         "Hotspot analysis radius 5 km"
@@ -1774,19 +1793,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "ERNAKULAM : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "ERNAKULAM : Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "ERNAKULAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "ERNAKULAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -1797,38 +1816,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 4 stations",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
-          "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 8,
+          "detail": "No meaningful RainViewer radar echo near hotspot",
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.52 m across 5 stations",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 5 stations",
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "Kakkanad: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "Kakkanad: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-thampanoor-eastfort",
@@ -1841,13 +1860,13 @@
         "urban"
       ],
       "level": "Normal",
-      "score": 17.9,
-      "confidence": 0.4,
+      "score": 30.6,
+      "confidence": 0.5,
       "susceptibility": 0.7378677372445669,
       "runoff_potential": {
-        "score": 27.1,
-        "wetness_index": 0.3,
-        "trigger_index": 15.7,
+        "score": 29.2,
+        "wetness_index": 7.1,
+        "trigger_index": 17,
         "susceptibility_index": 73.8,
         "label": "guarded"
       },
@@ -1858,17 +1877,15 @@
       },
       "buffer_km": 4,
       "drivers": [
-        "Observed 24h rain 0.4 mm and 1h rain 1 mm",
-        "India-WRIS official 24h rainfall 0.4 mm from 3 stations",
-        "Peak India-WRIS station 24h rainfall 2.6 mm",
-        "Peak recent 30 min rain 1.8 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast moderate (23 dBZ)",
-        "Runoff potential guarded (wetness 0.3, trigger 15.7)",
+        "Observed 24h rain 11.9 mm and 1h rain 0 mm",
+        "Rainfall aggregation district_polygon_mean",
+        "RainViewer nowcast moderate (30 dBZ)",
+        "Runoff potential guarded (wetness 7.1, trigger 17)",
         "Terrain susceptibility 52% from NASADEM + local baseline",
-        "Hotspot radar echo moderate (23 dBZ)",
-        "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0.3, trigger 15.7)",
+        "CWC river-stage warning/watch active",
+        "Dam downstream caution active",
+        "Hotspot radar echo moderate (30 dBZ)",
+        "Hotspot runoff potential guarded (wetness 7.1, trigger 17)",
         "Hotspot susceptibility 74%",
         "Hotspot category urban flood pocket",
         "Hotspot analysis radius 4 km"
@@ -1877,19 +1894,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "THIRUVANANTHAPURAM : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "THIRUVANANTHAPURAM : Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "THIRUVANANTHAPURAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "THIRUVANANTHAPURAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -1900,38 +1917,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near hotspot",
-          "freshness_minutes": 8,
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.01 m across 3 stations",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 3 stations",
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "Thiruvananthapuram City: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "Thiruvananthapuram City: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     },
     {
       "area_id": "h-kannammoola-uppidamoodu",
@@ -1943,13 +1960,13 @@
         "urban-drainage"
       ],
       "level": "Normal",
-      "score": 17.7,
-      "confidence": 0.4,
+      "score": 30.4,
+      "confidence": 0.5,
       "susceptibility": 0.7168677372445669,
       "runoff_potential": {
-        "score": 26.6,
-        "wetness_index": 0.3,
-        "trigger_index": 15.7,
+        "score": 28.7,
+        "wetness_index": 7.1,
+        "trigger_index": 17,
         "susceptibility_index": 71.7,
         "label": "guarded"
       },
@@ -1960,17 +1977,15 @@
       },
       "buffer_km": 4,
       "drivers": [
-        "Observed 24h rain 0.4 mm and 1h rain 1 mm",
-        "India-WRIS official 24h rainfall 0.4 mm from 3 stations",
-        "Peak India-WRIS station 24h rainfall 2.6 mm",
-        "Peak recent 30 min rain 1.8 mm",
-        "Rainfall aggregation district_polygon_mean+indiawris_station_mean",
-        "RainViewer nowcast moderate (23 dBZ)",
-        "Runoff potential guarded (wetness 0.3, trigger 15.7)",
+        "Observed 24h rain 11.9 mm and 1h rain 0 mm",
+        "Rainfall aggregation district_polygon_mean",
+        "RainViewer nowcast moderate (30 dBZ)",
+        "Runoff potential guarded (wetness 7.1, trigger 17)",
         "Terrain susceptibility 52% from NASADEM + local baseline",
-        "Hotspot radar echo moderate (23 dBZ)",
-        "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0.3, trigger 15.7)",
+        "CWC river-stage warning/watch active",
+        "Dam downstream caution active",
+        "Hotspot radar echo moderate (30 dBZ)",
+        "Hotspot runoff potential guarded (wetness 7.1, trigger 17)",
         "Hotspot susceptibility 72%",
         "Hotspot category urban flood pocket",
         "Hotspot analysis radius 4 km"
@@ -1979,19 +1994,19 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "0 CAP items",
-          "freshness_minutes": 5059,
-          "status": "offline"
+          "freshness_minutes": 2877,
+          "status": "stale"
         },
         {
           "source_id": "imd-district-warning",
-          "detail": "THIRUVANANTHAPURAM : Heavy Rain Thunderstorm & Lightning, Squall etc Strong Surface Winds Updated on:2026-06-02",
-          "freshness_minutes": 3388,
+          "detail": "THIRUVANANTHAPURAM : Heavy Rain Strong Surface Winds Updated on:2026-06-09",
+          "freshness_minutes": 3745,
           "status": "offline"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "THIRUVANANTHAPURAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "THIRUVANANTHAPURAM Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         },
         {
@@ -2002,38 +2017,38 @@
         },
         {
           "source_id": "indiawris-rainfall",
-          "detail": "Official rainfall available from 3 stations",
-          "freshness_minutes": 2698,
-          "status": "stale"
+          "detail": "No India-WRIS rainfall signal mapped for district",
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near hotspot",
-          "freshness_minutes": 8,
+          "freshness_minutes": 15,
           "status": "ok"
         },
         {
           "source_id": "indiawris-river-level",
           "detail": "No India-WRIS river-level context for district",
-          "freshness_minutes": 2668,
-          "status": "stale"
+          "freshness_minutes": null,
+          "status": "degraded"
         },
         {
           "source_id": "cwc-ffs",
-          "detail": "CWC flood forecasting observed river rise 0.01 m across 3 stations",
-          "freshness_minutes": 2188,
-          "status": "offline"
+          "detail": "CWC flood forecasting live river level available from 3 stations",
+          "freshness_minutes": 85,
+          "status": "ok"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "Thiruvananthapuram City: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-02 1900 Hrs Valid upto: 2200 Hrs",
-          "freshness_minutes": 2248,
+          "detail": "Thiruvananthapuram City: Light Thunderstorms with maximum surface wind speed less than 40 kmph Moderate rain: 5-15 mm/hr Time of issue: 2026-06-09 1900 Hrs Valid upto: 2200 Hrs",
+          "freshness_minutes": 2605,
           "status": "offline"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-06-04T02:57:41.293Z",
-      "valid_to": "2026-06-04T08:57:41.293Z"
+      "valid_from": "2026-06-11T08:54:34.175Z",
+      "valid_to": "2026-06-11T14:54:34.175Z"
     }
   ]
 }
