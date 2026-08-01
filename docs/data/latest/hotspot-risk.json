@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-01T18:56:02.197Z",
+  "generated_at": "2026-08-01T19:54:30.545Z",
   "hotspots": [
     {
       "area_id": "h-mundakkai-chooralmala",
@@ -11,14 +11,14 @@
         "debris-flow",
         "orographic-rainfall"
       ],
-      "level": "Normal",
-      "score": 33.1,
-      "confidence": 0.3,
+      "level": "Watch",
+      "score": 37.9,
+      "confidence": 0.4,
       "susceptibility": 0.831893425105676,
       "runoff_potential": {
-        "score": 25.3,
+        "score": 27,
         "wetness_index": 0,
-        "trigger_index": 10,
+        "trigger_index": 13.8,
         "susceptibility_index": 83.2,
         "label": "guarded"
       },
@@ -30,12 +30,12 @@
       "buffer_km": 8,
       "drivers": [
         "IMD district warning 17.5% (Extremely Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast light (18 dBZ)",
-        "Runoff potential guarded (wetness 0, trigger 10)",
+        "IMD district nowcast 55%",
+        "Runoff potential guarded (wetness 0, trigger 13.8)",
         "Terrain susceptibility 53% from NASADEM + local baseline",
         "CWC river-stage warning/watch active",
-        "Hotspot radar echo light (18 dBZ)",
-        "Hotspot runoff potential guarded (wetness 0, trigger 10)",
+        "IMD station nowcast 55% near hotspot (Vythiri, 6.1 km)",
+        "Hotspot runoff potential guarded (wetness 0, trigger 13.8)",
         "Hotspot susceptibility 83%",
         "Hotspot category steep catchment",
         "Hotspot analysis radius 8 km"
@@ -43,21 +43,21 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "detail": "1 CAP items",
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "WAYANAD : Extremely Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "WAYANAD Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -74,8 +74,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -86,19 +86,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting river level above warning at MUTHANKERA",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "Vythiri: Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-meppadi-vythiri",
@@ -110,14 +110,14 @@
         "steep-slope",
         "road-isolation"
       ],
-      "level": "Normal",
-      "score": 32.6,
-      "confidence": 0.3,
+      "level": "Watch",
+      "score": 37.4,
+      "confidence": 0.4,
       "susceptibility": 0.7968934251056761,
       "runoff_potential": {
-        "score": 24.4,
+        "score": 26.1,
         "wetness_index": 0,
-        "trigger_index": 10,
+        "trigger_index": 13.8,
         "susceptibility_index": 79.7,
         "label": "guarded"
       },
@@ -129,12 +129,12 @@
       "buffer_km": 10,
       "drivers": [
         "IMD district warning 17.5% (Extremely Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast light (18 dBZ)",
-        "Runoff potential guarded (wetness 0, trigger 10)",
+        "IMD district nowcast 55%",
+        "Runoff potential guarded (wetness 0, trigger 13.8)",
         "Terrain susceptibility 53% from NASADEM + local baseline",
         "CWC river-stage warning/watch active",
-        "Hotspot radar echo light (18 dBZ)",
-        "Hotspot runoff potential guarded (wetness 0, trigger 10)",
+        "IMD station nowcast 55% near hotspot (Vythiri, 1.8 km)",
+        "Hotspot runoff potential guarded (wetness 0, trigger 13.8)",
         "Hotspot susceptibility 80%",
         "Hotspot category steep catchment",
         "Hotspot analysis radius 10 km"
@@ -142,21 +142,21 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "detail": "1 CAP items",
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "WAYANAD : Extremely Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "WAYANAD Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -173,8 +173,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -185,19 +185,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting river level above warning at MUTHANKERA",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "Vythiri: Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-padinjarathara-banasura",
@@ -210,15 +210,15 @@
         "banasura"
       ],
       "level": "Normal",
-      "score": 29.9,
-      "confidence": 0.3,
+      "score": 34.7,
+      "confidence": 0.4,
       "susceptibility": 0.775893425105676,
       "runoff_potential": {
-        "score": 33.4,
+        "score": 35.8,
         "wetness_index": 0,
-        "trigger_index": 6.7,
+        "trigger_index": 13.8,
         "susceptibility_index": 77.6,
-        "label": "guarded"
+        "label": "elevated"
       },
       "category": "dam_downstream",
       "location": {
@@ -228,12 +228,12 @@
       "buffer_km": 12,
       "drivers": [
         "IMD district warning 17.5% (Extremely Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast light (18 dBZ)",
-        "Runoff potential guarded (wetness 0, trigger 10)",
+        "IMD district nowcast 55%",
+        "Runoff potential guarded (wetness 0, trigger 13.8)",
         "Terrain susceptibility 53% from NASADEM + local baseline",
         "CWC river-stage warning/watch active",
-        "Hotspot radar echo light (12 dBZ)",
-        "Hotspot runoff potential guarded (wetness 0, trigger 6.7)",
+        "IMD station nowcast 55% near hotspot (Wayanad, 10.5 km)",
+        "Hotspot runoff potential elevated (wetness 0, trigger 13.8)",
         "Hotspot susceptibility 78%",
         "Hotspot category dam downstream",
         "Hotspot analysis radius 12 km"
@@ -241,21 +241,21 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "detail": "1 CAP items",
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "WAYANAD : Extremely Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "WAYANAD Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -272,8 +272,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -284,19 +284,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting river level above warning at MUTHANKERA",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "Wayanad: Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-peermade",
@@ -309,13 +309,13 @@
         "runoff"
       ],
       "level": "Normal",
-      "score": 28.4,
-      "confidence": 0.3,
+      "score": 29.6,
+      "confidence": 0.4,
       "susceptibility": 0.9401999999999999,
       "runoff_potential": {
-        "score": 26.3,
+        "score": 27.4,
         "wetness_index": 0,
-        "trigger_index": 6.3,
+        "trigger_index": 8.8,
         "susceptibility_index": 94,
         "label": "guarded"
       },
@@ -327,13 +327,13 @@
       "buffer_km": 10,
       "drivers": [
         "IMD district warning 17.5% (Very Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast moderate (23 dBZ)",
+        "IMD district nowcast 55%",
         "No current district-scale rain, radar, or hydrology trigger supporting district watch",
-        "Runoff potential elevated (wetness 0, trigger 12.8)",
+        "Runoff potential elevated (wetness 0, trigger 13.8)",
         "Terrain susceptibility 96% from NASADEM + local baseline",
-        "Hotspot radar echo light (9 dBZ)",
+        "IMD station nowcast 35% near hotspot (Sabarimala Sannidhanam, 19.7 km)",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0, trigger 6.3)",
+        "Hotspot runoff potential guarded (wetness 0, trigger 8.8)",
         "Hotspot susceptibility 94%",
         "Hotspot category steep catchment",
         "Hotspot analysis radius 10 km"
@@ -342,20 +342,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "IDUKKI : Very Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "IDUKKI Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -372,8 +372,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -384,19 +384,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.19 m across 3 stations",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "Sabarimala Sannidhanam: Moderate rain: 5-15 mm/hr surface wind speed likely to be 40 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-munnar-devikulam",
@@ -409,13 +409,13 @@
         "landslide"
       ],
       "level": "Normal",
-      "score": 30.6,
-      "confidence": 0.3,
+      "score": 31.4,
+      "confidence": 0.4,
       "susceptibility": 0.9541999999999999,
       "runoff_potential": {
-        "score": 29.6,
+        "score": 30,
         "wetness_index": 0,
-        "trigger_index": 12.8,
+        "trigger_index": 13.8,
         "susceptibility_index": 95.4,
         "label": "guarded"
       },
@@ -427,13 +427,12 @@
       "buffer_km": 14,
       "drivers": [
         "IMD district warning 17.5% (Very Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast moderate (23 dBZ)",
+        "IMD district nowcast 55%",
         "No current district-scale rain, radar, or hydrology trigger supporting district watch",
-        "Runoff potential elevated (wetness 0, trigger 12.8)",
+        "Runoff potential elevated (wetness 0, trigger 13.8)",
         "Terrain susceptibility 96% from NASADEM + local baseline",
-        "Hotspot radar echo moderate (23 dBZ)",
-        "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0, trigger 12.8)",
+        "IMD station nowcast 55% near hotspot (Munnar, 0.1 km)",
+        "Hotspot runoff potential guarded (wetness 0, trigger 13.8)",
         "Hotspot susceptibility 95%",
         "Hotspot category steep catchment",
         "Hotspot analysis radius 14 km"
@@ -442,20 +441,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "IDUKKI : Very Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "IDUKKI Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -472,8 +471,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -484,19 +483,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.19 m across 3 stations",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "Munnar: Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-vandiperiyar-mullaperiyar",
@@ -509,13 +508,13 @@
         "rapid-rise"
       ],
       "level": "Normal",
-      "score": 21.4,
-      "confidence": 0.3,
+      "score": 26.2,
+      "confidence": 0.4,
       "susceptibility": 0.9192,
       "runoff_potential": {
-        "score": 36.8,
+        "score": 41.6,
         "wetness_index": 0,
-        "trigger_index": 0,
+        "trigger_index": 13.8,
         "susceptibility_index": 91.9,
         "label": "elevated"
       },
@@ -527,12 +526,12 @@
       "buffer_km": 12,
       "drivers": [
         "IMD district warning 17.5% (Very Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast moderate (23 dBZ)",
+        "IMD district nowcast 55%",
         "No current district-scale rain, radar, or hydrology trigger supporting district watch",
-        "Runoff potential elevated (wetness 0, trigger 12.8)",
+        "Runoff potential elevated (wetness 0, trigger 13.8)",
         "Terrain susceptibility 96% from NASADEM + local baseline",
-        "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential elevated (wetness 0, trigger 0)",
+        "IMD station nowcast 55% near hotspot (Thekkady, 4.7 km)",
+        "Hotspot runoff potential elevated (wetness 0, trigger 13.8)",
         "Hotspot susceptibility 92%",
         "Hotspot category dam downstream",
         "Hotspot analysis radius 12 km"
@@ -541,20 +540,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "IDUKKI : Very Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "IDUKKI Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -571,8 +570,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -583,19 +582,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.19 m across 3 stations",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "Thekkady: Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-kumily-attapallam",
@@ -607,13 +606,13 @@
         "downstream-inundation"
       ],
       "level": "Normal",
-      "score": 21,
-      "confidence": 0.3,
+      "score": 25.8,
+      "confidence": 0.4,
       "susceptibility": 0.8772,
       "runoff_potential": {
-        "score": 35.1,
+        "score": 39.9,
         "wetness_index": 0,
-        "trigger_index": 0,
+        "trigger_index": 13.8,
         "susceptibility_index": 87.7,
         "label": "elevated"
       },
@@ -625,12 +624,12 @@
       "buffer_km": 8,
       "drivers": [
         "IMD district warning 17.5% (Very Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast moderate (23 dBZ)",
+        "IMD district nowcast 55%",
         "No current district-scale rain, radar, or hydrology trigger supporting district watch",
-        "Runoff potential elevated (wetness 0, trigger 12.8)",
+        "Runoff potential elevated (wetness 0, trigger 13.8)",
         "Terrain susceptibility 96% from NASADEM + local baseline",
-        "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential elevated (wetness 0, trigger 0)",
+        "IMD station nowcast 55% near hotspot (Kumily, 0.5 km)",
+        "Hotspot runoff potential elevated (wetness 0, trigger 13.8)",
         "Hotspot susceptibility 88%",
         "Hotspot category dam downstream",
         "Hotspot analysis radius 8 km"
@@ -639,20 +638,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "IDUKKI : Very Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "IDUKKI Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -669,8 +668,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "No meaningful RainViewer radar echo near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -681,19 +680,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.19 m across 3 stations",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "Kumily: Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-nilambur-chaliyar",
@@ -706,13 +705,13 @@
         "chaliyar"
       ],
       "level": "Normal",
-      "score": 22.2,
-      "confidence": 0.3,
+      "score": 18.6,
+      "confidence": 0.4,
       "susceptibility": 0.776264212557632,
       "runoff_potential": {
-        "score": 26.4,
+        "score": 26.3,
         "wetness_index": 0,
-        "trigger_index": 12.5,
+        "trigger_index": 12.2,
         "susceptibility_index": 77.6,
         "label": "guarded"
       },
@@ -724,13 +723,12 @@
       "buffer_km": 10,
       "drivers": [
         "IMD district warning 17.5% (Extremely Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast moderate (22 dBZ)",
+        "IMD district nowcast 55%",
         "No current district-scale rain, radar, or hydrology trigger supporting district watch",
-        "Runoff potential guarded (wetness 0, trigger 12.5)",
+        "Runoff potential guarded (wetness 0, trigger 13.8)",
         "Terrain susceptibility 67% from NASADEM + local baseline",
-        "Hotspot radar echo moderate (22 dBZ)",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0, trigger 12.5)",
+        "Hotspot runoff potential guarded (wetness 0, trigger 12.2)",
         "Hotspot susceptibility 78%",
         "Hotspot category river floodplain",
         "Hotspot analysis radius 10 km"
@@ -738,21 +736,21 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "detail": "1 CAP items",
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "MALAPPURAM : Extremely Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "MALAPPURAM Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -769,8 +767,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -781,19 +779,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.28 m across 5 stations",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
           "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-kuttanad",
@@ -806,13 +804,13 @@
         "multi-river-drainage"
       ],
       "level": "Normal",
-      "score": 22.6,
-      "confidence": 0.3,
+      "score": 25.4,
+      "confidence": 0.4,
       "susceptibility": 0.7528560178618569,
       "runoff_potential": {
-        "score": 28.7,
+        "score": 30.5,
         "wetness_index": 0,
-        "trigger_index": 7.8,
+        "trigger_index": 13.8,
         "susceptibility_index": 75.3,
         "label": "guarded"
       },
@@ -824,13 +822,12 @@
       "buffer_km": 18,
       "drivers": [
         "IMD district warning 15% (Very Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast moderate (23 dBZ)",
+        "IMD district nowcast 55%",
         "No current district-scale rain, radar, or hydrology trigger supporting district watch",
-        "Runoff potential low (wetness 0, trigger 12.8)",
+        "Runoff potential low (wetness 0, trigger 13.8)",
         "Terrain susceptibility 32% from NASADEM + local baseline",
-        "Hotspot radar echo light (14 dBZ)",
-        "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0, trigger 7.8)",
+        "IMD station nowcast 55% near hotspot (Alappuzha, 17.3 km)",
+        "Hotspot runoff potential guarded (wetness 0, trigger 13.8)",
         "Hotspot susceptibility 75%",
         "Hotspot category low lying basin",
         "Hotspot analysis radius 18 km"
@@ -839,20 +836,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "ALAPPUZHA : Very Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "ALAPPUZHA Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -869,8 +866,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -881,19 +878,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "Alappuzha: Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-chengannur-pandanad",
@@ -906,8 +903,8 @@
         "prolonged-inundation"
       ],
       "level": "Normal",
-      "score": 19.1,
-      "confidence": 0.3,
+      "score": 17.5,
+      "confidence": 0.4,
       "susceptibility": 0.7178560178618569,
       "runoff_potential": {
         "score": 24,
@@ -924,11 +921,10 @@
       "buffer_km": 12,
       "drivers": [
         "IMD district warning 15% (Very Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast moderate (23 dBZ)",
+        "IMD district nowcast 55%",
         "No current district-scale rain, radar, or hydrology trigger supporting district watch",
-        "Runoff potential low (wetness 0, trigger 12.8)",
+        "Runoff potential low (wetness 0, trigger 13.8)",
         "Terrain susceptibility 32% from NASADEM + local baseline",
-        "Hotspot radar echo light (18 dBZ)",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
         "Hotspot runoff potential guarded (wetness 0, trigger 10)",
         "Hotspot susceptibility 72%",
@@ -939,20 +935,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "ALAPPUZHA : Very Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "ALAPPUZHA Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -969,8 +965,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -981,19 +977,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
           "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-thottappally-thanneermukkom",
@@ -1006,13 +1002,13 @@
         "drainage-control"
       ],
       "level": "Normal",
-      "score": 20.2,
-      "confidence": 0.3,
+      "score": 21,
+      "confidence": 0.4,
       "susceptibility": 0.6968560178618569,
       "runoff_potential": {
-        "score": 24.7,
+        "score": 25,
         "wetness_index": 0,
-        "trigger_index": 12.8,
+        "trigger_index": 13.8,
         "susceptibility_index": 69.7,
         "label": "guarded"
       },
@@ -1024,13 +1020,12 @@
       "buffer_km": 14,
       "drivers": [
         "IMD district warning 15% (Very Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast moderate (23 dBZ)",
+        "IMD district nowcast 55%",
         "No current district-scale rain, radar, or hydrology trigger supporting district watch",
-        "Runoff potential low (wetness 0, trigger 12.8)",
+        "Runoff potential low (wetness 0, trigger 13.8)",
         "Terrain susceptibility 32% from NASADEM + local baseline",
-        "Hotspot radar echo moderate (23 dBZ)",
-        "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0, trigger 12.8)",
+        "IMD station nowcast 55% near hotspot (Alappuzha, 4.1 km)",
+        "Hotspot runoff potential guarded (wetness 0, trigger 13.8)",
         "Hotspot susceptibility 70%",
         "Hotspot category river confluence",
         "Hotspot analysis radius 14 km"
@@ -1039,20 +1034,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "ALAPPUZHA : Very Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "ALAPPUZHA Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -1069,8 +1064,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -1081,19 +1076,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "No river-stage warning for district",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "Alappuzha: Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-pamba-corridor",
@@ -1106,13 +1101,13 @@
         "river-corridor"
       ],
       "level": "Normal",
-      "score": 31.5,
-      "confidence": 0.3,
+      "score": 33.1,
+      "confidence": 0.4,
       "susceptibility": 0.8777087998281825,
       "runoff_potential": {
-        "score": 28.3,
+        "score": 28.5,
         "wetness_index": 0,
-        "trigger_index": 7.8,
+        "trigger_index": 8.8,
         "susceptibility_index": 87.8,
         "label": "guarded"
       },
@@ -1124,12 +1119,12 @@
       "buffer_km": 18,
       "drivers": [
         "IMD district warning 17.5% (Very Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast light (18 dBZ)",
+        "IMD district nowcast 35%",
         "Runoff potential guarded (wetness 0, trigger 10)",
         "Terrain susceptibility 83% from NASADEM + local baseline",
         "CWC river-stage warning/watch active",
-        "Hotspot radar echo light (14 dBZ)",
-        "Hotspot runoff potential guarded (wetness 0, trigger 7.8)",
+        "IMD station nowcast 35% near hotspot (Pathanamthitta, 11.9 km)",
+        "Hotspot runoff potential guarded (wetness 0, trigger 8.8)",
         "Hotspot susceptibility 88%",
         "Hotspot category river floodplain",
         "Hotspot analysis radius 18 km"
@@ -1137,21 +1132,21 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "3 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "detail": "1 CAP items",
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "PATHANAMTHITTA : Very Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "PATHANAMTHITTA Moderate rain: 5-15 mm/hr surface wind speed likely to be 40 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -1168,8 +1163,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -1180,19 +1175,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting river level above danger at MADAMON",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "Pathanamthitta: Moderate rain: 5-15 mm/hr surface wind speed likely to be 40 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-chalakudy",
@@ -1205,8 +1200,8 @@
         "riverine"
       ],
       "level": "Normal",
-      "score": 23.6,
-      "confidence": 0.3,
+      "score": 18.4,
+      "confidence": 0.4,
       "susceptibility": 0.741698815750701,
       "runoff_potential": {
         "score": 34.1,
@@ -1223,11 +1218,10 @@
       "buffer_km": 12,
       "drivers": [
         "IMD district warning 17.5% (Extremely Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast moderate (23 dBZ)",
+        "IMD district nowcast 35%",
         "No current district-scale rain, radar, or hydrology trigger supporting district watch",
         "Runoff potential guarded (wetness 0, trigger 12.8)",
         "Terrain susceptibility 51% from NASADEM + local baseline",
-        "Hotspot radar echo moderate (23 dBZ)",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
         "Hotspot runoff potential guarded (wetness 0, trigger 12.8)",
         "Hotspot susceptibility 74%",
@@ -1237,21 +1231,21 @@
       "source_refs": [
         {
           "source_id": "imd-cap-rss",
-          "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "detail": "0 CAP items",
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "THRISSUR : Extremely Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "THRISSUR Moderate rain: 5-15 mm/hr surface wind speed likely to be 40 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -1268,8 +1262,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -1280,19 +1274,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.03 m across 4 stations",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
           "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-aluva-periyar",
@@ -1305,13 +1299,13 @@
         "idamalayar"
       ],
       "level": "Normal",
-      "score": 23.3,
-      "confidence": 0.3,
+      "score": 24.1,
+      "confidence": 0.4,
       "susceptibility": 0.7690302921599974,
       "runoff_potential": {
-        "score": 35.2,
+        "score": 35.6,
         "wetness_index": 0,
-        "trigger_index": 12.8,
+        "trigger_index": 13.8,
         "susceptibility_index": 76.9,
         "label": "elevated"
       },
@@ -1323,13 +1317,12 @@
       "buffer_km": 14,
       "drivers": [
         "IMD district warning 15% (Very Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast moderate (23 dBZ)",
+        "IMD district nowcast 55%",
         "No current district-scale rain, radar, or hydrology trigger supporting district watch",
-        "Runoff potential low (wetness 0, trigger 12.8)",
+        "Runoff potential low (wetness 0, trigger 13.8)",
         "Terrain susceptibility 42% from NASADEM + local baseline",
-        "Hotspot radar echo moderate (23 dBZ)",
-        "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential elevated (wetness 0, trigger 12.8)",
+        "IMD station nowcast 55% near hotspot (Kakkanad, 10.3 km)",
+        "Hotspot runoff potential elevated (wetness 0, trigger 13.8)",
         "Hotspot susceptibility 77%",
         "Hotspot category dam downstream",
         "Hotspot analysis radius 14 km"
@@ -1338,20 +1331,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "ERNAKULAM : Very Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "ERNAKULAM Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -1368,8 +1361,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -1380,19 +1373,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.18 m across 4 stations",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "Kakkanad: Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-neeleswaram-periyar",
@@ -1405,8 +1398,8 @@
         "periyar"
       ],
       "level": "Normal",
-      "score": 20.1,
-      "confidence": 0.3,
+      "score": 16.5,
+      "confidence": 0.4,
       "susceptibility": 0.6920302921599972,
       "runoff_potential": {
         "score": 24.6,
@@ -1423,11 +1416,10 @@
       "buffer_km": 10,
       "drivers": [
         "IMD district warning 15% (Very Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast moderate (23 dBZ)",
+        "IMD district nowcast 55%",
         "No current district-scale rain, radar, or hydrology trigger supporting district watch",
-        "Runoff potential low (wetness 0, trigger 12.8)",
+        "Runoff potential low (wetness 0, trigger 13.8)",
         "Terrain susceptibility 42% from NASADEM + local baseline",
-        "Hotspot radar echo moderate (23 dBZ)",
         "No current rain, river-stage, or operational release trigger supporting hotspot watch",
         "Hotspot runoff potential guarded (wetness 0, trigger 12.8)",
         "Hotspot susceptibility 69%",
@@ -1438,20 +1430,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "ERNAKULAM : Very Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "ERNAKULAM Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -1468,8 +1460,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -1480,19 +1472,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.18 m across 4 stations",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
           "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-kochi-mgroad-kaloor",
@@ -1505,13 +1497,13 @@
         "urban"
       ],
       "level": "Normal",
-      "score": 20.7,
-      "confidence": 0.3,
+      "score": 21.5,
+      "confidence": 0.4,
       "susceptibility": 0.6780302921599972,
       "runoff_potential": {
-        "score": 24,
+        "score": 24.5,
         "wetness_index": 0,
-        "trigger_index": 12.8,
+        "trigger_index": 13.8,
         "susceptibility_index": 67.8,
         "label": "guarded"
       },
@@ -1523,13 +1515,12 @@
       "buffer_km": 5,
       "drivers": [
         "IMD district warning 15% (Very Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast moderate (23 dBZ)",
+        "IMD district nowcast 55%",
         "No current district-scale rain, radar, or hydrology trigger supporting district watch",
-        "Runoff potential low (wetness 0, trigger 12.8)",
+        "Runoff potential low (wetness 0, trigger 13.8)",
         "Terrain susceptibility 42% from NASADEM + local baseline",
-        "Hotspot radar echo moderate (23 dBZ)",
-        "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0, trigger 12.8)",
+        "IMD station nowcast 55% near hotspot (Ernakulam, 1 km)",
+        "Hotspot runoff potential guarded (wetness 0, trigger 13.8)",
         "Hotspot susceptibility 68%",
         "Hotspot category urban flood pocket",
         "Hotspot analysis radius 5 km"
@@ -1538,20 +1529,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "ERNAKULAM : Very Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "ERNAKULAM Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -1568,8 +1559,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -1580,19 +1571,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.18 m across 4 stations",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "Ernakulam: Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-kakkanad-infopark",
@@ -1605,13 +1596,13 @@
         "tech-corridor"
       ],
       "level": "Normal",
-      "score": 20.9,
-      "confidence": 0.3,
+      "score": 21.7,
+      "confidence": 0.4,
       "susceptibility": 0.6990302921599973,
       "runoff_potential": {
-        "score": 24.5,
+        "score": 25,
         "wetness_index": 0,
-        "trigger_index": 12.8,
+        "trigger_index": 13.8,
         "susceptibility_index": 69.9,
         "label": "guarded"
       },
@@ -1623,13 +1614,12 @@
       "buffer_km": 6,
       "drivers": [
         "IMD district warning 15% (Very Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast moderate (23 dBZ)",
+        "IMD district nowcast 55%",
         "No current district-scale rain, radar, or hydrology trigger supporting district watch",
-        "Runoff potential low (wetness 0, trigger 12.8)",
+        "Runoff potential low (wetness 0, trigger 13.8)",
         "Terrain susceptibility 42% from NASADEM + local baseline",
-        "Hotspot radar echo moderate (23 dBZ)",
-        "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0, trigger 12.8)",
+        "IMD station nowcast 55% near hotspot (Kakkanad, 1.4 km)",
+        "Hotspot runoff potential guarded (wetness 0, trigger 13.8)",
         "Hotspot susceptibility 70%",
         "Hotspot category urban flood pocket",
         "Hotspot analysis radius 6 km"
@@ -1638,20 +1628,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "ERNAKULAM : Very Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "ERNAKULAM Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -1668,8 +1658,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -1680,19 +1670,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.18 m across 4 stations",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "Kakkanad: Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-kalamassery",
@@ -1704,13 +1694,13 @@
         "street-flooding"
       ],
       "level": "Normal",
-      "score": 20.6,
-      "confidence": 0.3,
+      "score": 21.4,
+      "confidence": 0.4,
       "susceptibility": 0.6640302921599972,
       "runoff_potential": {
-        "score": 23.6,
+        "score": 24.2,
         "wetness_index": 0,
-        "trigger_index": 12.8,
+        "trigger_index": 13.8,
         "susceptibility_index": 66.4,
         "label": "guarded"
       },
@@ -1722,13 +1712,12 @@
       "buffer_km": 5,
       "drivers": [
         "IMD district warning 15% (Very Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast moderate (23 dBZ)",
+        "IMD district nowcast 55%",
         "No current district-scale rain, radar, or hydrology trigger supporting district watch",
-        "Runoff potential low (wetness 0, trigger 12.8)",
+        "Runoff potential low (wetness 0, trigger 13.8)",
         "Terrain susceptibility 42% from NASADEM + local baseline",
-        "Hotspot radar echo moderate (23 dBZ)",
-        "No current rain, river-stage, or operational release trigger supporting hotspot watch",
-        "Hotspot runoff potential guarded (wetness 0, trigger 12.8)",
+        "IMD station nowcast 55% near hotspot (Kakkanad, 5.3 km)",
+        "Hotspot runoff potential guarded (wetness 0, trigger 13.8)",
         "Hotspot susceptibility 66%",
         "Hotspot category urban flood pocket",
         "Hotspot analysis radius 5 km"
@@ -1737,20 +1726,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "2 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "ERNAKULAM : Very Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "ERNAKULAM Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -1767,8 +1756,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer moderate cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -1779,19 +1768,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting observed river rise 0.18 m across 4 stations",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "Kakkanad: Heavy rain: > 15 mm/hr surface wind speed likely to be 40-50 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-thampanoor-eastfort",
@@ -1804,13 +1793,13 @@
         "urban"
       ],
       "level": "Normal",
-      "score": 25.3,
-      "confidence": 0.3,
+      "score": 26.9,
+      "confidence": 0.4,
       "susceptibility": 0.7378677372445669,
       "runoff_potential": {
-        "score": 21.9,
+        "score": 23.3,
         "wetness_index": 0,
-        "trigger_index": 6.3,
+        "trigger_index": 8.8,
         "susceptibility_index": 73.8,
         "label": "guarded"
       },
@@ -1822,12 +1811,12 @@
       "buffer_km": 4,
       "drivers": [
         "IMD district warning 15% (Very Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast light (18 dBZ)",
+        "IMD district nowcast 35%",
         "Runoff potential guarded (wetness 0, trigger 10)",
         "Terrain susceptibility 52% from NASADEM + local baseline",
         "CWC river-stage warning/watch active",
-        "Hotspot radar echo light (9 dBZ)",
-        "Hotspot runoff potential guarded (wetness 0, trigger 6.3)",
+        "IMD station nowcast 35% near hotspot (Thiruvananthapuram City, 0.7 km)",
+        "Hotspot runoff potential guarded (wetness 0, trigger 8.8)",
         "Hotspot susceptibility 74%",
         "Hotspot category urban flood pocket",
         "Hotspot analysis radius 4 km"
@@ -1836,20 +1825,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "THIRUVANANTHAPURAM : Very Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "THIRUVANANTHAPURAM Moderate rain: 5-15 mm/hr surface wind speed likely to be 40 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -1866,8 +1855,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -1878,19 +1867,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting river level above warning at AYILAM",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "Thiruvananthapuram City: Moderate rain: 5-15 mm/hr surface wind speed likely to be 40 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     },
     {
       "area_id": "h-kannammoola-uppidamoodu",
@@ -1902,13 +1891,13 @@
         "urban-drainage"
       ],
       "level": "Normal",
-      "score": 25.1,
-      "confidence": 0.3,
+      "score": 26.7,
+      "confidence": 0.4,
       "susceptibility": 0.7168677372445669,
       "runoff_potential": {
-        "score": 21.4,
+        "score": 22.7,
         "wetness_index": 0,
-        "trigger_index": 6.3,
+        "trigger_index": 8.8,
         "susceptibility_index": 71.7,
         "label": "guarded"
       },
@@ -1920,12 +1909,12 @@
       "buffer_km": 4,
       "drivers": [
         "IMD district warning 15% (Very Heavy Rain, Strong Surface Winds)",
-        "RainViewer nowcast light (18 dBZ)",
+        "IMD district nowcast 35%",
         "Runoff potential guarded (wetness 0, trigger 10)",
         "Terrain susceptibility 52% from NASADEM + local baseline",
         "CWC river-stage warning/watch active",
-        "Hotspot radar echo light (9 dBZ)",
-        "Hotspot runoff potential guarded (wetness 0, trigger 6.3)",
+        "IMD station nowcast 35% near hotspot (Thiruvananthapuram City, 4.4 km)",
+        "Hotspot runoff potential guarded (wetness 0, trigger 8.8)",
         "Hotspot susceptibility 72%",
         "Hotspot category urban flood pocket",
         "Hotspot analysis radius 4 km"
@@ -1934,20 +1923,20 @@
         {
           "source_id": "imd-cap-rss",
           "detail": "1 CAP items",
-          "freshness_minutes": 102,
-          "status": "stale"
+          "freshness_minutes": 7,
+          "status": "ok"
         },
         {
           "source_id": "imd-district-warning",
           "detail": "THIRUVANANTHAPURAM : Very Heavy Rain Strong Surface Winds Updated on:2026-08-01",
-          "freshness_minutes": 1466,
+          "freshness_minutes": 1525,
           "status": "stale"
         },
         {
           "source_id": "imd-district-nowcast",
-          "detail": "No IMD district nowcast for district",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "THIRUVANANTHAPURAM Moderate rain: 5-15 mm/hr surface wind speed likely to be 40 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         },
         {
           "source_id": "imd-flash-flood-bulletin",
@@ -1964,8 +1953,8 @@
         {
           "source_id": "rainviewer-radar",
           "detail": "RainViewer light cell near hotspot",
-          "freshness_minutes": 6,
-          "status": "ok"
+          "freshness_minutes": 65,
+          "status": "offline"
         },
         {
           "source_id": "indiawris-river-level",
@@ -1976,19 +1965,19 @@
         {
           "source_id": "cwc-ffs",
           "detail": "CWC flood forecasting river level above warning at AYILAM",
-          "freshness_minutes": 86,
+          "freshness_minutes": 145,
           "status": "degraded"
         },
         {
           "source_id": "imd-station-nowcast",
-          "detail": "No IMD station nowcast near hotspot",
-          "freshness_minutes": 146,
-          "status": "offline"
+          "detail": "Thiruvananthapuram City: Moderate rain: 5-15 mm/hr surface wind speed likely to be 40 Kmph(in Gusts) Time of issue: 2026-08-02 0100 Hrs Valid upto: 0400 Hrs",
+          "freshness_minutes": 25,
+          "status": "ok"
         }
       ],
       "review_state": "auto_published",
-      "valid_from": "2026-08-01T18:56:02.197Z",
-      "valid_to": "2026-08-02T00:56:02.197Z"
+      "valid_from": "2026-08-01T19:54:30.545Z",
+      "valid_to": "2026-08-02T01:54:30.545Z"
     }
   ]
 }
